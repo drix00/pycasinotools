@@ -1,0 +1,100 @@
+#!/usr/bin/env python
+""" """
+
+# Script information for the file.
+__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
+__version__ = ""
+__date__ = ""
+__copyright__ = "Copyright (c) 2009 Hendrix Demers"
+__license__ = ""
+
+# Subversion informations for the file.
+__svnRevision__ = "$Revision: 2556 $"
+__svnDate__ = "$Date: 2011-11-01 17:04:31 -0400 (Tue, 01 Nov 2011) $"
+__svnId__ = "$Id: SimulationOptions.py 2556 2011-11-01 21:04:31Z hdemers $"
+
+# Standard library modules.
+import logging
+
+# Third party modules.
+
+# Local modules.
+import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
+
+import casinoTools.FileFormat.casino3.OptionsPhysic as OptionsPhysic
+import casinoTools.FileFormat.casino3.OptionsDist as OptionsDist
+import casinoTools.FileFormat.casino3.OptionsMicro as OptionsMicro
+import casinoTools.FileFormat.casino3.OptionsAdvBackSet as OptionsAdvBackSet
+import casinoTools.FileFormat.casino3.OptionsXray as OptionsXray
+import casinoTools.FileFormat.casino3.OptionsEnergyByPos as OptionsEnergyByPos
+import casinoTools.FileFormat.casino3.OptionsADF as OptionsADF
+import casinoTools.FileFormat.casino3.OptionsAdvancedPsfsSettings as OptionsAdvancedPsfsSettings
+import casinoTools.FileFormat.casino3.Version as Version
+
+# Globals and constants variables.
+
+class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
+    def __init__(self):
+        self._optionsPhysic = OptionsPhysic.OptionsPhysic()
+        self._optionsDist = OptionsDist.OptionsDist()
+        self._optionsMicro = OptionsMicro.OptionsMicro()
+        self._optionsAdvBackSet = OptionsAdvBackSet.OptionsAdvBackSet()
+        self._optionsXray = OptionsXray.OptionsXray()
+        self._optionsEnergyByPos = OptionsEnergyByPos.OptionsEnergyByPos()
+        self._optionsADF = OptionsADF.OptionsADF()
+        self._optionsAdvancedPsfsSettings = OptionsAdvancedPsfsSettings.OptionsAdvancedPsfsSettings()
+
+        self._file = None
+        self._startPosition = 0
+        self._endPosition = 0
+        self._filePathname = ""
+        self._fileDescriptor = 0
+
+    def read(self, file):
+        assert file.mode == 'rb'
+        self._file = file
+        self._startPosition = file.tell()
+        self._filePathname = file.name
+        self._fileDescriptor = file.fileno()
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
+
+        tagID = "*SIMULATIONOPT%"
+        if self.findTag(file, tagID):
+            self._version = self.readInt(file)
+
+            self._optionsADF.read(file)
+            self._optionsAdvBackSet.read(file)
+
+            if self._version >= Version.SIM_OPTIONS_VERSION_3_3_0_0:
+                self._optionsAdvancedPsfsSettings.read(file)
+
+            self._optionsDist.read(file)
+            self._optionsEnergyByPos.read(file)
+            self._optionsMicro.read(file)
+            self._optionsPhysic.read(file)
+
+            self._optionsXray.read(file)
+
+            tagID = "*SIM_OPT_END%"
+            if not self.findTag(file, tagID):
+                return "Wrong version."
+
+        self._endPosition = file.tell()
+        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._endPosition)
+
+    def write(self, file):
+        raise NotImplementedError
+
+    def export(self, exportFile):
+        # todo: implement the export method.
+        pass
+
+    def getOptionsDistributions(self):
+        return self._optionsDist
+
+    def getOptionsAdvancedPsfsSettings(self):
+        return self._optionsAdvancedPsfsSettings
+
+if __name__ == '__main__':    #pragma: no cover
+    import DrixUtilities.Runner as Runner
+    Runner.Runner().run(runFunction=None)
