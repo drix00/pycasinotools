@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+""" """
+
+# Script information for the file.
+__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
+__version__ = ""
+__date__ = ""
+__copyright__ = "Copyright (c) 2009 Hendrix Demers"
+__license__ = ""
+
+# Subversion informations for the file.
+__svnRevision__ = "$Revision: 1755 $"
+__svnDate__ = "$Date: 2010-01-20 17:06:10 -0500 (Wed, 20 Jan 2010) $"
+__svnId__ = "$Id: RegionOptions.py 1755 2010-01-20 22:06:10Z hdemers $"
+
+# Standard library modules.
+import logging
+
+# Third party modules.
+
+# Local modules.
+import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinoTools.FileFormat.casino3.Region as Region
+
+# Globals and constants variables.
+TAG_REGION_DATA = "*REGIONDATA%%%%"
+
+class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
+    def __init__(self):
+        self._regions = []
+
+    def read(self, file):
+        assert file.mode == 'rb'
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
+
+        tagID = TAG_REGION_DATA
+        self.findTag(file, tagID)
+
+        self._numberRegions = self.readInt(file)
+
+        for dummy in xrange(self._numberRegions):
+            region = Region.Region()
+            region.read(file)
+            self._regions.append(region)
+
+    def write(self, file):
+        assert file.mode == 'wb'
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
+
+        tagID = TAG_REGION_DATA
+        self.addTag(file, tagID)
+
+        self.writeInt(file, self._numberRegions)
+
+        assert len(self._regions) == self._numberRegions
+        for index in xrange(self._numberRegions):
+            region = self._regions[index]
+            region.write(file)
+
+    def getRegion(self, index):
+        return self._regions[index]
+
+if __name__ == '__main__':    #pragma: no cover
+    import DrixUtilities.Runner as Runner
+    Runner.Runner().run(runFunction=None)
