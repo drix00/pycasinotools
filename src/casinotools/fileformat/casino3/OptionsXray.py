@@ -18,7 +18,7 @@ __svnId__ = "$Id: OptionsXray.py 2271 2011-03-10 21:32:53Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 # Filename to store the defaults settings

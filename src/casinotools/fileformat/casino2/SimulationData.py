@@ -19,11 +19,11 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino2.SimulationOptions as SimulationOptions
-import casinoTools.FileFormat.casino2.RegionOptions as RegionOptions
-import casinoTools.FileFormat.casino2.TrajectoriesData as TrajectoriesData
-import casinoTools.FileFormat.casino2.SimulationResults as SimulationResults
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino2.SimulationOptions as SimulationOptions
+import casinotools.fileformat.casino2.RegionOptions as RegionOptions
+import casinotools.fileformat.casino2.TrajectoriesData as TrajectoriesData
+import casinotools.fileformat.casino2.SimulationResults as SimulationResults
 
 # Globals and constants variables.
 HEADER = "WinCasino Simulation File"
@@ -31,7 +31,7 @@ TAG_VERSION = "*VERSION%%%%%%%"
 TAG_STATUS = "*STATUS%%%%%%%%"
 TAG_SAVE_SETUP = "*SAVESETUP%%%%%"
 
-from casinoTools.FileFormat.casino2.Element import \
+from casinotools.fileformat.casino2.Element import \
     LINE_K, LINE_L, LINE_M, GENERATED, EMITTED
 
 class SimulationData(FileReaderWriterTools.FileReaderWriterTools):

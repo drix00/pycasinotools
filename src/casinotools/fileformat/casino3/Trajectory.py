@@ -21,8 +21,8 @@ import struct
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.TrajectoryCollision as TrajectoryCollision
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.TrajectoryCollision as TrajectoryCollision
 
 # Globals and constants variables.
 TRAJ_TYPE_NONE = 0x00;

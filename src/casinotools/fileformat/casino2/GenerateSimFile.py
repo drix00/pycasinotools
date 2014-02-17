@@ -18,9 +18,9 @@ __svnId__ = "$Id: GenerateSimFile.py 2834 2012-08-14 12:52:07Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino2.File as File
-#import casinoTools.FileFormat.casino2.SimulationOptions as SimulationOptions
-from casinoTools.FileFormat.casino2.SimulationOptions import DIRECTION_COSINES_SOUM, CROSS_SECTION_MOTT_JOY, CROSS_SECTION_MOTT_RUTHERFORD
+import casinotools.fileformat.casino2.File as File
+#import casinotools.fileformat.casino2.SimulationOptions as SimulationOptions
+from casinotools.fileformat.casino2.SimulationOptions import DIRECTION_COSINES_SOUM, CROSS_SECTION_MOTT_JOY, CROSS_SECTION_MOTT_RUTHERFORD
 
 # Globals and constants variables.
 #DIRECTION_COSINES_SOUM = SimulationOptions.DIRECTION_COSINES_SOUM

@@ -22,8 +22,8 @@ from StringIO import StringIO
 
 # Local modules.
 import SimulationResults
-import casinoTools.FileFormat.casino2.test_File as test_File
-import casinoTools.FileFormat.casino2.SimulationOptions as SimulationOptions
+import casinotools.fileformat.casino2.test_File as test_File
+import casinotools.fileformat.casino2.SimulationOptions as SimulationOptions
 
 # Globals and constants variables.
 

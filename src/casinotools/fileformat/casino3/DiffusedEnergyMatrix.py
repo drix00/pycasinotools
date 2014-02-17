@@ -20,7 +20,7 @@ import os
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.EnergyMatrix as EnergyMatrix
+import casinotools.fileformat.casino3.EnergyMatrix as EnergyMatrix
 
 # Globals and constants variables.
 DIFFUSED_TAG = "Diffused%Energy"

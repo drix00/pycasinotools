@@ -18,7 +18,7 @@ __svnId__ = "$Id: RegionIntensityInfo.py 2071 2010-10-26 20:32:58Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 

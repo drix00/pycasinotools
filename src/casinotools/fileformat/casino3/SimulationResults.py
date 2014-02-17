@@ -19,10 +19,10 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.ScanPointResults as ScanPointResults
-import casinoTools.FileFormat.casino3.EnergyMatrix as EnergyMatrix
-import casinoTools.FileFormat.casino3.DiffusedEnergyMatrix as DiffusedEnergyMatrix
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.ScanPointResults as ScanPointResults
+import casinotools.fileformat.casino3.EnergyMatrix as EnergyMatrix
+import casinotools.fileformat.casino3.DiffusedEnergyMatrix as DiffusedEnergyMatrix
 
 # Globals and constants variables.
 

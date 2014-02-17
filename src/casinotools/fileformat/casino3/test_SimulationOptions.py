@@ -20,9 +20,9 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.SimulationOptions as SimulationOptions
-import casinoTools.FileFormat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
-import casinoTools.FileFormat.casino3.OptionsDist as OptionsDist
+import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions
+import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.casino3.OptionsDist as OptionsDist
 
 # Globals and constants variables.
 

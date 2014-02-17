@@ -19,10 +19,10 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.Sample as Sample
-import casinoTools.FileFormat.casino3.SimulationOptions as SimulationOptions
-import casinoTools.FileFormat.casino3.ScanPointPositions as ScanPointPositions
-import casinoTools.FileFormat.casino3.SimulationResults as SimulationResults
+import casinotools.fileformat.casino3.Sample as Sample
+import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions
+import casinotools.fileformat.casino3.ScanPointPositions as ScanPointPositions
+import casinotools.fileformat.casino3.SimulationResults as SimulationResults
 
 # TODO: Old Reader modules, refactor to use the data module directly.
 

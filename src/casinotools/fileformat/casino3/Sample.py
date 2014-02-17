@@ -19,12 +19,12 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-#import casinoTools.FileFormat.casino3.SampleSubtrate as SampleSubtrate
-import casinoTools.FileFormat.casino3.SampleObjectFactory as SampleObjectFactory
-import casinoTools.FileFormat.casino3.SampleTree as SampleTree
-import casinoTools.FileFormat.casino3.Region as Region
-import casinoTools.FileFormat.casino3.Version as Version
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+#import casinotools.fileformat.casino3.SampleSubtrate as SampleSubtrate
+import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
+import casinotools.fileformat.casino3.SampleTree as SampleTree
+import casinotools.fileformat.casino3.Region as Region
+import casinotools.fileformat.casino3.Version as Version
 
 # Globals and constants variables.
 class ShapeError(Exception): pass

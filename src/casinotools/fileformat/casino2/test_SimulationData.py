@@ -23,7 +23,7 @@ from StringIO import StringIO
 # Local modules.
 import SimulationData
 import File
-import casinoTools.FileFormat.casino2.test_File as test_File
+import casinotools.fileformat.casino2.test_File as test_File
 
 # Globals and constants variables.
 from SimulationData import EMITTED, GENERATED, LINE_K, LINE_L, LINE_M

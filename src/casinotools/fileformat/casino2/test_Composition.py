@@ -22,7 +22,7 @@ from StringIO import StringIO
 
 # Local modules.
 import Composition
-import casinoTools.FileFormat.casino2.test_File as test_File
+import casinotools.fileformat.casino2.test_File as test_File
 
 # Globals and constants variables.
 

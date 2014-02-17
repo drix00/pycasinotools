@@ -19,10 +19,10 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.SampleSubtrate as SampleSubtrate
-import casinoTools.FileFormat.casino3.SampleShape.SphereShape as SphereShape
-from casinoTools.FileFormat.casino3.SampleObject import SampleObject
-from casinoTools.FileFormat.casino3.SampleShape.ShapeType import *
+import casinotools.fileformat.casino3.SampleSubtrate as SampleSubtrate
+import casinotools.fileformat.casino3.SampleShape.SphereShape as SphereShape
+from casinotools.fileformat.casino3.SampleObject import SampleObject
+from casinotools.fileformat.casino3.SampleShape.ShapeType import *
 
 # Globals and constants variables.
 

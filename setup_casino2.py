@@ -33,12 +33,12 @@ setup(name="casinoTools-Casino2",
                    'Topic :: Scientific/Engineering',
                    'Topic :: Scientific/Engineering :: Physics'],
 
-      packages=['casinoTools.FileFormat.casino2'],
+      packages=['casinotools.fileformat.casino2'],
       py_modules=['casinoTools.__init__',
-                  'casinoTools.FileFormat.__init__',
-                  'casinoTools.FileFormat.XrayRadial',
-                  'casinoTools.FileFormat.casino3.FileReaderWriterTools',
-                  'casinoTools.FileFormat.casino3.Tags'],
+                  'casinotools.fileformat.__init__',
+                  'casinotools.fileformat.XrayRadial',
+                  'casinotools.fileformat.casino3.FileReaderWriterTools',
+                  'casinotools.fileformat.casino3.Tags'],
       package_dir={'casinoTools': '.'},
 )
 

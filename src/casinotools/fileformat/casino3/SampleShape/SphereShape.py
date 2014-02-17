@@ -19,8 +19,8 @@ import logging
 # Third party modules.
 
 # Local modules.
-from casinoTools.FileFormat.casino3.SampleObject import SampleObject
-from casinoTools.FileFormat.casino3.SampleShape.ShapeType import SHAPE_SPHERE
+from casinotools.fileformat.casino3.SampleObject import SampleObject
+from casinotools.fileformat.casino3.SampleShape.ShapeType import SHAPE_SPHERE
 
 # Globals and constants variables.
 

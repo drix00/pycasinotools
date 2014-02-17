@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.ScanPointsFile.ScanPointsFile as ScanPointsFile
+import casinotools.fileformat.casino3.ScanPointsFile.ScanPointsFile as ScanPointsFile
 
 # Globals and constants variables.
 

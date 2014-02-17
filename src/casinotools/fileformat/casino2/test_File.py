@@ -21,10 +21,10 @@ from StringIO import StringIO
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino2.File as File
+import casinotools.fileformat.casino2.File as File
 import DrixUtilities.Files as Files
 import Version
-from casinoTools.FileFormat.casino2.Element import LINE_K, GENERATED, EMITTED
+from casinotools.fileformat.casino2.Element import LINE_K, GENERATED, EMITTED
 from DrixUtilities.Testings import ignore
 
 # Globals and constants variables.
@@ -249,7 +249,7 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
     #logging.getLogger().setLevel(logging.DEBUG)
     from DrixUtilities.Testings import runTestModule
     runTestModule()

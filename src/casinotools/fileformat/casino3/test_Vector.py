@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.Vector as Vector
+import casinotools.fileformat.casino3.Vector as Vector
 
 # Globals and constants variables.
 
