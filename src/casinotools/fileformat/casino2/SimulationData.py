@@ -165,11 +165,11 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
     def getTotalXrayIntensities(self):
         """
         Returns a :class:`dict` with the intensities (generated and emitted) of
-        all the lines and elements in the simulation. 
-        The dictionary is structured as followed: atomic number, line, 
+        all the lines and elements in the simulation.
+        The dictionary is structured as followed: atomic number, line,
         :const:`EMITTED` or :const:`GENERATED`.
         The lines can either be :const:`LINE_K`, :const:`LINE_L`, :const:`LINE_M`.
-        
+
         :rtype: class:`dict`
         """
         intensities = {}
@@ -191,8 +191,3 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
                         intensities[z][line][EMITTED] = delta[line][EMITTED]
 
         return intensities
-
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

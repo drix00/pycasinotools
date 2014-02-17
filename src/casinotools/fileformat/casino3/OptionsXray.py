@@ -68,9 +68,5 @@ class OptionsXray(FileReaderWriterTools.FileReaderWriterTools):
         self.findTag(file, tagID)
 
     def reset(self):
-        self.TOA=40.0
-        self.PhieRX=0.0
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)
+        self.TOA = 40.0
+        self.PhieRX = 0.0

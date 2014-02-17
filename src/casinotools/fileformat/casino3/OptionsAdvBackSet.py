@@ -162,22 +162,18 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
         self.findTag(file, tagID)
 
     def reset(self):
-        self.BEMin_Angle=0.0
-        self.BEMax_Angle=0.0
-        self.EFilterMax=0.0
-        self.EFilterMin=0.0
+        self.BEMin_Angle = 0.0
+        self.BEMax_Angle = 0.0
+        self.EFilterMax = 0.0
+        self.EFilterMin = 0.0
 
         self.EFilterVal = []
         for dummy in xrange(101):
                 self.EFilterVal.append(1.0)
-        self.FEFilter=0
-        self.UseEnBack=False
+        self.FEFilter = 0
+        self.UseEnBack = False
         self.MatrixDetect = None
-        self.WorkDist=10.0
-        self.DetectScaleX=1.0
-        self.DetectScaleY=1.0
-        self.ValidMatrix=False
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)
+        self.WorkDist = 10.0
+        self.DetectScaleX = 1.0
+        self.DetectScaleY = 1.0
+        self.ValidMatrix = False

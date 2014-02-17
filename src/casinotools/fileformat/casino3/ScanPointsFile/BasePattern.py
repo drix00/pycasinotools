@@ -82,10 +82,10 @@ class BasePattern(object):
         self._scanPoints = sorted(uniqueScanPoints)
 
     def _getRange_nm(self, width, step, centerPosition):
-        minimum = -width/2.0 + centerPosition
-        maximum = width/2.0 + centerPosition
+        minimum = -width / 2.0 + centerPosition
+        maximum = width / 2.0 + centerPosition
 
-        range = np.arange(minimum, maximum+step, step)
+        range = np.arange(minimum, maximum + step, step)
 
         return range
 
@@ -93,6 +93,3 @@ class BasePattern(object):
         self._generateScanPoints()
         return len(self._scanPoints)
 
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

@@ -52,7 +52,3 @@ def getString(shape):
         return "truncated pyramid"
     elif shape == SHAPE_MESHOBJECT:
         return "mesh object"
-    
-if __name__ == '__main__':  #pragma: no cover
-    from DrixUtilities.Runner import Runner
-    Runner().run(runFunction=None)

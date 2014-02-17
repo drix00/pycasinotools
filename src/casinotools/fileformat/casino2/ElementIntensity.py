@@ -33,7 +33,3 @@ class ElementIntensity(FileReaderWriterTools.FileReaderWriterTools):
             self.IntensityK = self.readDoubleList(file, self.Size)
             self.IntensityL = self.readDoubleList(file, self.Size)
             self.IntensityM = self.readDoubleList(file, self.Size)
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

@@ -143,7 +143,7 @@ class ScanPointResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def getTransmittedDetectedElectrons(self, betaMin=None, betaMax=None):
         if betaMin == None and betaMax == None:
-            return self._transmittedDetectedCoefficient*self._numberSimulatedTrajectories
+            return self._transmittedDetectedCoefficient * self._numberSimulatedTrajectories
         else:
             return self._transmittedAngles.getTransmittedDetectedElectrons(betaMin, betaMax)
 
@@ -202,7 +202,3 @@ class ScanPointResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def getPointSpreadFunctionMatrix(self):
         return self._pointSpreadFunctionMatrix
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

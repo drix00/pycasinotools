@@ -94,7 +94,3 @@ class SimulationData(object):
         self._sample.export(exportFile)
         self._options.export(exportFile)
         self._scanPointPositions.export(exportFile)
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

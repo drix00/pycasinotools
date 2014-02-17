@@ -252,14 +252,14 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
         self.findTag(file, tagID)
 
     def reset(self):
-        self.Beam_angle=0.0
-        self.Trajectories_Number=1000
-        self.KEV_End=0.0
-        self.KEV_Start=1.0
-        self.KEV_Step=1.0
-        self.Multiple_Scan_Energy=0
+        self.Beam_angle = 0.0
+        self.Trajectories_Number = 1000
+        self.KEV_End = 0.0
+        self.KEV_Start = 1.0
+        self.KEV_Step = 1.0
+        self.Multiple_Scan_Energy = 0
 
-        self.Beam_Radius=5.0
+        self.Beam_Radius = 5.0
         self.Beam_AdvSet = 0
         self.Beam_Dist_Variance = BEAM_VARIANCE_DEFAULT
 
@@ -272,16 +272,12 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
         self.Beam_Distribution = BEAM_DISTRIBUTION_DEFAULT
         self.Beam_ConeAlgo = BEAM_CONEALGO_DEFAULT
 
-        self.FGenerateSecondary=0
-        self.FGenerateXRays=0
-        self.keep_simulation_data=0
+        self.FGenerateSecondary = 0
+        self.FGenerateXRays = 0
+        self.keep_simulation_data = 0
         self.scanPtDist = 1
 
         # Noise Settings
         self.NoiseType = NOISE_TYPE_DEFAULT
         self.NoiseEnabled = False
         self.NoisePercentage = NOISE_PERCENTAGE_DEFAULT
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

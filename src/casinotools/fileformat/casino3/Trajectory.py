@@ -58,7 +58,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
 
         self._startPositionCollisions = file.tell()
         sizeScatteringEvent = TrajectoryCollision.getSizeScatteringEvent()
-        skipOffset = sizeScatteringEvent*self._numberScatteringEvents
+        skipOffset = sizeScatteringEvent * self._numberScatteringEvents
         file.seek(skipOffset, os.SEEK_CUR)
 
         self._endPosition = file.tell()
@@ -135,7 +135,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
         format = "5d2i"*self._numberScatteringEvents
         items = self.readMultipleValues(self._file, format)
 
-        self._trajectoryCollisions = [TrajectoryCollision.TrajectoryCollision(items[index*7:(index*7)+7]) for index in xrange(self._numberScatteringEvents)]
+        self._trajectoryCollisions = [TrajectoryCollision.TrajectoryCollision(items[index * 7:(index * 7) + 7]) for index in xrange(self._numberScatteringEvents)]
 
         if closeFile:
             self._file.close()
@@ -219,7 +219,3 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
 
     def _isType(self, trajectoryType):
         return self.getType() & trajectoryType
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

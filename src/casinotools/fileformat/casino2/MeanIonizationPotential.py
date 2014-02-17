@@ -40,26 +40,23 @@ class MeanIonizationPotential(object):
     def _computeJoy(self, atomicNumber):
         z = float(atomicNumber)
         if atomicNumber < 13:
-            J = 11.5*z*1e-3
+            J = 11.5 * z * 1e-3
         else:
-            J = 0.00976*z + 0.0588/pow(z, 0.19)
+            J = 0.00976 * z + 0.0588 / pow(z, 0.19)
 
         return J
 
     def _computeBerger(self, atomicNumber):
         z = float(atomicNumber)
-        J = 0.00976*z + 0.0588/pow(z, 0.19)
+        J = 0.00976 * z + 0.0588 / pow(z, 0.19)
         return J
 
     def _computePH(self, atomicNumber):
         z = float(atomicNumber)
         if atomicNumber <= 20:
-            J = 14.858 + 15.4*z - 2.9276*pow(z, 2) + 0.5348*pow(z, 3) - 0.03563*pow(z, 4) + 7.7733e-4*pow(z, 5)
+            J = 14.858 + 15.4 * z - 2.9276 * pow(z, 2) + 0.5348 * pow(z, 3) - 0.03563 * pow(z, 4) + 7.7733e-4 * pow(z, 5)
         else:
-            J = -2034.18 + 35.576*z - 0.1142*pow(z, 2) + 63824.348/z - 658308.68/(z*z)
+            J = -2034.18 + 35.576 * z - 0.1142 * pow(z, 2) + 63824.348 / z - 658308.68 / (z * z)
 
-        return (J*1e-3)
+        return (J * 1e-3)
 
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

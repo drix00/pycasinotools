@@ -57,7 +57,7 @@ class GenerateSimFile(object):
         if weightFractions == None:
             weightFractions = []
 
-        if len(weightFractions) == len(symbols)-1:
+        if len(weightFractions) == len(symbols) - 1:
             lastWeightFraction = 1.0 - sum(weightFractions)
             weightFractions.append(lastWeightFraction)
 
@@ -86,13 +86,10 @@ class GenerateSimFile(object):
     def setElectronElasticCrossSection(self, crossSectionModel):
         self._optionSimulationData.getSimulationOptions().setTotalElectronElasticCrossSection(crossSectionModel)
         self._optionSimulationData.getSimulationOptions().setPartialElectronElasticCrossSection(crossSectionModel)
-        
+
     def setIonizationCrossSection(self, crossSectionModel):
         self._optionSimulationData.getSimulationOptions().setIonizationCrossSectionType(crossSectionModel)
-        
+
     def setIonizationPotential(self, model):
         self._optionSimulationData.getSimulationOptions().setIonizationPotentialType(model)
-        
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)
+

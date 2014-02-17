@@ -26,7 +26,3 @@ class Vector(object):
         self.x = x
         self.y = y
         self.z = z
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

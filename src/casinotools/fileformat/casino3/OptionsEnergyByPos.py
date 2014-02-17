@@ -115,14 +115,10 @@ class OptionsEnergyByPos(FileReaderWriterTools.FileReaderWriterTools):
 
     def reset(self):
         self.Diffuse = 0
-        self.Depos_Summation=1
-        self.XZorXY=ENERGY_DISPLAY_XZ
-        self.Yplane=0
-        self.Zplane=0
-        self.DEpos_IsoLevel=0.1
+        self.Depos_Summation = 1
+        self.XZorXY = ENERGY_DISPLAY_XZ
+        self.Yplane = 0
+        self.Zplane = 0
+        self.DEpos_IsoLevel = 0.1
         self.CarrierSurfaceRecombination = -1
-        self.normalize=1
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)
+        self.normalize = 1

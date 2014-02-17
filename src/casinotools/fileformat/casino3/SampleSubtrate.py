@@ -32,7 +32,7 @@ class Edge(object):
 class SampleSubtrate(SampleObject.SampleObject):
     def __init__(self, type=None):
         super(SampleSubtrate, self).__init__(type)
-    
+
     def read(self, file):
         assert file.mode == 'rb'
         self._file = file
@@ -40,21 +40,17 @@ class SampleSubtrate(SampleObject.SampleObject):
         self._filePathname = file.name
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
-        
+
         super(SampleSubtrate, self).read(file)
-        
+
         self._numberEdges = self.readInt(file)
-        
+
         self._edges = []
         for dummyIndex in xrange(self._numberEdges):
             edge = Edge()
             edge.read(file)
             self._edges.append(edge)
-    
+
     def export(self, exportFile):
         # todo: implement the export method.
         logging.error("implement the export method.")
-    
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

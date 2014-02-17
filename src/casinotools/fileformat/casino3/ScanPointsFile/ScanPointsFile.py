@@ -82,8 +82,8 @@ class ScanPointsFile(BasePattern.BasePattern):
 
     def _getRangeX_nm(self):
         xSep = self._separation_nm
-        xMin = -self._widthMax_nm/2.0 + xSep/2.0 + self._centerPoint[0]
-        xMax = self._widthMax_nm/2.0 + xSep/2.0 + self._centerPoint[0]
+        xMin = -self._widthMax_nm / 2.0 + xSep / 2.0 + self._centerPoint[0]
+        xMax = self._widthMax_nm / 2.0 + xSep / 2.0 + self._centerPoint[0]
 
         range_nm = np.arange(xMin, xMax, xSep)
 
@@ -91,26 +91,26 @@ class ScanPointsFile(BasePattern.BasePattern):
 
     def _getRangeY_nm(self):
         ySep = self._separation_nm
-        yMin = -self._heightMax_nm/2.0 + ySep/2.0 + self._centerPoint[1]
-        yMax = self._heightMax_nm/2.0 + ySep/2.0 + self._centerPoint[1]
+        yMin = -self._heightMax_nm / 2.0 + ySep / 2.0 + self._centerPoint[1]
+        yMax = self._heightMax_nm / 2.0 + ySep / 2.0 + self._centerPoint[1]
 
         range_nm = np.arange(yMin, yMax, ySep)
 
         return range_nm
 
     def _getRangeX2_nm(self):
-        xSep = self._widthMax_nm/self._numberPointsY
-        xMin = -self._widthMax_nm/2.0 + xSep/2.0 + self._centerPoint[0]
-        xMax = self._widthMax_nm/2.0 + xSep/2.0 + self._centerPoint[0]
+        xSep = self._widthMax_nm / self._numberPointsY
+        xMin = -self._widthMax_nm / 2.0 + xSep / 2.0 + self._centerPoint[0]
+        xMax = self._widthMax_nm / 2.0 + xSep / 2.0 + self._centerPoint[0]
 
         range_nm = np.arange(xMin, xMax, xSep)
 
         return range_nm
 
     def _getRangeY2_nm(self):
-        ySep = self._heightMax_nm/self._numberPointsZ
-        yMin = -self._heightMax_nm/2.0 + ySep/2.0 + self._centerPoint[1]
-        yMax = self._heightMax_nm/2.0 + ySep/2.0 + self._centerPoint[1]
+        ySep = self._heightMax_nm / self._numberPointsZ
+        yMin = -self._heightMax_nm / 2.0 + ySep / 2.0 + self._centerPoint[1]
+        yMax = self._heightMax_nm / 2.0 + ySep / 2.0 + self._centerPoint[1]
 
         range_nm = np.arange(yMin, yMax, ySep)
 
@@ -138,17 +138,17 @@ class ScanPointsFile(BasePattern.BasePattern):
         if self._numberPoints == 0 and self._pixelSize_nm is not None:
             self._separation_nm = self._pixelSize_nm
         elif self._numberPoints != 0:
-            self._separation_nm = self._widthMax_nm/self._numberPoints
+            self._separation_nm = self._widthMax_nm / self._numberPoints
 
     def _computeSeparationY_nm(self):
         if self._numberPoints == 0 and self._pixelSize_nm is not None:
             self._separation_nm = self._pixelSize_nm
         elif self._numberPoints != 0:
-            self._separation_nm = self._heightMax_nm/self._numberPoints
+            self._separation_nm = self._heightMax_nm / self._numberPoints
 
     def _computeSeparation_nm(self):
-        totalArea_nm2 = self._widthMax_nm*self._heightMax_nm
-        pointArea_nm2 = totalArea_nm2/self._numberPoints
+        totalArea_nm2 = self._widthMax_nm * self._heightMax_nm
+        pointArea_nm2 = totalArea_nm2 / self._numberPoints
 
         self._separation_nm = math.sqrt(pointArea_nm2)
 
@@ -203,23 +203,23 @@ class ScanPointsFileScript(ScanPointsFile):
 
     def setLinescanX(self):
         if self._numberPoints == 0 and self._widthMax_nm != None:
-            numberPoints = self._widthMax_nm/self._pixelSize_nm
+            numberPoints = self._widthMax_nm / self._pixelSize_nm
             self.setNumberPoints(numberPoints)
         else:
-            width_nm = self._pixelSize_nm*self._numberPoints
+            width_nm = self._pixelSize_nm * self._numberPoints
             self.setWidth_nm(width_nm)
             self.setHeight_nm(0)
 
     def setLinescanY(self):
-        height_nm = self._pixelSize_nm*self._numberPoints
+        height_nm = self._pixelSize_nm * self._numberPoints
         self.setWidth_nm(0)
         self.setHeight_nm(height_nm)
 
     def setLinescanXY(self):
         numberPointsPerDirection = int(math.sqrt(self._numberPoints))
 
-        height_nm = self._pixelSize_nm*numberPointsPerDirection
-        width_nm = self._pixelSize_nm*numberPointsPerDirection
+        height_nm = self._pixelSize_nm * numberPointsPerDirection
+        width_nm = self._pixelSize_nm * numberPointsPerDirection
         self.setWidth_nm(width_nm)
         self.setHeight_nm(height_nm)
 
@@ -272,7 +272,3 @@ class ScanPointsFileScript(ScanPointsFile):
             lines.append(line)
 
         return lines
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

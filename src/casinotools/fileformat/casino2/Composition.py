@@ -62,7 +62,3 @@ class Composition(FileReaderWriterTools.FileReaderWriterTools):
 
     def setAtomicFraction(self, fraction):
         self.FAt = fraction
-
-if __name__ == '__main__': #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

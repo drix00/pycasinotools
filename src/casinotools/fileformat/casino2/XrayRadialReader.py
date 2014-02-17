@@ -114,7 +114,7 @@ class XrayRadialReader(object):
         items = line.split('\t')
 
         for label, item in zip(self.getDataLabels(), items):
-            if isinstance(label,    tuple):
+            if isinstance(label, tuple):
                 self._currentLine = label[0]
                 xrayLine = self._currentLine
 
@@ -136,7 +136,3 @@ class XrayRadialReader(object):
 
     def getData(self, elementSymbol, line):
         return self._data[elementSymbol][line]
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

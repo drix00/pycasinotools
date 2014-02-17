@@ -52,7 +52,3 @@ class LineXPattern(BasePattern.BasePattern):
     def _getRangeX_nm(self):
         step_nm = self._step_nm
         return self._getRange_nm(self._range_nm, step_nm, self._centerPoint_nm[0])
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

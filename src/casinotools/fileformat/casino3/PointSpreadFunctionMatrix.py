@@ -67,7 +67,7 @@ class PointSpreadFunctionMatrix(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        self._numberElements = self._nbPtsX*self._nbPtsY*self._nbPtsZ
+        self._numberElements = self._nbPtsX * self._nbPtsY * self._nbPtsZ
         self._startPosition = file.tell()
         #self._values = self.readDoubleList(file, self._numberElements)
         skipOffset = self.getSizeOfDoubleList(self._numberElements)
@@ -100,7 +100,7 @@ class PointSpreadFunctionMatrix(FileReaderWriterTools.FileReaderWriterTools):
         return self._data
 
     def getNumberPoints(self):
-        return self._nbPtsX*self._nbPtsY*self._nbPtsZ
+        return self._nbPtsX * self._nbPtsY * self._nbPtsZ
 
     def getNumberPointsX(self):
         return self._nbPtsX
@@ -110,7 +110,3 @@ class PointSpreadFunctionMatrix(FileReaderWriterTools.FileReaderWriterTools):
 
     def getNumberPointsZ(self):
         return self._nbPtsZ
-
-if __name__ == '__main__': #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

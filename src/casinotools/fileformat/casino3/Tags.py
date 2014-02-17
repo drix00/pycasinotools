@@ -37,7 +37,7 @@ def createTagWithFiller(tagID, tagLenght, filler):
 
     numberFiller = tagLenght - len(tag)
     if numberFiller > 0:
-        tag += filler*numberFiller
+        tag += filler * numberFiller
 
     return tag
 
@@ -83,14 +83,14 @@ def addTag(file, tagID, tagLenght=0, filler='%'):
     file.write(buffer)
     file.write(tag)
     size = struct.calcsize("i")
-    assert file.tell() == startPos+size+tagLenght+1
+    assert file.tell() == startPos + size + tagLenght + 1
 
 def addTagOld(file, tagID, tagLenght=0, filler='%'):
     startPos = file.tell()
     tag = createTagWithFiller(tagID, tagLenght, filler)
     tag += "\0"
     file.write(tag)
-    assert file.tell() == startPos+tagLenght+1
+    assert file.tell() == startPos + tagLenght + 1
 
 def _streamSearchSlow(file, tag):
     logging.debug("streamSearch looking for tag: %s", tag)
@@ -133,7 +133,7 @@ def _streamSearchFast(file, tag):
     startPos = file.tell()
     buffer = ""
     tempBuffer = file.read(BUFFER_LENGTH)
-    while tempBuffer!='':
+    while tempBuffer != '':
         #logging.debug("File position in streamSearch: %i", file.tell())
         buffer += tempBuffer
         tagPos = buffer.find(tag)
@@ -149,7 +149,3 @@ def _streamSearchFast(file, tag):
         file.seek(startPos)
         logging.error("streamSearch did not find tag %s at %i", tag, file.tell())
         return False
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

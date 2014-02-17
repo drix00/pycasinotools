@@ -42,9 +42,9 @@ class IntensityImage(object):
 
     def _createGetIntensityMethod(self):
         if self._intensityType == INTENSITY_TRANSMITTED:
-            self._getIntensity =    ScanPointResults.ScanPointResults.getTransmittedCoefficient
+            self._getIntensity = ScanPointResults.ScanPointResults.getTransmittedCoefficient
         elif self._intensityType == INTENSITY_TRANSMITTED_DETECTED:
-            self._getIntensity =    ScanPointResults.ScanPointResults.getTransmittedDetectedCoefficient
+            self._getIntensity = ScanPointResults.ScanPointResults.getTransmittedDetectedCoefficient
 
     def _createImage(self):
         self._extractData()
@@ -78,9 +78,9 @@ class IntensityImage(object):
             self._ySet.add(y)
             self._zSet.add(z)
 
-        numberUniqueX =    len(self._xSet)
-        numberUniqueY =    len(self._ySet)
-        numberUniqueZ =    len(self._zSet)
+        numberUniqueX = len(self._xSet)
+        numberUniqueY = len(self._ySet)
+        numberUniqueZ = len(self._zSet)
 
         imageType = None
         if numberUniqueX > 1:
@@ -150,7 +150,7 @@ class IntensityImage(object):
     def _saveImage(self, path):
         size = self._imageRaw.size
         zoomFactor = self._computeZoomFactor(size)
-        newSize = size[0]*zoomFactor, size[1]*zoomFactor
+        newSize = size[0] * zoomFactor, size[1] * zoomFactor
 
         filters = {"near": Image.NEAREST, "bilin": Image.BILINEAR,
                              "bicub": Image.BICUBIC, "anti": Image.ANTIALIAS}
@@ -163,15 +163,15 @@ class IntensityImage(object):
         tmpImage = self._imageRaw.resize(newSize, Image.BICUBIC)
         #tmpImage = tmpImage.convert('L')
         image = Image.new(tmpImage.mode, self._imageSize)
-        topCorner = (self._imageSize[0] - tmpImage.size[0])/2, (self._imageSize[1] - tmpImage.size[1])/2
-        box = topCorner[0], topCorner[1], topCorner[0]+tmpImage.size[0], topCorner[1]+tmpImage.size[1]
+        topCorner = (self._imageSize[0] - tmpImage.size[0]) / 2, (self._imageSize[1] - tmpImage.size[1]) / 2
+        box = topCorner[0], topCorner[1], topCorner[0] + tmpImage.size[0], topCorner[1] + tmpImage.size[1]
         image.paste(tmpImage, box)
         image.save(imageFilepath)
         #tmpImage.save(imageFilepath)
 
     def _computeZoomFactor(self, size):
-        xZoom = int(self._imageSize[0]/size[0])
-        yZoom = int(self._imageSize[1]/size[1])
+        xZoom = int(self._imageSize[0] / size[0])
+        yZoom = int(self._imageSize[1] / size[1])
 
         zoom = min(xZoom, yZoom)
         return zoom
@@ -186,7 +186,3 @@ def run():
     imageBinned._createImage()
 
     imageBinned.save(resultsPath)
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=run)
