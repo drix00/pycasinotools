@@ -116,6 +116,6 @@ def runProfile2():
     prof.runcall(_run)
     prof.close()
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
     import DrixUtilities.Runner as Runner
     Runner.Runner().run(runFunction=runProfile2)

@@ -45,7 +45,3 @@ class TrajectoriesData(FileReaderWriterTools.FileReaderWriterTools):
 
     def getTrajectories(self):
         return self._trajectories
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

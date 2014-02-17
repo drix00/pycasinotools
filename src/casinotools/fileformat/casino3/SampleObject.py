@@ -166,7 +166,3 @@ class SampleObject(FileReaderWriterTools.FileReaderWriterTools):
             self.writeDoubleList(file, self._rotation, 3)
             self.writeDoubleList(file, self._scale, 3)
             self.writeDoubleList(file, self._color, 3)
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

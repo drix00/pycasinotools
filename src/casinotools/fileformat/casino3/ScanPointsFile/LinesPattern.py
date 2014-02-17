@@ -69,23 +69,19 @@ class LinesPattern(BasePattern.BasePattern):
 
         self.addScanPoints(rectangle.getScanPoints())
 
-        numberLinesLeft = (self._numberLines-1)/2
-        numberLinesRight = (self._numberLines-1)/2
+        numberLinesLeft = (self._numberLines - 1) / 2
+        numberLinesRight = (self._numberLines - 1) / 2
 
-        for index in range(1, numberLinesRight+1, 1):
+        for index in range(1, numberLinesRight + 1, 1):
             x_nm, y_nm = self._centerPoint_nm
-            x_nm += index*(self._lineSpacing_nm + self._lineWidth_nm)
+            x_nm += index * (self._lineSpacing_nm + self._lineWidth_nm)
             centerPoint_nm = x_nm, y_nm
             rectangle.setCenterPoint_nm(centerPoint_nm)
             self.addScanPoints(rectangle.getScanPoints())
 
-        for index in range(1, numberLinesLeft+1, 1):
+        for index in range(1, numberLinesLeft + 1, 1):
             x_nm, y_nm = self._centerPoint_nm
-            x_nm -= index*(self._lineSpacing_nm + self._lineWidth_nm)
+            x_nm -= index * (self._lineSpacing_nm + self._lineWidth_nm)
             centerPoint_nm = x_nm, y_nm
             rectangle.setCenterPoint_nm(centerPoint_nm)
             self.addScanPoints(rectangle.getScanPoints())
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

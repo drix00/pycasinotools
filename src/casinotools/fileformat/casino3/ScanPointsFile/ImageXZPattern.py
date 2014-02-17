@@ -64,7 +64,3 @@ class ImageXZPattern(BasePattern.BasePattern):
     def _getRangeZ(self):
         step_nm = self._stepZ_nm
         return self._getRange_nm(self._rangeZ_nm, step_nm, self._centerPoint_nm[1])
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

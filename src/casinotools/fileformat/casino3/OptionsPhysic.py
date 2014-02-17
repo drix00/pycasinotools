@@ -272,33 +272,29 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
         self.findTag(file, tagID)
 
     def reset(self):
-        self.FRan=0
-        self.FDeds=DEDS_JOYK_GAUVIN
-        self.FTotalCross=TCS_MOTT_FICHIER
-        self.FPartialCross=PCS_MOTT_FICHIER
-        self.FCosDirect=COS_DIRECT_MONSEL
-        self.FSecIon=SEC_ION_CASNATI
-        self.FPotMoy=ION_POT_JOY
+        self.FRan = 0
+        self.FDeds = DEDS_JOYK_GAUVIN
+        self.FTotalCross = TCS_MOTT_FICHIER
+        self.FPartialCross = PCS_MOTT_FICHIER
+        self.FCosDirect = COS_DIRECT_MONSEL
+        self.FSecIon = SEC_ION_CASNATI
+        self.FPotMoy = ION_POT_JOY
 
-        self.max_secondary_order=10
-        self.Min_Energy_Nosec=MIN_ENERGY_NOSEC_DEFAULT
-        self.Residual_Energy_Loss=0.0004
-        self.Min_Energy_With_Sec=-1.0
-        self.Min_Gen_Secondary_Energy=-1.0
+        self.max_secondary_order = 10
+        self.Min_Energy_Nosec = MIN_ENERGY_NOSEC_DEFAULT
+        self.Residual_Energy_Loss = 0.0004
+        self.Min_Energy_With_Sec = -1.0
+        self.Min_Gen_Secondary_Energy = -1.0
 
     def IsMonselSettings(self):
         return self.FCosDirect == COS_DIRECT_MONSEL and self.FDeds == DEDS_JOYLUO_MONSEL and self.FPartialCross == PCS_MOTT_BROWNING and self.FTotalCross == TCS_MOTT_BROWNING and self.FPotMoy == ION_POT_JOY
 
     def SetToMonselSettings(self):
-        self.FCosDirect=COS_DIRECT_MONSEL
-        self.FDeds=DEDS_JOYLUO_MONSEL
-        self.FPartialCross=PCS_MOTT_BROWNING
-        self.FTotalCross=TCS_MOTT_BROWNING
-        self.FPotMoy=ION_POT_JOY
+        self.FCosDirect = COS_DIRECT_MONSEL
+        self.FDeds = DEDS_JOYLUO_MONSEL
+        self.FPartialCross = PCS_MOTT_BROWNING
+        self.FTotalCross = TCS_MOTT_BROWNING
+        self.FPotMoy = ION_POT_JOY
 
     def isInterpolation(self):
         return self.FTotalCross == TCS_MOTT_FICHIER or self.FTotalCross == TCS_ELSEPA or self.FPartialCross == PCS_MOTT_FICHIER or self.FPartialCross == PCS_ELSEPA
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

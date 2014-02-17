@@ -25,18 +25,14 @@ import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterT
 class RegionIntensityInfo(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert file.mode == 'rb'
-        
+
         self._version = self.readInt(file)
         self._energyIntensity = self.readDouble(file)
         self._regionID = self.readInt(file)
         self._normalizedEnergyIntensity = self.readDouble(file)
-        
+
     def getEnergyIntensity(self):
         return self._energyIntensity
-    
+
     def getnormalizedEnergyIntensity(self):
         return self._normalizedEnergyIntensity
-    
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

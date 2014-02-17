@@ -59,7 +59,3 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
 
     def getRegion(self, index):
         return self._regions[index]
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

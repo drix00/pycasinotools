@@ -94,13 +94,13 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
             assert(XSup > 0)
             assert(XInf > 0)
 
-            Point = (float(Index)/float(nbPoints-1))
-            exp = Point*(math.log10(XSup)-math.log10(XInf)) + math.log10(XInf)
+            Point = (float(Index) / float(nbPoints - 1))
+            exp = Point * (math.log10(XSup) - math.log10(XInf)) + math.log10(XInf)
             Point = pow(10.0, exp)
             return Point
         else:
-            Point = (float(Index)/float(nbPoints-1))
-            Point = Point * (XSup-XInf) + XInf
+            Point = (float(Index) / float(nbPoints - 1))
+            Point = Point * (XSup - XInf) + XInf
             return Point
 
     def getPositions(self):
@@ -111,7 +111,3 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
 
     def getValues(self):
         return self._values
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

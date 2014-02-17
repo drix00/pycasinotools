@@ -92,7 +92,7 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
 
         parameters = self._regions[1].getParameters()
         #parameters[2] = parameters[1]
-        parameters[1] = layerTopPositionZ_nm+thickness_nm
+        parameters[1] = layerTopPositionZ_nm + thickness_nm
         parameters[0] = layerTopPositionZ_nm
         self._regions[1].setParameters(parameters)
 
@@ -106,7 +106,3 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
         parameters = self._regions[0].getParameters()
         parameters[1] = thickness_nm
         self._regions[0].setParameters(parameters)
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

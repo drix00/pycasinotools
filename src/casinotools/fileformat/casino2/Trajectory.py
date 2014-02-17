@@ -60,7 +60,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
 
     def isBackscattered(self):
         return bool(self.FRetro)
-    
+
     def isTransmitted(self):
         return bool(self.FTrans)
 
@@ -70,6 +70,3 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
     def getScatteringEvents(self):
         return self._scatteringEvents
 
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

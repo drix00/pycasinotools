@@ -61,8 +61,8 @@ class RectanglePattern(BasePattern.BasePattern):
 
     def _getRangeX_nm(self):
         xSep = self._beamStep_nm
-        xMin = -self._widthMax_nm/2.0 + xSep/2.0 + self._centerPoint_nm[0]
-        xMax = self._widthMax_nm/2.0 + xSep/2.0 + self._centerPoint_nm[0]
+        xMin = -self._widthMax_nm / 2.0 + xSep / 2.0 + self._centerPoint_nm[0]
+        xMax = self._widthMax_nm / 2.0 + xSep / 2.0 + self._centerPoint_nm[0]
 
         range_nm = np.arange(xMin, xMax, xSep)
 
@@ -70,13 +70,9 @@ class RectanglePattern(BasePattern.BasePattern):
 
     def _getRangeY_nm(self):
         ySep = self._beamStep_nm
-        yMin = -self._heightMax_nm/2.0 + ySep/2.0 + self._centerPoint_nm[1]
-        yMax = self._heightMax_nm/2.0 + ySep/2.0 + self._centerPoint_nm[1]
+        yMin = -self._heightMax_nm / 2.0 + ySep / 2.0 + self._centerPoint_nm[1]
+        yMax = self._heightMax_nm / 2.0 + ySep / 2.0 + self._centerPoint_nm[1]
 
         range_nm = np.arange(yMin, yMax, ySep)
 
         return range_nm
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

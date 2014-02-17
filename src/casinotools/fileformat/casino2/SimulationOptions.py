@@ -729,7 +729,3 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
 
     def getMaximumLateralWidth(self):
         return self.RkoMaxW
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

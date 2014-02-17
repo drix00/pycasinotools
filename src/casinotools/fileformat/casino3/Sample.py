@@ -90,7 +90,7 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
             if self.findTag(file, tagID):
                 #float MAC[100][100][3]
                 #file.read((char*)&MAC,sizeof(MAC[0][0][0]*100*100*3));
-                numberElements = 100*100*3
+                numberElements = 100 * 100 * 3
                 self._mac = self.readFloatList(file, numberElements)
 
         tagID = "*SAMPLEDATA%%%%"
@@ -241,7 +241,3 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
             self.writeLine(exportFile, line)
 
             region.export(exportFile)
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

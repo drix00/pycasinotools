@@ -92,12 +92,12 @@ class TransmittedAngles(FileReaderWriterTools.FileReaderWriterTools):
         if betaMin_mrad == None:
             betaMin_rad = min(self._angles)
         else:
-            betaMin_rad = betaMin_mrad*1.0e-3
+            betaMin_rad = betaMin_mrad * 1.0e-3
 
         if betaMax_mrad == None:
             betaMax_rad = max(self._angles)
         else:
-            betaMax_rad = betaMax_mrad*1.0e-3
+            betaMax_rad = betaMax_mrad * 1.0e-3
 
         angles = np.array(self._angles)
         numberDetectedElectrons = np.ma.masked_outside(angles, betaMin_rad, betaMax_rad).count()
@@ -109,7 +109,7 @@ class TransmittedAngles(FileReaderWriterTools.FileReaderWriterTools):
             self._readAngleValues()
 
         startAngle_mrad = 0.0
-        stopAngle_mrad = (np.pi/2.0)*1.0e3
+        stopAngle_mrad = (np.pi / 2.0) * 1.0e3
         numberAngles = self._numberBinnedAngles
         angles = np.linspace(startAngle_mrad, stopAngle_mrad, numberAngles)
         assert len(angles) == len(self._binnedAngles)
@@ -123,9 +123,5 @@ class TransmittedAngles(FileReaderWriterTools.FileReaderWriterTools):
             if angle <= betaMax:
                 indexMax = index
 
-        numberElectrons = sum(self._binnedAngles[indexMin:indexMax+1])
+        numberElectrons = sum(self._binnedAngles[indexMin:indexMax + 1])
         return numberElectrons
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

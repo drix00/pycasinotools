@@ -141,7 +141,3 @@ class MeshObject(SampleObject):
 
     def read(self, file):
         logging.error("MeshObject read method not implemented.")
-
-if __name__ == '__main__':    #pragma: no cover
-    from DrixUtilities.Runner import Runner
-    Runner().run(runFunction=None)

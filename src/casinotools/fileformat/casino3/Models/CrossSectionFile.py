@@ -43,7 +43,7 @@ def generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totals_nm2,
     for energy_eV, total_nm2 in zip(energiesGrid_eV, totals_nm2):
         binaryWriter.writeInt(file, VERSION_LASTEST)
         binaryWriter.writeDouble(file, atomicNumber)
-        energy_keV = energy_eV/1000.0
+        energy_keV = energy_eV / 1000.0
         binaryWriter.writeDouble(file, energy_keV)
         binaryWriter.writeDouble(file, total_nm2)
 
@@ -56,14 +56,14 @@ def generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totals_nm2,
         for angle_deg, partial_nm2_sr in zip(polarAnglesGrid_deg, partials_nm2_sr):
             angle_rad = math.radians(angle_deg)
             polarAngleGrid_rad.append(angle_rad)
-            partialSinThetas_nm2_sr.append(partial_nm2_sr*math.sin(angle_rad)*2.0*math.pi)
+            partialSinThetas_nm2_sr.append(partial_nm2_sr * math.sin(angle_rad) * 2.0 * math.pi)
 
         ratioList = []
         computedTotal_nm2 = integrate.trapz(partialSinThetas_nm2_sr, polarAngleGrid_rad)
-        for index in range(1, len(partialSinThetas_nm2_sr)+1):
+        for index in range(1, len(partialSinThetas_nm2_sr) + 1):
             x = polarAngleGrid_rad[:index]
             y = partialSinThetas_nm2_sr[:index]
-            ratio = integrate.trapz(y, x)/computedTotal_nm2
+            ratio = integrate.trapz(y, x) / computedTotal_nm2
             ratioList.append(ratio)
 
         for ratio, angle_rad in zip(ratioList, polarAngleGrid_rad):
@@ -71,7 +71,3 @@ def generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totals_nm2,
             binaryWriter.writeDouble(file, angle_rad)
 
     file.close()
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

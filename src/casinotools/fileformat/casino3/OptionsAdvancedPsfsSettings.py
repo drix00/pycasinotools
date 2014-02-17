@@ -79,7 +79,7 @@ class OptionsAdvancedPsfsSettings(FileReaderWriterTools.FileReaderWriterTools):
         self._exportCsv = True;
         self._exportStackedTiff = True;
 
-        self._psfSize_nm = Vector.Vector(128.0*1.0, 128.0*1.0, 128.0*5.0);
+        self._psfSize_nm = Vector.Vector(128.0 * 1.0, 128.0 * 1.0, 128.0 * 5.0);
         self._psfNumberSteps = Vector.Vector(128, 128, 128);
         self._psfCenter_nm = Vector.Vector(0.0, 0.0, 500.0);
 
@@ -100,7 +100,3 @@ class OptionsAdvancedPsfsSettings(FileReaderWriterTools.FileReaderWriterTools):
 
     def getNumberStepsZ(self):
         return self._psfNumberSteps.z
-
-if __name__ == '__main__': #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

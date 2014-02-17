@@ -85,7 +85,7 @@ class FileReaderWriterTools(object):
         if numberElements is None:
             #numberElements = self.readLong(file)
             numberElements = self.readInt(file)
-            
+
         return self._readDoubleListWithoutLoopFast(file, numberElements)
 
     def _readDoubleListWithLoop(self, file, numberElements):
@@ -111,7 +111,7 @@ class FileReaderWriterTools(object):
             size = struct.calcsize(format)
             buffer = file.read(size)
             items = struct.unpack_from(format, buffer)
-    
+
             return items
         else:
             return []
@@ -202,37 +202,33 @@ class FileReaderWriterTools(object):
         value = type(value)
         buffer = struct.pack(format, value)
         file.write(buffer)
-        
+
     def export(self, exportFile):
             raise NotImplementedError
-    
+
     def writeLine(self, file, line):
             if not line.endswith('\n'):
                     line += '\n'
             file.write(line)
-            
+
     def _extractVersionString(self, version):
         """
         30103040
         """
         text = str(version)
-        
+
         major = int(text[0])
         minor = int(text[1:3])
         revision = int(text[3:5])
         build = int(text[5:])
-        
+
         versionStr = "%s.%s.%s.%s" % (major, minor, revision, build)
         return versionStr
-    
+
     def _extractBooleanString(self, booleanValue):
         booleanValue = bool(booleanValue)
-        
+
         if booleanValue:
             return "true"
         else:
             return "false"
-        
-if __name__ == '__main__':  #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

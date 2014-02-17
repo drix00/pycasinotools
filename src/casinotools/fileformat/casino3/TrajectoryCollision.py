@@ -101,14 +101,10 @@ class TrajectoryCollision(FileReaderWriterTools.FileReaderWriterTools):
         return position_nm
 
     def getRadiusXY_nm(self):
-        return math.sqrt(self._positionX**2 + self._positionY**2)
+        return math.sqrt(self._positionX ** 2 + self._positionY ** 2)
 
     def getEnergy_keV(self):
         return self._energy
 
     def getRegionID(self):
         return self._regionID
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

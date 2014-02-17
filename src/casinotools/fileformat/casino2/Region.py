@@ -153,9 +153,9 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
             weightFraction = element.getWeightFraction()
             massDensity_g_cm3 = element.getMassDensity_g_cm3()
 
-            inverseTotal += weightFraction/massDensity_g_cm3
+            inverseTotal += weightFraction / massDensity_g_cm3
 
-        meanMassDensity = 1.0/inverseTotal
+        meanMassDensity = 1.0 / inverseTotal
         return meanMassDensity
 
     def _computeMeanAtomicNumber(self):
@@ -165,9 +165,9 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         for element in self._elements:
             repetition = element.getRepetition()
             Total_Elements += repetition
-            Total_Z += element.getAtomicNumber()*repetition
+            Total_Z += element.getAtomicNumber() * repetition
 
-        meanAtomicNumber = Total_Z/Total_Elements
+        meanAtomicNumber = Total_Z / Total_Elements
         return meanAtomicNumber
 
     def _generateName(self):
@@ -183,13 +183,13 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
             weightFraction = element.getWeightFraction()
             atomicWeight = element.getAtomicWeight_g_mol()
 
-            total += weightFraction/atomicWeight
+            total += weightFraction / atomicWeight
 
         for element in self._elements:
             weightFraction = element.getWeightFraction()
             atomicWeight = element.getAtomicWeight_g_mol()
 
-            atomicFraction = (weightFraction/atomicWeight)/total
+            atomicFraction = (weightFraction / atomicWeight) / total
             element.setAtomicFraction(atomicFraction)
 
     def _checkWeightFraction(self):
@@ -198,12 +198,12 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         assert abs(total - 1.0) < EPSILON
 
         for element in self._elements:
-            newWeightFraction = decimal.Decimal(str(element.getWeightFraction()))/decimal.Decimal(str(total))
+            newWeightFraction = decimal.Decimal(str(element.getWeightFraction())) / decimal.Decimal(str(total))
             element.setWeightFraction(float(newWeightFraction))
 
         weightFractions = [element.getWeightFraction() for element in self._elements]
         total = sum(weightFractions)
-        assert abs(total - 1.0) < EPSILON*EPSILON
+        assert abs(total - 1.0) < EPSILON * EPSILON
 
     def _checkAtomicFraction(self):
         atomicFractions = [element.getAtomicFraction() for element in self._elements]
@@ -211,12 +211,12 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         assert abs(total - 1.0) < EPSILON
 
         for element in self._elements:
-            newAtomicFraction = decimal.Decimal(str(element.getAtomicFraction()))/decimal.Decimal(str(total))
+            newAtomicFraction = decimal.Decimal(str(element.getAtomicFraction())) / decimal.Decimal(str(total))
             element.setAtomicFraction(float(newAtomicFraction))
 
         atomicFractions = [element.getAtomicFraction() for element in self._elements]
         total = sum(atomicFractions)
-        assert abs(total - 1.0) < EPSILON*EPSILON
+        assert abs(total - 1.0) < EPSILON * EPSILON
 
     def getMeanMassDensity_g_cm3(self):
         return self.Rho
@@ -236,6 +236,3 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
     def setParameters(self, parameters):
         self.Parametre = parameters
 
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

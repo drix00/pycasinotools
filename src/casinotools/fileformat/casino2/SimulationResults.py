@@ -245,7 +245,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 #                        value = self.readDouble(file)
 #                        values.append(value)
                 else:
-                    offset = struct.calcsize("d")*numberPoints
+                    offset = struct.calcsize("d") * numberPoints
                     file.seek(offset, os.SEEK_CUR)
 
                 self.DEpos = values
@@ -255,7 +255,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                 self.NbPointDEpos_Z *= -1
 
     def getNumberPointsEnergyAbsorbed(self):
-        return self.NbPointDEpos_X*self.NbPointDEpos_Y*self.NbPointDEpos_Z
+        return self.NbPointDEpos_X * self.NbPointDEpos_Y * self.NbPointDEpos_Z
 
     def getNumberPointsEnergyAbsorbedX(self):
         return self.NbPointDEpos_X
@@ -345,7 +345,3 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                 else:
                     numberPoints *= -1
                 self.NbPointDAngleVSEnergie = numberPoints
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

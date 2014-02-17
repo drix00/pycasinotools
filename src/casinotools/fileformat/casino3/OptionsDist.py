@@ -305,51 +305,51 @@ class OptionsDist(FileReaderWriterTools.FileReaderWriterTools):
         self.findTag(file, tagID)
 
     def reset(self):
-        self.FDZmax=1;
+        self.FDZmax = 1;
         self.FDZmaxLog = 0;
-        self.NbPointDZMax=1000;
+        self.NbPointDZMax = 1000;
         self.DZmaxMax = autoFlag;
         self.DZmaxMin = autoFlag;
 
-        self.FDenr=1;
+        self.FDenr = 1;
         self.FDenrLog = 0;
-        self.NbPointDENR=500;
+        self.NbPointDENR = 500;
         self.DenrMax = autoFlag;
         self.DenrMin = autoFlag;
 
-        self.FDent=1;
+        self.FDent = 1;
         self.FDentLog = 0;
-        self.NbPointDENT=500;
+        self.NbPointDENT = 500;
         self.DentMax = autoFlag;
         self.DentMin = autoFlag;
 
-        self.FDrsr=1;
+        self.FDrsr = 1;
         self.FDrsrLog = 0;
-        self.NbPointDRSR=500;
+        self.NbPointDRSR = 500;
         self.DrsrMax = autoFlag;
         self.DrsrMin = autoFlag;
 
-        self.FDbang=1;
+        self.FDbang = 1;
         self.FDbangLog = 0;
-        self.NbPointDBANG=91;
+        self.NbPointDBANG = 91;
         self.DbangMax = autoFlag;
         self.DbangMin = autoFlag;
 
-        self.FEmissionRX=1;
+        self.FEmissionRX = 1;
         self.FEmissionRXLog = 0;
-        self.NbreCoucheRX=500;
+        self.NbreCoucheRX = 500;
 
-        self.RangeFinder=RANGE_SIMULATED;
+        self.RangeFinder = RANGE_SIMULATED;
 
-        self.Flag_Energy_Density=1;
+        self.Flag_Energy_Density = 1;
         self.DEpos_Type = 0;
 
-        self.NbPointDEpos_X=50;
-        self.NbPointDEpos_Y=50;
-        self.NbPointDEpos_Z=50;
+        self.NbPointDEpos_X = 50;
+        self.NbPointDEpos_Y = 50;
+        self.NbPointDEpos_Z = 50;
 
-        self.DEpos_Center = Vector.Vector(0.0,0.0,0.0);
-        self.DEpos_Size = Vector.Vector(1000.0,1000.0,1000.0);
+        self.DEpos_Center = Vector.Vector(0.0, 0.0, 0.0);
+        self.DEpos_Size = Vector.Vector(1000.0, 1000.0, 1000.0);
 
         self.DEposSpheric_Rad_Div = 50;
         self.DEposSpheric_Rad = 1000;
@@ -369,7 +369,3 @@ class OptionsDist(FileReaderWriterTools.FileReaderWriterTools):
 
     def getDepositedEnergySize_nm(self):
         return self.DEpos_Size
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

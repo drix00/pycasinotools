@@ -379,7 +379,3 @@ wincasino.rc -> String Table -> IDR_MAINFRAME2
 Also change Casino_Constants::DEFAULT_APP_TITLE in Casino_Constants.h.
  """
 SIM_OPTIONS_CURRENT_VERSION = SIM_OPTIONS_VERSION_3_3_0_0
-
-if __name__ == '__main__':  #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)

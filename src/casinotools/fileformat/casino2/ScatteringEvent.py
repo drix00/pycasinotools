@@ -37,7 +37,3 @@ class ScatteringEvent(FileReaderWriterTools.FileReaderWriterTools):
         self.E = self.readFloat(file)
         self.Intersect = self.readInt(file)
         self.id = self.readInt(file)
-
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=None)
