@@ -25,9 +25,9 @@ __svnId__ = "$Id$"
 # Local modules.
 
 # Project modules
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.Version as Version
-import casinoTools.FileFormat.casino3.Vector as Vector
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.Version as Version
+import casinotools.fileformat.casino3.Vector as Vector
 
 # Globals and constants variables.
 

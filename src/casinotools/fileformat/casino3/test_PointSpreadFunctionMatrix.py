@@ -30,9 +30,9 @@ from DrixUtilities.Testings import ignore
 
 # Project modules
 import PointSpreadFunctionMatrix
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.File as File
-import casinoTools.FileFormat.casino3.Version as Version
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.File as File
+import casinotools.fileformat.casino3.Version as Version
 
 # Globals and constants variables.
 

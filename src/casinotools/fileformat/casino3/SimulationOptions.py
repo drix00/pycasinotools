@@ -19,17 +19,17 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
 
-import casinoTools.FileFormat.casino3.OptionsPhysic as OptionsPhysic
-import casinoTools.FileFormat.casino3.OptionsDist as OptionsDist
-import casinoTools.FileFormat.casino3.OptionsMicro as OptionsMicro
-import casinoTools.FileFormat.casino3.OptionsAdvBackSet as OptionsAdvBackSet
-import casinoTools.FileFormat.casino3.OptionsXray as OptionsXray
-import casinoTools.FileFormat.casino3.OptionsEnergyByPos as OptionsEnergyByPos
-import casinoTools.FileFormat.casino3.OptionsADF as OptionsADF
-import casinoTools.FileFormat.casino3.OptionsAdvancedPsfsSettings as OptionsAdvancedPsfsSettings
-import casinoTools.FileFormat.casino3.Version as Version
+import casinotools.fileformat.casino3.OptionsPhysic as OptionsPhysic
+import casinotools.fileformat.casino3.OptionsDist as OptionsDist
+import casinotools.fileformat.casino3.OptionsMicro as OptionsMicro
+import casinotools.fileformat.casino3.OptionsAdvBackSet as OptionsAdvBackSet
+import casinotools.fileformat.casino3.OptionsXray as OptionsXray
+import casinotools.fileformat.casino3.OptionsEnergyByPos as OptionsEnergyByPos
+import casinotools.fileformat.casino3.OptionsADF as OptionsADF
+import casinotools.fileformat.casino3.OptionsAdvancedPsfsSettings as OptionsAdvancedPsfsSettings
+import casinotools.fileformat.casino3.Version as Version
 
 # Globals and constants variables.
 

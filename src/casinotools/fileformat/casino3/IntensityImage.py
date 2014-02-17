@@ -24,8 +24,8 @@ except ImportError:
     import Image
 
 # Local modules.
-import casinoTools.FileFormat.casino3.File as File
-import casinoTools.FileFormat.casino3.ScanPointResults as ScanPointResults
+import casinotools.fileformat.casino3.File as File
+import casinotools.fileformat.casino3.ScanPointResults as ScanPointResults
 
 # Globals and constants variables.
 INTENSITY_TRANSMITTED = "TransmittedIntensity"

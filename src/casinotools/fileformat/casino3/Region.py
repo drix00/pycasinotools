@@ -20,8 +20,8 @@ import decimal
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.Element as Element
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.Element as Element
 
 # Globals and constants variables.
 decimal.getcontext().prec = 28

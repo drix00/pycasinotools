@@ -18,7 +18,7 @@ __svnId__ = "$Id: OptionsAdvBackSet.py 2364 2011-05-30 11:15:15Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 

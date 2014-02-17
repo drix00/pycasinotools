@@ -21,7 +21,7 @@ import logging
 
 # Local modules.
 import GraphData
-import casinoTools.FileFormat.casino2.test_File as test_File
+import casinotools.fileformat.casino2.test_File as test_File
 
 # Globals and constants variables.
 

@@ -20,8 +20,8 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.OptionsMicro as OptionsMicro
-import casinoTools.FileFormat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.casino3.OptionsMicro as OptionsMicro
+import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
 
 # Globals and constants variables.
 

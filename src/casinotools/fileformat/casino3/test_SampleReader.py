@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.SampleReader as SampleReader
+import casinotools.fileformat.casino3.SampleReader as SampleReader
 import DrixUtilities.Files as Files
 from DrixUtilities.Testings import ignore
 

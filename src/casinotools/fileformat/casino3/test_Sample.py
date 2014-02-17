@@ -20,9 +20,9 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.Sample as Sample
-import casinoTools.FileFormat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
-import casinoTools.FileFormat.casino3.SampleObjectFactory as SampleObjectFactory
+import casinotools.fileformat.casino3.Sample as Sample
+import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
 
 # Globals and constants variables.
 

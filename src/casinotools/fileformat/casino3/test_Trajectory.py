@@ -20,8 +20,8 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.Trajectory as Trajectory
-import casinoTools.FileFormat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.casino3.Trajectory as Trajectory
+import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
 
 # Globals and constants variables.
 

@@ -20,9 +20,9 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.SampleObjectFactory as SampleObjectFactory
-import casinoTools.FileFormat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
-from casinoTools.FileFormat.casino3.SampleShape.ShapeType import SHAPE_SUBSTRATE
+import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
+import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+from casinotools.fileformat.casino3.SampleShape.ShapeType import SHAPE_SUBSTRATE
 # Globals and constants variables.
 
 class TestSampleSubtrate(test_FileReaderWriterTools.TestFileReaderWriterTools):

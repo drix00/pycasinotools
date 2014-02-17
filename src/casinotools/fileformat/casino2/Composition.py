@@ -19,7 +19,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 
@@ -63,6 +63,6 @@ class Composition(FileReaderWriterTools.FileReaderWriterTools):
     def setAtomicFraction(self, fraction):
         self.FAt = fraction
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
     import DrixUtilities.Runner as Runner
     Runner.Runner().run(runFunction=None)

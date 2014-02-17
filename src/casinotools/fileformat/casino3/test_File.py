@@ -18,8 +18,8 @@ __svnId__ = "$Id: test_File.py 2378 2011-06-20 19:45:48Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.File as File
-import casinoTools.FileFormat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.casino3.File as File
+import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
 
 # Globals and constants variables.
 

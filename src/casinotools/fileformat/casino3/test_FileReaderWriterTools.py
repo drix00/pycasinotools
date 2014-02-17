@@ -19,8 +19,8 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.File as File
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.File as File
 import DrixUtilities.Files as Files
 from DrixUtilities.Testings import ignore
 

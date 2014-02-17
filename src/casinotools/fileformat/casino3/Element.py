@@ -20,7 +20,7 @@ import math
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 LINE_K = 'K'
@@ -241,7 +241,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         return self.A
 
 def _computeJ(atomicNumber):
-    import casinoTools.FileFormat.casino2.MeanIonizationPotential as MeanIonizationPotential
+    import casinotools.fileformat.casino2.MeanIonizationPotential as MeanIonizationPotential
     meanIonizationPotential = MeanIonizationPotential.MeanIonizationPotential(MeanIonizationPotential.MODEL_JOY)
     return meanIonizationPotential.computeJ(atomicNumber)
 

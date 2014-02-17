@@ -19,15 +19,15 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.TransmittedAngles as TransmittedAngles
-import casinoTools.FileFormat.casino3.RegionIntensityInfo as RegionIntensityInfo
-import casinoTools.FileFormat.casino3.Trajectory as Trajectory
-import casinoTools.FileFormat.casino3.GraphData as GraphData
-import casinoTools.FileFormat.casino3.EnergyMatrix as EnergyMatrix
-import casinoTools.FileFormat.casino3.DiffusedEnergyMatrix as DiffusedEnergyMatrix
-import casinoTools.FileFormat.casino3.Version as Version
-import casinoTools.FileFormat.casino3.PointSpreadFunctionMatrix as PointSpreadFunctionMatrix
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.TransmittedAngles as TransmittedAngles
+import casinotools.fileformat.casino3.RegionIntensityInfo as RegionIntensityInfo
+import casinotools.fileformat.casino3.Trajectory as Trajectory
+import casinotools.fileformat.casino3.GraphData as GraphData
+import casinotools.fileformat.casino3.EnergyMatrix as EnergyMatrix
+import casinotools.fileformat.casino3.DiffusedEnergyMatrix as DiffusedEnergyMatrix
+import casinotools.fileformat.casino3.Version as Version
+import casinotools.fileformat.casino3.PointSpreadFunctionMatrix as PointSpreadFunctionMatrix
 
 # Globals and constants variables.
 

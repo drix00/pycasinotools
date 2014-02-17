@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.Tags as Tags
+import casinotools.fileformat.casino3.Tags as Tags
 
 # Globals and constants variables.
 

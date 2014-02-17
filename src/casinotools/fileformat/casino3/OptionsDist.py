@@ -18,8 +18,8 @@ __svnId__ = "$Id: OptionsDist.py 2522 2011-10-11 01:06:05Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.Vector as Vector
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.Vector as Vector
 
 # Globals and constants variables.
 

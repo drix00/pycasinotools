@@ -23,7 +23,7 @@ import os.path
 # Local modules.
 import XrayRadialReader
 import DrixUtilities.Files as Files
-import casinoTools.FileFormat.XrayRadial as XrayRadial
+import casinotools.fileformat.XrayRadial as XrayRadial
 from DrixUtilities.Testings import ignore
 
 # Globals and constants variables.

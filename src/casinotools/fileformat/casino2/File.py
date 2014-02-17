@@ -20,8 +20,8 @@ import os.path
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino2.SimulationData as SimulationData
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino2.SimulationData as SimulationData
 
 # Globals and constants variables.
 

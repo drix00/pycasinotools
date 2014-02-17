@@ -21,7 +21,7 @@ import logging
 
 # Local modules.
 import Region
-import casinoTools.FileFormat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
 
 # Globals and constants variables.
 

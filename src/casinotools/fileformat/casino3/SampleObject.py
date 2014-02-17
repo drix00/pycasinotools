@@ -19,8 +19,8 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinoTools.FileFormat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinoTools.FileFormat.casino3.SampleShape.ShapeType as ShapeType
+import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.casino3.SampleShape.ShapeType as ShapeType
 
 # Globals and constants variables.
 
