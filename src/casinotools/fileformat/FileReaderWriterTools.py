@@ -19,7 +19,7 @@ import struct
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.Tags as Tags
+import casinotools.fileformat.Tags as Tags
 
 # Globals and constants variables.
 
