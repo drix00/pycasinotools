@@ -18,7 +18,7 @@ import unittest
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.tools import nottest
+from nose.plugins.attrib import attr
 
 # Local modules.
 import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
@@ -55,7 +55,7 @@ class TestFileReaderWriterTools(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @nottest
+    @attr('ignore')
     def test_extractVersionString(self):
         casinoFile = File.File(self.filepathSim)
 

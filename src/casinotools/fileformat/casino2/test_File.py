@@ -20,7 +20,7 @@ from StringIO import StringIO
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.tools import nottest
+from nose.plugins.attrib import attr
 
 # Local modules.
 import casinotools.fileformat.casino2.File as File
@@ -55,7 +55,7 @@ class TestFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @nottest
+    @attr('ignore')
     def test_read(self):
         file = File.File()
         file.readFromFilepath(self.filepathSim)
@@ -71,7 +71,7 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @nottest
+    @attr('ignore')
     def test_read_StringIO(self):
         # sim
         f = open(self.filepathSim, 'rb')
@@ -103,7 +103,7 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @nottest
+    @attr('ignore')
     def test_write(self):
         file = File.File()
         optionSimulationData = self._getOptionSimulationData()
@@ -130,7 +130,7 @@ class TestFile(unittest.TestCase):
 
         return file.getOptionSimulationData()
 
-    @nottest
+    @attr('ignore')
     def test_skipReadingData(self):
         file = File.File()
         file.readFromFilepath(self.filepathCas, isSkipReadingData=False)
@@ -183,7 +183,7 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @nottest
+    @attr('ignore')
     def test_readv242(self):
         # .sim
         file = File.File()
