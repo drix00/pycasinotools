@@ -19,7 +19,7 @@ import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.tools import nottest
+from nose.plugins.attrib import attr
 
 # Local modules.
 import XrayRadialReader
@@ -45,7 +45,7 @@ class TestXrayRadialReader(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @nottest
+    @attr('ignore')
     def test_readTextFile(self):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
@@ -74,7 +74,7 @@ class TestXrayRadialReader(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @nottest
+    @attr('ignore')
     def test_getLine(self):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
@@ -93,7 +93,7 @@ class TestXrayRadialReader(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @nottest
+    @attr('ignore')
     def test_getElementSymbol(self):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
