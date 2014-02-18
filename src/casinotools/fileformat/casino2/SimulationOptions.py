@@ -22,18 +22,18 @@ import logging
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
-TAG_BSE_COEFFICIENT = "*BECOEFF%%%%%%%"
-TAG_PHYSIC_MODELS = "*PHYSMODELS%%%%"
-TAG_MICROSCOPE_SETUP = "*MICROSETUP%%%%"
-TAG_XRAY = "*XRAY%%%%%%%%%%"
-TAG_SMULATION_OPTIONS = "*SIMOPTIONS%%%%"
-TAG_DISPLAY_OPTIONS = "*DISPLAYOPTIONS"
-TAG_REGION_INFO = "*REGIONINFO%%%%"
-TAG_ENERGY_POSITIONS = "*ENERGYBYPOS%%%"
-TAG_DISTRIBUTION_SELECTION = "*DISTSELECT%%%%"
-TAG_DISTRIBUTION_POINTS = "*DISTNUMPTS%%%%"
-TAG_INTERRUPTED_SIMULATION_DATA = "*INTSIMDATA%%%%"
-TAG_SCALE_GRID = "*SCALEGRID%%%%%"
+TAG_BSE_COEFFICIENT = b"*BECOEFF%%%%%%%"
+TAG_PHYSIC_MODELS = b"*PHYSMODELS%%%%"
+TAG_MICROSCOPE_SETUP = b"*MICROSETUP%%%%"
+TAG_XRAY = b"*XRAY%%%%%%%%%%"
+TAG_SMULATION_OPTIONS = b"*SIMOPTIONS%%%%"
+TAG_DISPLAY_OPTIONS = b"*DISPLAYOPTIONS"
+TAG_REGION_INFO = b"*REGIONINFO%%%%"
+TAG_ENERGY_POSITIONS = b"*ENERGYBYPOS%%%"
+TAG_DISTRIBUTION_SELECTION = b"*DISTSELECT%%%%"
+TAG_DISTRIBUTION_POINTS = b"*DISTNUMPTS%%%%"
+TAG_INTERRUPTED_SIMULATION_DATA = b"*INTSIMDATA%%%%"
+TAG_SCALE_GRID = b"*SCALEGRID%%%%%"
 
 DIRECTION_COSINES_SOUM = 0
 DIRECTION_COSINES_DROUIN = 1
@@ -44,7 +44,7 @@ def getDirectionCosinesString(type):
     elif type == DIRECTION_COSINES_DROUIN:
         return 'Drouin'
     else:
-        raise ValueError, 'Unknown direction cosines'
+        raise ValueError('Unknown direction cosines')
 
 CROSS_SECTION_MOTT_JOY = 0
 CROSS_SECTION_MOTT_EQUATION = 1
@@ -61,7 +61,7 @@ def getElasticCrossSectionTypeString(type):
     elif type == CROSS_SECTION_MOTT_RUTHERFORD:
         return "Rutherford"
     else:
-        raise ValueError, 'Unknown elastic cross section'
+        raise ValueError('Unknown elastic cross section')
 
 IONIZATION_CROSS_SECTION_GAUVIN = 0
 IONIZATION_CROSS_SECTION_POUCHOU = 1
@@ -84,7 +84,7 @@ def getIonizationCrossSectionTypeString(type):
     elif type == IONIZATION_CROSS_SECTION_JAKOBY:
         return "Jakoby"
     else:
-        raise ValueError, 'Unknown ionization cross section'
+        raise ValueError('Unknown ionization cross section')
 
 IONIZATION_POTENTIAL_JOY = 0
 IONIZATION_POTENTIAL_BERGER = 1
@@ -98,7 +98,7 @@ def getIonizationPotentialTypeString(type):
     elif type == IONIZATION_POTENTIAL_HOVINGTON:
         return "Hovington"
     else:
-        raise ValueError, 'Unknown ionization potential'
+        raise ValueError('Unknown ionization potential')
 
 RANDOM_NUMBER_GENERATOR_PRESS_ET_AL = 0
 RANDOM_NUMBER_GENERATOR_MERSENNE_TWISTER = 1
@@ -109,7 +109,7 @@ def getRandomNumberGeneratorString(type):
     elif type == RANDOM_NUMBER_GENERATOR_MERSENNE_TWISTER:
         return 'Mersenne - Twister'
     else:
-        raise ValueError, "Unknown random number generator"
+        raise ValueError("Unknown random number generator")
 
 ENERGY_LOSS_JOY_LUO = 0
 
@@ -117,7 +117,7 @@ def getEnergyLossString(type):
     if type == ENERGY_LOSS_JOY_LUO:
         return 'Joy and Luo'
     else:
-        raise ValueError, 'Unknown energy loss'
+        raise ValueError('Unknown energy loss')
 
 class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file, version):
@@ -177,9 +177,9 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
 
             if self.UseEnBack:
                 self._matrixDetector = []
-                for dummy1 in xrange(101):
+                for dummy1 in range(101):
                     row = []
-                    for dummy2 in xrange(101):
+                    for dummy2 in range(101):
                         value = self.readDouble(file)
                         row.append(value)
                     self._matrixDetector.append(row)
@@ -305,7 +305,7 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
             self.EFilterMin = self.readDouble(file)
 
             self.EFilterVal = []
-            for dummy in xrange(101):
+            for dummy in range(101):
                 value = self.readDouble(file)
                 self.EFilterVal.append(value)
 
@@ -434,10 +434,10 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
 
         if self.UseEnBack:
             assert len(self._matrixDetector) == 101
-            for index1 in xrange(101):
+            for index1 in range(101):
                 row = self._matrixDetector[index1]
                 assert len(row) == 101
-                for index2 in xrange(101):
+                for index2 in range(101):
                     value = row[index2]
                     self.writeDouble(file, value)
 
@@ -526,7 +526,7 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
         self.writeDouble(file, self.EFilterMin)
 
         assert len(self.EFilterVal) == 101
-        for index in xrange(101):
+        for index in range(101):
             self.writeDouble(file, self.EFilterVal[index])
 
         self.writeInt(file, self.FDZmax)

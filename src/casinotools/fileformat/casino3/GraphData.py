@@ -76,7 +76,7 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
         self._file.seek(self._startPosition)
         self._values = []
         self._positions = []
-        for dummy in xrange(self._size):
+        for dummy in range(self._size):
             value = self.readDouble(self._file)
             self._values.append(value)
 
@@ -85,7 +85,7 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
                 self._positions.append(position)
 
         if not self._isUneven:
-            for i in xrange(self._size):
+            for i in range(self._size):
                 position = self.index2pos(self._borneSup, self._borneInf, self._size, i, self._isLog)
                 self._positions.append(position)
 

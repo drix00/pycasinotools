@@ -90,7 +90,7 @@ class OptionsEnergyByPos(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert file.mode == 'rb'
 
-        tagID = "*EN_POS_SET_BEG"
+        tagID = b"*EN_POS_SET_BEG"
         self.findTag(file, tagID)
 
         self._version = self.readInt(file)
@@ -110,7 +110,7 @@ class OptionsEnergyByPos(FileReaderWriterTools.FileReaderWriterTools):
         #obsolete minimumDiffusionEnergy =
         self.readDouble(file)
 
-        tagID = "*EN_POS_SET_END"
+        tagID = b"*EN_POS_SET_END"
         self.findTag(file, tagID)
 
     def reset(self):

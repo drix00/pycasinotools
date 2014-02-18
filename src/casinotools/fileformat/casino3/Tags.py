@@ -25,7 +25,7 @@ import struct
 TAG_LENGTH = 15
 BUFFER_LENGTH = 500
 
-def limitedSearchTag(file, tagID, searchLength, tagLenght=0, filler='%'):
+def limitedSearchTag(file, tagID, searchLength, tagLenght=0, filler=b'%'):
     tag = createTagWithFiller(tagID, tagLenght, filler)
 
     isTagFound = limitedStreamSearch(file, tag, searchLength)
@@ -33,7 +33,10 @@ def limitedSearchTag(file, tagID, searchLength, tagLenght=0, filler='%'):
     return isTagFound
 
 def createTagWithFiller(tagID, tagLenght, filler):
-    tag = "%s" % (tagID)
+    assert isinstance(tagID, bytes)
+    assert isinstance(filler, bytes)
+
+    tag = tagID
 
     numberFiller = tagLenght - len(tag)
     if numberFiller > 0:
@@ -67,14 +70,14 @@ def limitedStreamSearch(file, tag, searchLength):
         file.seek(filePosition)
         return True
 
-def searchTag(file, tagID, tagLenght=0, filler='%'):
+def searchTag(file, tagID, tagLenght=0, filler=b'%'):
     tag = createTagWithFiller(tagID, tagLenght, filler)
 
     isTagFound = _streamSearchFast(file, tag)
 
     return isTagFound
 
-def addTag(file, tagID, tagLenght=0, filler='%'):
+def addTag(file, tagID, tagLenght=0, filler=b'%'):
     startPos = file.tell()
     tag = createTagWithFiller(tagID, tagLenght, filler)
     tag += "\0"
@@ -85,10 +88,10 @@ def addTag(file, tagID, tagLenght=0, filler='%'):
     size = struct.calcsize("i")
     assert file.tell() == startPos + size + tagLenght + 1
 
-def addTagOld(file, tagID, tagLenght=0, filler='%'):
+def addTagOld(file, tagID, tagLenght=0, filler=b'%'):
     startPos = file.tell()
     tag = createTagWithFiller(tagID, tagLenght, filler)
-    tag += "\0"
+    tag += b"\0"
     file.write(tag)
     assert file.tell() == startPos + tagLenght + 1
 
@@ -131,9 +134,9 @@ def _streamSearchFast(file, tag):
     """
 
     startPos = file.tell()
-    buffer = ""
+    buffer = b""
     tempBuffer = file.read(BUFFER_LENGTH)
-    while tempBuffer != '':
+    while tempBuffer != b'':
         #logging.debug("File position in streamSearch: %i", file.tell())
         buffer += tempBuffer
         tagPos = buffer.find(tag)

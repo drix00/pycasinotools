@@ -14,16 +14,20 @@ __svnDate__ = "$Date: 2011-12-07 11:01:42 -0500 (Wed, 07 Dec 2011) $"
 __svnId__ = "$Id: test_SimulationData.py 2620 2011-12-07 16:01:42Z ppinard $"
 
 # Standard library modules.
-from StringIO import StringIO
+try:
+    from io import BytesIO
+except ImportError: # Python 2
+    from StringIO import StringIO as BytesIO
 
 # Third party modules.
 
 # Local modules.
-import SimulationData
+import casinotools.fileformat.casino2.SimulationData as SimulationData
 import casinotools.fileformat.casino2.test_File as test_File
 
 # Globals and constants variables.
-from SimulationData import EMITTED, GENERATED, LINE_K, LINE_L, LINE_M
+from casinotools.fileformat.casino2.SimulationData import \
+    EMITTED, GENERATED, LINE_K, LINE_L, LINE_M
 
 class TestSimulationData(test_File.TestFile):
 
@@ -35,7 +39,7 @@ class TestSimulationData(test_File.TestFile):
 
     def test_read_StringIO(self):
         f = open(self.filepathSim, 'rb')
-        file = StringIO(f.read())
+        file = BytesIO(f.read())
         file.mode = 'rb'
         f.close()
         self._read_tests(file)

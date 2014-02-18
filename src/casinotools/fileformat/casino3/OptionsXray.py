@@ -56,7 +56,7 @@ class OptionsXray(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert file.mode == 'rb'
 
-        tagID = "*XRAY_OPT_BEG"
+        tagID = b"*XRAY_OPT_BEG"
         self.findTag(file, tagID)
 
         self._version = self.readInt(file)
@@ -64,7 +64,7 @@ class OptionsXray(FileReaderWriterTools.FileReaderWriterTools):
         self.TOA = self.readDouble(file)
         self.PhieRX = self.readFloat(file)
 
-        tagID = "*XRAY_OPT_END"
+        tagID = b"*XRAY_OPT_END"
         self.findTag(file, tagID)
 
     def reset(self):

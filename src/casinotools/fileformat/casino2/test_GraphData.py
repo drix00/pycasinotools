@@ -18,7 +18,7 @@ __svnId__ = "$Id: test_GraphData.py 2378 2011-06-20 19:45:48Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import GraphData
+import casinotools.fileformat.casino2.GraphData as GraphData
 import casinotools.fileformat.casino2.test_File as test_File
 
 # Globals and constants variables.

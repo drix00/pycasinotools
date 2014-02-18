@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import Version #@UnusedImport
+import casinotools.fileformat.casino3.Version #@UnusedImport
 
 # Globals and constants variables.
 

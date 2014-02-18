@@ -130,11 +130,11 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         self._readWithFileVersion(file, self._fileVersion)
 
     def _extractFileVersion(self, file):
-        if Tags.limitedSearchTag(file, "V3.1.3.4", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        if Tags.limitedSearchTag(file, b"V3.1.3.4", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             return V30103040
-        elif Tags.limitedSearchTag(file, "V3.1.3.7", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        elif Tags.limitedSearchTag(file, b"V3.1.3.7", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             return V30103070
-        elif Tags.limitedSearchTag(file, "%SAVE_HEADER%", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        elif Tags.limitedSearchTag(file, b"%SAVE_HEADER%", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             return V30104060
 
     def _readWithFileVersion(self, file, fileVersion):
@@ -147,7 +147,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
             self._numberSimulations = self.readInt(file)
 
         self._simulationList = []
-        for i in xrange(self._numberSimulations):
+        for i in range(self._numberSimulations):
             logging.debug("Read simulation %i", i)
             simulation = self._readOneSimulation(file)
             self._simulationList.append(simulation)
@@ -184,21 +184,21 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position: %i", file.tell())
         extension = ""
 
-        tagID = "ext="
+        tagID = b"ext="
         if Tags.limitedSearchTag(file, tagID, SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             logging.debug("File position: %i", file.tell())
             format = "3s"
             size = struct.calcsize(format)
             buffer = file.read(size)
             items = struct.unpack_from(format, buffer)
-            extension = str(items[0])
+            extension = items[0].decode('ascii')
 
         return extension
 
     def _readVersion(self, file):
         version = 0
 
-        tagID = "%SAVE_HEADER%"
+        tagID = b"%SAVE_HEADER%"
         if Tags.limitedSearchTag(file, tagID, SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             version = self.readInt(file)
 
@@ -359,17 +359,17 @@ def _run():
     #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/ResistLines/SiSubstrateThreeLines_PointsEdep.cas")
 
     file = File(filepathCas)
-    print "File name: %s" % (file._file.name)
-    print "File descriptor: %i" % (file._file.fileno())
-    print "File type: %s" % (file.getFileType())
-    print "File version: %i" % (file._version)
-    print "Number of simualtions: %i" % (file._numberSimulations)
+    print("File name: %s" % (file._file.name))
+    print("File descriptor: %i" % (file._file.fileno()))
+    print("File type: %s" % (file.getFileType()))
+    print("File version: %i" % (file._version))
+    print("Number of simualtions: %i" % (file._numberSimulations))
     scanPointResults = file.getResults().getScanPointsResultsFromIndex(0)
-    print "Number of saved trajectories: %i" % (scanPointResults.getNumberSavedTrajectories())
+    print("Number of saved trajectories: %i" % (scanPointResults.getNumberSavedTrajectories()))
     firstTrajectory = scanPointResults.getSavedTrajectory(0)
-    print "Number of collisions in first saved trajectory: %i" % (firstTrajectory.getNumberScatteringEvents())
+    print("Number of collisions in first saved trajectory: %i" % (firstTrajectory.getNumberScatteringEvents()))
     scatteringEvent = firstTrajectory.getScatteringEvent(-1)
-    print "Last collision type: %s" % (scatteringEvent.getCollisionType())
+    print("Last collision type: %s" % (scatteringEvent.getCollisionType()))
     file.closeFile()
 
 def runProfile():

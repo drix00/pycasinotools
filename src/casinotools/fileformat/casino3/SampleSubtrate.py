@@ -46,7 +46,7 @@ class SampleSubtrate(SampleObject.SampleObject):
         self._numberEdges = self.readInt(file)
 
         self._edges = []
-        for dummyIndex in xrange(self._numberEdges):
+        for dummyIndex in range(self._numberEdges):
             edge = Edge()
             edge.read(file)
             self._edges.append(edge)

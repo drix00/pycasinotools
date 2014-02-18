@@ -126,7 +126,7 @@ class TruncatedPyramidShape(SampleObject):
         super(TruncatedPyramidShape, self).read(file)
 
         if self._version < 30105004:
-            for dummyIndex in xrange(8):
+            for dummyIndex in range(8):
                 dummyCorner = self.readDoubleList(file, 3)
 
         self._x = self.readDouble(file)

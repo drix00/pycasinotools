@@ -20,7 +20,7 @@ import unittest
 from pkg_resources import resource_filename #@UnresolvedImport
 
 # Local modules.
-import GenerateSimFile
+import casinotools.fileformat.casino2.GenerateSimFile as GenerateSimFile
 
 # Globals and constants variables.
 

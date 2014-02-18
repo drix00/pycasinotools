@@ -94,7 +94,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readNumberScatteringEvents(self, file):
         #logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_readNumberScatteringEvents", file.tell())
-        tagID = "NbElec"
+        tagID = b"NbElec"
         self.findTag(file, tagID)
         #logging.debug("File position after findtag of %s.%s: %i", self.__class__.__name__, "_readNumberScatteringEvents", file.tell())
         self._numberScatteringEvents = self.readInt(file)
@@ -116,7 +116,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
 
         self._file.seek(self._startPositionCollisions)
         self._trajectoryCollisions = []
-        for dummy in xrange(self._numberScatteringEvents):
+        for dummy in range(self._numberScatteringEvents):
             trajectoryCollision = TrajectoryCollision.TrajectoryCollision()
             trajectoryCollision.read(self._file)
             self._trajectoryCollisions.append(trajectoryCollision)
@@ -135,7 +135,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
         format = "5d2i"*self._numberScatteringEvents
         items = self.readMultipleValues(self._file, format)
 
-        self._trajectoryCollisions = [TrajectoryCollision.TrajectoryCollision(items[index * 7:(index * 7) + 7]) for index in xrange(self._numberScatteringEvents)]
+        self._trajectoryCollisions = [TrajectoryCollision.TrajectoryCollision(items[index * 7:(index * 7) + 7]) for index in range(self._numberScatteringEvents)]
 
         if closeFile:
             self._file.close()

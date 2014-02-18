@@ -18,7 +18,7 @@ __svnId__ = "$Id: test_Region.py 1755 2010-01-20 22:06:10Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import Region
+import casinotools.fileformat.casino3.Region as Region
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 
 # Globals and constants variables.

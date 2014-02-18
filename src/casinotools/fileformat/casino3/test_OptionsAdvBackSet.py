@@ -43,7 +43,7 @@ class TestOptionsAdvBackSet(test_FileReaderWriterTools.TestFileReaderWriterTools
         self.assertAlmostEquals(0.0, reader.EFilterMax)
         self.assertAlmostEquals(0.0, reader.EFilterMin)
 
-        for i in xrange(101):
+        for i in range(101):
             self.assertAlmostEquals(1.0, reader.EFilterVal[i])
 
         self.assertEquals(0, reader.FEFilter)
@@ -65,7 +65,7 @@ class TestOptionsAdvBackSet(test_FileReaderWriterTools.TestFileReaderWriterTools
         self.assertAlmostEquals(0.0, reader.EFilterMax)
         self.assertAlmostEquals(0.0, reader.EFilterMin)
 
-        for i in xrange(101):
+        for i in range(101):
             self.assertAlmostEquals(1.0, reader.EFilterVal[i])
 
         self.assertEquals(0, reader.FEFilter)

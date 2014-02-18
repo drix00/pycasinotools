@@ -32,7 +32,7 @@ class SampleReader(object):
         assert file.mode == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = "*CASINOSAMPLE%%"
+        tagID = b"*CASINOSAMPLE%%"
 
         if Tags.searchTag(file, tagID, Tags.TAG_LENGTH):
             format = "i"

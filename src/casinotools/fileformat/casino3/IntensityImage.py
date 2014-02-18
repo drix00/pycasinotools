@@ -18,10 +18,7 @@ import logging
 import os.path
 
 # Third party modules.
-try:
-    from PIL import Image
-except ImportError:
-    import Image
+from PIL import Image
 
 # Local modules.
 import casinotools.fileformat.casino3.File as File

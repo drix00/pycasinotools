@@ -36,7 +36,7 @@ class ScanPointResults(FileReaderWriterTools.FileReaderWriterTools):
         assert file.mode == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = "*SCANPTRUNTIME%"
+        tagID = b"*SCANPTRUNTIME%"
         if self.findTag(file, tagID):
             self._version = self.readInt(file)
 
@@ -65,7 +65,7 @@ class ScanPointResults(FileReaderWriterTools.FileReaderWriterTools):
 
             self._numberResults = self.readInt(file)
             self._regionIntensityInfos = []
-            for dummy in xrange(self._numberResults):
+            for dummy in range(self._numberResults):
                 regionIntensityInfo = RegionIntensityInfo.RegionIntensityInfo()
                 regionIntensityInfo.read(file)
                 self._regionIntensityInfos.append(regionIntensityInfo)
@@ -125,7 +125,7 @@ class ScanPointResults(FileReaderWriterTools.FileReaderWriterTools):
 
             self._numberTrajectories = self.readInt(file)
             self._trajectories = []
-            for dummy in xrange(self._numberTrajectories):
+            for dummy in range(self._numberTrajectories):
                 trajectory = Trajectory.Trajectory()
                 trajectory.read(file)
                 self._trajectories.append(trajectory)
@@ -178,7 +178,7 @@ class ScanPointResults(FileReaderWriterTools.FileReaderWriterTools):
         try:
             regionIntensityInfo = self._regionIntensityInfos[regionInfoIndex]
             return regionIntensityInfo.getEnergyIntensity()
-        except IndexError, message:
+        except IndexError as message:
             logging.debug(message)
             return 0.0
 

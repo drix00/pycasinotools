@@ -58,7 +58,7 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
             self.assertAlmostEquals(0.0, simulationOptions._optionsAdvBackSet.EFilterMax)
             self.assertAlmostEquals(0.0, simulationOptions._optionsAdvBackSet.EFilterMin)
 
-            for i in xrange(101):
+            for i in range(101):
                 self.assertAlmostEquals(1.0, simulationOptions._optionsAdvBackSet.EFilterVal[i])
 
             self.assertEquals(0, simulationOptions._optionsAdvBackSet.FEFilter)

@@ -58,7 +58,7 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        tagID = "*SIMULATIONOPT%"
+        tagID = b"*SIMULATIONOPT%"
         if self.findTag(file, tagID):
             self._version = self.readInt(file)
 
@@ -75,7 +75,7 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
 
             self._optionsXray.read(file)
 
-            tagID = "*SIM_OPT_END%"
+            tagID = b"*SIM_OPT_END%"
             if not self.findTag(file, tagID):
                 return "Wrong version."
 

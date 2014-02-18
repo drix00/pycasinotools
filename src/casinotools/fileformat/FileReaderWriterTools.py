@@ -66,7 +66,8 @@ class FileReaderWriterTools(object):
 
     def readStrLength(self, file, size):
         format = "%is" % (size)
-        value = self._read(file, format, str)
+        value = self._read(file, format, bytes)
+        value = value.decode('ascii', 'replace')
         value = value.replace('\x00', '')
         return value
 
@@ -90,7 +91,7 @@ class FileReaderWriterTools(object):
 
     def _readDoubleListWithLoop(self, file, numberElements):
         array = []
-        for dummy in xrange(numberElements):
+        for dummy in range(numberElements):
             value = self.readDouble(file)
             array.append(value)
 
@@ -151,8 +152,9 @@ class FileReaderWriterTools(object):
 
     def writeStrLength(self, file, value, size):
         value = self._checkAndCorrectValueSize(value, size)
-        format = "%is" % (size)
-        self._write(file, format, value, str)
+        format = "%is" % (size,)
+        value = value.encode('ascii', 'replace')
+        self._write(file, format, value, bytes)
 
     def _checkAndCorrectValueSize(self, value, size):
         if len(value) > size:
@@ -170,7 +172,7 @@ class FileReaderWriterTools(object):
 
     def writeLong(self, file, value):
         format = "=l"
-        self._write(file, format, value, long)
+        self._write(file, format, value, int)
 
     def writeBool(self, file, value):
         format = "?"
@@ -190,7 +192,7 @@ class FileReaderWriterTools(object):
         self._writeDoubleListWithoutLoop(file, valueList, numberElements)
 
     def _writeDoubleListWithLoop(self, file, valueList, numberElements):
-        for index in xrange(numberElements):
+        for index in range(numberElements):
             self.writeDouble(file, valueList[index])
 
     def _writeDoubleListWithoutLoop(self, file, valueList, numberElements):

@@ -237,7 +237,7 @@ class OptionsDist(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert file.mode == 'rb'
 
-        tagID = "*DIST_OPT_BEG"
+        tagID = b"*DIST_OPT_BEG"
         self.findTag(file, tagID)
 
         self._version = self.readInt(file)
@@ -301,7 +301,7 @@ class OptionsDist(FileReaderWriterTools.FileReaderWriterTools):
 
         self.DEpos_Position = self.readInt(file)
 
-        tagID = "*DIST_OPT_END"
+        tagID = b"*DIST_OPT_END"
         self.findTag(file, tagID)
 
     def reset(self):

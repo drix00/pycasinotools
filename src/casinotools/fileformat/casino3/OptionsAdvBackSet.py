@@ -129,7 +129,7 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert file.mode == 'rb'
 
-        tagID = "*MATRX_SET_BEG"
+        tagID = b"*MATRX_SET_BEG"
         self.findTag(file, tagID)
 
         self._version = self.readInt(file)
@@ -153,12 +153,12 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
         self.EFilterMax = self.readDouble(file)
         self.EFilterMin = self.readDouble(file)
 
-        for i in xrange(101):
+        for i in range(101):
             self.EFilterVal[i] = self.readDouble(file)
 
         self.FEFilter = self.readInt(file)
 
-        tagID = "*MATRX_SET_END"
+        tagID = b"*MATRX_SET_END"
         self.findTag(file, tagID)
 
     def reset(self):
@@ -168,7 +168,7 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
         self.EFilterMin = 0.0
 
         self.EFilterVal = []
-        for dummy in xrange(101):
+        for dummy in range(101):
                 self.EFilterVal.append(1.0)
         self.FEFilter = 0
         self.UseEnBack = False

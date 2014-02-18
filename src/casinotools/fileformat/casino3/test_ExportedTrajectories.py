@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import ExportedTrajectories #@UnusedImport
+import casinotools.fileformat.casino3.ExportedTrajectories #@UnusedImport
 
 # Globals and constants variables.
 

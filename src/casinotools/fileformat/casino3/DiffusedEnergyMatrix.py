@@ -23,8 +23,8 @@ import os
 import casinotools.fileformat.casino3.EnergyMatrix as EnergyMatrix
 
 # Globals and constants variables.
-DIFFUSED_TAG = "Diffused%Energy"
-DIFFUSED_END_TAG = "Diffused%%End%%"
+DIFFUSED_TAG = b"Diffused%Energy"
+DIFFUSED_END_TAG = b"Diffused%%End%%"
 DIFFUSE_VERSION = 30107000
 
 class DiffusedEnergyMatrix(EnergyMatrix.EnergyMatrix):

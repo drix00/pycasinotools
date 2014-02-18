@@ -22,7 +22,7 @@ from pkg_resources import resource_filename #@UnresolvedImport
 from nose.plugins.attrib import attr
 
 # Local modules.
-import XrayRadialReader
+import casinotools.fileformat.casino2.XrayRadialReader as XrayRadialReader
 import casinotools.fileformat.casino2.XrayRadial as XrayRadial
 
 # Globals and constants variables.

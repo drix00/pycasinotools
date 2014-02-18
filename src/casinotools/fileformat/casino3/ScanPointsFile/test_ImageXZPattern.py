@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import ImageXZPattern
+import casinotools.fileformat.casino3.ScanPointsFile.ImageXZPattern as ImageXZPattern
 
 # Globals and constants variables.
 

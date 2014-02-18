@@ -60,7 +60,7 @@ class TestScanPointResults(test_FileReaderWriterTools.TestFileReaderWriterTools)
 
         self.assertEquals(8, results._numberResults)
 
-        for i in xrange(1, 8 + 1):
+        for i in range(1, 8 + 1):
             self.assertEquals(i, results._regionIntensityInfos[i - 1]._regionID)
 
         # DZMax distribution results.

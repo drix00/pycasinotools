@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import RectanglePattern #@UnusedImport
+import casinotools.fileformat.casino3.ScanPointsFile.RectanglePattern #@UnusedImport
 
 # Globals and constants variables.
 

@@ -26,10 +26,10 @@ import casinotools.fileformat.casino2.TrajectoriesData as TrajectoriesData
 import casinotools.fileformat.casino2.SimulationResults as SimulationResults
 
 # Globals and constants variables.
-HEADER = "WinCasino Simulation File"
-TAG_VERSION = "*VERSION%%%%%%%"
-TAG_STATUS = "*STATUS%%%%%%%%"
-TAG_SAVE_SETUP = "*SAVESETUP%%%%%"
+HEADER = b"WinCasino Simulation File"
+TAG_VERSION = b"*VERSION%%%%%%%"
+TAG_STATUS = b"*STATUS%%%%%%%%"
+TAG_SAVE_SETUP = b"*SAVESETUP%%%%%"
 
 from casinotools.fileformat.casino2.Element import \
     LINE_K, LINE_L, LINE_M, GENERATED, EMITTED #@UnusedImport

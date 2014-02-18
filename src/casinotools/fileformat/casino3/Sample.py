@@ -48,7 +48,7 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
         assert file.mode == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = "*CASINOSAMPLE%%"
+        tagID = b"*CASINOSAMPLE%%"
         if self.findTag(file, tagID):
             self._version = self.readInt(file)
 
@@ -61,14 +61,14 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
         assert file.mode == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_3131", file.tell())
 
-        tagID = "*SUBSTRATE%%%%%"
+        tagID = b"*SUBSTRATE%%%%%"
         if self.findTag(file, tagID):
             self._useSubstrate = self.readInt(file)
 
             self._substrate = SampleObjectFactory.CreateObjectFromType(SampleObjectFactory.SHAPE_SUBSTRATE)
             self._substrate.read(file)
 
-        tagID = "*SAMPLEOBJECTS%"
+        tagID = b"*SAMPLEOBJECTS%"
         if self.findTag(file, tagID):
             self._count = self.readInt(file)
 
@@ -86,14 +86,14 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
                     self.addSampleObject(sampleObject)
 
         if self._version < 30107001:
-            tagID = "*MAC%%%%%%%%%%%"
+            tagID = b"*MAC%%%%%%%%%%%"
             if self.findTag(file, tagID):
                 #float MAC[100][100][3]
                 #file.read((char*)&MAC,sizeof(MAC[0][0][0]*100*100*3));
                 numberElements = 100 * 100 * 3
                 self._mac = self.readFloatList(file, numberElements)
 
-        tagID = "*SAMPLEDATA%%%%"
+        tagID = b"*SAMPLEDATA%%%%"
         if self.findTag(file, tagID):
             self._maxSampleTreeLevel = self.readInt(file)
 
@@ -106,7 +106,7 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
             self._sampleTree = SampleTree.SampleTree()
             self._sampleTree.read(file)
 
-        tagID = "*REGIONDATA%%%%"
+        tagID = b"*REGIONDATA%%%%"
         if self.findTag(file, tagID):
             self._numberRegions = self.readInt(file)
 

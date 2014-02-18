@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import MeanIonizationPotential
+import casinotools.fileformat.casino2.MeanIonizationPotential as MeanIonizationPotential
 
 # Globals and constants variables.
 

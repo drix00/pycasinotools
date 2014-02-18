@@ -30,7 +30,7 @@ LINE_M = 'MV'
 GENERATED = "Generated"
 EMITTED = "Emitted"
 
-TAG_ELEMENT_DATA = "*ELEMENTDATA_XX"
+TAG_ELEMENT_DATA = b"*ELEMENTDATA_XX"
 
 class Element(FileReaderWriterTools.FileReaderWriterTools):
     def __init__(self):
@@ -55,7 +55,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         self.Int_PRZ = []
         self.Int_PRZ_ABS = []
-        for dummy in xrange(3):
+        for dummy in range(3):
             self.Int_PRZ.append(0.0)
             self.Int_PRZ_ABS.append(0.0)
 
@@ -87,12 +87,12 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         # This is the intensities as displayed in the casino program.
         self.Int_PRZ = []
-        for dummy in xrange(3):
+        for dummy in range(3):
             value = self.readDouble(file)
             self.Int_PRZ.append(value)
 
         self.Int_PRZ_ABS = []
-        for dummy in xrange(3):
+        for dummy in range(3):
             value = self.readDouble(file)
             self.Int_PRZ_ABS.append(value)
 
@@ -129,12 +129,12 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         # This is the intensities as displayed in the casino program.
         assert len(self.Int_PRZ) == 3
-        for index in xrange(3):
+        for index in range(3):
             value = self.Int_PRZ[index]
             self.writeDouble(file, value)
 
         assert len(self.Int_PRZ_ABS) == 3
-        for index in xrange(3):
+        for index in range(3):
             value = self.Int_PRZ_ABS[index]
             self.writeDouble(file, value)
 
