@@ -20,7 +20,7 @@ import math
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 COLLISION_TYPE_ATOM = 0

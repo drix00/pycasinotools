@@ -18,7 +18,7 @@ __svnId__ = "$Id: test_DiffusedEnergyMatrix.py 2378 2011-06-20 19:45:48Z hdemers
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 import casinotools.fileformat.casino3.DiffusedEnergyMatrix as DiffusedEnergyMatrix
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
 import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions

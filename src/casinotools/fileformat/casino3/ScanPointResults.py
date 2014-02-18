@@ -19,7 +19,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino3.TransmittedAngles as TransmittedAngles
 import casinotools.fileformat.casino3.RegionIntensityInfo as RegionIntensityInfo
 import casinotools.fileformat.casino3.Trajectory as Trajectory

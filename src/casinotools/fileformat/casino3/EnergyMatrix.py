@@ -20,7 +20,7 @@ import os
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
 
 # Globals and constants variables.

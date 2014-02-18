@@ -19,7 +19,7 @@ __svnId__ = "$Id: test_TransmittedAngles.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Local modules.
 import casinotools.fileformat.casino3.TransmittedAngles as TransmittedAngles
-import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 
 # Globals and constants variables.
 

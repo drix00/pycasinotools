@@ -22,7 +22,7 @@ import math
 import scipy.integrate as integrate
 
 # Local modules.
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 VERSION_30107002 = 30107002

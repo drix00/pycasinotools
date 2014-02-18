@@ -19,7 +19,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 #import casinotools.fileformat.casino3.SampleSubtrate as SampleSubtrate
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
 import casinotools.fileformat.casino3.SampleTree as SampleTree

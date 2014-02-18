@@ -19,7 +19,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 TAG_BSE_COEFFICIENT = "*BECOEFF%%%%%%%"

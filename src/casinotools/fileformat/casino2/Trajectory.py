@@ -19,7 +19,7 @@ import os
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import ScatteringEvent
 
 # Globals and constants variables.
