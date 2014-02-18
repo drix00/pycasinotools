@@ -20,7 +20,6 @@ from StringIO import StringIO
 
 # Local modules.
 import SimulationData
-import File
 import casinotools.fileformat.casino2.test_File as test_File
 
 # Globals and constants variables.

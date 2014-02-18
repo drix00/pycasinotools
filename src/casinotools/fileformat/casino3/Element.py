@@ -202,7 +202,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         return distributions
 
     def setElement(self, symbol, weightFraction=1.0, index=0):
-        fnuatom, rho, z, a, ef, kf, ep = NUATOM(symbol)
+        _, rho, z, a, ef, kf, ep = NUATOM(symbol)
 
         self.Z = z
         self.Nom = symbol
