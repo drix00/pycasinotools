@@ -18,9 +18,10 @@ __svnId__ = "$Id: tests.py 2364 2011-05-30 11:15:15Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import DrixUtilities.Testings as Testings
 
 # Globals and constants variables.
 
 if __name__ == "__main__": #pragma: no cover
-    Testings.runTestSuite()
+    import logging, nose
+    logging.getLogger().setLevel(logging.DEBUG)
+    nose.main()

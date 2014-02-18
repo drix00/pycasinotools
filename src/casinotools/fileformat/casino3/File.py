@@ -350,9 +350,9 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
             simulation.export(exportFile)
 
 def _run():
-    import DrixUtilities.Files as Files
+    from pkg_resources import resource_filename #@UnresolvedImport
     #filepathCas = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/WaterAuTop_wSE.cas")
-    filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/Microfluidic/SecondaryElectrons/WaterAuTop_wSE_100e_CS5.cas")
+    filepathCas = resource_filename(__file__, "/Volumes/drix01/resultsUdeS/Simulations/Microfluidic/SecondaryElectrons/WaterAuTop_wSE_100e_CS5.cas")
     #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_1Me.cas")
     #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_100ke.cas")
     #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_10ke.cas")
@@ -380,6 +380,5 @@ def runDebug():
     logging.getLogger().setLevel(logging.DEBUG)
     _run()
 
-if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=runProfile)
+if __name__ == '__main__': #pragma: no cover
+    runProfile()

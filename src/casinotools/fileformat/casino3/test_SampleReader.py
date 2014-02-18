@@ -15,14 +15,13 @@ __svnId__ = "$Id: test_SampleReader.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
+from pkg_resources import resource_filename #@UnresolvedImport
+from nose.plugins.attrib import attr
 
 # Local modules.
 import casinotools.fileformat.casino3.SampleReader as SampleReader
-import DrixUtilities.Files as Files
-from DrixUtilities.Testings import ignore
 
 # Globals and constants variables.
 
@@ -31,8 +30,8 @@ class TestSampleReader(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
-        self.filepathCas = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
+        self.filepathSim = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        self.filepathCas = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -41,7 +40,7 @@ class TestSampleReader(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @ignore()
+    @attr('ignore')
     def test_read(self):
         reader = SampleReader.SampleReader()
         file = open(self.filepathSim, 'rb')
@@ -59,7 +58,7 @@ class TestSampleReader(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

@@ -15,12 +15,11 @@ __svnId__ = "$Id$"
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
 
 # Local modules.
-import Version
+import Version #@UnusedImport
 
 # Globals and constants variables.
 
@@ -31,12 +30,12 @@ class TestVersion(unittest.TestCase):
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
-        
+
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-if __name__ == '__main__':  #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

@@ -15,15 +15,14 @@ __svnId__ = "$Id$"
 
 # Standard library modules.
 import unittest
-import logging
 import os.path
 
 # Third party modules.
+from pkg_resources import resource_filename #@UnresolvedImport
+from nose.plugins.attrib import attr
 
 # Local modules.
 import IntensityImage
-import DrixUtilities.Files as Files
-from DrixUtilities.Testings import ignore
 
 # Globals and constants variables.
 
@@ -31,7 +30,7 @@ class TestIntensityImage(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
-        resultsPath = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/createImage")
+        resultsPath = resource_filename(__name__, "../../testData/casino3.x/createImage")
         self._casBinnedFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_binned.cas")
         self._casAllFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_all.cas")
 
@@ -51,7 +50,7 @@ class TestIntensityImage(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @attr('ignore')
     def test_extractData(self):
         image = self._imageBinned
         image._extractData()
@@ -227,14 +226,14 @@ class TestIntensityImage(unittest.TestCase):
         self.assertEquals("3D", image._imageType)
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @attr('ignore')
     def test_createImage(self):
         image = self._imageBinned
         image._createImage()
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

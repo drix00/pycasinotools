@@ -15,7 +15,6 @@ __svnId__ = "$Id$"
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
 
@@ -141,12 +140,12 @@ class TestScanPointsFile(unittest.TestCase):
         self._scanPointsFile._generateScanPoints()
         self.assertEquals(100, len(self._scanPointsFile._scanPoints))
 
-        firstPointRef_nm = (xRef, -49.5+yRef)
+        firstPointRef_nm = (xRef, -49.5 + yRef)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
         self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
         self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
 
-        lastPointRef_nm = (xRef, 49.5+yRef)
+        lastPointRef_nm = (xRef, 49.5 + yRef)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
         self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
         self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
@@ -157,12 +156,12 @@ class TestScanPointsFile(unittest.TestCase):
         self._scanPointsFile._generateScanPoints()
         self.assertEquals(100, len(self._scanPointsFile._scanPoints))
 
-        firstPointRef_nm = (-49.5+xRef, 0.0+yRef)
+        firstPointRef_nm = (-49.5 + xRef, 0.0 + yRef)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
         self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
         self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
 
-        lastPointRef_nm = (49.5+xRef, 0.0+yRef)
+        lastPointRef_nm = (49.5 + xRef, 0.0 + yRef)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
         self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
         self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
@@ -174,12 +173,12 @@ class TestScanPointsFile(unittest.TestCase):
         self._scanPointsFile._generateScanPoints()
         self.assertEquals(100, len(self._scanPointsFile._scanPoints))
 
-        firstPointRef_nm = (-4.5+xRef, -4.5+yRef)
+        firstPointRef_nm = (-4.5 + xRef, -4.5 + yRef)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
         self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
         self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
 
-        lastPointRef_nm = (4.5+xRef, 4.5+yRef)
+        lastPointRef_nm = (4.5 + xRef, 4.5 + yRef)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
         self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
         self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
@@ -242,11 +241,11 @@ class TestScanPointsFile(unittest.TestCase):
             scanPointsFile.setHeight_nm(2500, numberPointsZ)
             scanPointsFile.setCenterPoint((0.0, 500.0))
 
-            self.assertEquals(numberPointsY*numberPointsZ, scanPointsFile.getNumberPoints())
+            self.assertEquals(numberPointsY * numberPointsZ, scanPointsFile.getNumberPoints())
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

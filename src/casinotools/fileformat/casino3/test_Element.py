@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2010-01-20 17:06:10 -0500 (Wed, 20 Jan 2010) $"
 __svnId__ = "$Id: test_Element.py 1755 2010-01-20 22:06:10Z hdemers $"
 
 # Standard library modules.
-import unittest
-import logging
 
 # Third party modules.
 
@@ -62,7 +60,7 @@ class TestElement(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEquals(47, z)
         self.assertEquals(107.868, a)
         self.assertAlmostEquals(5.5, ef)
-        self.assertAlmostEquals(1.19, kf*1.0e-8)
+        self.assertAlmostEquals(1.19, kf * 1.0e-8)
         self.assertAlmostEquals(15, ep)
 
         fnuatom, rho, z, a, ef, kf, ep = Element.NUATOM('ag')
@@ -80,7 +78,7 @@ class TestElement(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEquals(23, z)
         self.assertEquals(50.9415, a)
         self.assertAlmostEquals(1.0, ef)
-        self.assertAlmostEquals(7.0, kf*1.0e-7)
+        self.assertAlmostEquals(7.0, kf * 1.0e-7)
         self.assertAlmostEquals(21.8, ep)
 
         #self.fail("Test if the testcase is working.")
@@ -96,7 +94,7 @@ class TestElement(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

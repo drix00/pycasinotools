@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2011-06-20 15:45:48 -0400 (Mon, 20 Jun 2011) $"
 __svnId__ = "$Id: test_DiffusedEnergyMatrix.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
-import unittest
-import logging
 
 # Third party modules.
 
@@ -44,7 +42,7 @@ class TestDiffusedEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTo
         self.assertEquals(2012806, results._endPosition)
         #TODO why the end position is more than startPosition + _numberElements*sizeof(double)?
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

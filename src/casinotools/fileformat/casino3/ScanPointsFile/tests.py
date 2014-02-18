@@ -18,9 +18,10 @@ __svnId__ = "$Id$"
 # Third party modules.
 
 # Local modules.
-import DrixUtilities.Testings as Testings
 
 # Globals and constants variables.
 
 if __name__ == "__main__": #pragma: no cover
-    Testings.runTestSuite()
+    import logging, nose
+    logging.getLogger().setLevel(logging.DEBUG)
+    nose.main()

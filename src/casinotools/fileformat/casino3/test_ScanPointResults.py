@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2011-06-20 15:45:48 -0400 (Mon, 20 Jun 2011) $"
 __svnId__ = "$Id: test_ScanPointResults.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
-import unittest
-import logging
 
 # Third party modules.
 
@@ -62,8 +60,8 @@ class TestScanPointResults(test_FileReaderWriterTools.TestFileReaderWriterTools)
 
         self.assertEquals(8, results._numberResults)
 
-        for i in xrange(1, 8+1):
-            self.assertEquals(i, results._regionIntensityInfos[i-1]._regionID)
+        for i in xrange(1, 8 + 1):
+            self.assertEquals(i, results._regionIntensityInfos[i - 1]._regionID)
 
         # DZMax distribution results.
         self.assertEquals(True, results._isDZMax)
@@ -90,7 +88,7 @@ class TestScanPointResults(test_FileReaderWriterTools.TestFileReaderWriterTools)
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

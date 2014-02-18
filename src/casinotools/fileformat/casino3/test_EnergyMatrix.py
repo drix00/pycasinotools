@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2011-06-20 15:45:48 -0400 (Mon, 20 Jun 2011) $"
 __svnId__ = "$Id: test_EnergyMatrix.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
-import unittest
-import logging
 
 # Third party modules.
 
@@ -40,9 +38,9 @@ class TestEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEquals(None, error)
         self.assertEquals(125000, results._numberElements)
         self.assertEquals(4042541, results._startPosition)
-        self.assertEquals(4042541+125000*8, results._endPosition)
+        self.assertEquals(4042541 + 125000 * 8, results._endPosition)
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

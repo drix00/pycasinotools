@@ -101,8 +101,8 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         return self._resultSimulationDataList[index]
 
 def _run():
-    import DrixUtilities.Files as Files
-    filepathCas = Files.getCurrentModulePath(__file__, "../../testData/wincasino2.45/id475.cas")
+    from pkg_resources import resource_filename #@UnresolvedImport
+    filepathCas = resource_filename(__file__, "../../testData/wincasino2.45/id475.cas")
     file = File()
     file.readFromFilepath(filepathCas, isSkipReadingData=True)
 
@@ -117,5 +117,4 @@ def runProfile2():
     prof.close()
 
 if __name__ == '__main__': #pragma: no cover
-    import DrixUtilities.Runner as Runner
-    Runner.Runner().run(runFunction=runProfile2)
+    runProfile2()

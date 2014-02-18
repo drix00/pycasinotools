@@ -17,12 +17,12 @@ __svnId__ = "$Id: test_FileReaderWriterTools.py 2467 2011-09-08 20:41:24Z hdemer
 import unittest
 
 # Third party modules.
+from pkg_resources import resource_filename #@UnresolvedImport
+from nose.tools import nottest
 
 # Local modules.
 import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino3.File as File
-import DrixUtilities.Files as Files
-from DrixUtilities.Testings import ignore
 
 # Globals and constants variables.
 
@@ -31,9 +31,9 @@ class TestFileReaderWriterTools(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
-        self.filepathSim_3202 = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
-        self.filepathCas = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
+        self.filepathSim = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        self.filepathSim_3202 = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
+        self.filepathCas = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -55,7 +55,7 @@ class TestFileReaderWriterTools(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @nottest
     def test_extractVersionString(self):
         casinoFile = File.File(self.filepathSim)
 
@@ -81,7 +81,7 @@ class TestFileReaderWriterTools(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
-    #logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
+    logging.getLogger().setLevel(logging.DEBUG)
+    nose.runmodule()

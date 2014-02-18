@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2011-12-07 11:01:42 -0500 (Wed, 07 Dec 2011) $"
 __svnId__ = "$Id: test_TrajectoriesData.py 2620 2011-12-07 16:01:42Z ppinard $"
 
 # Standard library modules.
-import unittest
-import logging
 from StringIO import StringIO
 
 # Third party modules.
@@ -49,7 +47,7 @@ class TestTrajectoriesData(test_File.TestFile):
         trajectoriesData.read(file)
         self.assertEquals(221, trajectoriesData._numberTrajectories)
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

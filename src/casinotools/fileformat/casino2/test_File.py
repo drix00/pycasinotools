@@ -19,13 +19,13 @@ import os
 from StringIO import StringIO
 
 # Third party modules.
+from pkg_resources import resource_filename #@UnresolvedImport
+from nose.tools import nottest
 
 # Local modules.
 import casinotools.fileformat.casino2.File as File
-import DrixUtilities.Files as Files
 import Version
 from casinotools.fileformat.casino2.Element import LINE_K, GENERATED, EMITTED
-from DrixUtilities.Testings import ignore
 
 # Globals and constants variables.
 
@@ -34,16 +34,16 @@ class TestFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = Files.getCurrentModulePath(__file__, "../../testData/wincasino2.45/id475.sim")
-        self.filepathCas = Files.getCurrentModulePath(__file__, "../../testData/wincasino2.45/id475.cas")
+        self.filepathSim = resource_filename(__name__, "../../testData/wincasino2.45/id475.sim")
+        self.filepathCas = resource_filename(__name__, "../../testData/wincasino2.45/id475.cas")
 
-        self.filepathStd = Files.getCurrentModulePath(__file__, "../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
-        self.filepathWrite = Files.getCurrentModulePath(__file__, "../../testData/casino2.x/stdTest.sim")
+        self.filepathStd = resource_filename(__name__, "../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
+        self.filepathWrite = resource_filename(__name__, "../../testData/casino2.x/stdTest.sim")
 
-        self.filepathSim_v242 = Files.getCurrentModulePath(__file__, "../../testData/casino2.x/std_B_3keV_v2.42_23.sim")
-        self.filepathCas_v242 = Files.getCurrentModulePath(__file__, "../../testData/casino2.x/std_B_3keV_v2.42_23.cas")
+        self.filepathSim_v242 = resource_filename(__name__, "../../testData/casino2.x/std_B_3keV_v2.42_23.sim")
+        self.filepathCas_v242 = resource_filename(__name__, "../../testData/casino2.x/std_B_3keV_v2.42_23.cas")
 
-        self.filepathCas_nicr = Files.getCurrentModulePath(__file__, "../../testData/casino2.x/nicr.cas")
+        self.filepathCas_nicr = resource_filename(__name__, "../../testData/casino2.x/nicr.cas")
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -55,7 +55,7 @@ class TestFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @ignore()
+    @nottest
     def test_read(self):
         file = File.File()
         file.readFromFilepath(self.filepathSim)
@@ -71,7 +71,7 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @nottest
     def test_read_StringIO(self):
         # sim
         f = open(self.filepathSim, 'rb')
@@ -103,7 +103,7 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @nottest
     def test_write(self):
         file = File.File()
         optionSimulationData = self._getOptionSimulationData()
@@ -130,7 +130,7 @@ class TestFile(unittest.TestCase):
 
         return file.getOptionSimulationData()
 
-    @ignore()
+    @nottest
     def test_skipReadingData(self):
         file = File.File()
         file.readFromFilepath(self.filepathCas, isSkipReadingData=False)
@@ -183,7 +183,7 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @nottest
     def test_readv242(self):
         # .sim
         file = File.File()
@@ -250,6 +250,6 @@ class TestFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    #logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    import logging, nose
+    logging.getLogger().setLevel(logging.DEBUG)
+    nose.runmodule()

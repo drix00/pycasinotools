@@ -15,12 +15,11 @@ __svnId__ = "$Id$"
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
 
 # Local modules.
-import RectanglePattern
+import RectanglePattern #@UnusedImport
 
 # Globals and constants variables.
 
@@ -36,7 +35,7 @@ class TestRectanglePattern(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

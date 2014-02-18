@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2011-06-20 15:45:48 -0400 (Mon, 20 Jun 2011) $"
 __svnId__ = "$Id: test_SimulationOptions.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
-import unittest
-import logging
 
 # Third party modules.
 
@@ -67,7 +65,7 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
 
             # Dist
             self.assertEquals(30107002, simulationOptions._optionsDist._version)
-            self.assertAlmostEquals(1.0, simulationOptions._optionsDist.DenrMax/OptionsDist.autoFlag)
+            self.assertAlmostEquals(1.0, simulationOptions._optionsDist.DenrMax / OptionsDist.autoFlag)
 
             self.assertAlmostEquals(1000.0, simulationOptions._optionsDist.DEposCyl_Z)
             self.assertEquals(0, simulationOptions._optionsDist.DEposCyl_Z_Log)
@@ -112,7 +110,7 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

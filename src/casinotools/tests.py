@@ -18,11 +18,12 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import DrixUtilities.Testings as Testings
 
 # Project modules
 
 # Globals and constants variables.
 
 if __name__ == "__main__": #pragma: no cover
-    Testings.runTestSuiteWithCoverage(packageName=__file__)
+    import logging, nose
+    logging.getLogger().setLevel(logging.DEBUG)
+    nose.main()

@@ -18,7 +18,7 @@ __svnId__ = "$Id: XrayRadialReader.py 2364 2011-05-30 11:15:15Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.XrayRadial as XrayRadial
+import casinotools.fileformat.casino2.XrayRadial as XrayRadial
 
 # Globals and constants variables.
 K = 'K'
