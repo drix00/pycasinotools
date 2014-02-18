@@ -21,7 +21,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.Tags as Tags
+import casinotools.fileformat.Tags as Tags
 import casinotools.fileformat.casino3.SimulationData as SimulationData
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 

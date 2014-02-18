@@ -21,7 +21,7 @@ from pkg_resources import resource_filename #@UnresolvedImport
 from nose.plugins.attrib import attr
 
 # Local modules.
-import casinotools.fileformat.casino3.Tags as Tags
+import casinotools.fileformat.Tags as Tags
 
 # Globals and constants variables.
 
@@ -31,7 +31,7 @@ class TestTags(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        filepath = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        filepath = resource_filename(__name__, "../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
         self.file = open(filepath, 'rb')
 
     def tearDown(self):
