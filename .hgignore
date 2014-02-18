@@ -2,3 +2,4 @@ syntax: glob
 old
 .coverage
 *.pyc
+src/casinotools/testData
