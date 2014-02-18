@@ -19,7 +19,7 @@ __svnId__ = "$Id$"
 
 # Local modules.
 import casinotools.fileformat.casino3.Sample as Sample
-import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
 
 # Globals and constants variables.

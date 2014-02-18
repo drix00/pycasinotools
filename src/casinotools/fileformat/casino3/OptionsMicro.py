@@ -18,7 +18,7 @@ __svnId__ = "$Id: OptionsMicro.py 2364 2011-05-30 11:15:15Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 
 # Globals and constants variables.
 # Filename to store the defaults settings

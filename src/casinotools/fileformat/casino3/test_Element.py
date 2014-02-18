@@ -19,7 +19,7 @@ __svnId__ = "$Id: test_Element.py 1755 2010-01-20 22:06:10Z hdemers $"
 
 # Local modules.
 import Element
-import casinotools.fileformat.casino3.test_FileReaderWriterTools as test_FileReaderWriterTools
+import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 
 # Globals and constants variables.
 

@@ -25,7 +25,7 @@ __svnId__ = "$Id$"
 # Local modules.
 
 # Project modules
-import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino3.Version as Version
 import casinotools.fileformat.casino3.Vector as Vector
 
