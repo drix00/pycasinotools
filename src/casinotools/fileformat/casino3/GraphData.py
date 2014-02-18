@@ -81,7 +81,7 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
             self._values.append(value)
 
             if self._isUneven:
-                position = self.readDouble(file)
+                position = self.readDouble(self._file)
                 self._positions.append(position)
 
         if not self._isUneven:
