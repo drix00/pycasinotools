@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2011-12-07 11:01:42 -0500 (Wed, 07 Dec 2011) $"
 __svnId__ = "$Id: test_ElementIntensity.py 2620 2011-12-07 16:01:42Z ppinard $"
 
 # Standard library modules.
-import unittest
-import logging
 from StringIO import StringIO
 
 # Third party modules.
@@ -47,7 +45,7 @@ class TestElementIntensity(test_File.TestFile):
         self.assertEquals("B", element.Name)
         self.assertAlmostEquals(3.444919288026E+02, element.IntensityK[0])
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

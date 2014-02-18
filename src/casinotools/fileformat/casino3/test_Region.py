@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2010-01-20 17:06:10 -0500 (Wed, 20 Jan 2010) $"
 __svnId__ = "$Id: test_Region.py 1755 2010-01-20 22:06:10Z hdemers $"
 
 # Standard library modules.
-import unittest
-import logging
 
 # Third party modules.
 
@@ -57,7 +55,7 @@ class TestRegion(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
         self.assertEquals("Si", region._chemicalName)
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

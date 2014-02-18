@@ -15,24 +15,21 @@ __svnId__ = "$Id: test_GenerateSimFile.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
+from pkg_resources import resource_filename #@UnresolvedImport
 
 # Local modules.
 import GenerateSimFile
-import DrixUtilities.Files as Files
-from DrixUtilities.Testings import ignore
 
 # Globals and constants variables.
 
-@ignore()
 class TestGenerateSimFile(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathStd = Files.getCurrentModulePath(__file__, "../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
+        self.filepathStd = resource_filename(__name__, "../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
         self.generate = GenerateSimFile.GenerateSimFile(self.filepathStd)
 
     def tearDown(self):
@@ -72,7 +69,7 @@ class TestGenerateSimFile(unittest.TestCase):
         symbolRef = 'B'
         self.generate._addElement(symbolRef, 0.7981)
         symbolRef = 'C'
-        self.generate._addElement(symbolRef, 1.0-0.7981)
+        self.generate._addElement(symbolRef, 1.0 - 0.7981)
 
         element = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0).getElement(0)
         self.assertEquals(5, element.Z)
@@ -82,7 +79,7 @@ class TestGenerateSimFile(unittest.TestCase):
         self.assertAlmostEquals(5.750000000000E-02, element.J)
         self.assertAlmostEquals(7.790367583747E-01, element.K)
         self.assertAlmostEquals(1.0, element.ef)
-        self.assertAlmostEquals(7.000000000000, element.kf*1.0e-7)
+        self.assertAlmostEquals(7.000000000000, element.kf * 1.0e-7)
         self.assertAlmostEquals(2.270000000000E+01, element.ep)
 
         composition = element.getComposition()
@@ -101,7 +98,7 @@ class TestGenerateSimFile(unittest.TestCase):
         self.assertAlmostEquals(6.900000000000E-02, element.J)
         self.assertAlmostEquals(7.843098263659E-01, element.K)
         self.assertAlmostEquals(1.0, element.ef)
-        self.assertAlmostEquals(7.000000000000, element.kf*1.0e-7)
+        self.assertAlmostEquals(7.000000000000, element.kf * 1.0e-7)
         self.assertAlmostEquals(1.500000000000E+01, element.ep)
 
         composition = element.getComposition()
@@ -125,7 +122,7 @@ class TestGenerateSimFile(unittest.TestCase):
         self.assertAlmostEquals(1.0, composition.FAt)
 
         symbols = ['B', 'C']
-        weightFractions = [0.7981, 1.0-0.7981]
+        weightFractions = [0.7981, 1.0 - 0.7981]
         self.generate.addElements(symbols, weightFractions)
 
         region = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0)
@@ -161,7 +158,7 @@ class TestGenerateSimFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

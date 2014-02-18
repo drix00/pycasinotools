@@ -14,8 +14,6 @@ __svnDate__ = "$Date$"
 __svnId__ = "$Id$"
 
 # Standard library modules.
-import unittest
-import logging
 
 # Third party modules.
 
@@ -79,7 +77,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

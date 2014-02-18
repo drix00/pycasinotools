@@ -15,7 +15,6 @@ __svnId__ = "$Id: test_MeanIonizationPotential.py 2378 2011-06-20 19:45:48Z hdem
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
 
@@ -49,7 +48,7 @@ class TestMeanIonizationPotential(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

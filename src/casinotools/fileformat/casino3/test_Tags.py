@@ -15,24 +15,23 @@ __svnId__ = "$Id: test_Tags.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
+from pkg_resources import resource_filename #@UnresolvedImport
+from nose.plugins.attrib import attr
 
 # Local modules.
 import casinotools.fileformat.casino3.Tags as Tags
-import DrixUtilities.Files as Files
-from DrixUtilities.Testings import ignore
 
 # Globals and constants variables.
 
-@ignore()
+@attr('ignore')
 class TestTags(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        filepath = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        filepath = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
         self.file = open(filepath, 'rb')
 
     def tearDown(self):
@@ -112,7 +111,7 @@ class TestTags(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

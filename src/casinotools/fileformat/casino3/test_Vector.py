@@ -15,12 +15,11 @@ __svnId__ = "$Id: test_Vector.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.casino3.Vector as Vector
+import casinotools.fileformat.casino3.Vector as Vector #@UnusedImport
 
 # Globals and constants variables.
 
@@ -36,7 +35,7 @@ class TestVector(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

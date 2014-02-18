@@ -14,8 +14,6 @@ __svnDate__ = "$Date: 2011-12-07 11:01:42 -0500 (Wed, 07 Dec 2011) $"
 __svnId__ = "$Id: test_SimulationData.py 2620 2011-12-07 16:01:42Z ppinard $"
 
 # Standard library modules.
-import unittest
-import logging
 from StringIO import StringIO
 
 # Third party modules.
@@ -97,6 +95,7 @@ class TestSimulationData(test_File.TestFile):
         self.assertAlmostEqual(1.57, intensities[14][LINE_K][GENERATED], 2)
         self.assertAlmostEqual(1.22, intensities[14][LINE_K][EMITTED], 2)
 
-if __name__ == '__main__':    #pragma: no cover
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
+    logging.getLogger().setLevel(logging.DEBUG)
+    nose.runmodule()

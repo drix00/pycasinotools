@@ -15,16 +15,15 @@ __svnId__ = "$Id: test_XrayRadialReader.py 2378 2011-06-20 19:45:48Z hdemers $"
 
 # Standard library modules.
 import unittest
-import logging
 import os.path
 
 # Third party modules.
+from pkg_resources import resource_filename #@UnresolvedImport
+from nose.tools import nottest
 
 # Local modules.
 import XrayRadialReader
-import DrixUtilities.Files as Files
-import casinotools.fileformat.XrayRadial as XrayRadial
-from DrixUtilities.Testings import ignore
+import casinotools.fileformat.casino2.XrayRadial as XrayRadial
 
 # Globals and constants variables.
 
@@ -33,7 +32,7 @@ class TestXrayRadialReader(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        basepath = Files.getCurrentModulePath(__file__, "../../testData/casino2.x/exportedData")
+        basepath = resource_filename(__name__, "../../testData/casino2.x/exportedData")
         self.filepath_Cu_K = os.path.join(basepath, "XrayRadial_Cu_K.txt")
         self.filepath_Cu_L = os.path.join(basepath, "XrayRadial_Cu_L.txt")
         self.filepath_Au_M = os.path.join(basepath, "XrayRadial_Au_M.txt")
@@ -46,7 +45,7 @@ class TestXrayRadialReader(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @ignore()
+    @nottest
     def test_readTextFile(self):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
@@ -75,7 +74,7 @@ class TestXrayRadialReader(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @nottest
     def test_getLine(self):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
@@ -94,7 +93,7 @@ class TestXrayRadialReader(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @nottest
     def test_getElementSymbol(self):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
@@ -154,7 +153,7 @@ class TestXrayRadialReader(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':    #pragma: no cover
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
     logging.getLogger().setLevel(logging.DEBUG)
-    from DrixUtilities.Testings import runTestModule
-    runTestModule()
+    nose.runmodule()

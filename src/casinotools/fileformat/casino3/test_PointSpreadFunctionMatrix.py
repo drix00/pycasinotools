@@ -20,13 +20,12 @@ __svnId__ = "$Id$"
 
 # Standard library modules.
 import unittest
-import logging
 
 # Third party modules.
+from pkg_resources import resource_filename #@UnresolvedImport
+from nose.plugins.attrib import attr
 
 # Local modules.
-import DrixUtilities.Files as Files
-from DrixUtilities.Testings import ignore
 
 # Project modules
 import PointSpreadFunctionMatrix
@@ -63,13 +62,13 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @ignore()
+    @attr('ignore')
     def test_SimNoPsfs(self):
         """
         Tests for method `SimNoPsfs`.
         """
 
-        filepath = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
+        filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
 
         casinoFile = File.File(filepath)
 
@@ -88,14 +87,14 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @attr('ignore')
     def test_SimPsfs(self):
         """
         Tests for method `SimNoPsfs`.
         """
         filenames = ["SiN_wPSFs_bG_T200nm.sim", "SiN_wPSFs_wConserveData_bG_T200nm.sim"]
         for filename in filenames:
-            filepath = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/PSFs/"+filename)
+            filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/" + filename)
 
             casinoFile = File.File(filepath)
 
@@ -114,13 +113,13 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @attr('ignore')
     def test_CasNoPsfs(self):
         """
         Tests for method `SimNoPsfs`.
         """
 
-        filepath = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
+        filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
 
         casinoFile = File.File(filepath)
 
@@ -142,14 +141,14 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @ignore()
+    @attr('ignore')
     def test_CasPsfs(self):
         """
         Tests for method `SimNoPsfs`.
         """
 
         filename = "SiN_wPSFs_bG_T200nm.cas"
-        filepath = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/PSFs/"+filename)
+        filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/" + filename)
 
         casinoFile = File.File(filepath)
 
@@ -171,7 +170,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         self.assertEqual(None, scanPointResults[0].getPointSpreadFunctionMatrix())
 
         filename = "SiN_wPSFs_wConserveData_bG_T200nm.cas"
-        filepath = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/PSFs/"+filename)
+        filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/" + filename)
 
         casinoFile = File.File(filepath)
 
@@ -194,7 +193,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__':  #pragma: no cover
-    logging.getLogger().setLevel(logging.INFO)
-    from DrixUtilities.Testings import runTestModuleWithCoverage
-    runTestModuleWithCoverage(__file__)
+if __name__ == '__main__': #pragma: no cover
+    import logging, nose
+    logging.getLogger().setLevel(logging.DEBUG)
+    nose.runmodule()
