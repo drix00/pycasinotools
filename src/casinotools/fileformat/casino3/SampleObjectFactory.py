@@ -22,7 +22,9 @@ import logging
 import casinotools.fileformat.casino3.SampleSubtrate as SampleSubtrate
 import casinotools.fileformat.casino3.SampleShape.SphereShape as SphereShape
 from casinotools.fileformat.casino3.SampleObject import SampleObject
-from casinotools.fileformat.casino3.SampleShape.ShapeType import *
+from casinotools.fileformat.casino3.SampleShape.ShapeType import \
+    (SHAPE_PLANE, SHAPE_BOX, SHAPE_SPHERE, SHAPE_CONE, SHAPE_CYLINDRE,
+     SHAPE_ROUNDREC, SHAPE_TRUNC_PYRAMID, SHAPE_MESHOBJECT, SHAPE_SUBSTRATE)
 
 # Globals and constants variables.
 

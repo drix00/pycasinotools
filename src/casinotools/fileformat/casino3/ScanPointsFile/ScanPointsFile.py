@@ -16,7 +16,6 @@ __svnId__ = "$Id$"
 # Standard library modules.
 import math
 import os
-import logging
 
 # Third party modules.
 import numpy as np

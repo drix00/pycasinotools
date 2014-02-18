@@ -32,7 +32,7 @@ TAG_STATUS = "*STATUS%%%%%%%%"
 TAG_SAVE_SETUP = "*SAVESETUP%%%%%"
 
 from casinotools.fileformat.casino2.Element import \
-    LINE_K, LINE_L, LINE_M, GENERATED, EMITTED
+    LINE_K, LINE_L, LINE_M, GENERATED, EMITTED #@UnusedImport
 
 class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
     def __init__(self, isSkipReadingData=False):

@@ -26,7 +26,6 @@ import os
 
 # Local modules.
 import casinotools.fileformat.casino3.FileReaderWriterTools as FileReaderWriterTools
-import casinotools.fileformat.casino3.OptionsDist as OptionsDist
 
 # Project modules
 
