@@ -3,3 +3,6 @@ old
 .coverage
 *.pyc
 src/casinotools/testData
+src/*.egg-info
+build
+dist
