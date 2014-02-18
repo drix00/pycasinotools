@@ -11,7 +11,6 @@ __license__ = "GPL v3"
 import os
 import zipfile
 from distutils.cmd import Command
-from distutils.command import clean, bdist, bdist_dumb
 
 # Third party modules.
 from setuptools import setup, find_packages
@@ -57,7 +56,7 @@ setup(name="pyCasinoTools",
       classifiers=['Development Status :: 4 - Beta',
                    'Intended Audience :: Developers',
                    'Intended Audience :: Science/Research',
-                   'License :: OSI Approved :: GNU General Public License (GPL)',
+                   'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
                    'Natural Language :: English',
                    'Programming Language :: Python',
                    'Operating System :: OS Independent',
