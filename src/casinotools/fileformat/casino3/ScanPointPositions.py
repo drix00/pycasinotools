@@ -57,7 +57,7 @@ class ScanPointPositions(FileReaderWriterTools.FileReaderWriterTools):
         if currentPosition > 16:
             file.seek(-16, os.SEEK_CUR)
 
-        tagID = "*SIM_OPT_END%"
+        tagID = b"*SIM_OPT_END%"
         if self.findTag(file, tagID):
             self.reset()
 
@@ -67,7 +67,7 @@ class ScanPointPositions(FileReaderWriterTools.FileReaderWriterTools):
             logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
             numberPoints = self.readInt(file)
 
-            for dummy in xrange(numberPoints):
+            for dummy in range(numberPoints):
                 x = self.readDouble(file)
                 y = self.readDouble(file)
                 z = self.readDouble(file)

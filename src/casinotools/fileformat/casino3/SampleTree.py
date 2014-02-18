@@ -20,7 +20,7 @@ import logging
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
-import Triangle
+import casinotools.fileformat.casino3.Triangle as Triangle
 
 # Globals and constants variables.
 
@@ -43,7 +43,7 @@ class SampleTree(FileReaderWriterTools.FileReaderWriterTools):
 
         self._numberTriangles = self.readInt(file)
         self._triangles = []
-        for dummy in xrange(self._numberTriangles):
+        for dummy in range(self._numberTriangles):
             triangle = Triangle.Triangle()
             triangle.read(file)
             self._triangles.append(triangle)

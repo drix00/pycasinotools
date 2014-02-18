@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import SphereShape #@UnusedImport
+import casinotools.fileformat.casino3.SampleShape.SphereShape #@UnusedImport
 
 # Globals and constants variables.
 

@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import XrayRadial #@UnusedImport
+import casinotools.fileformat.casino2.XrayRadial #@UnusedImport
 
 # Globals and constants variables.
 

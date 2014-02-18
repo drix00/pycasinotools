@@ -18,7 +18,7 @@ __svnId__ = "$Id: test_Element.py 1755 2010-01-20 22:06:10Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import Element
+import casinotools.fileformat.casino3.Element as Element
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 
 # Globals and constants variables.
@@ -49,7 +49,7 @@ class TestElement(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertAlmostEquals(7.000000000000E+07, element.kf)
         self.assertAlmostEquals(15.0, element.ep)
 
-        for index in xrange(3):
+        for index in range(3):
             self.assertAlmostEquals(0.0, element.Int_PRZ[index])
             self.assertAlmostEquals(0.0, element.Int_PRZ_ABS[index])
 

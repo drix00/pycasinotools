@@ -22,7 +22,7 @@ from pkg_resources import resource_filename #@UnresolvedImport
 from nose.plugins.attrib import attr
 
 # Local modules.
-import IntensityImage
+import casinotools.fileformat.casino3.IntensityImage as IntensityImage
 
 # Globals and constants variables.
 

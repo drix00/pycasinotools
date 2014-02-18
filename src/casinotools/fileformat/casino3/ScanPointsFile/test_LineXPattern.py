@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import LineXPattern
+import casinotools.fileformat.casino3.ScanPointsFile.LineXPattern as LineXPattern
 
 # Globals and constants variables.
 

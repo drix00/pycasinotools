@@ -47,7 +47,7 @@ class OptionsADF(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert file.mode == 'rb'
 
-        tagID = "*ADF_SET_BEG"
+        tagID = b"*ADF_SET_BEG"
         self.findTag(file, tagID)
 
         self._version = self.readInt(file)
@@ -60,7 +60,7 @@ class OptionsADF(FileReaderWriterTools.FileReaderWriterTools):
         self.MinAngle = self.readDouble(file)
         self.MaxPoints = self.readInt(file)
 
-        tagID = "*ADF_SET_END"
+        tagID = b"*ADF_SET_END"
         self.findTag(file, tagID)
 
     def reset(self):

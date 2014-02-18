@@ -47,7 +47,7 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
         positionsRef.append((100.0, 0.0, 0.0))
 
         for point, pointRef in zip(reader.getPositions(), positionsRef):
-            for i in xrange(3):
+            for i in range(3):
                 self.assertAlmostEquals(pointRef[i], point[i])
 
         #self.fail("Test if the testcase is working.")

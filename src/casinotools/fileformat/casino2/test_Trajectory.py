@@ -14,12 +14,15 @@ __svnDate__ = "$Date: 2011-12-07 11:01:42 -0500 (Wed, 07 Dec 2011) $"
 __svnId__ = "$Id: test_Trajectory.py 2620 2011-12-07 16:01:42Z ppinard $"
 
 # Standard library modules.
-from StringIO import StringIO
+try:
+    from io import BytesIO
+except ImportError: # Python 2
+    from StringIO import StringIO as BytesIO
 
 # Third party modules.
 
 # Local modules.
-import Trajectory
+import casinotools.fileformat.casino2.Trajectory as Trajectory
 import casinotools.fileformat.casino2.test_File as test_File
 
 # Globals and constants variables.
@@ -32,7 +35,7 @@ class TestTrajectory(test_File.TestFile):
 
     def test_read_StringIO(self):
         f = open(self.filepathCas, 'rb')
-        file = StringIO(f.read())
+        file = BytesIO(f.read())
         file.mode = 'rb'
         f.close()
         self._read_tests(file)

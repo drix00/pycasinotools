@@ -45,7 +45,7 @@ class SampleObject(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        tagID = "%SMPLOBJ"
+        tagID = b"%SMPLOBJ"
         if self.findTag(file, tagID):
             self._version = self.readInt(file)
 

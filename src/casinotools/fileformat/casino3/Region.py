@@ -29,7 +29,7 @@ EPSILON = 1.0e-4
 
 NB_PAR_MAX = 4
 
-TAG_REGIONS_DATA = "*regionSDATA%%%"
+TAG_REGIONS_DATA = b"*regionSDATA%%%"
 
 
 class Region(FileReaderWriterTools.FileReaderWriterTools):
@@ -77,7 +77,7 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self._numberSampleObjects = self.readInt(file)
 
         self._sampleObjectIDs = {}
-        for dummy in xrange(self._numberSampleObjects):
+        for dummy in range(self._numberSampleObjects):
             id = self.readInt(file)
             insideOrOutside = self.readInt(file)
 
@@ -89,7 +89,7 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self._triangleColor_Z = self.readDouble(file)
 
         self._elements = []
-        for dummy in xrange(self._numberElements):
+        for dummy in range(self._numberElements):
             element = Element.Element()
             element.read(file)
             self._elements.append(element)

@@ -29,7 +29,7 @@ EPSILON = 1.0e-4
 
 NB_PAR_MAX = 4
 
-TAG_REGIONS_DATA = "*REGIONSDATA%%%"
+TAG_REGIONS_DATA = b"*REGIONSDATA%%%"
 
 
 class Region(FileReaderWriterTools.FileReaderWriterTools):
@@ -50,7 +50,7 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self.Zmoy = self.readDouble(file)
 
         self.Parametre = []
-        for dummy in xrange(NB_PAR_MAX):
+        for dummy in range(NB_PAR_MAX):
             value = self.readDouble(file)
             self.Parametre.append(value)
 
@@ -64,7 +64,7 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self.Name = self.readStr(file)
 
         self._elements = []
-        for dummy in xrange(self.NbEl):
+        for dummy in range(self.NbEl):
             element = Element.Element()
             element.read(file, self._numberXRayLayers)
             self._elements.append(element)
@@ -82,7 +82,7 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self.writeDouble(file, self.Zmoy)
 
         assert len(self.Parametre) == NB_PAR_MAX
-        for index in xrange(NB_PAR_MAX):
+        for index in range(NB_PAR_MAX):
             value = self.Parametre[index]
             self.writeDouble(file, value)
 
@@ -96,7 +96,7 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self.writeStr(file, self.Name)
 
         assert len(self._elements) == self.NbEl
-        for index in xrange(self.NbEl):
+        for index in range(self.NbEl):
             element = self._elements[index]
             element.write(file, self._numberXRayLayers)
 

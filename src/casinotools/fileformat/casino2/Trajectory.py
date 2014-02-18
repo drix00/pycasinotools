@@ -20,7 +20,7 @@ import os
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
-import ScatteringEvent
+import casinotools.fileformat.casino2.ScatteringEvent as ScatteringEvent
 
 # Globals and constants variables.
 
@@ -49,7 +49,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
 
         self._scatteringEvents = []
         if not self._isSkipReadingData:
-            for dummy in xrange(self.NbElec):
+            for dummy in range(self.NbElec):
                 event = ScatteringEvent.ScatteringEvent()
                 event.read(file)
                 self._scatteringEvents.append(event)

@@ -217,7 +217,7 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert file.mode == 'rb'
 
-        tagID = "*MICRO_SET_BEG"
+        tagID = b"*MICRO_SET_BEG"
         self.findTag(file, tagID)
 
         self._version = self.readInt(file)
@@ -248,7 +248,7 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
         self.scanPtDist = self.readFloat(file)
         self.keep_simulation_data = self.readInt(file)
 
-        tagID = "*MICRO_SET_END"
+        tagID = b"*MICRO_SET_END"
         self.findTag(file, tagID)
 
     def reset(self):

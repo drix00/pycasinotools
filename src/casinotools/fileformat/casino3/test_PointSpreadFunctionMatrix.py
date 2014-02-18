@@ -28,7 +28,7 @@ from nose.plugins.attrib import attr
 # Local modules.
 
 # Project modules
-import PointSpreadFunctionMatrix
+import casinotools.fileformat.casino3.PointSpreadFunctionMatrix as PointSpreadFunctionMatrix
 import casinotools.fileformat.casino3.File as File
 import casinotools.fileformat.casino3.Version as Version
 

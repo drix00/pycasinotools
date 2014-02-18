@@ -41,7 +41,7 @@ class OptionsAdvancedPsfsSettings(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, inputFile):
         assert inputFile.mode == 'rb'
 
-        tagID = "*PSF_SET_BEG"
+        tagID = b"*PSF_SET_BEG"
         self.findTag(inputFile, tagID)
 
         self._version = self.readInt(inputFile)
@@ -67,7 +67,7 @@ class OptionsAdvancedPsfsSettings(FileReaderWriterTools.FileReaderWriterTools):
         self._psfCenter_nm.y = self.readDouble(inputFile)
         self._psfCenter_nm.z = self.readDouble(inputFile)
 
-        tagID = "*PSF_SET_END"
+        tagID = b"*PSF_SET_END"
         self.findTag(inputFile, tagID)
 
     def reset(self):

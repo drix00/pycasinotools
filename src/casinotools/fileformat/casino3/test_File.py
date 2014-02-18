@@ -49,7 +49,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         extension = casinoFile._readExtension(file)
         self.assertEquals(File.SIMULATION_CONFIGURATIONS, extension)
 
-        file = open(self.filepathCas, 'r')
+        file = open(self.filepathCas, 'rb')
         extension = casinoFile._readExtension(file)
         self.assertEquals(File.SIMULATION_RESULTS, extension)
 

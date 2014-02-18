@@ -58,7 +58,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         if self._optionSimulationData._saveTrajectories:
             self._numberSimulations = self.readInt(file)
 
-            for dummy in xrange(self._numberSimulations):
+            for dummy in range(self._numberSimulations):
                 simulationData = SimulationData.SimulationData(isSkipReadingData)
                 simulationData.read(file)
                 self._resultSimulationDataList.append(simulationData)
@@ -78,7 +78,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
                 self._optionSimulationData.write(file)
                 file.close()
         else:
-            raise AttributeError, "No option simulation data specified."
+            raise AttributeError("No option simulation data specified.")
 
     def _isSimulationFilepath(self, filepath):
         extension = os.path.splitext(filepath)[1]
@@ -111,10 +111,14 @@ def runProfile():
     cProfile.run('_run()', 'Casino2.x_File.prof')
 
 def runProfile2():
-    import hotshot
+    try:
+        import hotshot
+    except ImportError: # hotshot not supported in Python 3
+        return
+
     prof = hotshot.Profile("Casino2.x_File.prof", lineevents=1)
     prof.runcall(_run)
     prof.close()
 
 if __name__ == '__main__': #pragma: no cover
-    runProfile2()
+    runProfile()

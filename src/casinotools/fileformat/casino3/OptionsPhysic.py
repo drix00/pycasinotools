@@ -248,7 +248,7 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert file.mode == 'rb'
 
-        tagID = "*PHYS_MOD_BEG"
+        tagID = b"*PHYS_MOD_BEG"
         self.findTag(file, tagID)
 
         self._version = self.readInt(file)
@@ -268,7 +268,7 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
         self.Min_Energy_With_Sec = self.readDouble(file)
         self.Min_Gen_Secondary_Energy = self.readDouble(file)
 
-        tagID = "*PHYS_MOD_END"
+        tagID = b"*PHYS_MOD_END"
         self.findTag(file, tagID)
 
     def reset(self):

@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import ShapeType #@UnusedImport
+import casinotools.fileformat.casino3.SampleShape.ShapeType #@UnusedImport
 
 # Globals and constants variables.
 

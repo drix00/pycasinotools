@@ -32,13 +32,13 @@ class TrajectoriesData(FileReaderWriterTools.FileReaderWriterTools):
         assert file.mode == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = "*TRAJDATA%%%%%%"
+        tagID = b"*TRAJDATA%%%%%%"
         self.findTag(file, tagID)
 
         self._numberTrajectories = self.readLong(file)
 
         self._trajectories = []
-        for dummy in xrange(self._numberTrajectories):
+        for dummy in range(self._numberTrajectories):
             trajectory = Trajectory.Trajectory(self._isSkipReadingData)
             trajectory.read(file)
             self._trajectories.append(trajectory)

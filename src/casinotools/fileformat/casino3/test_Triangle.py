@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import Triangle #@UnusedImport
+import casinotools.fileformat.casino3.Triangle #@UnusedImport
 
 # Globals and constants variables.
 

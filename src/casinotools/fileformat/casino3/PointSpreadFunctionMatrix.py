@@ -88,9 +88,9 @@ class PointSpreadFunctionMatrix(FileReaderWriterTools.FileReaderWriterTools):
                 self._readValues()
                 index = 0
                 self._data = {}
-                for x in xrange(self._nbPtsX):
-                    for y in xrange(self._nbPtsY):
-                        for z in xrange(self._nbPtsZ):
+                for x in range(self._nbPtsX):
+                    for y in range(self._nbPtsY):
+                        for z in range(self._nbPtsZ):
                             self._data[(x, y, z)] = self._values[index]
                             index += 1
                 del self._values

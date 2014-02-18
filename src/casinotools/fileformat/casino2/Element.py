@@ -21,7 +21,7 @@ import math
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
-import Composition
+import casinotools.fileformat.casino2.Composition as Composition
 
 # Globals and constants variables.
 LINE_K = 'K'
@@ -31,7 +31,7 @@ LINE_M = 'MV'
 GENERATED = "Generated"
 EMITTED = "Emitted"
 
-TAG_ELEMENT_DATA = "*ELEMENTDATA%%%"
+TAG_ELEMENT_DATA = b"*ELEMENTDATA%%%"
 
 class Element(FileReaderWriterTools.FileReaderWriterTools):
     def __init__(self, numberXRayLayers=500):
@@ -47,7 +47,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         self.Int_PRZ = []
         self.Int_PRZ_ABS = []
-        for dummy in xrange(3):
+        for dummy in range(3):
             self.Int_PRZ.append(0.0)
             self.Int_PRZ_ABS.append(0.0)
 
@@ -67,7 +67,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         self.COUCHE_RADIAL_LIII_ABS = []
         self.COUCHE_RADIAL_MV_ABS = []
 
-        for dummy in xrange(numberXRayLayers):
+        for dummy in range(numberXRayLayers):
             self.COUCHE_K.append(0.0)
             self.COUCHE_LIII.append(0.0)
             self.COUCHE_MV.append(0.0)
@@ -106,12 +106,12 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         # This is the intensities as displayed in the casino program.
         self.Int_PRZ = []
-        for dummy in xrange(3):
+        for dummy in range(3):
             value = self.readFloat(file)
             self.Int_PRZ.append(value)
 
         self.Int_PRZ_ABS = []
-        for dummy in xrange(3):
+        for dummy in range(3):
             value = self.readFloat(file)
             self.Int_PRZ_ABS.append(value)
 
@@ -153,12 +153,12 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         # This is the intensities as displayed in the casino program.
         assert len(self.Int_PRZ) == 3
-        for index in xrange(3):
+        for index in range(3):
             value = self.Int_PRZ[index]
             self.writeFloat(file, value)
 
         assert len(self.Int_PRZ_ABS) == 3
-        for index in xrange(3):
+        for index in range(3):
             value = self.Int_PRZ_ABS[index]
             self.writeFloat(file, value)
 
@@ -361,7 +361,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         return self.A
 
 def _computeJ(atomicNumber):
-    import MeanIonizationPotential
+    import casinotools.fileformat.casino2.MeanIonizationPotential as MeanIonizationPotential
     meanIonizationPotential = MeanIonizationPotential.MeanIonizationPotential(MeanIonizationPotential.MODEL_JOY)
     return meanIonizationPotential.computeJ(atomicNumber)
 

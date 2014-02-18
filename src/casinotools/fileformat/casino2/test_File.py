@@ -16,7 +16,10 @@ __svnId__ = "$Id: test_File.py 2620 2011-12-07 16:01:42Z ppinard $"
 # Standard library modules.
 import unittest
 import os
-from StringIO import StringIO
+try:
+    from io import BytesIO
+except ImportError: # Python 2
+    from StringIO import StringIO as BytesIO
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
@@ -24,7 +27,7 @@ from nose.plugins.attrib import attr
 
 # Local modules.
 import casinotools.fileformat.casino2.File as File
-import Version
+import casinotools.fileformat.casino2.Version as Version
 from casinotools.fileformat.casino2.Element import LINE_K, GENERATED, EMITTED
 
 # Globals and constants variables.
@@ -75,7 +78,7 @@ class TestFile(unittest.TestCase):
     def test_read_StringIO(self):
         # sim
         f = open(self.filepathSim, 'rb')
-        buf = StringIO(f.read())
+        buf = BytesIO(f.read())
         buf.mode = 'rb'
         f.close()
 
@@ -85,7 +88,7 @@ class TestFile(unittest.TestCase):
 
         # cas
         f = open(self.filepathCas, 'rb')
-        buf = StringIO(f.read())
+        buf = BytesIO(f.read())
         buf.mode = 'rb'
         f.close()
 
@@ -110,8 +113,8 @@ class TestFile(unittest.TestCase):
         file.setOptionSimulationData(optionSimulationData)
         file.write(self.filepathWrite)
 
-        dataRef = open(self.filepathStd).read()
-        data = open(self.filepathWrite).read()
+        dataRef = open(self.filepathStd, 'rb').read()
+        data = open(self.filepathWrite, 'rb').read()
         index = 0
         for charRef, char in zip(dataRef, data):
             self.assertEquals(charRef, char, index)

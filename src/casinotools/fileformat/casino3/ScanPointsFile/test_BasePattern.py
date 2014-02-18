@@ -19,7 +19,7 @@ import unittest
 # Third party modules.
 
 # Local modules.
-import BasePattern #@UnusedImport
+import casinotools.fileformat.casino3.ScanPointsFile.BasePattern #@UnusedImport
 
 # Globals and constants variables.
 

@@ -19,7 +19,7 @@ __svnId__ = "$Id$"
 import numpy as np
 
 # Local modules.
-import BasePattern
+import casinotools.fileformat.casino3.ScanPointsFile.BasePattern as BasePattern
 
 # Globals and constants variables.
 

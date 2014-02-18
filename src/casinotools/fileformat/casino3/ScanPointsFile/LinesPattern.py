@@ -19,8 +19,8 @@ import logging
 # Third party modules.
 
 # Local modules.
-import BasePattern
-import RectanglePattern
+import casinotools.fileformat.casino3.ScanPointsFile.BasePattern as BasePattern
+import casinotools.fileformat.casino3.ScanPointsFile.RectanglePattern as RectanglePattern
 
 # Globals and constants variables.
 

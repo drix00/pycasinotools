@@ -23,7 +23,7 @@ import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino3.Region as Region
 
 # Globals and constants variables.
-TAG_REGION_DATA = "*REGIONDATA%%%%"
+TAG_REGION_DATA = b"*REGIONDATA%%%%"
 
 class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
     def __init__(self):
@@ -38,7 +38,7 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
 
         self._numberRegions = self.readInt(file)
 
-        for dummy in xrange(self._numberRegions):
+        for dummy in range(self._numberRegions):
             region = Region.Region()
             region.read(file)
             self._regions.append(region)
@@ -53,7 +53,7 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
         self.writeInt(file, self._numberRegions)
 
         assert len(self._regions) == self._numberRegions
-        for index in xrange(self._numberRegions):
+        for index in range(self._numberRegions):
             region = self._regions[index]
             region.write(file)
 

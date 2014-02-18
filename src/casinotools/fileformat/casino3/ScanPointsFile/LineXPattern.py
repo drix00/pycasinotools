@@ -18,7 +18,7 @@ __svnId__ = "$Id$"
 # Third party modules.
 
 # Local modules.
-import BasePattern
+import casinotools.fileformat.casino3.ScanPointsFile.BasePattern as BasePattern
 
 # Globals and constants variables.
 

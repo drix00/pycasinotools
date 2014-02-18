@@ -42,7 +42,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
         self._numberSimulations = self.readInt(file)
 
-        for dummy in xrange(self._numberSimulations):
+        for dummy in range(self._numberSimulations):
             self._readRuntimeState(file)
 
             self._readSimulationResults(file, options)
@@ -52,7 +52,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
         return None
 
     def _readRuntimeState(self, file):
-        tagID = "*RUNTIMESTATE%%"
+        tagID = b"*RUNTIMESTATE%%"
         if self.findTag(file, tagID):
             self._version = self.readInt(file)
 
@@ -60,14 +60,14 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                 self._readSimulationState(file)
 
     def _readSimulationState(self, file):
-        tagID = "*SIMSTATE%%%%%%"
+        tagID = b"*SIMSTATE%%%%%%"
         if self.findTag(file, tagID):
             self._initialEnergy_keV = self.readDouble(file)
             self._rkoMax = self.readDouble(file)
 
     def _readSimulationResults(self, file, options):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_readSimulationResults", file.tell())
-        tagID = "*SIMRESULTS%%%%"
+        tagID = b"*SIMRESULTS%%%%"
         if self.findTag(file, tagID):
             self._versionSimulationResults = self.readInt(file)
 
@@ -82,7 +82,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                 self._DDiffusedEnergy_Density.read(file)
 
         logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_readSimulationResults", file.tell())
-        tagID = "*SIMRESULTSEND"
+        tagID = b"*SIMRESULTSEND"
         if not self.findTag(file, tagID):
             raise IOError
 
@@ -90,7 +90,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
         self._numberScanPoints = self.readInt(file)
 
         self._scanPoints = []
-        for dummy in xrange(self._numberScanPoints):
+        for dummy in range(self._numberScanPoints):
             scanPoint = ScanPointResults.ScanPointResults()
             scanPoint.read(file, options)
             self._scanPoints.append(scanPoint)

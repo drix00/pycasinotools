@@ -43,17 +43,17 @@ class TestTags(unittest.TestCase):
 
     def test_createTagWithFiller(self):
         tagIDs = []
-        tagIDs.append("V3.1.3.4")
-        tagIDs.append("V3.1.3.7")
-        tagIDs.append("%SAVE_HEADER%")
+        tagIDs.append(b"V3.1.3.4")
+        tagIDs.append(b"V3.1.3.7")
+        tagIDs.append(b"%SAVE_HEADER%")
 
         tagLenght = 15
-        filler = '%'
+        filler = b'%'
 
         tagRefs = []
-        tagRefs.append("V3.1.3.4%%%%%%%")
-        tagRefs.append("V3.1.3.7%%%%%%%")
-        tagRefs.append("%SAVE_HEADER%%%")
+        tagRefs.append(b"V3.1.3.4%%%%%%%")
+        tagRefs.append(b"V3.1.3.7%%%%%%%")
+        tagRefs.append(b"%SAVE_HEADER%%%")
 
         for tagID, tagRef in zip(tagIDs, tagRefs):
             tag = Tags.createTagWithFiller(tagID, tagLenght, filler)
@@ -62,9 +62,9 @@ class TestTags(unittest.TestCase):
 
         tagLenght = 10
         tagRefs = []
-        tagRefs.append("V3.1.3.4%%")
-        tagRefs.append("V3.1.3.7%%")
-        tagRefs.append("%SAVE_HEADER%")
+        tagRefs.append(b"V3.1.3.4%%")
+        tagRefs.append(b"V3.1.3.7%%")
+        tagRefs.append(b"%SAVE_HEADER%")
 
         for tagID, tagRef in zip(tagIDs, tagRefs):
             tag = Tags.createTagWithFiller(tagID, tagLenght, filler)
@@ -77,9 +77,9 @@ class TestTags(unittest.TestCase):
         searchLength = 1024
 
         tagIDs = []
-        tagIDs.append("V3.1.3.4")
-        tagIDs.append("V3.1.3.7")
-        tagIDs.append("%SAVE_HEADER%")
+        tagIDs.append(b"V3.1.3.4")
+        tagIDs.append(b"V3.1.3.7")
+        tagIDs.append(b"%SAVE_HEADER%")
 
         isTagFounds = []
         isTagFounds.append(False)
@@ -95,9 +95,9 @@ class TestTags(unittest.TestCase):
 
     def test_searchTag(self):
         tagIDs = []
-        tagIDs.append("V3.1.3.4")
-        tagIDs.append("V3.1.3.7")
-        tagIDs.append("%SAVE_HEADER%")
+        tagIDs.append(b"V3.1.3.4")
+        tagIDs.append(b"V3.1.3.7")
+        tagIDs.append(b"%SAVE_HEADER%")
 
         isTagFounds = []
         isTagFounds.append(False)
