@@ -38,7 +38,7 @@ class TestDataCommand(Command):
         basepath = os.path.dirname(__file__)
         testdatapath = os.path.join(basepath, 'src', 'casinotools', 'testData')
 
-        zipfilename = self.distribution.get_fullname() + '.zip'
+        zipfilename = self.distribution.get_fullname() + '-testData.zip'
         zipfilepath = os.path.join(self.dist_dir, zipfilename)
         with zipfile.ZipFile(zipfilepath, 'w') as z:
             for root, dirs, files in os.walk(testdatapath):
