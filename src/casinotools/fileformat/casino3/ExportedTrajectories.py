@@ -63,7 +63,6 @@ class ExportedTrajectories(object):
         for line in lines:
             if line.startswith(KEYWORD_TRAJECTORY):
                 items = line.split()
-                trajectoryNumber = int(items[1])
                 if numberCollisions is not None:
                     trajectories.append(collisions)
             elif line.startswith(KEYWORD_SCAN_POINT_X):
