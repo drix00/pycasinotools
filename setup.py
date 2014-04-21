@@ -71,8 +71,8 @@ setup(name="pyCasinoTools",
       install_requires=['Pillow', # Fork of PIL (Python 3 compatible),
                         'numpy',
                         'scipy'],
+      setup_requires=['nose', 'coverage'],
 
-      tests_require=['nose'],
       test_suite='nose.collector',
 
       cmdclass={'zip_testdata': TestDataCommand},
