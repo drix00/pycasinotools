@@ -1,6 +1,8 @@
 syntax: glob
 old
 .coverage
+*/nosetests.xml
+*/coverage.xml
 *.pyc
 src/casinotools/testData
 src/*.egg-info
