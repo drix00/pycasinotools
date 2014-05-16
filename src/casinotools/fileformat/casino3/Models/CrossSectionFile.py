@@ -19,7 +19,7 @@ import logging
 import math
 
 # Third party modules.
-import scipy.integrate as integrate
+import numpy as np
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
@@ -59,11 +59,11 @@ def generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totals_nm2,
             partialSinThetas_nm2_sr.append(partial_nm2_sr * math.sin(angle_rad) * 2.0 * math.pi)
 
         ratioList = []
-        computedTotal_nm2 = integrate.trapz(partialSinThetas_nm2_sr, polarAngleGrid_rad)
+        computedTotal_nm2 = np.trapz(partialSinThetas_nm2_sr, polarAngleGrid_rad)
         for index in range(1, len(partialSinThetas_nm2_sr) + 1):
             x = polarAngleGrid_rad[:index]
             y = partialSinThetas_nm2_sr[:index]
-            ratio = integrate.trapz(y, x) / computedTotal_nm2
+            ratio = np.trapz(y, x) / computedTotal_nm2
             ratioList.append(ratio)
 
         for ratio, angle_rad in zip(ratioList, polarAngleGrid_rad):
