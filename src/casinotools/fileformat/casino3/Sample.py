@@ -45,7 +45,7 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
         self._startPosition = file.tell()
         self._filePathname = file.name
         self._fileDescriptor = file.fileno()
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = b"*CASINOSAMPLE%%"
@@ -58,7 +58,7 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
                 raise "version_not_supported"
 
     def _read_3131(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_3131", file.tell())
 
         tagID = b"*SUBSTRATE%%%%%"

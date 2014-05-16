@@ -60,7 +60,7 @@ class PointSpreadFunctionMatrix(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = 0
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         self._startPosition = file.tell()
         self._filePathname = file.name
         self._fileDescriptor = file.fileno()

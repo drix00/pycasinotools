@@ -79,7 +79,7 @@ class CylindreShape(SampleObject):
         self._divTheta = 12.0
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
         self._startPosition = file.tell()
         self._filePathname = file.name
@@ -116,7 +116,7 @@ class TruncatedPyramidShape(SampleObject):
         self._z = 10
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
         self._startPosition = file.tell()
         self._filePathname = file.name

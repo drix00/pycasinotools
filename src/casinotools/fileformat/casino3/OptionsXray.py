@@ -42,7 +42,7 @@ class OptionsXray(FileReaderWriterTools.FileReaderWriterTools):
         self.reset()
 
     def write(self, file):
-        assert file.mode == 'wb'
+        assert getattr(file, 'mode', 'wb') == 'wb'
 
         pass
 #    Tags::AddTag(file,"*XRAY_OPT_BEG", 15)
@@ -54,7 +54,7 @@ class OptionsXray(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file, "*XRAY_OPT_END", 15)
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         tagID = b"*XRAY_OPT_BEG"
         self.findTag(file, tagID)

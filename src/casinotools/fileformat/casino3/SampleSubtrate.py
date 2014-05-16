@@ -34,7 +34,7 @@ class SampleSubtrate(SampleObject.SampleObject):
         super(SampleSubtrate, self).__init__(type)
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
         self._startPosition = file.tell()
         self._filePathname = file.name

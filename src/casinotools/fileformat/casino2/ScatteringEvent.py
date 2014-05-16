@@ -29,7 +29,7 @@ class ScatteringEvent(FileReaderWriterTools.FileReaderWriterTools):
         return struct.calcsize(format)
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         self.X = self.readFloat(file)
         self.Y = self.readFloat(file)

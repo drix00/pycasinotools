@@ -24,7 +24,7 @@ import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 
 class RegionIntensityInfo(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         self._version = self.readInt(file)
         self._energyIntensity = self.readDouble(file)

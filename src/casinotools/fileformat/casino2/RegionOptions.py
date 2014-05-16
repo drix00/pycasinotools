@@ -31,7 +31,7 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
         self._regions = []
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = TAG_REGION_DATA
@@ -45,7 +45,7 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
             self._regions.append(region)
 
     def write(self, file):
-        assert file.mode == 'wb'
+        assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tagID = TAG_REGION_DATA

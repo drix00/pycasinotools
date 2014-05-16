@@ -45,7 +45,7 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
         self._values.append(value)
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         self._version = self.readLong(file)
         if self._version >= 2040601:
             self._size = self.readLong(file)

@@ -34,7 +34,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
         self.DZMaxRetro = None
 
     def read(self, file, options, version):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = b"*DISTDATA%%%%%%"

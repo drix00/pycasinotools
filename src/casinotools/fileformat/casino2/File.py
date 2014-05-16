@@ -44,7 +44,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         self.readFromFileObject(file, isSkipReadingData)
 
     def readFromFileObject(self, file, isSkipReadingData=False):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         file.seek(0)
         # Read the first part of the file corresponding to the option of the simulation.
@@ -73,7 +73,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
                 logging.info("Create CASINO file: %s", self._filepath)
 
                 file = open(self._filepath, 'wb')
-                assert file.mode == 'wb'
+                assert getattr(file, 'mode', 'wb') == 'wb'
                 file.seek(0)
                 self._optionSimulationData.write(file)
                 file.close()

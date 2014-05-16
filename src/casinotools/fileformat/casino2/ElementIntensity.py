@@ -24,7 +24,7 @@ import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 
 class ElementIntensity(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         self.Name = self.readStrLength(file, 3)
 
         self.Size = self.readLong(file)

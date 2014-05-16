@@ -178,7 +178,7 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
         self.reset()
 
     def write(self, file):
-        assert file.mode == 'wb'
+        assert getattr(file, 'mode', 'wb') == 'wb'
 
         pass
 #    Tags::AddTag(file, "*MICRO_SET_BEG", 15)
@@ -215,7 +215,7 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file, "*MICRO_SET_END", 15)
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         tagID = b"*MICRO_SET_BEG"
         self.findTag(file, tagID)
