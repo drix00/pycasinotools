@@ -52,7 +52,7 @@ class TrajectoryCollision(FileReaderWriterTools.FileReaderWriterTools):
         self._readOptimized(file)
 
     def _readOriginal(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         self._positionX = self.readDouble(file)
         self._positionY = self.readDouble(file)
@@ -64,7 +64,7 @@ class TrajectoryCollision(FileReaderWriterTools.FileReaderWriterTools):
         self._regionID = self.readInt(file)
 
     def _readOptimized(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         format = "5d2i"
         items = self.readMultipleValues(file, format)

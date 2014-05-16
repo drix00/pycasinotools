@@ -43,7 +43,7 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
         self._simulationOptions = None
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
         self._header = self.readStrLength(file, 26)
 
@@ -97,7 +97,7 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
         self._simulationResults.read(file, self._simulationOptions, self._version)
 
     def write(self, file):
-        assert file.mode == 'wb'
+        assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         self.writeStrLength(file, self._header, 26)

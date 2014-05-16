@@ -85,7 +85,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
             self.COUCHE_RADIAL_MV_ABS.append(0.0)
 
     def read(self, file, numberXRayLayers):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = TAG_ELEMENT_DATA
@@ -133,7 +133,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
             self.COUCHE_RADIAL_MV_ABS = self.readDoubleList(file, numberXRayLayers)
 
     def write(self, file, numberXRayLayers):
-        assert file.mode == 'wb'
+        assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tagID = TAG_ELEMENT_DATA

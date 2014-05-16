@@ -60,7 +60,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
             self.Int_PRZ_ABS.append(0.0)
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = TAG_ELEMENT_DATA
@@ -98,7 +98,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
     def write(self, file):
         raise NotImplementedError
-        assert file.mode == 'wb'
+        assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
     def _modify(self, file):

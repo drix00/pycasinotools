@@ -35,7 +35,7 @@ class SphereShape(SampleObject):
         self._color = [0.0, 1.0, 0.0]
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
         self._startPosition = file.tell()
         self._filePathname = file.name

@@ -45,7 +45,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
         self._trajectoryCollisions = None
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
         self._startPosition = file.tell()
         self._filePathname = file.name

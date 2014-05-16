@@ -68,7 +68,7 @@ class OptionsEnergyByPos(FileReaderWriterTools.FileReaderWriterTools):
         self.reset()
 
     def write(self, file):
-        assert file.mode == 'wb'
+        assert getattr(file, 'mode', 'wb') == 'wb'
 
         pass
 #    Tags::AddTag(file,"*EN_POS_SET_BEG", 15)
@@ -88,7 +88,7 @@ class OptionsEnergyByPos(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file, "*EN_POS_SET_END", 15)
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         tagID = b"*EN_POS_SET_BEG"
         self.findTag(file, tagID)

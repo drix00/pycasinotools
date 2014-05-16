@@ -29,7 +29,7 @@ class TrajectoriesData(FileReaderWriterTools.FileReaderWriterTools):
         self._isSkipReadingData = isSkipReadingData
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = b"*TRAJDATA%%%%%%"

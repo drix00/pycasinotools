@@ -33,7 +33,7 @@ import casinotools.fileformat.casino3.PointSpreadFunctionMatrix as PointSpreadFu
 
 class ScanPointResults(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file, options):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = b"*SCANPTRUNTIME%"

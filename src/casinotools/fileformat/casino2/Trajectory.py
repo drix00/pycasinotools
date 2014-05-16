@@ -29,7 +29,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
         self._isSkipReadingData = isSkipReadingData
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         self.FRetro = self.readInt(file)
         self.FTrans = self.readInt(file)

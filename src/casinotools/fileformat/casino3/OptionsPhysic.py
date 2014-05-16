@@ -224,7 +224,7 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
         self.reset()
 
     def write(self, file):
-        assert file.mode == 'wb'
+        assert getattr(file, 'mode', 'wb') == 'wb'
 
         pass
 #        Tags::AddTag(file, "*PHYS_MOD_BEG", 15)
@@ -246,7 +246,7 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
 #        Tags::AddTag(file, "*PHYS_MOD_END", 15)
 
     def read(self, file):
-        assert file.mode == 'rb'
+        assert getattr(file, 'mode', 'rb') == 'rb'
 
         tagID = b"*PHYS_MOD_BEG"
         self.findTag(file, tagID)
