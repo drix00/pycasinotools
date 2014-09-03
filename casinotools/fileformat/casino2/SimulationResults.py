@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """ """
+from __builtin__ import range
 
 # Script information for the file.
 __author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
@@ -114,6 +115,10 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def getBackscatteredMaximumDepthDistribution(self):
         return self.DZMaxRetro
+
+    def getBackscatteredMaximumDepthRange(self, fractionLimit=0.999):
+        range_nm = _computeDepthRange(self.getBackscatteredMaximumDepthDistribution(), fractionLimit)
+        return range_nm
 
     def _readBackscatteredEnergy(self, file, options, version):
         tagID = b"*DENR%%%%%%%%%%"
@@ -345,3 +350,21 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                 else:
                     numberPoints *= -1
                 self.NbPointDAngleVSEnergie = numberPoints
+
+def _computeDepthRange(distribution, fractionLimit):
+    positions = distribution.getPositions()
+    values = distribution.getValues()
+
+    total = sum(values)
+
+    partialTotal = 0.0
+    for position, value in zip(positions, values):
+        partialTotal += value
+        fraction = partialTotal/total
+        if fraction >= fractionLimit:
+            return position
+
+    depth = positions[-1]
+    message = "Depth range not found, fraction smaller (%.f) than fraction limit (%.f), return last depth (%.f)" % (fraction, fractionLimit, depth)
+    logging.warning(message)
+    return depth
