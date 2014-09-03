@@ -13,11 +13,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2011 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision$"
-__svnDate__ = "$Date$"
-__svnId__ = "$Id$"
-
 # Standard library modules.
 
 # Third party modules.

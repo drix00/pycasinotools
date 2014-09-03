@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2467 $"
-__svnDate__ = "$Date: 2011-09-08 16:41:24 -0400 (Thu, 08 Sep 2011) $"
-__svnId__ = "$Id: test_FileReaderWriterTools.py 2467 2011-09-08 20:41:24Z hdemers $"
-
 # Standard library modules.
 import unittest
 
