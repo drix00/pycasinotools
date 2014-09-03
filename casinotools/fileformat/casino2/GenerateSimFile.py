@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2834 $"
-__svnDate__ = "$Date: 2012-08-14 08:52:07 -0400 (Tue, 14 Aug 2012) $"
-__svnId__ = "$Id: GenerateSimFile.py 2834 2012-08-14 12:52:07Z hdemers $"
-
 # Standard library modules.
 
 # Third party modules.

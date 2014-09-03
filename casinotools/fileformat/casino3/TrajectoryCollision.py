@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2732 $"
-__svnDate__ = "$Date: 2012-05-16 13:25:12 -0400 (Wed, 16 May 2012) $"
-__svnId__ = "$Id: TrajectoryCollision.py 2732 2012-05-16 17:25:12Z hdemers $"
-
 # Standard library modules.
 import struct
 import math

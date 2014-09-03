@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 1755 $"
-__svnDate__ = "$Date: 2010-01-20 17:06:10 -0500 (Wed, 20 Jan 2010) $"
-__svnId__ = "$Id: Region.py 1755 2010-01-20 22:06:10Z hdemers $"
-
 # Standard library modules.
 import logging
 import decimal

@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2522 $"
-__svnDate__ = "$Date: 2011-10-10 21:06:05 -0400 (Mon, 10 Oct 2011) $"
-__svnId__ = "$Id: OptionsDist.py 2522 2011-10-11 01:06:05Z hdemers $"
-
 # Standard library modules.
 
 # Third party modules.

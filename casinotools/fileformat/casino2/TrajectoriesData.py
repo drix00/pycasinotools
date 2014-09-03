@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2908 $"
-__svnDate__ = "$Date: 2013-03-31 10:32:54 -0400 (Sun, 31 Mar 2013) $"
-__svnId__ = "$Id: TrajectoriesData.py 2908 2013-03-31 14:32:54Z ppinard $"
-
 # Standard library modules.
 import logging
 

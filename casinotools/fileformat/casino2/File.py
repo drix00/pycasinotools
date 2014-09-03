@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2153 $"
-__svnDate__ = "$Date: 2011-01-13 09:04:43 -0500 (Thu, 13 Jan 2011) $"
-__svnId__ = "$Id: File.py 2153 2011-01-13 14:04:43Z hdemers $"
-
 # Standard library modules.
 import logging
 import os.path

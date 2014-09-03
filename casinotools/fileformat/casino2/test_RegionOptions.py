@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2620 $"
-__svnDate__ = "$Date: 2011-12-07 11:01:42 -0500 (Wed, 07 Dec 2011) $"
-__svnId__ = "$Id: test_RegionOptions.py 2620 2011-12-07 16:01:42Z ppinard $"
-
 # Standard library modules.
 try:
     from io import BytesIO

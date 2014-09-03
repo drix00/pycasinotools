@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2249 $"
-__svnDate__ = "$Date: 2011-03-01 21:28:25 -0500 (Tue, 01 Mar 2011) $"
-__svnId__ = "$Id: EnergyMatrix.py 2249 2011-03-02 02:28:25Z hdemers $"
-
 # Standard library modules.
 import logging
 import os

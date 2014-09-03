@@ -8,11 +8,6 @@ __date__ = ""
 __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2271 $"
-__svnDate__ = "$Date: 2011-03-10 16:32:53 -0500 (Thu, 10 Mar 2011) $"
-__svnId__ = "$Id: OptionsXray.py 2271 2011-03-10 21:32:53Z hdemers $"
-
 # Standard library modules.
 
 # Third party modules.
