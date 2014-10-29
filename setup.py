@@ -38,7 +38,7 @@ class TestDataCommand(Command):
             os.makedirs(self.dist_dir)
 
         basepath = os.path.dirname(__file__)
-        testdatapath = os.path.join(basepath, 'casinotools', 'testData')
+        testdatapath = os.path.join(basepath, 'testData')
 
         zipfilename = self.distribution.get_fullname() + '-testData.zip'
         zipfilepath = os.path.join(self.dist_dir, zipfilename)
