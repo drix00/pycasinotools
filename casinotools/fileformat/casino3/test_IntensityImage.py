@@ -14,7 +14,7 @@ import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.attrib import attr
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.IntensityImage as IntensityImage
@@ -25,8 +25,11 @@ class TestIntensityImage(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
-        resultsPath = resource_filename(__name__, "../../testData/casino3.x/createImage")
+        resultsPath = resource_filename(__name__, "../../../testData/casino3.x/createImage")
         self._casBinnedFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_binned.cas")
+        if not os.path.isfile(self._casBinnedFilepath):
+            raise SkipTest()
+
         self._casAllFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_all.cas")
 
         self._imageBinned = IntensityImage.IntensityImage(self._casBinnedFilepath)
@@ -45,7 +48,6 @@ class TestIntensityImage(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_extractData(self):
         image = self._imageBinned
         image._extractData()
@@ -221,7 +223,6 @@ class TestIntensityImage(unittest.TestCase):
         self.assertEquals("3D", image._imageType)
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_createImage(self):
         image = self._imageBinned
         image._createImage()
@@ -229,6 +230,5 @@ class TestIntensityImage(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

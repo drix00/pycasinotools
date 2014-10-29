@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.Region as Region
@@ -21,6 +23,8 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestRegion(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         file = open(self.filepathSim, 'rb')
         file.seek(6560)
         region = Region.Region()
@@ -51,6 +55,5 @@ class TestRegion(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEquals("Si", region._chemicalName)
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

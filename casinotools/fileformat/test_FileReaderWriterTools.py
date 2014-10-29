@@ -10,10 +10,11 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
+import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.attrib import attr
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
@@ -26,9 +27,9 @@ class TestFileReaderWriterTools(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = resource_filename(__name__, "../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
-        self.filepathSim_3202 = resource_filename(__name__, "../testData/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
-        self.filepathCas = resource_filename(__name__, "../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
+        self.filepathSim = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        self.filepathSim_3202 = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
+        self.filepathCas = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -50,8 +51,9 @@ class TestFileReaderWriterTools(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_extractVersionString(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         casinoFile = File.File(self.filepathSim)
 
         version = File.V30103040
@@ -77,6 +79,5 @@ class TestFileReaderWriterTools(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

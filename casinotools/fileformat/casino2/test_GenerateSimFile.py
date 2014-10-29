@@ -10,9 +10,11 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
+import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino2.GenerateSimFile as GenerateSimFile
@@ -24,7 +26,9 @@ class TestGenerateSimFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathStd = resource_filename(__name__, "../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
+        self.filepathStd = resource_filename(__name__, "../../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
+        if not os.path.isfile(self.filepathStd):
+            raise SkipTest
         self.generate = GenerateSimFile.GenerateSimFile(self.filepathStd)
 
     def tearDown(self):
@@ -154,6 +158,5 @@ class TestGenerateSimFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

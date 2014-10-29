@@ -13,8 +13,10 @@ try:
     from io import BytesIO
 except ImportError: # Python 2
     from StringIO import StringIO as BytesIO
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino2.Composition as Composition
@@ -25,10 +27,16 @@ import casinotools.fileformat.casino2.test_File as test_File
 class TestComposition(test_File.TestFile):
 
     def test_read(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
+
         file = open(self.filepathSim, 'rb')
         self._read_tests(file)
 
     def test_read_StringIO(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
+
         f = open(self.filepathSim, 'rb')
         buf = BytesIO(f.read())
         buf.mode = 'rb'
@@ -48,6 +56,5 @@ class TestComposition(test_File.TestFile):
         self.assertEquals(1, composition.Rep)
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

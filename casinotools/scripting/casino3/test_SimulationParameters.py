@@ -60,6 +60,5 @@ class TestSimulationParameters(unittest.TestCase):
         self.assert_(True)
 
 if __name__ == '__main__':    #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.main()

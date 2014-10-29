@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.TransmittedAngles as TransmittedAngles
@@ -21,9 +23,11 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestTransmittedAngles(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        results = TransmittedAngles.TransmittedAngles()
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(2012966)
+        results = TransmittedAngles.TransmittedAngles()
         error = results.read(file)
 
         self.assertEquals(None, error)
@@ -35,6 +39,5 @@ class TestTransmittedAngles(test_FileReaderWriterTools.TestFileReaderWriterTools
         self.assertEquals(0, results._numberBinnedAngles)
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

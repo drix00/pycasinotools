@@ -41,6 +41,5 @@ class TestGraphData(test_File.TestFile):
         self.assertAlmostEquals(0.0, results._values[-1])
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

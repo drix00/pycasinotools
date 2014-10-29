@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
@@ -26,6 +28,8 @@ class TestDiffusedEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTo
         options = SimulationOptions.SimulationOptions()
         options._optionsDist.DEpos_Type = OptionsDist.DIST_DEPOS_TYPE_CARTESIAN
         results = DiffusedEnergyMatrix.DiffusedEnergyMatrix(options, None)
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(1012742)
 
@@ -38,6 +42,5 @@ class TestDiffusedEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTo
         #TODO why the end position is more than startPosition + _numberElements*sizeof(double)?
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

@@ -15,7 +15,7 @@ import math
 import csv
 
 # Third party modules.
-import Image
+from PIL import Image
 
 # Local modules.
 from casinotools.analysis.casino3.simulation import AnalyzeCasinoSimulation

@@ -10,23 +10,25 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
+import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.attrib import attr
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.Tags as Tags
 
 # Globals and constants variables.
 
-@attr('ignore')
 class TestTags(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        filepath = resource_filename(__name__, "../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        filepath = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        if not os.path.isfile(filepath):
+            raise SkipTest
         self.file = open(filepath, 'rb')
 
     def tearDown(self):
@@ -107,6 +109,5 @@ class TestTags(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

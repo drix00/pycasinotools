@@ -20,7 +20,6 @@ import os
 
 # Local modules.
 import casinotools.fileformat.casino3.File as Casino3File
-import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
 
@@ -78,6 +77,7 @@ def _getExportFilepath(filepath):
     return exportFilepath
 
 def run():
+    import pyHendrixDemersTools.Files as Files
     path = Files.getCurrentModulePath(__file__, "testData/casino3.x/ExportParameters")
 
     filenames = ["ProblemSampleRotation_fz0nm_t0deg.sim", "ProblemSampleRotation_fz0nm_t30deg.sim", "ProblemSampleRotation_fz0nm_t-30deg.sim"]

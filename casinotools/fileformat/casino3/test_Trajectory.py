@@ -10,8 +10,10 @@ __license__ = ""
 
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.Trajectory as Trajectory
@@ -22,9 +24,11 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestTrajectory(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        results = Trajectory.Trajectory()
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(4042541)
+        results = Trajectory.Trajectory()
 
         self.assertTrue(file is not None)
         error = results.read(file)
@@ -41,6 +45,5 @@ class TestTrajectory(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEquals(28, results._numberScatteringEvents)
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

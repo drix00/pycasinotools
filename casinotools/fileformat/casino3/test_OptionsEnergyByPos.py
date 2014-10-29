@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.OptionsEnergyByPos as OptionsEnergyByPos
@@ -21,8 +23,10 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestOptionsEnergyByPos(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        reader = OptionsEnergyByPos.OptionsEnergyByPos()
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         file = open(self.filepathSim, 'rb')
+        reader = OptionsEnergyByPos.OptionsEnergyByPos()
         error = reader.read(file)
 
         self.assertEquals(None, error)
@@ -48,6 +52,5 @@ class TestOptionsEnergyByPos(test_FileReaderWriterTools.TestFileReaderWriterTool
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

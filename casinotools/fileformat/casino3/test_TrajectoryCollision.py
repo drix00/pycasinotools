@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.TrajectoryCollision as TrajectoryCollision
@@ -21,9 +23,11 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestTrajectoryCollision(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        results = TrajectoryCollision.TrajectoryCollision()
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(4042617)
+        results = TrajectoryCollision.TrajectoryCollision()
 
         error = results.read(file)
         self.assertEquals(None, error)
@@ -36,6 +40,5 @@ class TestTrajectoryCollision(test_FileReaderWriterTools.TestFileReaderWriterToo
         self.assertEquals(-1, results._regionID)
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.File as File
@@ -21,6 +23,9 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_init(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
+
         casinoFile = File.File(self.filepathSim)
 
         self.assertEquals(self.filepathSim, casinoFile.getFilepath())
@@ -28,7 +33,10 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_getFileType(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         casinoFile = File.File(self.filepathSim)
+
         type = casinoFile.getFileType()
         self.assertEquals(File.SIMULATION_CONFIGURATIONS, type)
 
@@ -39,6 +47,8 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test__readExtension(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         casinoFile = File.File(self.filepathSim)
         file = casinoFile._open(self.filepathSim)
         extension = casinoFile._readExtension(file)
@@ -51,6 +61,8 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test__readVersion(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         casinoFile = File.File(self.filepathSim)
         file = casinoFile._open(self.filepathSim)
         version = casinoFile._readVersion(file)
@@ -59,6 +71,8 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_open(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         casinoFile = File.File(self.filepathSim)
         casinoFile.open()
 
@@ -68,6 +82,8 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def testReadCasFile(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         casinoFile = File.File(self.filepathCas)
         casinoFile.open()
 
@@ -77,6 +93,5 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()
