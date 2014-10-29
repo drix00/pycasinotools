@@ -34,6 +34,9 @@ class TestDataCommand(Command):
             self.dist_dir = "dist"
 
     def run(self):
+        if not os.path.isdir(self.dist_dir):
+            os.makedirs(self.dist_dir)
+
         basepath = os.path.dirname(__file__)
         testdatapath = os.path.join(basepath, 'casinotools', 'testData')
 
@@ -47,7 +50,7 @@ class TestDataCommand(Command):
                     z.write(filename, arcname)
 
 setup(name="pyCasinoTools",
-      version='0.1',
+      version='0.2',
       url='http://www.gel.usherbrooke.ca/casino',
       description="Python interface to read and write Casino 2 files",
       author="Hendrix Demers",
