@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.RegionIntensityInfo as RegionIntensityInfo
@@ -21,9 +23,11 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestRegionIntensityInfo(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        results = RegionIntensityInfo.RegionIntensityInfo()
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(2012986)
+        results = RegionIntensityInfo.RegionIntensityInfo()
         error = results.read(file)
 
         self.assertEquals(None, error)
@@ -48,6 +52,5 @@ class TestRegionIntensityInfo(test_FileReaderWriterTools.TestFileReaderWriterToo
         self.assertAlmostEquals(7.268071702406E-01, results._normalizedEnergyIntensity)
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

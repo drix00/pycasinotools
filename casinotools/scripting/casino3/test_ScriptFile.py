@@ -17,6 +17,7 @@ import filecmp
 import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 from casinotools.scripting.casino3 import ScriptFile
@@ -64,6 +65,8 @@ class TestScriptFile(unittest.TestCase):
         scriptFilepath = self._scriptFile._generateScriptFilepath()
         logging.debug(scriptFilepath)
 
+        if not os.path.isfile(self.scriptFilepathRef):
+            raise SkipTest
         linesRef = open(self.scriptFilepathRef, 'rb').readlines()
         lines = open(scriptFilepath, 'rb').readlines()
 

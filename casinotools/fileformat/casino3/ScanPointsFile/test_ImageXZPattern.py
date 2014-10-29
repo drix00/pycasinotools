@@ -54,6 +54,5 @@ class TestImageXZPattern(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

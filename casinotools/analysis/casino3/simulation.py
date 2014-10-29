@@ -25,7 +25,7 @@ import math
 from scipy.constants import elementary_charge
 import matplotlib.pyplot as plt
 import numpy as np
-import Image
+from PIL import Image
 import scipy.io as sio
 
 # Local modules.

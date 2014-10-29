@@ -15,10 +15,11 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
+import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.attrib import attr
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -56,13 +57,14 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @attr('ignore')
     def test_SimNoPsfs(self):
         """
         Tests for method `SimNoPsfs`.
         """
 
-        filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
+        filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
+        if not os.path.isfile(filepath):
+            raise SkipTest(filepath)
 
         casinoFile = File.File(filepath)
 
@@ -81,14 +83,15 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_SimPsfs(self):
         """
-        Tests for method `SimNoPsfs`.
+        Tests for method `SimPsfs`.
         """
         filenames = ["SiN_wPSFs_bG_T200nm.sim", "SiN_wPSFs_wConserveData_bG_T200nm.sim"]
         for filename in filenames:
-            filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/" + filename)
+            filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/" + filename)
+            if not os.path.isfile(filepath):
+                raise SkipTest(filepath)
 
             casinoFile = File.File(filepath)
 
@@ -107,13 +110,14 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_CasNoPsfs(self):
         """
-        Tests for method `SimNoPsfs`.
+        Tests for method `CasNoPsfs`.
         """
 
-        filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
+        filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
+        if not os.path.isfile(filepath):
+            raise SkipTest(filepath)
 
         casinoFile = File.File(filepath)
 
@@ -135,14 +139,15 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_CasPsfs(self):
         """
-        Tests for method `SimNoPsfs`.
+        Tests for method `CasPsfs`.
         """
 
         filename = "SiN_wPSFs_bG_T200nm.cas"
-        filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/" + filename)
+        filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/" + filename)
+        if not os.path.isfile(filepath):
+            raise SkipTest(filepath)
 
         casinoFile = File.File(filepath)
 
@@ -164,7 +169,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         self.assertEqual(None, scanPointResults[0].getPointSpreadFunctionMatrix())
 
         filename = "SiN_wPSFs_wConserveData_bG_T200nm.cas"
-        filepath = resource_filename(__name__, "../../testData/casino3.x/PSFs/" + filename)
+        filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/" + filename)
 
         casinoFile = File.File(filepath)
 
@@ -188,6 +193,5 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

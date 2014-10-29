@@ -18,7 +18,7 @@ except ImportError: # Python 2
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.attrib import attr
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino2.File as File
@@ -32,16 +32,16 @@ class TestFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = resource_filename(__name__, "../../testData/wincasino2.45/id475.sim")
-        self.filepathCas = resource_filename(__name__, "../../testData/wincasino2.45/id475.cas")
+        self.filepathSim = resource_filename(__name__, "../../../testData/wincasino2.45/id475.sim")
+        self.filepathCas = resource_filename(__name__, "../../../testData/wincasino2.45/id475.cas")
 
-        self.filepathStd = resource_filename(__name__, "../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
-        self.filepathWrite = resource_filename(__name__, "../../testData/casino2.x/stdTest.sim")
+        self.filepathStd = resource_filename(__name__, "../../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
+        self.filepathWrite = resource_filename(__name__, "../../../testData/casino2.x/stdTest.sim")
 
-        self.filepathSim_v242 = resource_filename(__name__, "../../testData/casino2.x/std_B_3keV_v2.42_23.sim")
-        self.filepathCas_v242 = resource_filename(__name__, "../../testData/casino2.x/std_B_3keV_v2.42_23.cas")
+        self.filepathSim_v242 = resource_filename(__name__, "../../../testData/casino2.x/std_B_3keV_v2.42_23.sim")
+        self.filepathCas_v242 = resource_filename(__name__, "../../../testData/casino2.x/std_B_3keV_v2.42_23.cas")
 
-        self.filepathCas_nicr = resource_filename(__name__, "../../testData/casino2.x/nicr.cas")
+        self.filepathCas_nicr = resource_filename(__name__, "../../../testData/casino2.x/nicr.cas")
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -53,8 +53,9 @@ class TestFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @attr('ignore')
     def test_read(self):
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         file = File.File()
         file.readFromFilepath(self.filepathSim)
         self.assertEquals(self.filepathSim, file._filepath)
@@ -69,9 +70,10 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_read_StringIO(self):
         # sim
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         f = open(self.filepathSim, 'rb')
         buf = BytesIO(f.read())
         buf.mode = 'rb'
@@ -101,8 +103,10 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_write(self):
+        if not os.path.isfile(self.filepathStd):
+            raise SkipTest
+
         file = File.File()
         optionSimulationData = self._getOptionSimulationData()
         file.setOptionSimulationData(optionSimulationData)
@@ -128,8 +132,10 @@ class TestFile(unittest.TestCase):
 
         return file.getOptionSimulationData()
 
-    @attr('ignore')
     def test_skipReadingData(self):
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
+
         file = File.File()
         file.readFromFilepath(self.filepathCas, isSkipReadingData=False)
 
@@ -181,8 +187,12 @@ class TestFile(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    @attr('ignore')
     def test_readv242(self):
+        if not os.path.isfile(self.filepathSim_v242):
+            raise SkipTest
+        if not os.path.isfile(self.filepathCas_v242):
+            raise SkipTest
+
         # .sim
         file = File.File()
         file.readFromFilepath(self.filepathSim_v242)
@@ -248,6 +258,5 @@ class TestFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

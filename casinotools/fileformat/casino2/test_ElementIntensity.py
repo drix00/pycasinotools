@@ -13,8 +13,10 @@ try:
     from io import BytesIO
 except ImportError: # Python 2
     from StringIO import StringIO as BytesIO
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino2.ElementIntensity as ElementIntensity
@@ -25,25 +27,30 @@ import casinotools.fileformat.casino2.test_File as test_File
 class TestElementIntensity(test_File.TestFile):
 
     def test_read(self):
-        file = open(self.filepathCas, 'rb')
-        self._read_tests(file)
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
+
+        casinoFile = open(self.filepathCas, 'rb')
+        self._read_tests(casinoFile)
 
     def test_read_StringIO(self):
-        f = open(self.filepathCas, 'rb')
-        file = BytesIO(f.read())
-        file.mode = 'rb'
-        f.close()
-        self._read_tests(file)
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
 
-    def _read_tests(self, file):
-        file.seek(696872)
+        f = open(self.filepathCas, 'rb')
+        casinoFile = BytesIO(f.read())
+        casinoFile.mode = 'rb'
+        f.close()
+        self._read_tests(casinoFile)
+
+    def _read_tests(self, casinoFile):
+        casinoFile.seek(696872)
         element = ElementIntensity.ElementIntensity()
-        element.read(file)
+        element.read(casinoFile)
 
         self.assertEquals("B", element.Name)
         self.assertAlmostEquals(3.444919288026E+02, element.IntensityK[0])
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

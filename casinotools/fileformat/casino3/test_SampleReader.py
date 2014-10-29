@@ -10,10 +10,11 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
+import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.attrib import attr
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.SampleReader as SampleReader
@@ -25,8 +26,8 @@ class TestSampleReader(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
-        self.filepathCas = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
+        self.filepathSim = resource_filename(__name__, "../../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        self.filepathCas = resource_filename(__name__, "../../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -35,17 +36,20 @@ class TestSampleReader(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
         self.assert_(True)
 
-    @attr('ignore')
     def test_read(self):
-        reader = SampleReader.SampleReader()
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         file = open(self.filepathSim, 'rb')
+        reader = SampleReader.SampleReader()
         error = reader.read(file)
 
         self.assertEquals(None, error)
         self.assertEquals(30107002, reader._version)
 
-        reader = SampleReader.SampleReader()
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
         file = open(self.filepathCas, 'rb')
+        reader = SampleReader.SampleReader()
         error = reader.read(file)
 
         self.assertEquals(None, error)
@@ -54,6 +58,5 @@ class TestSampleReader(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

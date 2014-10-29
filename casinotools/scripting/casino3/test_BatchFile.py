@@ -17,6 +17,7 @@ import os
 import logging
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 from casinotools.scripting.casino3 import BatchFile
@@ -56,6 +57,8 @@ class TestBatchFile(unittest.TestCase):
         batchFilepath = batchFile._generateBatchFilepath()
         logging.debug(batchFilepath)
 
+        if not os.path.isfile(self.scriptFilepathRef):
+            raise SkipTest
         linesRef = open(self.scriptFilepathRef, 'rb').readlines()
         lines = open(batchFilepath, 'rb').readlines()
 
@@ -68,5 +71,4 @@ class TestBatchFile(unittest.TestCase):
 
 if __name__ == '__main__':    #pragma: no cover
     import nose
-    logging.getLogger().setLevel(logging.DEBUG)
     nose.main()

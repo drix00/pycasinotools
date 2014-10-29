@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.GraphData as GraphData
@@ -21,6 +23,8 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestGraphData(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(2013179)
 
@@ -42,6 +46,5 @@ class TestGraphData(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertAlmostEquals(0.0, values[-1])
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions
@@ -24,8 +26,10 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
     def test_read(self):
 
         for filepath in [self.filepathSim, self.filepathCas]:
-            simulationOptions = SimulationOptions.SimulationOptions()
+            if not os.path.isfile(filepath):
+                raise SkipTest
             file = open(filepath, 'rb')
+            simulationOptions = SimulationOptions.SimulationOptions()
             error = simulationOptions.read(file)
 
             self.assertEquals(None, error)
@@ -106,6 +110,5 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

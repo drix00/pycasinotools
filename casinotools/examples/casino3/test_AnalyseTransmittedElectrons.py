@@ -18,6 +18,7 @@ import unittest
 import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 
@@ -57,6 +58,8 @@ class TestAnalyseTransmittedElectrons(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
     def test__readFile(self):
+        if not os.path.isfile(self.filepath):
+            raise SkipTest
         self.assertTrue(os.path.isfile(self.filepath))
 
         self.analyze._readFile(self.filepath)
@@ -76,6 +79,5 @@ class TestAnalyseTransmittedElectrons(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__':  #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.main()

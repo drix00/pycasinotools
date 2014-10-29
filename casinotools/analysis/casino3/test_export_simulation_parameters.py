@@ -18,10 +18,10 @@ import unittest
 import os
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 from casinotools.analysis.casino3 import export_simulation_parameters
-import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
 
@@ -30,9 +30,14 @@ class TestExportSimulationParameters(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        path = Files.getCurrentModulePath(__file__, "../../../testdata/analysis/casino3/ExportParameters")
+        basepath = os.path.dirname(__file__)
+        path = os.path.join(basepath, "../../../testdata/analysis/casino3/ExportParameters")
+        path = os.path.normpath(path)
+
         filename = "ProblemSampleRotation_fz0nm_t0deg.sim"
         self._filepath = os.path.join(path, filename)
+        if not os.path.isfile(self._filepath):
+            raise SkipTest
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
@@ -46,7 +51,10 @@ class TestExportSimulationParameters(unittest.TestCase):
         self.assert_(True)
 
     def test_setUp(self):
+        if not os.path.isfile(self._filepath):
+            raise SkipTest
         self.assertTrue(os.path.isfile(self._filepath))
+
         #self.fail("Test if the testcase is working.")
 
     def test_export(self):
@@ -60,6 +68,5 @@ class TestExportSimulationParameters(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__':  #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.main()

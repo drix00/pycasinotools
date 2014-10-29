@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.OptionsADF as OptionsADF
@@ -21,8 +23,10 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 class TestOptionsADF(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        reader = OptionsADF.OptionsADF()
+        if not os.path.isfile(self.filepathSim):
+            raise SkipTest
         file = open(self.filepathSim, 'rb')
+        reader = OptionsADF.OptionsADF()
         error = reader.read(file)
 
         self.assertEquals(None, error)
@@ -50,6 +54,5 @@ class TestOptionsADF(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()

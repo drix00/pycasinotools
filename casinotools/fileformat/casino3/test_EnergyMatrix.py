@@ -9,8 +9,10 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
+from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.EnergyMatrix as EnergyMatrix
@@ -26,6 +28,8 @@ class TestEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTools):
         options = SimulationOptions.SimulationOptions()
         options._optionsDist.DEpos_Type = OptionsDist.DIST_DEPOS_TYPE_CARTESIAN
         results = EnergyMatrix.EnergyMatrix(options, None)
+        if not os.path.isfile(self.filepathCas):
+            raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(4042541)
 
@@ -36,6 +40,5 @@ class TestEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEquals(4042541 + 125000 * 8, results._endPosition)
 
 if __name__ == '__main__': #pragma: no cover
-    import logging, nose
-    logging.getLogger().setLevel(logging.DEBUG)
+    import nose
     nose.runmodule()
