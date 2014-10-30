@@ -40,8 +40,6 @@ class OptionsADF(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file, "*ADF_SET_END", 15)}
 
     def read(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
-
         tagID = b"*ADF_SET_BEG"
         self.findTag(file, tagID)
 

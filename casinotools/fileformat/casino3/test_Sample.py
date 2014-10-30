@@ -10,6 +10,7 @@ __license__ = ""
 
 # Standard library modules.
 import os.path
+import shutil
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -18,6 +19,7 @@ from nose.plugins.skip import SkipTest
 import casinotools.fileformat.casino3.Sample as Sample
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
+import casinotools.fileformat.casino3.File as CasinoFile
 
 # Globals and constants variables.
 
@@ -76,6 +78,158 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEquals((0.984375, 0.0, 0.0), boxShape._color)
 
         self.assertEquals(20, sample._maxSampleTreeLevel)
+
+        #self.fail("Test if the testcase is working.")
+
+    def test_getRotationYZ_deg(self):
+        filepathSim = "../../../testData/casino3.x/NoRotationY.sim"
+        if not os.path.isfile(filepathSim):
+            raise SkipTest
+
+        casinoFile = open(filepathSim, "rb")
+        casinoFile.seek(55)
+        sample = Sample.Sample()
+        sample.read(casinoFile)
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(0.0, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(0.0, rotationZ_deg)
+
+        filepathSim = "../../../testData/casino3.x/RotationY10.sim"
+        if not os.path.isfile(filepathSim):
+            raise SkipTest
+
+        casinoFile = open(filepathSim, "rb")
+        casinoFile.seek(55)
+        sample = Sample.Sample()
+        sample.read(casinoFile)
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(10.0, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(0.0, rotationZ_deg)
+
+        filepathSim = "../../../testData/casino3.x/RotationZ15.sim"
+        if not os.path.isfile(filepathSim):
+            raise SkipTest
+
+        casinoFile = open(filepathSim, "rb")
+        casinoFile.seek(55)
+        sample = Sample.Sample()
+        sample.read(casinoFile)
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(0.0, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(15.0, rotationZ_deg)
+
+        filepathSim = "../../../testData/casino3.x/RotationY20Z35.sim"
+        if not os.path.isfile(filepathSim):
+            raise SkipTest
+
+        casinoFile = open(filepathSim, "rb")
+        casinoFile.seek(55)
+        sample = Sample.Sample()
+        sample.read(casinoFile)
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(20.0, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(35.0, rotationZ_deg)
+
+        #self.fail("Test if the testcase is working.")
+
+    def test_modifyRotationYZ_deg(self):
+        sourceFilepath = "../../../testData/casino3.x/NoRotationY.sim"
+        if not os.path.isfile(sourceFilepath):
+            raise SkipTest
+
+        if not os.path.isdir(self.temporaryDir):
+            raise SkipTest
+
+        rotationYRef_deg = 10.0
+        filename = "RotationY10.sim"
+        destinationFilepath = os.path.join(self.temporaryDir, filename)
+
+        shutil.copy2(sourceFilepath, destinationFilepath)
+
+        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=True)
+        sample = casinoFile.getFirstSimulation().getSample()
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(0.0, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(0.0, rotationZ_deg)
+
+        sample.modifyRotationY_deg(rotationYRef_deg)
+        del casinoFile
+
+        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=False)
+        sample = casinoFile.getFirstSimulation().getSample()
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(rotationYRef_deg, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(0.0, rotationZ_deg)
+
+        del casinoFile
+
+        rotationZRef_deg = 15.0
+        filename = "RotationZ15.sim"
+        destinationFilepath = os.path.join(self.temporaryDir, filename)
+
+        shutil.copy2(sourceFilepath, destinationFilepath)
+
+        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=True)
+        sample = casinoFile.getFirstSimulation().getSample()
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(0.0, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(0.0, rotationZ_deg)
+
+        sample.modifyRotationZ_deg(rotationZRef_deg)
+        del casinoFile
+
+        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=False)
+        sample = casinoFile.getFirstSimulation().getSample()
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(0.0, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(rotationZRef_deg, rotationZ_deg)
+
+        del casinoFile
+
+        rotationYRef_deg = 20.0
+        rotationZRef_deg = 35.0
+        filename = "RotationY20Z35.sim"
+        destinationFilepath = os.path.join(self.temporaryDir, filename)
+
+        shutil.copy2(sourceFilepath, destinationFilepath)
+
+        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=True)
+        sample = casinoFile.getFirstSimulation().getSample()
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(0.0, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(0.0, rotationZ_deg)
+
+        sample.modifyRotationY_deg(rotationYRef_deg)
+        sample.modifyRotationZ_deg(rotationZRef_deg)
+        del casinoFile
+
+        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=False)
+        sample = casinoFile.getFirstSimulation().getSample()
+
+        rotationY_deg = sample.getRotationY_deg()
+        self.assertAlmostEquals(rotationYRef_deg, rotationY_deg)
+        rotationZ_deg = sample.getRotationZ_deg()
+        self.assertAlmostEquals(rotationZRef_deg, rotationZ_deg)
+
+        del casinoFile
 
         #self.fail("Test if the testcase is working.")
 

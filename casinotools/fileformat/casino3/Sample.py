@@ -22,6 +22,9 @@ import casinotools.fileformat.casino3.Region as Region
 import casinotools.fileformat.casino3.Version as Version
 
 # Globals and constants variables.
+OFFSET_ROTATION_Y = "offset_rotation_y"
+OFFSET_ROTATION_Z = "offset_rotation_z"
+
 class ShapeError(Exception): pass
 
 class Sample(FileReaderWriterTools.FileReaderWriterTools):
@@ -35,12 +38,14 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
         self._sampleObjects = []
         self._regions = []
 
+        self._offsets = {}
+
     def read(self, file):
         self._file = file
         self._startPosition = file.tell()
         self._filePathname = file.name
         self._fileDescriptor = file.fileno()
-        assert getattr(file, 'mode', 'rb') == 'rb'
+
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = b"*CASINOSAMPLE%%"
@@ -53,7 +58,6 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
                 raise "version_not_supported"
 
     def _read_3131(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_3131", file.tell())
 
         tagID = b"*SUBSTRATE%%%%%"
@@ -93,7 +97,9 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
             self._maxSampleTreeLevel = self.readInt(file)
 
         if self._version >= Version.SIM_OPTIONS_VERSION_3_1_8_2:
+            self._offsets[OFFSET_ROTATION_Y] = file.tell()
             self._rotationAngleY_deg = self.readDouble(file)
+            self._offsets[OFFSET_ROTATION_Z] = file.tell()
             self._rotationAngleZ_deg = self.readDouble(file)
 
         self._presence = self.readInt(file)
@@ -155,10 +161,20 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
     def setRotationY_deg(self, rotationAngle_deg):
         self._rotationAngleY_deg = rotationAngle_deg
 
+    def modifyRotationY_deg(self, rotationAngle_deg):
+        self._file.seek(self._offsets[OFFSET_ROTATION_Y])
+        self.writeDouble(self._file, rotationAngle_deg)
+        self._rotationAngleY_deg = rotationAngle_deg
+
     def getRotationZ_deg(self):
         return self._rotationAngleZ_deg
 
     def setRotationZ_deg(self, rotationAngle_deg):
+        self._rotationAngleZ_deg = rotationAngle_deg
+
+    def modifyRotationZ_deg(self, rotationAngle_deg):
+        self._file.seek(self._offsets[OFFSET_ROTATION_Z])
+        self.writeDouble(self._file, rotationAngle_deg)
         self._rotationAngleZ_deg = rotationAngle_deg
 
     def write(self, file):

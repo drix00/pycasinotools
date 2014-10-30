@@ -40,8 +40,10 @@ class SaveContent(object):
         self.runtime = False
 
 class File(FileReaderWriterTools.FileReaderWriterTools):
-    def __init__(self, filepath):
+    def __init__(self, filepath, isModifiable=False):
         self._filepath = filepath
+        self._isModifiable = isModifiable
+
         self._simulationList = []
         self._saveContent = SaveContent()
         self._file = None
@@ -51,7 +53,10 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
 
     def _open(self, filepath):
         logging.debug("Filepath to be open in %s: %s", self.__class__.__name__, filepath)
-        file = open(filepath, 'rb')
+        if self._isModifiable:
+            file = open(filepath, 'r+b')
+        else:
+            file = open(filepath, 'rb')
         return file
 
     def _openWriting(self, filepath):

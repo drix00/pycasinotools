@@ -55,7 +55,6 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
             self.Int_PRZ_ABS.append(0.0)
 
     def read(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = TAG_ELEMENT_DATA

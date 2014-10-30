@@ -83,8 +83,6 @@ class OptionsEnergyByPos(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file, "*EN_POS_SET_END", 15)
 
     def read(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
-
         tagID = b"*EN_POS_SET_BEG"
         self.findTag(file, tagID)
 

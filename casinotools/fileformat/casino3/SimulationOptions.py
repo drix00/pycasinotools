@@ -46,7 +46,6 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = 0
 
     def read(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
         self._startPosition = file.tell()
         self._filePathname = file.name

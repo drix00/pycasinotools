@@ -16,6 +16,7 @@ __license__ = ""
 # Standard library modules.
 import os.path
 import logging
+import fnmatch
 
 # Third party modules.
 
@@ -49,13 +50,50 @@ def create_path(path):
 
     """
     path = os.path.normpath(path)
-    if not os.path.exists(path):
+    if not os.path.isdir(path):
         os.makedirs(path)
 
     if len(path) > 0 and path[-1] != os.sep:
         path += os.sep
 
     return path
+
+def find_all_files(root, patterns='*', ignorePathPatterns='', ignoreNamePatterns='', single_level=False, yield_folders=False):
+    """
+    Find all files in a root folder.
+    From Python Cookbook section 2.16 pages 88--90
+    """
+    # Expand patterns from semicolon-separated string to list
+    patterns = patterns.split(';')
+    ignorePathPatterns = ignorePathPatterns.split(';')
+
+    root = os.path.abspath(root)
+    for path, subdirs, files in os.walk(root):
+        if yield_folders:
+            files.extend(subdirs)
+
+        addPath = True
+        for ignorePathPattern in ignorePathPatterns:
+            if fnmatch.fnmatch(path, ignorePathPattern):
+                addPath = False
+
+        files.sort()
+
+        for name in files:
+            for pattern in patterns:
+                if fnmatch.fnmatch(name, pattern):
+                    addName = True
+                    for ignorePattern in ignoreNamePatterns:
+                        if fnmatch.fnmatch(name, ignorePattern):
+                            addName = False
+
+                    if addPath and addName:
+                        yield os.path.join(path, name)
+                        break
+
+        if single_level:
+            logging.debug("single_level")
+            break
 
 if __name__ == '__main__': #pragma: no cover
     import nose
