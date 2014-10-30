@@ -25,4 +25,7 @@ __license__ = ""
 
 if __name__ == "__main__": #pragma: no cover
     import nose
-    nose.main()
+    import sys
+    argv = sys.argv
+    argv.append("-v")
+    nose.main(argv=argv)
