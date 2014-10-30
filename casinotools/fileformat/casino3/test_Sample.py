@@ -20,6 +20,7 @@ import casinotools.fileformat.casino3.Sample as Sample
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
 import casinotools.fileformat.casino3.File as CasinoFile
+from casinotools.utilities.path import get_current_module_path
 
 # Globals and constants variables.
 
@@ -82,7 +83,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_getRotationYZ_deg(self):
-        filepathSim = "../../../testData/casino3.x/NoRotationY.sim"
+        testDataPath = get_current_module_path(__file__, "../../../testData")
+
+        filepathSim = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
         if not os.path.isfile(filepathSim):
             raise SkipTest
 
@@ -96,7 +99,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         rotationZ_deg = sample.getRotationZ_deg()
         self.assertAlmostEquals(0.0, rotationZ_deg)
 
-        filepathSim = "../../../testData/casino3.x/RotationY10.sim"
+        filepathSim = os.path.join(testDataPath, "casino3.x/RotationY10.sim")
         if not os.path.isfile(filepathSim):
             raise SkipTest
 
@@ -110,7 +113,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         rotationZ_deg = sample.getRotationZ_deg()
         self.assertAlmostEquals(0.0, rotationZ_deg)
 
-        filepathSim = "../../../testData/casino3.x/RotationZ15.sim"
+        filepathSim = os.path.join(testDataPath, "casino3.x/RotationZ15.sim")
         if not os.path.isfile(filepathSim):
             raise SkipTest
 
@@ -124,7 +127,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         rotationZ_deg = sample.getRotationZ_deg()
         self.assertAlmostEquals(15.0, rotationZ_deg)
 
-        filepathSim = "../../../testData/casino3.x/RotationY20Z35.sim"
+        filepathSim = os.path.join(testDataPath, "casino3.x/RotationY20Z35.sim")
         if not os.path.isfile(filepathSim):
             raise SkipTest
 
@@ -141,7 +144,8 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_modifyRotationYZ_deg(self):
-        sourceFilepath = "../../../testData/casino3.x/NoRotationY.sim"
+        testDataPath = get_current_module_path(__file__, "../../../testData")
+        sourceFilepath = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
         if not os.path.isfile(sourceFilepath):
             raise SkipTest
 
