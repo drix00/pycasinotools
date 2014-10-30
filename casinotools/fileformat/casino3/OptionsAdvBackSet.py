@@ -122,8 +122,6 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file,"*MATRX_SET_END", 15)
 
     def read(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
-
         tagID = b"*MATRX_SET_BEG"
         self.findTag(file, tagID)
 

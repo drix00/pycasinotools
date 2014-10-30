@@ -32,7 +32,6 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         pass
 
     def read(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
         self._startPosition = file.tell()
         self._filePathname = file.name

@@ -210,8 +210,6 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file, "*MICRO_SET_END", 15)
 
     def read(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
-
         tagID = b"*MICRO_SET_BEG"
         self.findTag(file, tagID)
 

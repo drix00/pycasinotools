@@ -230,8 +230,6 @@ class OptionsDist(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file, "*DIST_OPT_END", 15);
 
     def read(self, file):
-        assert getattr(file, 'mode', 'rb') == 'rb'
-
         tagID = b"*DIST_OPT_BEG"
         self.findTag(file, tagID)
 

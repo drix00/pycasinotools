@@ -11,6 +11,8 @@ __license__ = ""
 # Standard library modules.
 import unittest
 import os.path
+import tempfile
+import shutil
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
@@ -19,6 +21,7 @@ from nose.plugins.skip import SkipTest
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino3.File as File
+from casinotools.utilities.path import create_path, get_current_module_path
 
 # Globals and constants variables.
 
@@ -31,8 +34,12 @@ class TestFileReaderWriterTools(unittest.TestCase):
         self.filepathSim_3202 = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
         self.filepathCas = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
 
+        path = get_current_module_path(__file__, "../../testData/temp")
+        self.temporaryDir = create_path(path)
+
     def tearDown(self):
         unittest.TestCase.tearDown(self)
+        shutil.rmtree(self.temporaryDir, ignore_errors=True)
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")

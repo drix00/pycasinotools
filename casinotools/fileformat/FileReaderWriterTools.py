@@ -199,6 +199,7 @@ class FileReaderWriterTools(object):
         value = type(value)
         buffer = struct.pack(format, value)
         file.write(buffer)
+        file.flush()
 
     def export(self, exportFile):
             raise NotImplementedError

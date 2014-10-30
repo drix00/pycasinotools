@@ -18,6 +18,7 @@ import numpy as np
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+from casinotools.utilities.path import create_path
 
 # Globals and constants variables.
 VERSION_30107002 = 30107002
@@ -26,8 +27,7 @@ VERSION_LASTEST = VERSION_30107002
 def generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totals_nm2,
                                                      polarAnglesGrid_deg, partialsList_nm2_sr):
     path = os.path.dirname(filepath)
-    if not os.path.isdir(path):
-        os.makedirs(path)
+    path = create_path(path)
 
     logging.info(filepath)
 
