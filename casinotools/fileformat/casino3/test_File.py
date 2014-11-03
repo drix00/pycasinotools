@@ -28,7 +28,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
         casinoFile = File.File(self.filepathSim)
 
-        self.assertEquals(self.filepathSim, casinoFile.getFilepath())
+        self.assertEqual(self.filepathSim, casinoFile.getFilepath())
 
         #self.fail("Test if the testcase is working.")
 
@@ -38,11 +38,11 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         casinoFile = File.File(self.filepathSim)
 
         type = casinoFile.getFileType()
-        self.assertEquals(File.SIMULATION_CONFIGURATIONS, type)
+        self.assertEqual(File.SIMULATION_CONFIGURATIONS, type)
 
 #        casinoFile = File.File(self.filepathCas)
 #        type = casinoFile.getFileType()
-#        self.assertEquals(File.SIMULATION_RESULTS, type)
+#        self.assertEqual(File.SIMULATION_RESULTS, type)
 
         #self.fail("Test if the testcase is working.")
 
@@ -52,11 +52,11 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         casinoFile = File.File(self.filepathSim)
         file = casinoFile._open(self.filepathSim)
         extension = casinoFile._readExtension(file)
-        self.assertEquals(File.SIMULATION_CONFIGURATIONS, extension)
+        self.assertEqual(File.SIMULATION_CONFIGURATIONS, extension)
 
         file = open(self.filepathCas, 'rb')
         extension = casinoFile._readExtension(file)
-        self.assertEquals(File.SIMULATION_RESULTS, extension)
+        self.assertEqual(File.SIMULATION_RESULTS, extension)
 
         #self.fail("Test if the testcase is working.")
 
@@ -66,7 +66,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         casinoFile = File.File(self.filepathSim)
         file = casinoFile._open(self.filepathSim)
         version = casinoFile._readVersion(file)
-        self.assertEquals(30107002, version)
+        self.assertEqual(30107002, version)
 
         #self.fail("Test if the testcase is working.")
 
@@ -76,8 +76,8 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         casinoFile = File.File(self.filepathSim)
         casinoFile.open()
 
-        self.assertEquals(30107002, casinoFile._version)
-        self.assertEquals(1, casinoFile._numberSimulations)
+        self.assertEqual(30107002, casinoFile._version)
+        self.assertEqual(1, casinoFile._numberSimulations)
 
         #self.fail("Test if the testcase is working.")
 
@@ -87,8 +87,8 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
         casinoFile = File.File(self.filepathCas)
         casinoFile.open()
 
-        self.assertEquals(30107002, casinoFile._version)
-        self.assertEquals(1, casinoFile._numberSimulations)
+        self.assertEqual(30107002, casinoFile._version)
+        self.assertEqual(1, casinoFile._numberSimulations)
 
         #self.fail("Test if the testcase is working.")
 

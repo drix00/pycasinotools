@@ -28,18 +28,18 @@ class TestMeanIonizationPotential(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_computeJ(self):
         meanIonizationPotential = MeanIonizationPotential.MeanIonizationPotential(MeanIonizationPotential.MODEL_JOY)
 
         jRef = 5.75e-2
         j = meanIonizationPotential.computeJ(5)
-        self.assertAlmostEquals(jRef, j)
+        self.assertAlmostEqual(jRef, j)
 
         jRef = 6.9e-2
         j = meanIonizationPotential.computeJ(6)
-        self.assertAlmostEquals(jRef, j)
+        self.assertAlmostEqual(jRef, j)
 
         #self.fail("Test if the testcase is working.")
 

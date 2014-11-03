@@ -25,20 +25,20 @@ class TestGraphData(test_File.TestFile):
         file.seek(2013179)
 
         results = GraphData.GraphData(file)
-        self.assertEquals(30105020, results._version)
+        self.assertEqual(30105020, results._version)
 
-        self.assertEquals(1000, results._size)
-        self.assertAlmostEquals(0.0, results._borneInf)
-        self.assertAlmostEquals(8.900000000000E+01, results._borneSup)
-        self.assertEquals(0, results._isLog)
-        self.assertEquals(0, results._isUneven)
+        self.assertEqual(1000, results._size)
+        self.assertAlmostEqual(0.0, results._borneInf)
+        self.assertAlmostEqual(8.900000000000E+01, results._borneSup)
+        self.assertEqual(0, results._isLog)
+        self.assertEqual(0, results._isUneven)
 
-        self.assertEquals("Z Max", results._title)
-        self.assertEquals("Depth (nm)", results._xTitle)
-        self.assertEquals("Hits (Normalized)", results._yTitle)
+        self.assertEqual("Z Max", results._title)
+        self.assertEqual("Depth (nm)", results._xTitle)
+        self.assertEqual("Hits (Normalized)", results._yTitle)
 
-        self.assertAlmostEquals(1.0, results._values[0])
-        self.assertAlmostEquals(0.0, results._values[-1])
+        self.assertAlmostEqual(1.0, results._values[0])
+        self.assertAlmostEqual(0.0, results._values[-1])
 
 if __name__ == '__main__': #pragma: no cover
     import nose

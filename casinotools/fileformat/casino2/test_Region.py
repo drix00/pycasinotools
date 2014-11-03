@@ -46,8 +46,8 @@ class TestRegion(test_File.TestFile):
         region = Region.Region(500)
         region.read(file)
 
-        self.assertEquals(0, region.ID)
-        self.assertEquals("BC", region.Name)
+        self.assertEqual(0, region.ID)
+        self.assertEqual("BC", region.Name)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

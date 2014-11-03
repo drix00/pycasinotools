@@ -30,14 +30,14 @@ class TestTrajectoryCollision(test_FileReaderWriterTools.TestFileReaderWriterToo
         results = TrajectoryCollision.TrajectoryCollision()
 
         error = results.read(file)
-        self.assertEquals(None, error)
-        self.assertAlmostEquals(-9.168622881064E-02, results._positionX)
-        self.assertAlmostEquals(-4.931083223782E-01, results._positionY)
-        self.assertAlmostEquals(-1.049980000000E+05, results._positionZ)
-        self.assertAlmostEquals(8.000000000000E-01, results._energy)
-        self.assertAlmostEquals(1.000000000000E+04, results._segmentLength)
-        self.assertEquals(3, results._collisionType)
-        self.assertEquals(-1, results._regionID)
+        self.assertEqual(None, error)
+        self.assertAlmostEqual(-9.168622881064E-02, results._positionX)
+        self.assertAlmostEqual(-4.931083223782E-01, results._positionY)
+        self.assertAlmostEqual(-1.049980000000E+05, results._positionZ)
+        self.assertAlmostEqual(8.000000000000E-01, results._energy)
+        self.assertAlmostEqual(1.000000000000E+04, results._segmentLength)
+        self.assertEqual(3, results._collisionType)
+        self.assertEqual(-1, results._regionID)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

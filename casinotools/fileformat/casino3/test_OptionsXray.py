@@ -29,19 +29,19 @@ class TestOptionsXray(test_FileReaderWriterTools.TestFileReaderWriterTools):
         reader = OptionsXray.OptionsXray()
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
-        self.assertAlmostEquals(40.0, reader.TOA)
-        self.assertAlmostEquals(0.0, reader.PhieRX)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
+        self.assertAlmostEqual(40.0, reader.TOA)
+        self.assertAlmostEqual(0.0, reader.PhieRX)
 
         reader = OptionsXray.OptionsXray()
         file = open(self.filepathCas, 'rb')
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
-        self.assertAlmostEquals(40.0, reader.TOA)
-        self.assertAlmostEquals(0.0, reader.PhieRX)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
+        self.assertAlmostEqual(40.0, reader.TOA)
+        self.assertAlmostEqual(0.0, reader.PhieRX)
 
         #self.fail("Test if the testcase is working.")
 

@@ -29,45 +29,45 @@ class TestOptionsAdvBackSet(test_FileReaderWriterTools.TestFileReaderWriterTools
         reader = OptionsAdvBackSet.OptionsAdvBackSet()
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
-        self.assertEquals(False, reader.UseEnBack)
-        self.assertAlmostEquals(10.0, reader.WorkDist)
-        self.assertAlmostEquals(1.0, reader.DetectScaleX)
-        self.assertAlmostEquals(1.0, reader.DetectScaleY)
-        self.assertEquals(False, reader.ValidMatrix)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
+        self.assertEqual(False, reader.UseEnBack)
+        self.assertAlmostEqual(10.0, reader.WorkDist)
+        self.assertAlmostEqual(1.0, reader.DetectScaleX)
+        self.assertAlmostEqual(1.0, reader.DetectScaleY)
+        self.assertEqual(False, reader.ValidMatrix)
 
-        self.assertAlmostEquals(0.0, reader.BEMin_Angle)
-        self.assertAlmostEquals(0.0, reader.BEMax_Angle)
-        self.assertAlmostEquals(0.0, reader.EFilterMax)
-        self.assertAlmostEquals(0.0, reader.EFilterMin)
+        self.assertAlmostEqual(0.0, reader.BEMin_Angle)
+        self.assertAlmostEqual(0.0, reader.BEMax_Angle)
+        self.assertAlmostEqual(0.0, reader.EFilterMax)
+        self.assertAlmostEqual(0.0, reader.EFilterMin)
 
         for i in range(101):
-            self.assertAlmostEquals(1.0, reader.EFilterVal[i])
+            self.assertAlmostEqual(1.0, reader.EFilterVal[i])
 
-        self.assertEquals(0, reader.FEFilter)
+        self.assertEqual(0, reader.FEFilter)
 
         reader = OptionsAdvBackSet.OptionsAdvBackSet()
         file = open(self.filepathCas, 'rb')
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
-        self.assertEquals(False, reader.UseEnBack)
-        self.assertAlmostEquals(10.0, reader.WorkDist)
-        self.assertAlmostEquals(1.0, reader.DetectScaleX)
-        self.assertAlmostEquals(1.0, reader.DetectScaleY)
-        self.assertEquals(False, reader.ValidMatrix)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
+        self.assertEqual(False, reader.UseEnBack)
+        self.assertAlmostEqual(10.0, reader.WorkDist)
+        self.assertAlmostEqual(1.0, reader.DetectScaleX)
+        self.assertAlmostEqual(1.0, reader.DetectScaleY)
+        self.assertEqual(False, reader.ValidMatrix)
 
-        self.assertAlmostEquals(0.0, reader.BEMin_Angle)
-        self.assertAlmostEquals(0.0, reader.BEMax_Angle)
-        self.assertAlmostEquals(0.0, reader.EFilterMax)
-        self.assertAlmostEquals(0.0, reader.EFilterMin)
+        self.assertAlmostEqual(0.0, reader.BEMin_Angle)
+        self.assertAlmostEqual(0.0, reader.BEMax_Angle)
+        self.assertAlmostEqual(0.0, reader.EFilterMax)
+        self.assertAlmostEqual(0.0, reader.EFilterMin)
 
         for i in range(101):
-            self.assertAlmostEquals(1.0, reader.EFilterVal[i])
+            self.assertAlmostEqual(1.0, reader.EFilterVal[i])
 
-        self.assertEquals(0, reader.FEFilter)
+        self.assertEqual(0, reader.FEFilter)
 
         #self.fail("Test if the testcase is working.")
 

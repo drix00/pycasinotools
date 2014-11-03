@@ -50,13 +50,13 @@ class TestSimulationData(test_File.TestFile):
         simulationData = SimulationData.SimulationData()
         simulationData.read(file)
 
-        self.assertEquals("WinCasino Simulation File", simulationData._header)
-        self.assertEquals(26, simulationData._version)
-        self.assertEquals('n', simulationData._status)
-        self.assertEquals(True, simulationData._saveSimulations)
-        self.assertEquals(True, simulationData._saveRegions)
-        self.assertEquals(False, simulationData._saveTrajectories)
-        self.assertEquals(False, simulationData._saveDistributions)
+        self.assertEqual("WinCasino Simulation File", simulationData._header)
+        self.assertEqual(26, simulationData._version)
+        self.assertEqual('n', simulationData._status)
+        self.assertEqual(True, simulationData._saveSimulations)
+        self.assertEqual(True, simulationData._saveRegions)
+        self.assertEqual(False, simulationData._saveTrajectories)
+        self.assertEqual(False, simulationData._saveDistributions)
 
     def testGetTotalXrayIntensities(self):
         if not os.path.isfile(self.filepathCas):

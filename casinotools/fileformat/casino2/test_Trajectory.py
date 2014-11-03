@@ -46,22 +46,22 @@ class TestTrajectory(test_File.TestFile):
         trajectory = Trajectory.Trajectory()
         trajectory.read(file)
 
-        self.assertEquals(0, trajectory.FRetro)
-        self.assertEquals(0, trajectory.FTrans)
-        self.assertEquals(0, trajectory.FDetec)
-        self.assertEquals(88, trajectory.NbColl)
+        self.assertEqual(0, trajectory.FRetro)
+        self.assertEqual(0, trajectory.FTrans)
+        self.assertEqual(0, trajectory.FDetec)
+        self.assertEqual(88, trajectory.NbColl)
 
-        self.assertAlmostEquals(1.373841228321E+02, trajectory.Zmax)
-        self.assertAlmostEquals(0.0, trajectory.LPM)
-        self.assertAlmostEquals(-2.794824207165E-02, trajectory.DedsM)
-        self.assertAlmostEquals(3.281595883225E+00, trajectory.PhiM)
-        self.assertAlmostEquals(2.596906806472E-01, trajectory.ThetaM)
-        self.assertAlmostEquals(-3.785237138949E+01, trajectory.MoyenX)
-        self.assertAlmostEquals(-2.676401848051E+01, trajectory.MoyenY)
-        self.assertAlmostEquals(1.070857314139E+02, trajectory.MoyenZ)
+        self.assertAlmostEqual(1.373841228321E+02, trajectory.Zmax)
+        self.assertAlmostEqual(0.0, trajectory.LPM)
+        self.assertAlmostEqual(-2.794824207165E-02, trajectory.DedsM)
+        self.assertAlmostEqual(3.281595883225E+00, trajectory.PhiM)
+        self.assertAlmostEqual(2.596906806472E-01, trajectory.ThetaM)
+        self.assertAlmostEqual(-3.785237138949E+01, trajectory.MoyenX)
+        self.assertAlmostEqual(-2.676401848051E+01, trajectory.MoyenY)
+        self.assertAlmostEqual(1.070857314139E+02, trajectory.MoyenZ)
 
-        self.assertEquals(1, trajectory.Display)
-        self.assertEquals(89, trajectory.NbElec)
+        self.assertEqual(1, trajectory.Display)
+        self.assertEqual(89, trajectory.NbElec)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

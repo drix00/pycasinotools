@@ -29,25 +29,25 @@ class TestOptionsMicro(test_FileReaderWriterTools.TestFileReaderWriterTools):
         reader = OptionsMicro.OptionsMicro()
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
-        self.assertEquals(0, reader.scanning_mode)
-        self.assertAlmostEquals(0.0, reader.X_plane_position)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
+        self.assertEqual(0, reader.scanning_mode)
+        self.assertAlmostEqual(0.0, reader.X_plane_position)
 
-        self.assertAlmostEquals(1.0, reader.scanPtDist)
-        self.assertEquals(1, reader.keep_simulation_data)
+        self.assertAlmostEqual(1.0, reader.scanPtDist)
+        self.assertEqual(1, reader.keep_simulation_data)
 
         reader = OptionsMicro.OptionsMicro()
         file = open(self.filepathCas, 'rb')
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
-        self.assertEquals(0, reader.scanning_mode)
-        self.assertAlmostEquals(0.0, reader.X_plane_position)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
+        self.assertEqual(0, reader.scanning_mode)
+        self.assertAlmostEqual(0.0, reader.X_plane_position)
 
-        self.assertAlmostEquals(1.0, reader.scanPtDist)
-        self.assertEquals(1, reader.keep_simulation_data)
+        self.assertAlmostEqual(1.0, reader.scanPtDist)
+        self.assertEqual(1, reader.keep_simulation_data)
 
         #self.fail("Test if the testcase is working.")
 

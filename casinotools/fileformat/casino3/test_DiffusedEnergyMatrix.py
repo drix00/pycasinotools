@@ -34,11 +34,11 @@ class TestDiffusedEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTo
         file.seek(1012742)
 
         error = results.read(file)
-        self.assertEquals(None, error)
-        self.assertEquals(30107000, results._version)
-        self.assertEquals(125000, results._numberElements)
-        self.assertEquals(1012762, results._startPosition)
-        self.assertEquals(2012806, results._endPosition)
+        self.assertEqual(None, error)
+        self.assertEqual(30107000, results._version)
+        self.assertEqual(125000, results._numberElements)
+        self.assertEqual(1012762, results._startPosition)
+        self.assertEqual(2012806, results._endPosition)
         #TODO why the end position is more than startPosition + _numberElements*sizeof(double)?
 
 if __name__ == '__main__': #pragma: no cover

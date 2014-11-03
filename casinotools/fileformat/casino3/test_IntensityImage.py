@@ -39,12 +39,12 @@ class TestIntensityImage(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_init(self):
         image = self._imageBinned
-        self.assertEquals(self._casBinnedFilepath, image._filepath)
-        self.assertEquals(IntensityImage.INTENSITY_TRANSMITTED_DETECTED, image._intensityType)
+        self.assertEqual(self._casBinnedFilepath, image._filepath)
+        self.assertEqual(IntensityImage.INTENSITY_TRANSMITTED_DETECTED, image._intensityType)
 
         #self.fail("Test if the testcase is working.")
 
@@ -52,10 +52,10 @@ class TestIntensityImage(unittest.TestCase):
         image = self._imageBinned
         image._extractData()
 
-        self.assertEquals(100, image._numberScanPoints)
+        self.assertEqual(100, image._numberScanPoints)
 
-        self.assertEquals(100, len(image._positions))
-        self.assertEquals(100, len(image._intensities))
+        self.assertEqual(100, len(image._positions))
+        self.assertEqual(100, len(image._intensities))
 
         #self.fail("Test if the testcase is working.")
 
@@ -75,7 +75,7 @@ class TestIntensityImage(unittest.TestCase):
         image._positions = positions
         image._analyzePositions()
 
-        self.assertEquals("XY", image._imageType)
+        self.assertEqual("XY", image._imageType)
         #self.fail("Test if the testcase is working.")
 
     def test_analyzePositionsXZ(self):
@@ -94,7 +94,7 @@ class TestIntensityImage(unittest.TestCase):
         image._positions = positions
         image._analyzePositions()
 
-        self.assertEquals("XZ", image._imageType)
+        self.assertEqual("XZ", image._imageType)
         #self.fail("Test if the testcase is working.")
 
     def test_analyzePositionsYZ(self):
@@ -113,7 +113,7 @@ class TestIntensityImage(unittest.TestCase):
         image._positions = positions
         image._analyzePositions()
 
-        self.assertEquals("YZ", image._imageType)
+        self.assertEqual("YZ", image._imageType)
         #self.fail("Test if the testcase is working.")
 
     def test_analyzePositionsX(self):
@@ -132,7 +132,7 @@ class TestIntensityImage(unittest.TestCase):
         image._positions = positions
         image._analyzePositions()
 
-        self.assertEquals("X", image._imageType)
+        self.assertEqual("X", image._imageType)
         #self.fail("Test if the testcase is working.")
 
     def test_analyzePositionsY(self):
@@ -151,7 +151,7 @@ class TestIntensityImage(unittest.TestCase):
         image._positions = positions
         image._analyzePositions()
 
-        self.assertEquals("Y", image._imageType)
+        self.assertEqual("Y", image._imageType)
         #self.fail("Test if the testcase is working.")
 
     def test_analyzePositionsZ(self):
@@ -170,7 +170,7 @@ class TestIntensityImage(unittest.TestCase):
         image._positions = positions
         image._analyzePositions()
 
-        self.assertEquals("Z", image._imageType)
+        self.assertEqual("Z", image._imageType)
         #self.fail("Test if the testcase is working.")
 
     def test_analyzePositionsP(self):
@@ -181,7 +181,7 @@ class TestIntensityImage(unittest.TestCase):
         image._positions = positions
         image._analyzePositions()
 
-        self.assertEquals("P", image._imageType)
+        self.assertEqual("P", image._imageType)
         #self.fail("Test if the testcase is working.")
 
     def test_analyzePositions3D(self):
@@ -220,7 +220,7 @@ class TestIntensityImage(unittest.TestCase):
         image._positions = positions
         image._analyzePositions()
 
-        self.assertEquals("3D", image._imageType)
+        self.assertEqual("3D", image._imageType)
         #self.fail("Test if the testcase is working.")
 
     def test_createImage(self):

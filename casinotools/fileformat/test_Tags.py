@@ -36,7 +36,7 @@ class TestTags(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_createTagWithFiller(self):
         tagIDs = []
@@ -55,7 +55,7 @@ class TestTags(unittest.TestCase):
         for tagID, tagRef in zip(tagIDs, tagRefs):
             tag = Tags.createTagWithFiller(tagID, tagLenght, filler)
 
-            self.assertEquals(tagRef, tag)
+            self.assertEqual(tagRef, tag)
 
         tagLenght = 10
         tagRefs = []
@@ -66,7 +66,7 @@ class TestTags(unittest.TestCase):
         for tagID, tagRef in zip(tagIDs, tagRefs):
             tag = Tags.createTagWithFiller(tagID, tagLenght, filler)
 
-            self.assertEquals(tagRef, tag)
+            self.assertEqual(tagRef, tag)
 
         #self.fail("Test if the testcase is working.")
 
@@ -86,7 +86,7 @@ class TestTags(unittest.TestCase):
         for tagID, isTagFoundRef in zip(tagIDs, isTagFounds):
             isTagFound = Tags.limitedSearchTag(self.file, tagID, searchLength)
 
-            self.assertEquals(isTagFoundRef, isTagFound)
+            self.assertEqual(isTagFoundRef, isTagFound)
 
         #self.fail("Test if the testcase is working.")
 
@@ -104,7 +104,7 @@ class TestTags(unittest.TestCase):
         for tagID, isTagFoundRef in zip(tagIDs, isTagFounds):
             isTagFound = Tags.searchTag(self.file, tagID)
 
-            self.assertEquals(isTagFoundRef, isTagFound)
+            self.assertEqual(isTagFoundRef, isTagFound)
 
         #self.fail("Test if the testcase is working.")
 

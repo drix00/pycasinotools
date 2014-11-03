@@ -37,15 +37,15 @@ class TestSimulationResults(test_FileReaderWriterTools.TestFileReaderWriterTools
         file.seek(12648)
         error = results.read(file, options)
 
-        self.assertEquals(None, error)
-        self.assertEquals(1, results._numberSimulations)
+        self.assertEqual(None, error)
+        self.assertEqual(1, results._numberSimulations)
 
-        self.assertEquals(20031202, results._version)
+        self.assertEqual(20031202, results._version)
 
-        self.assertAlmostEquals(0.8, results._initialEnergy_keV)
-        self.assertEquals(0.0, results._rkoMax)
+        self.assertAlmostEqual(0.8, results._initialEnergy_keV)
+        self.assertEqual(0.0, results._rkoMax)
 
-        self.assertEquals(30107002, results._versionSimulationResults)
+        self.assertEqual(30107002, results._versionSimulationResults)
         self.assertTrue(results._isTotalEnergyDensitySaved)
 
         #self.fail("Test if the testcase is working.")

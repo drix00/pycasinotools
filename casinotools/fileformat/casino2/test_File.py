@@ -51,22 +51,22 @@ class TestFile(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_read(self):
         if not os.path.isfile(self.filepathSim):
             raise SkipTest
         file = File.File()
         file.readFromFilepath(self.filepathSim)
-        self.assertEquals(self.filepathSim, file._filepath)
-        self.assertEquals(0, file._numberSimulations)
+        self.assertEqual(self.filepathSim, file._filepath)
+        self.assertEqual(0, file._numberSimulations)
 
         file = File.File()
         file.readFromFilepath(self.filepathCas)
-        self.assertEquals(self.filepathCas, file._filepath)
-        self.assertEquals(1, file._numberSimulations)
+        self.assertEqual(self.filepathCas, file._filepath)
+        self.assertEqual(1, file._numberSimulations)
 
-        self.assertEquals(1, len(file._resultSimulationDataList))
+        self.assertEqual(1, len(file._resultSimulationDataList))
 
         #self.fail("Test if the testcase is working.")
 
@@ -81,7 +81,7 @@ class TestFile(unittest.TestCase):
 
         file = File.File()
         file.readFromFileObject(buf)
-        self.assertEquals(0, file._numberSimulations)
+        self.assertEqual(0, file._numberSimulations)
 
         # cas
         f = open(self.filepathCas, 'rb')
@@ -91,9 +91,9 @@ class TestFile(unittest.TestCase):
 
         file = File.File()
         file.readFromFileObject(buf)
-        self.assertEquals(1, file._numberSimulations)
+        self.assertEqual(1, file._numberSimulations)
 
-        self.assertEquals(1, len(file._resultSimulationDataList))
+        self.assertEqual(1, len(file._resultSimulationDataList))
 
     def test_isSimulationFilepath(self):
         file = File.File()
@@ -116,10 +116,10 @@ class TestFile(unittest.TestCase):
         data = open(self.filepathWrite, 'rb').read()
         index = 0
         for charRef, char in zip(dataRef, data):
-            self.assertEquals(charRef, char, index)
+            self.assertEqual(charRef, char, index)
             index += 1
 
-        self.assertEquals(len(dataRef), len(data))
+        self.assertEqual(len(dataRef), len(data))
 
         import filecmp
         self.assertTrue(filecmp.cmp(self.filepathStd, self.filepathWrite, shallow=True))
@@ -140,50 +140,50 @@ class TestFile(unittest.TestCase):
         file.readFromFilepath(self.filepathCas, isSkipReadingData=False)
 
         trajectoriesData = file.getResultsFirstSimulation().getTrajectoriesData()
-        self.assertEquals(221, trajectoriesData._numberTrajectories)
-        self.assertEquals(89, trajectoriesData._trajectories[0].NbElec)
-        self.assertEquals(89, len(trajectoriesData._trajectories[0]._scatteringEvents))
+        self.assertEqual(221, trajectoriesData._numberTrajectories)
+        self.assertEqual(89, trajectoriesData._trajectories[0].NbElec)
+        self.assertEqual(89, len(trajectoriesData._trajectories[0]._scatteringEvents))
 
         event = trajectoriesData._trajectories[0]._scatteringEvents[0]
-        self.assertAlmostEquals(-2.903983831406E+00, event.X)
-        self.assertAlmostEquals(-3.020418643951E+00, event.Y)
-        self.assertAlmostEquals(0.0, event.Z)
-        self.assertAlmostEquals(4.000000000000E+00, event.E)
-        self.assertEquals(0, event.Intersect)
-        self.assertEquals(0, event.id)
+        self.assertAlmostEqual(-2.903983831406E+00, event.X)
+        self.assertAlmostEqual(-3.020418643951E+00, event.Y)
+        self.assertAlmostEqual(0.0, event.Z)
+        self.assertAlmostEqual(4.000000000000E+00, event.E)
+        self.assertEqual(0, event.Intersect)
+        self.assertEqual(0, event.id)
 
         file = File.File()
         file.readFromFilepath(self.filepathCas, isSkipReadingData=True)
 
         trajectoriesData = file.getResultsFirstSimulation().getTrajectoriesData()
-        self.assertEquals(221, trajectoriesData._numberTrajectories)
-        self.assertEquals(89, trajectoriesData._trajectories[0].NbElec)
-        self.assertEquals(0, len(trajectoriesData._trajectories[0]._scatteringEvents))
+        self.assertEqual(221, trajectoriesData._numberTrajectories)
+        self.assertEqual(89, trajectoriesData._trajectories[0].NbElec)
+        self.assertEqual(0, len(trajectoriesData._trajectories[0]._scatteringEvents))
 
         simulationResults = file.getResultsFirstSimulation().getSimulationResults()
 
-        self.assertEquals(1, simulationResults.BE_Intensity_Size)
-        self.assertEquals(3.950000000000E-02, simulationResults.BE_Intensity[0])
+        self.assertEqual(1, simulationResults.BE_Intensity_Size)
+        self.assertEqual(3.950000000000E-02, simulationResults.BE_Intensity[0])
 
         element = simulationResults._elementIntensityList[0]
-        self.assertEquals("B", element.Name)
-        self.assertAlmostEquals(3.444919288026E+02, element.IntensityK[0])
+        self.assertEqual("B", element.Name)
+        self.assertAlmostEqual(3.444919288026E+02, element.IntensityK[0])
 
         element = simulationResults._elementIntensityList[1]
-        self.assertEquals("C", element.Name)
-        self.assertAlmostEquals(4.687551040349E+01, element.IntensityK[0])
+        self.assertEqual("C", element.Name)
+        self.assertAlmostEqual(4.687551040349E+01, element.IntensityK[0])
 
-        self.assertEquals(1000, simulationResults.NbPointDZMax)
-        self.assertEquals(500, simulationResults.NbPointDENR)
-        self.assertEquals(500, simulationResults.NbPointDENT)
-        self.assertEquals(500, simulationResults.NbPointDRSR)
-        #self.assertEquals(0, simulationResults.NbPointDNCR)
-        self.assertEquals(50, simulationResults.NbPointDEpos_X)
-        self.assertEquals(50, simulationResults.NbPointDEpos_Y)
-        self.assertEquals(50, simulationResults.NbPointDEpos_Z)
-        self.assertAlmostEquals(1.608165461510E-02, simulationResults.DEpos_maxE)
-        self.assertEquals(91, simulationResults.NbPointDBANG)
-        self.assertEquals(91, simulationResults.NbPointDAngleVSEnergie)
+        self.assertEqual(1000, simulationResults.NbPointDZMax)
+        self.assertEqual(500, simulationResults.NbPointDENR)
+        self.assertEqual(500, simulationResults.NbPointDENT)
+        self.assertEqual(500, simulationResults.NbPointDRSR)
+        #self.assertEqual(0, simulationResults.NbPointDNCR)
+        self.assertEqual(50, simulationResults.NbPointDEpos_X)
+        self.assertEqual(50, simulationResults.NbPointDEpos_Y)
+        self.assertEqual(50, simulationResults.NbPointDEpos_Z)
+        self.assertAlmostEqual(1.608165461510E-02, simulationResults.DEpos_maxE)
+        self.assertEqual(91, simulationResults.NbPointDBANG)
+        self.assertEqual(91, simulationResults.NbPointDAngleVSEnergie)
 
         #self.fail("Test if the testcase is working.")
 
@@ -196,52 +196,52 @@ class TestFile(unittest.TestCase):
         # .sim
         file = File.File()
         file.readFromFilepath(self.filepathSim_v242)
-        self.assertEquals(self.filepathSim_v242, file._filepath)
-        self.assertEquals(0, file._numberSimulations)
+        self.assertEqual(self.filepathSim_v242, file._filepath)
+        self.assertEqual(0, file._numberSimulations)
 
         optionSimulationData = file.getOptionSimulationData()
         version = optionSimulationData.getVersion()
-        self.assertEquals(Version.VERSION_2_42, version)
+        self.assertEqual(Version.VERSION_2_42, version)
 
         simulationOptions = optionSimulationData.getSimulationOptions()
 
         numberElectrons = simulationOptions.getNumberElectrons()
-        self.assertEquals(10000, numberElectrons)
+        self.assertEqual(10000, numberElectrons)
 
         incidentEnergy_keV = simulationOptions.getIncidentEnergy_keV()
-        self.assertAlmostEquals(3.0, incidentEnergy_keV)
+        self.assertAlmostEqual(3.0, incidentEnergy_keV)
 
         toa_deg = simulationOptions.getTOA_deg()
-        self.assertAlmostEquals(40.0, toa_deg)
+        self.assertAlmostEqual(40.0, toa_deg)
 
         numberXRayLayers = simulationOptions.getNumberXRayLayers()
-        self.assertEquals(500, numberXRayLayers)
+        self.assertEqual(500, numberXRayLayers)
 
         # .cas
         file = File.File()
         file.readFromFilepath(self.filepathCas_v242)
-        self.assertEquals(self.filepathCas_v242, file._filepath)
-        self.assertEquals(1, file._numberSimulations)
+        self.assertEqual(self.filepathCas_v242, file._filepath)
+        self.assertEqual(1, file._numberSimulations)
 
-        self.assertEquals(1, len(file._resultSimulationDataList))
+        self.assertEqual(1, len(file._resultSimulationDataList))
 
         optionSimulationData = file.getOptionSimulationData()
         version = optionSimulationData.getVersion()
-        self.assertEquals(Version.VERSION_2_42, version)
+        self.assertEqual(Version.VERSION_2_42, version)
 
         simulationOptions = optionSimulationData.getSimulationOptions()
 
         numberElectrons = simulationOptions.getNumberElectrons()
-        self.assertEquals(10000, numberElectrons)
+        self.assertEqual(10000, numberElectrons)
 
         incidentEnergy_keV = simulationOptions.getIncidentEnergy_keV()
-        self.assertAlmostEquals(3.0, incidentEnergy_keV)
+        self.assertAlmostEqual(3.0, incidentEnergy_keV)
 
         toa_deg = simulationOptions.getTOA_deg()
-        self.assertAlmostEquals(40.0, toa_deg)
+        self.assertAlmostEqual(40.0, toa_deg)
 
         numberXRayLayers = simulationOptions.getNumberXRayLayers()
-        self.assertEquals(500, numberXRayLayers)
+        self.assertEqual(500, numberXRayLayers)
 
         resultSimulationData = file.getResultsSimulation(0)
         regionOptions = resultSimulationData.getRegionOptions()
@@ -249,11 +249,11 @@ class TestFile(unittest.TestCase):
         element = region.getElement(0)
         intensities = element.getTotalXrayIntensities()
 
-        self.assertAlmostEquals(2164.75, intensities[LINE_K][GENERATED], 2)
-        self.assertAlmostEquals(415.81, intensities[LINE_K][EMITTED], 2)
+        self.assertAlmostEqual(2164.75, intensities[LINE_K][GENERATED], 2)
+        self.assertAlmostEqual(415.81, intensities[LINE_K][EMITTED], 2)
 
         atomicNumber = element.getAtomicNumber()
-        self.assertEquals(5, atomicNumber)
+        self.assertEqual(5, atomicNumber)
 
         #self.fail("Test if the testcase is working.")
 

@@ -28,7 +28,7 @@ class TestLineXPattern(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_getScanPoints(self):
         line = LineXPattern.LineXPattern()
@@ -41,13 +41,13 @@ class TestLineXPattern(unittest.TestCase):
 
         scanPointsRef = [(-5.0, -250.0), (5.0, -250.0), (15.0, -250.0)]
 
-        self.assertEquals(len(scanPointsRef), len(scanPoints))
+        self.assertEqual(len(scanPointsRef), len(scanPoints))
 
         for pointRef, point in zip(scanPointsRef, scanPoints):
                 xRef, yRef = pointRef
                 x, y = point
-                self.assertAlmostEquals(xRef, x)
-                self.assertAlmostEquals(yRef, y)
+                self.assertAlmostEqual(xRef, x)
+                self.assertAlmostEqual(yRef, y)
 
         #self.fail("Test if the testcase is working.")
 

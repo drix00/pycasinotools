@@ -34,10 +34,10 @@ class TestEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTools):
         file.seek(4042541)
 
         error = results.read(file)
-        self.assertEquals(None, error)
-        self.assertEquals(125000, results._numberElements)
-        self.assertEquals(4042541, results._startPosition)
-        self.assertEquals(4042541 + 125000 * 8, results._endPosition)
+        self.assertEqual(None, error)
+        self.assertEqual(125000, results._numberElements)
+        self.assertEqual(4042541, results._startPosition)
+        self.assertEqual(4042541 + 125000 * 8, results._endPosition)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

@@ -29,25 +29,25 @@ class TestOptionsDist(test_FileReaderWriterTools.TestFileReaderWriterTools):
         reader = OptionsDist.OptionsDist()
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
-        self.assertAlmostEquals(1.0, reader.DenrMax / OptionsDist.autoFlag)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
+        self.assertAlmostEqual(1.0, reader.DenrMax / OptionsDist.autoFlag)
 
-        self.assertAlmostEquals(1000.0, reader.DEposCyl_Z)
-        self.assertEquals(0, reader.DEposCyl_Z_Log)
-        self.assertEquals(OptionsDist.DIST_DEPOS_POSITION_ABSOLUTE, reader.DEpos_Position)
+        self.assertAlmostEqual(1000.0, reader.DEposCyl_Z)
+        self.assertEqual(0, reader.DEposCyl_Z_Log)
+        self.assertEqual(OptionsDist.DIST_DEPOS_POSITION_ABSOLUTE, reader.DEpos_Position)
 
         reader = OptionsDist.OptionsDist()
         file = open(self.filepathCas, 'rb')
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
-        self.assertAlmostEquals(1.0, reader.DenrMax / OptionsDist.autoFlag)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
+        self.assertAlmostEqual(1.0, reader.DenrMax / OptionsDist.autoFlag)
 
-        self.assertAlmostEquals(1000.0, reader.DEposCyl_Z)
-        self.assertEquals(0, reader.DEposCyl_Z_Log)
-        self.assertEquals(OptionsDist.DIST_DEPOS_POSITION_ABSOLUTE, reader.DEpos_Position)
+        self.assertAlmostEqual(1000.0, reader.DEposCyl_Z)
+        self.assertEqual(0, reader.DEposCyl_Z_Log)
+        self.assertEqual(OptionsDist.DIST_DEPOS_POSITION_ABSOLUTE, reader.DEpos_Position)
 
         #self.fail("Test if the testcase is working.")
 
