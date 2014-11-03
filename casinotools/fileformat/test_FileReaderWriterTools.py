@@ -11,7 +11,6 @@ __license__ = ""
 # Standard library modules.
 import unittest
 import os.path
-import tempfile
 import shutil
 
 # Third party modules.
