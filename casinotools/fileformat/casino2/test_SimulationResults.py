@@ -30,8 +30,8 @@ class TestSimulationResults(test_File.TestFile):
     def test_read(self):
         if not os.path.isfile(self.filepathCas):
             raise SkipTest
-        file = open(self.filepathCas, 'rb')
-        self._read_tests(file)
+        with open(self.filepathCas, 'rb') as file:
+            self._read_tests(file)
 
     def test_read_StringIO(self):
         if not os.path.isfile(self.filepathCas):

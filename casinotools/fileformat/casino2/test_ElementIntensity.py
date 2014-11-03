@@ -30,8 +30,8 @@ class TestElementIntensity(test_File.TestFile):
         if not os.path.isfile(self.filepathCas):
             raise SkipTest
 
-        casinoFile = open(self.filepathCas, 'rb')
-        self._read_tests(casinoFile)
+        with open(self.filepathCas, 'rb') as casinoFile:
+            self._read_tests(casinoFile)
 
     def test_read_StringIO(self):
         if not os.path.isfile(self.filepathCas):

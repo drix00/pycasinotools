@@ -30,8 +30,8 @@ class TestComposition(test_File.TestFile):
         if not os.path.isfile(self.filepathSim):
             raise SkipTest
 
-        file = open(self.filepathSim, 'rb')
-        self._read_tests(file)
+        with open(self.filepathSim, 'rb') as file:
+            self._read_tests(file)
 
     def test_read_StringIO(self):
         if not os.path.isfile(self.filepathSim):

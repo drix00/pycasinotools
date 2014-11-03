@@ -31,7 +31,8 @@ class XrayRadialReader(object):
         self._currentLine = None
 
     def readTextFile(self, filepath):
-        lines = open(filepath, 'r').readlines()
+        with open(filepath, 'r') as fp:
+            lines = fp.readlines()
 
         self._setTextFileVersion(lines[0])
 

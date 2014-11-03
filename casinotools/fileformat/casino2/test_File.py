@@ -112,8 +112,10 @@ class TestFile(unittest.TestCase):
         file.setOptionSimulationData(optionSimulationData)
         file.write(self.filepathWrite)
 
-        dataRef = open(self.filepathStd, 'rb').read()
-        data = open(self.filepathWrite, 'rb').read()
+        with open(self.filepathStd, 'rb') as fp:
+            dataRef = fp.read()
+        with open(self.filepathWrite, 'rb') as fp:
+            data = fp.read()
         index = 0
         for charRef, char in zip(dataRef, data):
             self.assertEqual(charRef, char, index)
