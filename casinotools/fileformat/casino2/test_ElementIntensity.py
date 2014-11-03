@@ -48,8 +48,8 @@ class TestElementIntensity(test_File.TestFile):
         element = ElementIntensity.ElementIntensity()
         element.read(casinoFile)
 
-        self.assertEquals("B", element.Name)
-        self.assertAlmostEquals(3.444919288026E+02, element.IntensityK[0])
+        self.assertEqual("B", element.Name)
+        self.assertAlmostEqual(3.444919288026E+02, element.IntensityK[0])
 
 if __name__ == '__main__': #pragma: no cover
     import nose

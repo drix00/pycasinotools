@@ -43,18 +43,18 @@ class TestFileReaderWriterTools(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_checkAndCorrectValueSize(self):
         valueRef = "WinCasino Simulation File"
         size = 26
         value = FileReaderWriterTools.FileReaderWriterTools()._checkAndCorrectValueSize(valueRef, size)
-        self.assertEquals(valueRef, value)
+        self.assertEqual(valueRef, value)
 
         size = 6
         value = FileReaderWriterTools.FileReaderWriterTools()._checkAndCorrectValueSize(valueRef, size)
         self.assertNotEquals(valueRef, value)
-        self.assertEquals(valueRef[:size], value)
+        self.assertEqual(valueRef[:size], value)
 
         #self.fail("Test if the testcase is working.")
 
@@ -66,22 +66,22 @@ class TestFileReaderWriterTools(unittest.TestCase):
         version = File.V30103040
         versionStrRef = "3.1.3.40"
         versionStr = casinoFile._extractVersionString(version)
-        self.assertEquals(versionStrRef, versionStr)
+        self.assertEqual(versionStrRef, versionStr)
 
         version = File.V30103070
         versionStrRef = "3.1.3.70"
         versionStr = casinoFile._extractVersionString(version)
-        self.assertEquals(versionStrRef, versionStr)
+        self.assertEqual(versionStrRef, versionStr)
 
         version = File.V30104060
         versionStrRef = "3.1.4.60"
         versionStr = casinoFile._extractVersionString(version)
-        self.assertEquals(versionStrRef, versionStr)
+        self.assertEqual(versionStrRef, versionStr)
 
         version = File.V30107002
         versionStrRef = "3.1.7.2"
         versionStr = casinoFile._extractVersionString(version)
-        self.assertEquals(versionStrRef, versionStr)
+        self.assertEqual(versionStrRef, versionStr)
 
         #self.fail("Test if the testcase is working.")
 

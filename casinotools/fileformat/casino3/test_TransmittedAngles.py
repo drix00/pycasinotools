@@ -30,13 +30,13 @@ class TestTransmittedAngles(test_FileReaderWriterTools.TestFileReaderWriterTools
         results = TransmittedAngles.TransmittedAngles()
         error = results.read(file)
 
-        self.assertEquals(None, error)
+        self.assertEqual(None, error)
 
-        self.assertEquals(0, results._numberTransmittedElectrons)
-        self.assertEquals(0, results._numberTransmittedDetectedElectrons)
-        self.assertEquals(0, results._numberAngles)
+        self.assertEqual(0, results._numberTransmittedElectrons)
+        self.assertEqual(0, results._numberTransmittedDetectedElectrons)
+        self.assertEqual(0, results._numberAngles)
 
-        self.assertEquals(0, results._numberBinnedAngles)
+        self.assertEqual(0, results._numberBinnedAngles)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

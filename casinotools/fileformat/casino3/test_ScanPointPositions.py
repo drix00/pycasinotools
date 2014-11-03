@@ -29,8 +29,8 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
         reader = ScanPointPositions.ScanPointPositions()
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(5, reader.getNumberPoints())
+        self.assertEqual(None, error)
+        self.assertEqual(5, reader.getNumberPoints())
 
         if not os.path.isfile(self.filepathCas):
             raise SkipTest
@@ -38,8 +38,8 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
         reader = ScanPointPositions.ScanPointPositions()
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(5, reader.getNumberPoints())
+        self.assertEqual(None, error)
+        self.assertEqual(5, reader.getNumberPoints())
 
         positionsRef = []
         positionsRef.append((0.0, 0.0, 0.0))
@@ -50,7 +50,7 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
 
         for point, pointRef in zip(reader.getPositions(), positionsRef):
             for i in range(3):
-                self.assertAlmostEquals(pointRef[i], point[i])
+                self.assertAlmostEqual(pointRef[i], point[i])
 
         #self.fail("Test if the testcase is working.")
 

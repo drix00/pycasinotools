@@ -30,26 +30,26 @@ class TestRegionIntensityInfo(test_FileReaderWriterTools.TestFileReaderWriterToo
         results = RegionIntensityInfo.RegionIntensityInfo()
         error = results.read(file)
 
-        self.assertEquals(None, error)
+        self.assertEqual(None, error)
 
-        self.assertEquals(30105022, results._version)
-        self.assertAlmostEquals(0.0, results._energyIntensity)
-        self.assertEquals(1, results._regionID)
-        self.assertAlmostEquals(0.0, results._normalizedEnergyIntensity)
-
-        error = results.read(file)
-        self.assertEquals(None, error)
-        self.assertEquals(30105022, results._version)
-        self.assertAlmostEquals(0.0, results._energyIntensity)
-        self.assertEquals(2, results._regionID)
-        self.assertAlmostEquals(0.0, results._normalizedEnergyIntensity)
+        self.assertEqual(30105022, results._version)
+        self.assertAlmostEqual(0.0, results._energyIntensity)
+        self.assertEqual(1, results._regionID)
+        self.assertAlmostEqual(0.0, results._normalizedEnergyIntensity)
 
         error = results.read(file)
-        self.assertEquals(None, error)
-        self.assertEquals(30105022, results._version)
-        self.assertAlmostEquals(7.268071702406E+05, results._energyIntensity)
-        self.assertEquals(3, results._regionID)
-        self.assertAlmostEquals(7.268071702406E-01, results._normalizedEnergyIntensity)
+        self.assertEqual(None, error)
+        self.assertEqual(30105022, results._version)
+        self.assertAlmostEqual(0.0, results._energyIntensity)
+        self.assertEqual(2, results._regionID)
+        self.assertAlmostEqual(0.0, results._normalizedEnergyIntensity)
+
+        error = results.read(file)
+        self.assertEqual(None, error)
+        self.assertEqual(30105022, results._version)
+        self.assertAlmostEqual(7.268071702406E+05, results._energyIntensity)
+        self.assertEqual(3, results._regionID)
+        self.assertAlmostEqual(7.268071702406E-01, results._normalizedEnergyIntensity)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

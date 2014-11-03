@@ -46,7 +46,7 @@ class TestRegionOptions(test_File.TestFile):
         regionOptions = RegionOptions.RegionOptions(500)
         regionOptions.read(file)
 
-        self.assertEquals(1, regionOptions._numberRegions)
+        self.assertEqual(1, regionOptions._numberRegions)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

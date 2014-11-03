@@ -50,28 +50,28 @@ class TestSimulationResults(test_File.TestFile):
         simulationResults = SimulationResults.SimulationResults()
         simulationResults.read(file, options, version)
 
-        self.assertEquals(1, simulationResults.BE_Intensity_Size)
-        self.assertEquals(3.950000000000E-02, simulationResults.BE_Intensity[0])
+        self.assertEqual(1, simulationResults.BE_Intensity_Size)
+        self.assertEqual(3.950000000000E-02, simulationResults.BE_Intensity[0])
 
         element = simulationResults._elementIntensityList[0]
-        self.assertEquals("B", element.Name)
-        self.assertAlmostEquals(3.444919288026E+02, element.IntensityK[0])
+        self.assertEqual("B", element.Name)
+        self.assertAlmostEqual(3.444919288026E+02, element.IntensityK[0])
 
         element = simulationResults._elementIntensityList[1]
-        self.assertEquals("C", element.Name)
-        self.assertAlmostEquals(4.687551040349E+01, element.IntensityK[0])
+        self.assertEqual("C", element.Name)
+        self.assertAlmostEqual(4.687551040349E+01, element.IntensityK[0])
 
-        self.assertEquals(1000, simulationResults.NbPointDZMax)
-        self.assertEquals(500, simulationResults.NbPointDENR)
-        self.assertEquals(500, simulationResults.NbPointDENT)
-        self.assertEquals(500, simulationResults.NbPointDRSR)
-        #self.assertEquals(0, simulationResults.NbPointDNCR)
-        self.assertEquals(50, simulationResults.NbPointDEpos_X)
-        self.assertEquals(50, simulationResults.NbPointDEpos_Y)
-        self.assertEquals(50, simulationResults.NbPointDEpos_Z)
-        self.assertAlmostEquals(1.608165461510E-02, simulationResults.DEpos_maxE)
-        self.assertEquals(91, simulationResults.NbPointDBANG)
-        self.assertEquals(91, simulationResults.NbPointDAngleVSEnergie)
+        self.assertEqual(1000, simulationResults.NbPointDZMax)
+        self.assertEqual(500, simulationResults.NbPointDENR)
+        self.assertEqual(500, simulationResults.NbPointDENT)
+        self.assertEqual(500, simulationResults.NbPointDRSR)
+        #self.assertEqual(0, simulationResults.NbPointDNCR)
+        self.assertEqual(50, simulationResults.NbPointDEpos_X)
+        self.assertEqual(50, simulationResults.NbPointDEpos_Y)
+        self.assertEqual(50, simulationResults.NbPointDEpos_Z)
+        self.assertAlmostEqual(1.608165461510E-02, simulationResults.DEpos_maxE)
+        self.assertEqual(91, simulationResults.NbPointDBANG)
+        self.assertEqual(91, simulationResults.NbPointDAngleVSEnergie)
 
         #self.fail("Test if the testcase is working.")
 

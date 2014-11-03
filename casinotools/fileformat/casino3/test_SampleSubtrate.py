@@ -30,20 +30,20 @@ class TestSampleSubtrate(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = SampleObjectFactory.CreateObjectFromType(SHAPE_SUBSTRATE)
         sample.read(file)
 
-        self.assertEquals(30105004, sample._version)
+        self.assertEqual(30105004, sample._version)
 
-        self.assertEquals("Substrate", sample._name)
-        self.assertEquals("Substrate", sample._regionName)
+        self.assertEqual("Substrate", sample._name)
+        self.assertEqual("Substrate", sample._regionName)
 
-        self.assertEquals((0.0, 0.0, 0.0), sample._translation)
-        self.assertEquals((0.0, 0.0, 0.0), sample._rotation)
-        self.assertEquals((100000.0, 100000.0, 100000.0), sample._scale)
-        self.assertEquals((0.0, 0.0, 1.0), sample._color)
+        self.assertEqual((0.0, 0.0, 0.0), sample._translation)
+        self.assertEqual((0.0, 0.0, 0.0), sample._rotation)
+        self.assertEqual((100000.0, 100000.0, 100000.0), sample._scale)
+        self.assertEqual((0.0, 0.0, 1.0), sample._color)
 
 
-        self.assertEquals(0, sample._numberEdges)
+        self.assertEqual(0, sample._numberEdges)
 
-        self.assertEquals(SampleObjectFactory.SHAPE_SUBSTRATE, sample._type)
+        self.assertEqual(SampleObjectFactory.SHAPE_SUBSTRATE, sample._type)
 
         #self.fail("Test if the testcase is working.")
 

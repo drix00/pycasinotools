@@ -46,12 +46,12 @@ class TestScatteringEvent(test_File.TestFile):
         event = ScatteringEvent.ScatteringEvent()
         event.read(file)
 
-        self.assertAlmostEquals(-2.903983831406E+00, event.X)
-        self.assertAlmostEquals(-3.020418643951E+00, event.Y)
-        self.assertAlmostEquals(0.0, event.Z)
-        self.assertAlmostEquals(4.000000000000E+00, event.E)
-        self.assertEquals(0, event.Intersect)
-        self.assertEquals(0, event.id)
+        self.assertAlmostEqual(-2.903983831406E+00, event.X)
+        self.assertAlmostEqual(-3.020418643951E+00, event.Y)
+        self.assertAlmostEqual(0.0, event.Z)
+        self.assertAlmostEqual(4.000000000000E+00, event.E)
+        self.assertEqual(0, event.Intersect)
+        self.assertEqual(0, event.id)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

@@ -48,12 +48,12 @@ class TestComposition(test_File.TestFile):
         composition = Composition.Composition()
         composition.read(file)
 
-        self.assertEquals(0, composition.NuEl)
-        self.assertAlmostEquals(7.981000000000E-01, composition.FWt)
-        self.assertAlmostEquals(8.145442797934E-01, composition.FAt)
-        self.assertAlmostEquals(0.0, composition.SigmaT)
-        self.assertAlmostEquals(0.0, composition.SigmaTIne)
-        self.assertEquals(1, composition.Rep)
+        self.assertEqual(0, composition.NuEl)
+        self.assertAlmostEqual(7.981000000000E-01, composition.FWt)
+        self.assertAlmostEqual(8.145442797934E-01, composition.FAt)
+        self.assertAlmostEqual(0.0, composition.SigmaT)
+        self.assertAlmostEqual(0.0, composition.SigmaTIne)
+        self.assertEqual(1, composition.Rep)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

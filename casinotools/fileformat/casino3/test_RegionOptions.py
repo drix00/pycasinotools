@@ -30,7 +30,7 @@ class TestRegionOptions(test_FileReaderWriterTools.TestFileReaderWriterTools):
         regionOptions = RegionOptions.RegionOptions()
         regionOptions.read(file)
 
-        self.assertEquals(8, regionOptions._numberRegions)
+        self.assertEqual(8, regionOptions._numberRegions)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

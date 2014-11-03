@@ -34,23 +34,23 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = Sample.Sample()
         sample.read(file)
 
-        self.assertEquals(30107002, sample._version)
-        self.assertEquals(False, sample._useSubstrate)
+        self.assertEqual(30107002, sample._version)
+        self.assertEqual(False, sample._useSubstrate)
 
-        self.assertEquals(4, sample._count)
+        self.assertEqual(4, sample._count)
 
         boxShape = sample._sampleObjects[0]
 
-        self.assertEquals(SampleObjectFactory.SHAPE_BOX, boxShape._type)
-        self.assertEquals(30105004, boxShape._version)
-        self.assertEquals("Box_0", boxShape._name)
-        self.assertEquals("Undefined", boxShape._regionName)
-        self.assertEquals((0.0, 0.0, 5000.0), boxShape._translation)
-        self.assertEquals((0.0, 0.0, 0.0), boxShape._rotation)
-        self.assertEquals((10000.0, 10000.0, 10000.0), boxShape._scale)
-        self.assertEquals((0.984375, 0.0, 0.0), boxShape._color)
+        self.assertEqual(SampleObjectFactory.SHAPE_BOX, boxShape._type)
+        self.assertEqual(30105004, boxShape._version)
+        self.assertEqual("Box_0", boxShape._name)
+        self.assertEqual("Undefined", boxShape._regionName)
+        self.assertEqual((0.0, 0.0, 5000.0), boxShape._translation)
+        self.assertEqual((0.0, 0.0, 0.0), boxShape._rotation)
+        self.assertEqual((10000.0, 10000.0, 10000.0), boxShape._scale)
+        self.assertEqual((0.984375, 0.0, 0.0), boxShape._color)
 
-        self.assertEquals(20, sample._maxSampleTreeLevel)
+        self.assertEqual(20, sample._maxSampleTreeLevel)
 
         #self.fail("Test if the testcase is working.")
 
@@ -62,23 +62,23 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = Sample.Sample()
         sample.read(file)
 
-        self.assertEquals(30200002, sample._version)
-        self.assertEquals(False, sample._useSubstrate)
+        self.assertEqual(30200002, sample._version)
+        self.assertEqual(False, sample._useSubstrate)
 
-        self.assertEquals(4, sample._count)
+        self.assertEqual(4, sample._count)
 
         boxShape = sample._sampleObjects[0]
 
-        self.assertEquals(SampleObjectFactory.SHAPE_BOX, boxShape._type)
-        self.assertEquals(30105004, boxShape._version)
-        self.assertEquals("Box_0", boxShape._name)
-        self.assertEquals("Undefined", boxShape._regionName)
-        self.assertEquals((0.0, 0.0, 5000.0), boxShape._translation)
-        self.assertEquals((0.0, 0.0, 0.0), boxShape._rotation)
-        self.assertEquals((10000.0, 10000.0, 10000.0), boxShape._scale)
-        self.assertEquals((0.984375, 0.0, 0.0), boxShape._color)
+        self.assertEqual(SampleObjectFactory.SHAPE_BOX, boxShape._type)
+        self.assertEqual(30105004, boxShape._version)
+        self.assertEqual("Box_0", boxShape._name)
+        self.assertEqual("Undefined", boxShape._regionName)
+        self.assertEqual((0.0, 0.0, 5000.0), boxShape._translation)
+        self.assertEqual((0.0, 0.0, 0.0), boxShape._rotation)
+        self.assertEqual((10000.0, 10000.0, 10000.0), boxShape._scale)
+        self.assertEqual((0.984375, 0.0, 0.0), boxShape._color)
 
-        self.assertEquals(20, sample._maxSampleTreeLevel)
+        self.assertEqual(20, sample._maxSampleTreeLevel)
 
         #self.fail("Test if the testcase is working.")
 
@@ -95,9 +95,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample.read(casinoFile)
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(0.0, rotationY_deg)
+        self.assertAlmostEqual(0.0, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(0.0, rotationZ_deg)
+        self.assertAlmostEqual(0.0, rotationZ_deg)
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationY10.sim")
         if not os.path.isfile(filepathSim):
@@ -109,9 +109,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample.read(casinoFile)
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(10.0, rotationY_deg)
+        self.assertAlmostEqual(10.0, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(0.0, rotationZ_deg)
+        self.assertAlmostEqual(0.0, rotationZ_deg)
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationZ15.sim")
         if not os.path.isfile(filepathSim):
@@ -123,9 +123,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample.read(casinoFile)
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(0.0, rotationY_deg)
+        self.assertAlmostEqual(0.0, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(15.0, rotationZ_deg)
+        self.assertAlmostEqual(15.0, rotationZ_deg)
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationY20Z35.sim")
         if not os.path.isfile(filepathSim):
@@ -137,9 +137,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample.read(casinoFile)
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(20.0, rotationY_deg)
+        self.assertAlmostEqual(20.0, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(35.0, rotationZ_deg)
+        self.assertAlmostEqual(35.0, rotationZ_deg)
 
         #self.fail("Test if the testcase is working.")
 
@@ -162,9 +162,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = casinoFile.getFirstSimulation().getSample()
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(0.0, rotationY_deg)
+        self.assertAlmostEqual(0.0, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(0.0, rotationZ_deg)
+        self.assertAlmostEqual(0.0, rotationZ_deg)
 
         sample.modifyRotationY_deg(rotationYRef_deg)
         del casinoFile
@@ -173,9 +173,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = casinoFile.getFirstSimulation().getSample()
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(rotationYRef_deg, rotationY_deg)
+        self.assertAlmostEqual(rotationYRef_deg, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(0.0, rotationZ_deg)
+        self.assertAlmostEqual(0.0, rotationZ_deg)
 
         del casinoFile
 
@@ -189,9 +189,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = casinoFile.getFirstSimulation().getSample()
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(0.0, rotationY_deg)
+        self.assertAlmostEqual(0.0, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(0.0, rotationZ_deg)
+        self.assertAlmostEqual(0.0, rotationZ_deg)
 
         sample.modifyRotationZ_deg(rotationZRef_deg)
         del casinoFile
@@ -200,9 +200,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = casinoFile.getFirstSimulation().getSample()
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(0.0, rotationY_deg)
+        self.assertAlmostEqual(0.0, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(rotationZRef_deg, rotationZ_deg)
+        self.assertAlmostEqual(rotationZRef_deg, rotationZ_deg)
 
         del casinoFile
 
@@ -217,9 +217,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = casinoFile.getFirstSimulation().getSample()
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(0.0, rotationY_deg)
+        self.assertAlmostEqual(0.0, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(0.0, rotationZ_deg)
+        self.assertAlmostEqual(0.0, rotationZ_deg)
 
         sample.modifyRotationY_deg(rotationYRef_deg)
         sample.modifyRotationZ_deg(rotationZRef_deg)
@@ -229,9 +229,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         sample = casinoFile.getFirstSimulation().getSample()
 
         rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEquals(rotationYRef_deg, rotationY_deg)
+        self.assertAlmostEqual(rotationYRef_deg, rotationY_deg)
         rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEquals(rotationZRef_deg, rotationZ_deg)
+        self.assertAlmostEqual(rotationZRef_deg, rotationZ_deg)
 
         del casinoFile
 

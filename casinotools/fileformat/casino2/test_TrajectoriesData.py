@@ -49,7 +49,7 @@ class TestTrajectoriesData(test_File.TestFile):
         file.seek(98348)
         trajectoriesData = TrajectoriesData.TrajectoriesData()
         trajectoriesData.read(file)
-        self.assertEquals(221, trajectoriesData._numberTrajectories)
+        self.assertEqual(221, trajectoriesData._numberTrajectories)
 
 if __name__ == '__main__': #pragma: no cover
     import nose

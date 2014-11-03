@@ -38,7 +38,7 @@ class TestXrayRadialReader(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_readTextFile(self):
         if not os.path.isfile(self.filepath_Cu_K):
@@ -47,26 +47,26 @@ class TestXrayRadialReader(unittest.TestCase):
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
 
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
-        self.assertEquals(XrayRadialReader.K, xrayRadial.getLine())
-        self.assertEquals("Cu", xrayRadial.getElementSymbol())
+        self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
+        self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
         dataLabelsRef = [XrayRadial.DISTANCE_nm, XrayRadial.INTENSITY, XrayRadial.INTENSITY_ABSORBED]
-        self.assertEquals(dataLabelsRef, xrayRadial.getDataLabels())
+        self.assertEqual(dataLabelsRef, xrayRadial.getDataLabels())
 
         distances_nm = xrayRadial.getDistances_nm()
-        self.assertEquals(500, len(distances_nm))
-        self.assertAlmostEquals(0.0, distances_nm[0])
-        self.assertAlmostEquals(953.396625, distances_nm[-1])
+        self.assertEqual(500, len(distances_nm))
+        self.assertAlmostEqual(0.0, distances_nm[0])
+        self.assertAlmostEqual(953.396625, distances_nm[-1])
 
         intensities = xrayRadial.getIntensities()
-        self.assertEquals(500, len(intensities))
-        self.assertAlmostEquals(111.260633, intensities[0])
-        self.assertAlmostEquals(0.000128, intensities[-1])
+        self.assertEqual(500, len(intensities))
+        self.assertAlmostEqual(111.260633, intensities[0])
+        self.assertAlmostEqual(0.000128, intensities[-1])
 
         intensitiesAbsorbed = xrayRadial.getIntensitiesAbsorbed()
-        self.assertEquals(500, len(intensitiesAbsorbed))
-        self.assertAlmostEquals(111.007526, intensitiesAbsorbed[0])
-        self.assertAlmostEquals(0.000127, intensitiesAbsorbed[-1])
+        self.assertEqual(500, len(intensitiesAbsorbed))
+        self.assertAlmostEqual(111.007526, intensitiesAbsorbed[0])
+        self.assertAlmostEqual(0.000127, intensitiesAbsorbed[-1])
 
         #self.fail("Test if the testcase is working.")
 
@@ -76,21 +76,21 @@ class TestXrayRadialReader(unittest.TestCase):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
-        self.assertEquals(XrayRadialReader.K, xrayRadial.getLine())
+        self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
 
         if not os.path.isfile(self.filepath_Cu_L):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_L)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
-        self.assertEquals(XrayRadialReader.L, xrayRadial.getLine())
+        self.assertEqual(XrayRadialReader.L, xrayRadial.getLine())
 
         if not os.path.isfile(self.filepath_Au_M):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Au_M)
         xrayRadial = xrayRadialReader.getData('Au', XrayRadialReader.M)
-        self.assertEquals(XrayRadialReader.M, xrayRadial.getLine())
+        self.assertEqual(XrayRadialReader.M, xrayRadial.getLine())
 
         #self.fail("Test if the testcase is working.")
 
@@ -100,21 +100,21 @@ class TestXrayRadialReader(unittest.TestCase):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
-        self.assertEquals("Cu", xrayRadial.getElementSymbol())
+        self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
         if not os.path.isfile(self.filepath_Cu_L):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_L)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
-        self.assertEquals("Cu", xrayRadial.getElementSymbol())
+        self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
         if not os.path.isfile(self.filepath_Au_M):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Au_M)
         xrayRadial = xrayRadialReader.getData('Au', XrayRadialReader.M)
-        self.assertEquals("Au", xrayRadial.getElementSymbol())
+        self.assertEqual("Au", xrayRadial.getElementSymbol())
 
         #self.fail("Test if the testcase is working.")
 
@@ -122,31 +122,31 @@ class TestXrayRadialReader(unittest.TestCase):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu)
 
-        self.assertEquals(XrayRadialReader.HEADER_ELEMENT, xrayRadialReader._version)
+        self.assertEqual(XrayRadialReader.HEADER_ELEMENT, xrayRadialReader._version)
 
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
-        self.assertEquals("Cu", xrayRadial.getElementSymbol())
-        self.assertEquals(XrayRadialReader.K, xrayRadial.getLine())
+        self.assertEqual("Cu", xrayRadial.getElementSymbol())
+        self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
 
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
-        self.assertEquals("Cu", xrayRadial.getElementSymbol())
-        self.assertEquals(XrayRadialReader.L, xrayRadial.getLine())
+        self.assertEqual("Cu", xrayRadial.getElementSymbol())
+        self.assertEqual(XrayRadialReader.L, xrayRadial.getLine())
 
     def test__setTextFileVersion(self):
         line = "Radial XRay Distribution Layer MV of Element Au"
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader._setTextFileVersion(line)
-        self.assertEquals(XrayRadialReader.HEADER_ELEMENT_LINE, xrayRadialReader._version)
+        self.assertEqual(XrayRadialReader.HEADER_ELEMENT_LINE, xrayRadialReader._version)
 
         line = "Radial Distribution of Cu"
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader._setTextFileVersion(line)
-        self.assertEquals(XrayRadialReader.HEADER_ELEMENT, xrayRadialReader._version)
+        self.assertEqual(XrayRadialReader.HEADER_ELEMENT, xrayRadialReader._version)
 
         line = "XRay Radial of Cu"
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader._setTextFileVersion(line)
-        self.assertEquals(XrayRadialReader.HEADER_ALL, xrayRadialReader._version)
+        self.assertEqual(XrayRadialReader.HEADER_ALL, xrayRadialReader._version)
 
         #self.fail("Test if the testcase is working.")
 
@@ -155,7 +155,7 @@ class TestXrayRadialReader(unittest.TestCase):
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader._extractDataLabelLineDataElement(line)
         labels = xrayRadialReader._labels
-        self.assertEquals(XrayRadial.DISTANCE_nm, labels[0])
+        self.assertEqual(XrayRadial.DISTANCE_nm, labels[0])
 
         #self.fail("Test if the testcase is working.")
 

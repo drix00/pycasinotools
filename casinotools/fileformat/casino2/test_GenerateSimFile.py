@@ -36,14 +36,14 @@ class TestGenerateSimFile(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_setIncidentEnergy_keV(self):
         energyRef_keV = 10.0
         self.generate.setIncidentEnergy_keV(energyRef_keV)
 
         energy_keV = self.generate.getOptionSimulationData().getSimulationOptions().getIncidentEnergy_keV()
-        self.assertAlmostEquals(energyRef_keV, energy_keV)
+        self.assertAlmostEqual(energyRef_keV, energy_keV)
 
         #self.fail("Test if the testcase is working.")
 
@@ -52,7 +52,7 @@ class TestGenerateSimFile(unittest.TestCase):
         self.generate.setTOA_deg(toaRef_deg)
 
         toa_deg = self.generate.getOptionSimulationData().getSimulationOptions().getTOA_deg()
-        self.assertAlmostEquals(toaRef_deg, toa_deg)
+        self.assertAlmostEqual(toaRef_deg, toa_deg)
 
         #self.fail("Test if the testcase is working.")
 
@@ -62,7 +62,7 @@ class TestGenerateSimFile(unittest.TestCase):
         symbolRef = 'Cu'
         self.generate._addElement(symbolRef)
         symbol = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0).getElement(0).getSymbol()
-        self.assertEquals(symbolRef, symbol)
+        self.assertEqual(symbolRef, symbol)
 
         self.generate._removeAllElements()
         symbolRef = 'B'
@@ -71,42 +71,42 @@ class TestGenerateSimFile(unittest.TestCase):
         self.generate._addElement(symbolRef, 1.0 - 0.7981)
 
         element = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0).getElement(0)
-        self.assertEquals(5, element.Z)
-        self.assertEquals('B', element.Nom)
-        self.assertAlmostEquals(2.340000000000E+00, element.Rho)
-        self.assertAlmostEquals(1.081000000000E+01, element.A)
-        self.assertAlmostEquals(5.750000000000E-02, element.J)
-        self.assertAlmostEquals(7.790367583747E-01, element.K)
-        self.assertAlmostEquals(1.0, element.ef)
-        self.assertAlmostEquals(7.000000000000, element.kf * 1.0e-7)
-        self.assertAlmostEquals(2.270000000000E+01, element.ep)
+        self.assertEqual(5, element.Z)
+        self.assertEqual('B', element.Nom)
+        self.assertAlmostEqual(2.340000000000E+00, element.Rho)
+        self.assertAlmostEqual(1.081000000000E+01, element.A)
+        self.assertAlmostEqual(5.750000000000E-02, element.J)
+        self.assertAlmostEqual(7.790367583747E-01, element.K)
+        self.assertAlmostEqual(1.0, element.ef)
+        self.assertAlmostEqual(7.000000000000, element.kf * 1.0e-7)
+        self.assertAlmostEqual(2.270000000000E+01, element.ep)
 
         composition = element.getComposition()
-        self.assertEquals(0, composition.NuEl)
-        self.assertAlmostEquals(7.981000000000E-01, composition.FWt)
-        #self.assertAlmostEquals(8.145442797934E-01, composition.FAt)
-        self.assertAlmostEquals(0.0, composition.SigmaT)
-        self.assertAlmostEquals(0.0, composition.SigmaTIne)
-        self.assertEquals(1, composition.Rep)
+        self.assertEqual(0, composition.NuEl)
+        self.assertAlmostEqual(7.981000000000E-01, composition.FWt)
+        #self.assertAlmostEqual(8.145442797934E-01, composition.FAt)
+        self.assertAlmostEqual(0.0, composition.SigmaT)
+        self.assertAlmostEqual(0.0, composition.SigmaTIne)
+        self.assertEqual(1, composition.Rep)
 
         element = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0).getElement(1)
-        self.assertEquals(6, element.Z)
-        self.assertEquals('C', element.Nom)
-        self.assertAlmostEquals(2.620000000000E+00, element.Rho)
-        self.assertAlmostEquals(1.201100000000E+01, element.A)
-        self.assertAlmostEquals(6.900000000000E-02, element.J)
-        self.assertAlmostEquals(7.843098263659E-01, element.K)
-        self.assertAlmostEquals(1.0, element.ef)
-        self.assertAlmostEquals(7.000000000000, element.kf * 1.0e-7)
-        self.assertAlmostEquals(1.500000000000E+01, element.ep)
+        self.assertEqual(6, element.Z)
+        self.assertEqual('C', element.Nom)
+        self.assertAlmostEqual(2.620000000000E+00, element.Rho)
+        self.assertAlmostEqual(1.201100000000E+01, element.A)
+        self.assertAlmostEqual(6.900000000000E-02, element.J)
+        self.assertAlmostEqual(7.843098263659E-01, element.K)
+        self.assertAlmostEqual(1.0, element.ef)
+        self.assertAlmostEqual(7.000000000000, element.kf * 1.0e-7)
+        self.assertAlmostEqual(1.500000000000E+01, element.ep)
 
         composition = element.getComposition()
-        self.assertEquals(0, composition.NuEl)
-        self.assertAlmostEquals(2.019000000000E-01, composition.FWt)
-        #self.assertAlmostEquals(1.854557202066E-01, composition.FAt)
-        self.assertAlmostEquals(0.0, composition.SigmaT)
-        self.assertAlmostEquals(0.0, composition.SigmaTIne)
-        self.assertEquals(1, composition.Rep)
+        self.assertEqual(0, composition.NuEl)
+        self.assertAlmostEqual(2.019000000000E-01, composition.FWt)
+        #self.assertAlmostEqual(1.854557202066E-01, composition.FAt)
+        self.assertAlmostEqual(0.0, composition.SigmaT)
+        self.assertAlmostEqual(0.0, composition.SigmaTIne)
+        self.assertEqual(1, composition.Rep)
 
         #self.fail("Test if the testcase is working.")
 
@@ -114,11 +114,11 @@ class TestGenerateSimFile(unittest.TestCase):
         symbols = ['B']
         self.generate.addElements(symbols)
         element = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0).getElement(0)
-        self.assertEquals(5, element.Z)
+        self.assertEqual(5, element.Z)
         composition = element.getComposition()
-        self.assertEquals(0, composition.NuEl)
-        self.assertAlmostEquals(1.0, composition.FWt)
-        self.assertAlmostEquals(1.0, composition.FAt)
+        self.assertEqual(0, composition.NuEl)
+        self.assertAlmostEqual(1.0, composition.FWt)
+        self.assertAlmostEqual(1.0, composition.FAt)
 
         symbols = ['B', 'C']
         weightFractions = [0.7981, 1.0 - 0.7981]
@@ -126,34 +126,34 @@ class TestGenerateSimFile(unittest.TestCase):
 
         region = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0)
 
-        self.assertEquals(2, region.getNumberElements())
-        self.assertAlmostEquals(2.3916, region.getMeanMassDensity_g_cm3(), 4)
-        self.assertAlmostEquals(5.5, region.getMeanAtomicNumber())
-        self.assertEquals('BC' , region.getName())
+        self.assertEqual(2, region.getNumberElements())
+        self.assertAlmostEqual(2.3916, region.getMeanMassDensity_g_cm3(), 4)
+        self.assertAlmostEqual(5.5, region.getMeanAtomicNumber())
+        self.assertEqual('BC' , region.getName())
 
         element = region.getElement(0)
-        self.assertEquals(5, element.Z)
+        self.assertEqual(5, element.Z)
         composition = element.getComposition()
-        self.assertEquals(0, composition.NuEl)
-        self.assertAlmostEquals(7.981000000000E-01, composition.FWt)
-        self.assertAlmostEquals(8.145442797934E-01, composition.FAt)
+        self.assertEqual(0, composition.NuEl)
+        self.assertAlmostEqual(7.981000000000E-01, composition.FWt)
+        self.assertAlmostEqual(8.145442797934E-01, composition.FAt)
 
         element = region.getElement(1)
-        self.assertEquals(6, element.Z)
+        self.assertEqual(6, element.Z)
         composition = element.getComposition()
-        self.assertEquals(0, composition.NuEl)
-        self.assertAlmostEquals(2.019000000000E-01, composition.FWt)
-        self.assertAlmostEquals(1.854557202066E-01, composition.FAt)
+        self.assertEqual(0, composition.NuEl)
+        self.assertAlmostEqual(2.019000000000E-01, composition.FWt)
+        self.assertAlmostEqual(1.854557202066E-01, composition.FAt)
 
         #self.fail("Test if the testcase is working.")
 
     def test_removeAllElements(self):
         numberElement = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0).getNumberElements()
-        self.assertEquals(1, numberElement)
+        self.assertEqual(1, numberElement)
 
         self.generate._removeAllElements()
         numberElement = self.generate.getOptionSimulationData().getRegionOptions().getRegion(0).getNumberElements()
-        self.assertEquals(0, numberElement)
+        self.assertEqual(0, numberElement)
 
         #self.fail("Test if the testcase is working.")
 

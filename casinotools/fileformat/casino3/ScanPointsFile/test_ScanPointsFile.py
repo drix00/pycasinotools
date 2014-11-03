@@ -33,98 +33,98 @@ class TestScanPointsFile(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_computeSeparation_nm(self):
-        self.assertEquals(None, self._scanPointsFile._separation_nm)
+        self.assertEqual(None, self._scanPointsFile._separation_nm)
 
         self._scanPointsFile._computeSeparation_nm()
         separationRef_nm = 1.0
-        self.assertAlmostEquals(separationRef_nm, self._scanPointsFile._separation_nm)
+        self.assertAlmostEqual(separationRef_nm, self._scanPointsFile._separation_nm)
 
         self._scanPointsFile.setNumberPoints(10000)
         self._scanPointsFile._computeSeparation_nm()
         separationRef_nm = 0.1
-        self.assertAlmostEquals(separationRef_nm, self._scanPointsFile._separation_nm)
+        self.assertAlmostEqual(separationRef_nm, self._scanPointsFile._separation_nm)
 
         self._scanPointsFile.setNumberPoints(10)
         self._scanPointsFile._computeSeparation_nm()
         separationRef_nm = 3.1622776601683795
-        self.assertAlmostEquals(separationRef_nm, self._scanPointsFile._separation_nm)
+        self.assertAlmostEqual(separationRef_nm, self._scanPointsFile._separation_nm)
 
         self._scanPointsFile.setNumberPoints(100)
         self._scanPointsFile.setWidth_nm(50)
         self._scanPointsFile.setHeight_nm(50)
         self._scanPointsFile._computeSeparation_nm()
         separationRef_nm = 5.0
-        self.assertAlmostEquals(separationRef_nm, self._scanPointsFile._separation_nm)
+        self.assertAlmostEqual(separationRef_nm, self._scanPointsFile._separation_nm)
 
         self._scanPointsFile.setNumberPoints(100)
         self._scanPointsFile.setWidth_nm(50)
         self._scanPointsFile.setHeight_nm(10)
         self._scanPointsFile._computeSeparation_nm()
         separationRef_nm = 2.236067977499
-        self.assertAlmostEquals(separationRef_nm, self._scanPointsFile._separation_nm)
+        self.assertAlmostEqual(separationRef_nm, self._scanPointsFile._separation_nm)
 
         #self.fail("Test if the testcase is working.")
 
     def test_generateScanPoints(self):
-        self.assertEquals([], self._scanPointsFile._scanPoints)
+        self.assertEqual([], self._scanPointsFile._scanPoints)
 
         self._scanPointsFile._generateScanPoints()
-        self.assertEquals(100, len(self._scanPointsFile._scanPoints))
+        self.assertEqual(100, len(self._scanPointsFile._scanPoints))
 
         firstPointRef_nm = (-4.5, -4.5)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
-        self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
-        self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
+        self.assertAlmostEqual(firstPointRef_nm[0], firstPoint_nm[0])
+        self.assertAlmostEqual(firstPointRef_nm[1], firstPoint_nm[1])
 
         lastPointRef_nm = (4.5, 4.5)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
-        self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
-        self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
+        self.assertAlmostEqual(lastPointRef_nm[0], lastPoint_nm[0])
+        self.assertAlmostEqual(lastPointRef_nm[1], lastPoint_nm[1])
 
         #self.fail("Test if the testcase is working.")
 
     def test_generateLinescan(self):
-        self.assertEquals([], self._scanPointsFile._scanPoints)
+        self.assertEqual([], self._scanPointsFile._scanPoints)
 
         self._scanPointsFile.setHeight_nm(100.0)
         self._scanPointsFile.setWidth_nm(0.0)
 
         self._scanPointsFile._generateScanPoints()
-        self.assertEquals(100, len(self._scanPointsFile._scanPoints))
+        self.assertEqual(100, len(self._scanPointsFile._scanPoints))
 
         firstPointRef_nm = (0.0, -49.5)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
-        self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
-        self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
+        self.assertAlmostEqual(firstPointRef_nm[0], firstPoint_nm[0])
+        self.assertAlmostEqual(firstPointRef_nm[1], firstPoint_nm[1])
 
         lastPointRef_nm = (0.0, 49.5)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
-        self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
-        self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
+        self.assertAlmostEqual(lastPointRef_nm[0], lastPoint_nm[0])
+        self.assertAlmostEqual(lastPointRef_nm[1], lastPoint_nm[1])
 
         self._scanPointsFile.setHeight_nm(0.0)
         self._scanPointsFile.setWidth_nm(100.0)
 
         self._scanPointsFile._generateScanPoints()
-        self.assertEquals(100, len(self._scanPointsFile._scanPoints))
+        self.assertEqual(100, len(self._scanPointsFile._scanPoints))
 
         firstPointRef_nm = (-49.5, 0.0)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
-        self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
-        self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
+        self.assertAlmostEqual(firstPointRef_nm[0], firstPoint_nm[0])
+        self.assertAlmostEqual(firstPointRef_nm[1], firstPoint_nm[1])
 
         lastPointRef_nm = (49.5, 0.0)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
-        self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
-        self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
+        self.assertAlmostEqual(lastPointRef_nm[0], lastPoint_nm[0])
+        self.assertAlmostEqual(lastPointRef_nm[1], lastPoint_nm[1])
 
         #self.fail("Test if the testcase is working.")
 
     def test_setCenterPoint(self):
-        self.assertEquals([], self._scanPointsFile._scanPoints)
+        self.assertEqual([], self._scanPointsFile._scanPoints)
 
         self._scanPointsFile.setHeight_nm(100.0)
         self._scanPointsFile.setWidth_nm(0.0)
@@ -133,62 +133,62 @@ class TestScanPointsFile(unittest.TestCase):
         self._scanPointsFile.setCenterPoint((xRef, yRef))
 
         self._scanPointsFile._generateScanPoints()
-        self.assertEquals(100, len(self._scanPointsFile._scanPoints))
+        self.assertEqual(100, len(self._scanPointsFile._scanPoints))
 
         firstPointRef_nm = (xRef, -49.5 + yRef)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
-        self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
-        self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
+        self.assertAlmostEqual(firstPointRef_nm[0], firstPoint_nm[0])
+        self.assertAlmostEqual(firstPointRef_nm[1], firstPoint_nm[1])
 
         lastPointRef_nm = (xRef, 49.5 + yRef)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
-        self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
-        self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
+        self.assertAlmostEqual(lastPointRef_nm[0], lastPoint_nm[0])
+        self.assertAlmostEqual(lastPointRef_nm[1], lastPoint_nm[1])
 
         self._scanPointsFile.setHeight_nm(0.0)
         self._scanPointsFile.setWidth_nm(100.0)
 
         self._scanPointsFile._generateScanPoints()
-        self.assertEquals(100, len(self._scanPointsFile._scanPoints))
+        self.assertEqual(100, len(self._scanPointsFile._scanPoints))
 
         firstPointRef_nm = (-49.5 + xRef, 0.0 + yRef)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
-        self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
-        self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
+        self.assertAlmostEqual(firstPointRef_nm[0], firstPoint_nm[0])
+        self.assertAlmostEqual(firstPointRef_nm[1], firstPoint_nm[1])
 
         lastPointRef_nm = (49.5 + xRef, 0.0 + yRef)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
-        self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
-        self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
+        self.assertAlmostEqual(lastPointRef_nm[0], lastPoint_nm[0])
+        self.assertAlmostEqual(lastPointRef_nm[1], lastPoint_nm[1])
 
         self._scanPointsFile.setWidth_nm(10)
         self._scanPointsFile.setHeight_nm(10)
         self._scanPointsFile.setCenterPoint((xRef, yRef))
 
         self._scanPointsFile._generateScanPoints()
-        self.assertEquals(100, len(self._scanPointsFile._scanPoints))
+        self.assertEqual(100, len(self._scanPointsFile._scanPoints))
 
         firstPointRef_nm = (-4.5 + xRef, -4.5 + yRef)
         firstPoint_nm = self._scanPointsFile._scanPoints[0]
-        self.assertAlmostEquals(firstPointRef_nm[0], firstPoint_nm[0])
-        self.assertAlmostEquals(firstPointRef_nm[1], firstPoint_nm[1])
+        self.assertAlmostEqual(firstPointRef_nm[0], firstPoint_nm[0])
+        self.assertAlmostEqual(firstPointRef_nm[1], firstPoint_nm[1])
 
         lastPointRef_nm = (4.5 + xRef, 4.5 + yRef)
         lastPoint_nm = self._scanPointsFile._scanPoints[-1]
-        self.assertAlmostEquals(lastPointRef_nm[0], lastPoint_nm[0])
-        self.assertAlmostEquals(lastPointRef_nm[1], lastPoint_nm[1])
+        self.assertAlmostEqual(lastPointRef_nm[0], lastPoint_nm[0])
+        self.assertAlmostEqual(lastPointRef_nm[1], lastPoint_nm[1])
 
         #self.fail("Test if the testcase is working.")
 
     def test_generateLines(self):
         lines = self._scanPointsFile._generateLines()
-        self.assertEquals(100, len(lines))
+        self.assertEqual(100, len(lines))
 
         firstLinesRef_nm = "-4.500000, -4.500000\n"
-        self.assertEquals(firstLinesRef_nm, lines[0])
+        self.assertEqual(firstLinesRef_nm, lines[0])
 
         lastLinesRef_nm = "4.500000, 4.500000\n"
-        self.assertEquals(lastLinesRef_nm, lines[-1])
+        self.assertEqual(lastLinesRef_nm, lines[-1])
 
         #self.fail("Test if the testcase is working.")
 
@@ -236,7 +236,7 @@ class TestScanPointsFile(unittest.TestCase):
             scanPointsFile.setHeight_nm(2500, numberPointsZ)
             scanPointsFile.setCenterPoint((0.0, 500.0))
 
-            self.assertEquals(numberPointsY * numberPointsZ, scanPointsFile.getNumberPoints())
+            self.assertEqual(numberPointsY * numberPointsZ, scanPointsFile.getNumberPoints())
 
         #self.fail("Test if the testcase is working.")
 

@@ -34,7 +34,7 @@ class TestSampleReader(unittest.TestCase):
 
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        self.assertTrue(True)
 
     def test_read(self):
         if not os.path.isfile(self.filepathSim):
@@ -43,8 +43,8 @@ class TestSampleReader(unittest.TestCase):
         reader = SampleReader.SampleReader()
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
 
         if not os.path.isfile(self.filepathCas):
             raise SkipTest
@@ -52,8 +52,8 @@ class TestSampleReader(unittest.TestCase):
         reader = SampleReader.SampleReader()
         error = reader.read(file)
 
-        self.assertEquals(None, error)
-        self.assertEquals(30107002, reader._version)
+        self.assertEqual(None, error)
+        self.assertEqual(30107002, reader._version)
 
         #self.fail("Test if the testcase is working.")
 
