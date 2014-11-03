@@ -21,10 +21,10 @@ import casinotools.fileformat.casino2.test_File as test_File
 class TestGraphData(test_File.TestFile):
 
     def NOtest_read(self):
-        file = open(self.filepathCas, 'rb')
-        file.seek(2013179)
+        with open(self.filepathCas, 'rb') as file:
+            file.seek(2013179)
 
-        results = GraphData.GraphData(file)
+            results = GraphData.GraphData(file)
         self.assertEqual(30105020, results._version)
 
         self.assertEqual(1000, results._size)
