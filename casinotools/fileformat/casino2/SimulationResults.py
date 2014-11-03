@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 """ """
-from __builtin__ import range
 
 # Script information for the file.
 __author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
@@ -355,7 +354,7 @@ def _computeDepthRange(distribution, fractionLimit):
     partialTotal = 0.0
     for position, value in zip(positions, values):
         partialTotal += value
-        fraction = partialTotal/total
+        fraction = partialTotal / total
         if fraction >= fractionLimit:
             return position
 
