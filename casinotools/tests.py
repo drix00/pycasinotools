@@ -27,5 +27,5 @@ if __name__ == "__main__": #pragma: no cover
     import nose
     import sys
     argv = sys.argv
-    argv.append("-v")
+    argv.append("--cover-package=casinotools")
     nose.main(argv=argv)
