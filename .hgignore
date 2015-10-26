@@ -12,3 +12,4 @@ testdata/
 *.zip
 testData/
 casinotoolsOld
+.eggs/
