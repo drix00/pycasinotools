@@ -1,3 +1,4 @@
 /.eggs/
 /pyCasinoTools.egg-info/
 __pycache__
+.coverage
