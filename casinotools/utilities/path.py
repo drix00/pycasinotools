@@ -17,6 +17,7 @@ __license__ = ""
 import os.path
 import logging
 import fnmatch
+import shutil
 
 # Third party modules.
 
@@ -94,6 +95,17 @@ def find_all_files(root, patterns='*', ignorePathPatterns='', ignoreNamePatterns
         if single_level:
             logging.debug("single_level")
             break
+
+def create_temp_data_path(path):
+    temp_data_path = os.path.join(path, "tmp")
+    if not os.path.isdir(temp_data_path):
+        os.mkdir(temp_data_path)
+
+    return temp_data_path
+
+def remove_temp_data_path(path):
+    if os.path.expanduser(path):
+        shutil.rmtree(path)
 
 if __name__ == '__main__': #pragma: no cover
     import nose
