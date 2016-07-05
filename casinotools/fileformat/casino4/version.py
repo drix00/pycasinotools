@@ -40,8 +40,8 @@ class Version(object):
         self.revision = revision
         self.build = build
 
-    def to_string(self):
-        text = "%s.%s.%s.%s" % (self.major, self.minor, self.revision, self.build)
+    def to_string(self, seperator='.'):
+        text = "%s%s%s%s%s%s%s" % (self.major, seperator, self.minor, seperator, self.revision, seperator, self.build)
         return text
 
     def from_string(self, versionString):

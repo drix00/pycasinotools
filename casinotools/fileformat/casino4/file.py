@@ -72,5 +72,20 @@ def create_sim_v4_0_0():
     casino_file.version = VERSION_4_0_0
     casino_file.save(overwrite=True)
     
+def create_sim_current_version():
+    """
+    Create CASINO simulation file current version using python script.
+    """
+
+    path = get_current_module_path(__file__, "../../../test_data/casino4/py")
+    path = create_path(path)
+    version_str = CURRENT_VERSION.to_string('_')
+    filepath = os.path.join(path, "version_%s_py.sim.hdf5" % (version_str))
+
+    casino_file = File(filepath)
+    casino_file.version = CURRENT_VERSION
+    casino_file.save(overwrite=True)
+
 if __name__ == '__main__': #pragma: no cover
+    create_sim_current_version()
     create_sim_v4_0_0()

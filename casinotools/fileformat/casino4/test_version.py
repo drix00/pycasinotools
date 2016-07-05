@@ -67,6 +67,11 @@ class TestVersion(unittest.TestCase):
         versionString = version.to_string()
         self.assertEquals(stringRef, versionString)
 
+        version =  Version(1, 2, 3, 4)
+        stringRef = "1_2_3_4"
+        versionString = version.to_string('_')
+        self.assertEquals(stringRef, versionString)
+
         #self.fail("Test if the testcase is working.")
 
     def test_from_string(self):
