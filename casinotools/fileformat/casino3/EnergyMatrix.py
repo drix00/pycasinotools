@@ -13,6 +13,7 @@ import logging
 import os
 
 # Third party modules.
+import numpy as np
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
@@ -81,11 +82,12 @@ class EnergyMatrix(FileReaderWriterTools.FileReaderWriterTools):
             if self._values is None:
                 self._readValues()
                 index = 0
-                self._data = {}
+                shape = (self._nbPtsX, self._nbPtsY, self._nbPtsZ)
+                self._data = np.zeros(shape)
                 for x in range(self._nbPtsX):
                     for y in range(self._nbPtsY):
                         for z in range(self._nbPtsZ):
-                            self._data[(x, y, z)] = self._values[index]
+                            self._data[x, y, z] = self._values[index]
                             index += 1
                 del self._values
                 self._values = None

@@ -364,6 +364,15 @@ Implementation of 3D point spread functions (PSFs) in CASINO.
 SIM_OPTIONS_VERSION_3_3_0_0 = 30300000
 
 """
+Version of casino.
+
+@version 30300004 -> 3.3.0.4
+
+Implementation of 3D point spread functions (PSFs) in CASINO.
+ """
+SIM_OPTIONS_VERSION_3_3_0_4 = 30300004
+
+"""
 Current version of casino.
 
 @note Don't forget to change the version in wincasino.rc -> Version -> VS_VERSION_INFO
@@ -373,4 +382,4 @@ wincasino.rc -> String Table -> IDR_MAINFRAME
 wincasino.rc -> String Table -> IDR_MAINFRAME2
 Also change Casino_Constants::DEFAULT_APP_TITLE in Casino_Constants.h.
  """
-SIM_OPTIONS_CURRENT_VERSION = SIM_OPTIONS_VERSION_3_3_0_0
+SIM_OPTIONS_CURRENT_VERSION = SIM_OPTIONS_VERSION_3_3_0_4
