@@ -95,6 +95,9 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
     def getResultsSimulation(self, index):
         return self._resultSimulationDataList[index]
 
+    def getResultsSimulations(self):
+        return self._resultSimulationDataList
+
 def _run():
     from pkg_resources import resource_filename #@UnresolvedImport
     filepathCas = resource_filename(__file__, "../../testData/wincasino2.45/id475.cas")
