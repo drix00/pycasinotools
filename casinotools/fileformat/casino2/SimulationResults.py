@@ -110,8 +110,15 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
     def getBackscatteredMaximumDepthDistribution(self):
         return self.DZMaxRetro
 
+    def getMaximumDepthDistribution(self):
+        return self.DZMax
+
     def getBackscatteredMaximumDepthRange(self, fractionLimit=0.999):
         range_nm = _computeDepthRange(self.getBackscatteredMaximumDepthDistribution(), fractionLimit)
+        return range_nm
+
+    def getMaximumDepthRange(self, fractionLimit=0.999):
+        range_nm = _computeDepthRange(self.getMaximumDepthDistribution(), fractionLimit)
         return range_nm
 
     def _readBackscatteredEnergy(self, file, options, version):
