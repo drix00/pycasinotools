@@ -108,7 +108,7 @@ class ScanPointResults(FileReaderWriterTools.FileReaderWriterTools):
             if self._isDEnBang:
                 self.DEnBang = GraphData.GraphData(file)
 
-            if self._version >= Version.SIM_OPTIONS_VERSION_3_3_0_0:
+            if self._version >= Version.SIM_OPTIONS_VERSION_3_3_0_0 and self._version < Version.SIM_OPTIONS_VERSION_3_3_0_4:
                 self._isPsf = self.readBool(file)
                 if self._isPsf:
                     self._pointSpreadFunctionMatrix = PointSpreadFunctionMatrix.PointSpreadFunctionMatrix(options, self.getPosition())

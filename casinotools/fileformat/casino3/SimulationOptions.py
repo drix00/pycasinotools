@@ -59,7 +59,7 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
             self._optionsADF.read(file)
             self._optionsAdvBackSet.read(file)
 
-            if self._version >= Version.SIM_OPTIONS_VERSION_3_3_0_0:
+            if self._version >= Version.SIM_OPTIONS_VERSION_3_3_0_0 and self._version < Version.SIM_OPTIONS_VERSION_3_3_0_4:
                 self._optionsAdvancedPsfsSettings.read(file)
 
             self._optionsDist.read(file)
