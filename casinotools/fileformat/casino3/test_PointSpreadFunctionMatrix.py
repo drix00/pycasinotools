@@ -62,7 +62,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         Tests for method `SimNoPsfs`.
         """
 
-        filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
+        filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
         if not os.path.isfile(filepath):
             raise SkipTest(filepath)
 
@@ -89,7 +89,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         """
         filenames = ["SiN_wPSFs_bG_T200nm.sim", "SiN_wPSFs_wConserveData_bG_T200nm.sim"]
         for filename in filenames:
-            filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/" + filename)
+            filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
             if not os.path.isfile(filepath):
                 raise SkipTest(filepath)
 
@@ -115,7 +115,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         Tests for method `CasNoPsfs`.
         """
 
-        filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
+        filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
         if not os.path.isfile(filepath):
             raise SkipTest(filepath)
 
@@ -145,7 +145,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         """
 
         filename = "SiN_wPSFs_bG_T200nm.cas"
-        filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/" + filename)
+        filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
         if not os.path.isfile(filepath):
             raise SkipTest(filepath)
 
@@ -169,7 +169,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         self.assertEqual(None, scanPointResults[0].getPointSpreadFunctionMatrix())
 
         filename = "SiN_wPSFs_wConserveData_bG_T200nm.cas"
-        filepath = resource_filename(__name__, "../../../testData/casino3.x/PSFs/" + filename)
+        filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
 
         casinoFile = File.File(filepath)
 

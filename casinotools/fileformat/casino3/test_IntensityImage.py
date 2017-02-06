@@ -25,7 +25,7 @@ class TestIntensityImage(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
-        resultsPath = resource_filename(__name__, "../../../testData/casino3.x/createImage")
+        resultsPath = resource_filename(__name__, "../../../test_data/casino3.x/createImage")
         self._casBinnedFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_binned.cas")
         if not os.path.isfile(self._casBinnedFilepath):
             raise SkipTest()

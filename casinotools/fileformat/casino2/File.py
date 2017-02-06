@@ -97,7 +97,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
 
 def _run():
     from pkg_resources import resource_filename #@UnresolvedImport
-    filepathCas = resource_filename(__file__, "../../testData/wincasino2.45/id475.cas")
+    filepathCas = resource_filename(__file__, "../../test_data/wincasino2.45/id475.cas")
     file = File()
     file.readFromFilepath(filepathCas, isSkipReadingData=True)
 

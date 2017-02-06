@@ -26,7 +26,7 @@ class TestTags(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        filepath = resource_filename(__name__, "../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
+        filepath = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
         if not os.path.isfile(filepath):
             raise SkipTest
         self.file = open(filepath, 'rb')

@@ -27,7 +27,7 @@ class TestXrayRadialReader(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        basepath = resource_filename(__name__, "../../../testData/casino2.x/exportedData")
+        basepath = resource_filename(__name__, "../../../test_data/casino2.x/exportedData")
         self.filepath_Cu_K = os.path.join(basepath, "XrayRadial_Cu_K.txt")
         self.filepath_Cu_L = os.path.join(basepath, "XrayRadial_Cu_L.txt")
         self.filepath_Au_M = os.path.join(basepath, "XrayRadial_Au_M.txt")

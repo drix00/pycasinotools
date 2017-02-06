@@ -32,16 +32,16 @@ class TestFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = resource_filename(__name__, "../../../testData/wincasino2.45/id475.sim")
-        self.filepathCas = resource_filename(__name__, "../../../testData/wincasino2.45/id475.cas")
+        self.filepathSim = resource_filename(__name__, "../../../test_data/wincasino2.45/id475.sim")
+        self.filepathCas = resource_filename(__name__, "../../../test_data/wincasino2.45/id475.cas")
 
-        self.filepathStd = resource_filename(__name__, "../../../testData/casino2.x/std_B_04.0keV_40.0TOA.sim")
-        self.filepathWrite = resource_filename(__name__, "../../../testData/casino2.x/stdTest.sim")
+        self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA.sim")
+        self.filepathWrite = resource_filename(__name__, "../../../test_data/casino2.x/stdTest.sim")
 
-        self.filepathSim_v242 = resource_filename(__name__, "../../../testData/casino2.x/std_B_3keV_v2.42_23.sim")
-        self.filepathCas_v242 = resource_filename(__name__, "../../../testData/casino2.x/std_B_3keV_v2.42_23.cas")
+        self.filepathSim_v242 = resource_filename(__name__, "../../../test_data/casino2.x/std_B_3keV_v2.42_23.sim")
+        self.filepathCas_v242 = resource_filename(__name__, "../../../test_data/casino2.x/std_B_3keV_v2.42_23.cas")
 
-        self.filepathCas_nicr = resource_filename(__name__, "../../../testData/casino2.x/nicr.cas")
+        self.filepathCas_nicr = resource_filename(__name__, "../../../test_data/casino2.x/nicr.cas")
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)

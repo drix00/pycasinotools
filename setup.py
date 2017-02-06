@@ -8,9 +8,6 @@ __copyright__ = "Copyright (c) 2013 Philippe T. Pinard"
 __license__ = "GPL v3"
 
 # Standard library modules.
-import os
-import zipfile
-from distutils.cmd import Command
 
 # Third party modules.
 from setuptools import setup, find_packages
@@ -18,36 +15,6 @@ from setuptools import setup, find_packages
 # Local modules.
 
 # Globals and constants variables.
-
-class TestDataCommand(Command):
-
-    description = "create a zip of all files in the testData folder"
-    user_options = [('dist-dir=', 'd',
-                     "directory to put final built distributions in "
-                     "[default: dist]"), ]
-
-    def initialize_options(self):
-        self.dist_dir = None
-
-    def finalize_options(self):
-        if self.dist_dir is None:
-            self.dist_dir = "dist"
-
-    def run(self):
-        if not os.path.isdir(self.dist_dir):
-            os.makedirs(self.dist_dir)
-
-        basepath = os.path.dirname(__file__)
-        testdatapath = os.path.join(basepath, 'testData')
-
-        zipfilename = self.distribution.get_fullname() + '-testData.zip'
-        zipfilepath = os.path.join(self.dist_dir, zipfilename)
-        with zipfile.ZipFile(zipfilepath, 'w') as z:
-            for root, _dirs, files in os.walk(testdatapath):
-                for file in files:
-                    filename = os.path.join(root, file)
-                    arcname = os.path.relpath(filename, basepath)
-                    z.write(filename, arcname)
 
 setup(name="pyCasinoTools",
       version='0.2',
@@ -75,7 +42,5 @@ setup(name="pyCasinoTools",
       setup_requires=['nose', 'coverage'],
 
       test_suite='nose.collector',
-
-      cmdclass={'zip_testdata': TestDataCommand},
 )
 

@@ -83,7 +83,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_getRotationYZ_deg(self):
-        testDataPath = get_current_module_path(__file__, "../../../testData")
+        testDataPath = get_current_module_path(__file__, "../../../test_data")
 
         filepathSim = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
         if not os.path.isfile(filepathSim):
@@ -144,7 +144,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_modifyRotationYZ_deg(self):
-        testDataPath = get_current_module_path(__file__, "../../../testData")
+        testDataPath = get_current_module_path(__file__, "../../../test_data")
         sourceFilepath = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
         if not os.path.isfile(sourceFilepath):
             raise SkipTest

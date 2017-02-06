@@ -26,8 +26,8 @@ class TestSampleReader(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = resource_filename(__name__, "../../../testData/casino3.x/SiSubstrateThreeLines_Points.sim")
-        self.filepathCas = resource_filename(__name__, "../../../testData/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
+        self.filepathSim = resource_filename(__name__, "../../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
+        self.filepathCas = resource_filename(__name__, "../../../test_data/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
