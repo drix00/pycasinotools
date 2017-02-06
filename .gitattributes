@@ -1,0 +1,5 @@
+*.cas filter=lfs diff=lfs merge=lfs -text
+*.sim filter=lfs diff=lfs merge=lfs -text
+*.dat filter=lfs diff=lfs merge=lfs -text
+*.txt filter=lfs diff=lfs merge=lfs -text
+*.bat filter=lfs diff=lfs merge=lfs -text
