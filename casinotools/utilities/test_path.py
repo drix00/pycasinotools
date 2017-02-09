@@ -80,16 +80,8 @@ class TestPath(unittest.TestCase):
         self.git_lfs_file.write("\n")
         self.git_lfs_file.seek(0)
 
-    def test_is_git_lfs_file_bad_binary(self):
-        file_path = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
-        if not os.path.isfile(file_path):
-            raise SkipTest
-        self.assertEqual(False, path.is_git_lfs_file(file_path))
-
-        #self.fail("Test if the testcase is working.")
-
-    def test_is_git_lfs_file_bad_text(self):
-        file_path = resource_filename(__name__, "../../test_data/prz Cu 5_La.dat")
+    def test_is_git_lfs_file_bad(self):
+        file_path = resource_filename(__name__, "test_path.py")
         if not os.path.isfile(file_path):
             raise SkipTest
         self.assertEqual(False, path.is_git_lfs_file(file_path))
@@ -101,16 +93,8 @@ class TestPath(unittest.TestCase):
 
         #self.fail("Test if the testcase is working.")
 
-    def test_is_bad_file_binary(self):
-        file_path = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
-        if not os.path.isfile(file_path):
-            raise SkipTest
-        self.assertEqual(False, path.is_bad_file(file_path))
-
-        #self.fail("Test if the testcase is working.")
-
-    def test_is_bad_file_text(self):
-        file_path = resource_filename(__name__, "../../test_data/prz Cu 5_La.dat")
+    def test_is_bad_file(self):
+        file_path = resource_filename(__name__, "test_path.py")
         if not os.path.isfile(file_path):
             raise SkipTest
         self.assertEqual(False, path.is_bad_file(file_path))
