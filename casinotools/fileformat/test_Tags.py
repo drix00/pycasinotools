@@ -10,7 +10,6 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
-import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
@@ -18,6 +17,7 @@ from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.Tags as Tags
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -27,7 +27,7 @@ class TestTags(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         filepath = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
-        if not os.path.isfile(filepath):
+        if is_bad_file(filepath):
             raise SkipTest
         self.file = open(filepath, 'rb')
 

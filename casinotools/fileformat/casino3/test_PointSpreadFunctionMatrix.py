@@ -15,7 +15,6 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
-import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
@@ -27,6 +26,7 @@ from nose.plugins.skip import SkipTest
 import casinotools.fileformat.casino3.PointSpreadFunctionMatrix as PointSpreadFunctionMatrix
 import casinotools.fileformat.casino3.File as File
 import casinotools.fileformat.casino3.Version as Version
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -63,7 +63,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         """
 
         filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
-        if not os.path.isfile(filepath):
+        if is_bad_file(filepath):
             raise SkipTest(filepath)
 
         casinoFile = File.File(filepath)
@@ -90,7 +90,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         filenames = ["SiN_wPSFs_bG_T200nm.sim", "SiN_wPSFs_wConserveData_bG_T200nm.sim"]
         for filename in filenames:
             filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
-            if not os.path.isfile(filepath):
+            if is_bad_file(filepath):
                 raise SkipTest(filepath)
 
             casinoFile = File.File(filepath)
@@ -116,7 +116,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         """
 
         filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
-        if not os.path.isfile(filepath):
+        if is_bad_file(filepath):
             raise SkipTest(filepath)
 
         casinoFile = File.File(filepath)
@@ -146,7 +146,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         filename = "SiN_wPSFs_bG_T200nm.cas"
         filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
-        if not os.path.isfile(filepath):
+        if is_bad_file(filepath):
             raise SkipTest(filepath)
 
         casinoFile = File.File(filepath)

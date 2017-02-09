@@ -13,7 +13,6 @@ try:
     from io import BytesIO
 except ImportError: # Python 2
     from StringIO import StringIO as BytesIO
-import os.path
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -21,6 +20,7 @@ from nose.plugins.skip import SkipTest
 # Local modules.
 import casinotools.fileformat.casino2.SimulationData as SimulationData
 import casinotools.fileformat.casino2.test_File as test_File
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 from casinotools.fileformat.casino2.SimulationData import \
@@ -29,7 +29,7 @@ from casinotools.fileformat.casino2.SimulationData import \
 class TestSimulationData(test_File.TestFile):
 
     def test_read(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file)
@@ -37,7 +37,7 @@ class TestSimulationData(test_File.TestFile):
         #self.fail("Test if the testcase is working.")
 
     def test_read_StringIO(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         f = open(self.filepathSim, 'rb')
         file = BytesIO(f.read())
@@ -59,7 +59,7 @@ class TestSimulationData(test_File.TestFile):
         self.assertEqual(False, simulationData._saveDistributions)
 
     def testGetTotalXrayIntensities(self):
-        if not os.path.isfile(self.filepathCas):
+        if is_bad_file(self.filepathCas):
             raise SkipTest
         # Single region
         f = open(self.filepathCas, 'rb')
@@ -77,7 +77,7 @@ class TestSimulationData(test_File.TestFile):
         self.assertAlmostEqual(46.88, intensities[6][LINE_K][EMITTED], 2)
 
         # Multiple regions
-        if not os.path.isfile(self.filepathCas_nicr):
+        if is_bad_file(self.filepathCas_nicr):
             raise SkipTest
         f = open(self.filepathCas_nicr, 'rb')
         f.seek(98348)

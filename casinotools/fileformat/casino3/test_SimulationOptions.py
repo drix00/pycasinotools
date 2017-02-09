@@ -9,7 +9,6 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -18,6 +17,7 @@ from nose.plugins.skip import SkipTest
 import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -26,7 +26,7 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
     def test_read(self):
 
         for filepath in [self.filepathSim, self.filepathCas]:
-            if not os.path.isfile(filepath):
+            if is_bad_file(filepath):
                 raise SkipTest
             file = open(filepath, 'rb')
             simulationOptions = SimulationOptions.SimulationOptions()

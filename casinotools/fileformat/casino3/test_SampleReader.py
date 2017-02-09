@@ -10,7 +10,6 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
-import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
@@ -18,6 +17,7 @@ from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino3.SampleReader as SampleReader
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -37,7 +37,7 @@ class TestSampleReader(unittest.TestCase):
         self.assertTrue(True)
 
     def test_read(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         file = open(self.filepathSim, 'rb')
         reader = SampleReader.SampleReader()
@@ -46,7 +46,7 @@ class TestSampleReader(unittest.TestCase):
         self.assertEqual(None, error)
         self.assertEqual(30107002, reader._version)
 
-        if not os.path.isfile(self.filepathCas):
+        if is_bad_file(self.filepathCas):
             raise SkipTest
         file = open(self.filepathCas, 'rb')
         reader = SampleReader.SampleReader()

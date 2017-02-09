@@ -24,6 +24,7 @@ from nose.plugins.skip import SkipTest
 import casinotools.fileformat.casino2.File as File
 import casinotools.fileformat.casino2.Version as Version
 from casinotools.fileformat.casino2.Element import LINE_K, GENERATED, EMITTED
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -54,7 +55,7 @@ class TestFile(unittest.TestCase):
         self.assertTrue(True)
 
     def test_read(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         file = File.File()
         file.readFromFilepath(self.filepathSim)
@@ -72,7 +73,7 @@ class TestFile(unittest.TestCase):
 
     def test_read_StringIO(self):
         # sim
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         f = open(self.filepathSim, 'rb')
         buf = BytesIO(f.read())
@@ -104,7 +105,7 @@ class TestFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
     def test_write(self):
-        if not os.path.isfile(self.filepathStd):
+        if is_bad_file(self.filepathStd):
             raise SkipTest
 
         file = File.File()
@@ -135,7 +136,7 @@ class TestFile(unittest.TestCase):
         return file.getOptionSimulationData()
 
     def test_skipReadingData(self):
-        if not os.path.isfile(self.filepathCas):
+        if is_bad_file(self.filepathCas):
             raise SkipTest
 
         file = File.File()
@@ -190,9 +191,9 @@ class TestFile(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
     def test_readv242(self):
-        if not os.path.isfile(self.filepathSim_v242):
+        if is_bad_file(self.filepathSim_v242):
             raise SkipTest
-        if not os.path.isfile(self.filepathCas_v242):
+        if is_bad_file(self.filepathCas_v242):
             raise SkipTest
 
         # .sim

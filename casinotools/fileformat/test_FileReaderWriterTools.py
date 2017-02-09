@@ -10,7 +10,6 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
-import os.path
 import shutil
 
 # Third party modules.
@@ -21,6 +20,7 @@ from nose.plugins.skip import SkipTest
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino3.File as File
 from casinotools.utilities.path import create_path, get_current_module_path
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -58,7 +58,7 @@ class TestFileReaderWriterTools(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
     def test_extractVersionString(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         casinoFile = File.File(self.filepathSim)
 

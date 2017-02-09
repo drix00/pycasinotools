@@ -9,7 +9,6 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -18,12 +17,14 @@ from nose.plugins.skip import SkipTest
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
 from casinotools.fileformat.casino3.SampleShape.ShapeType import SHAPE_SUBSTRATE
+from casinotools.utilities.path import is_bad_file
+
 # Globals and constants variables.
 
 class TestSampleSubtrate(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         file = open(self.filepathSim, "rb")
         file.seek(103)

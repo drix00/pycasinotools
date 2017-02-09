@@ -10,7 +10,6 @@ __license__ = ""
 
 # Standard library modules.
 import unittest
-import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
@@ -18,6 +17,7 @@ from nose.plugins.skip import SkipTest
 
 # Local modules.
 import casinotools.fileformat.casino2.GenerateSimFile as GenerateSimFile
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -27,7 +27,7 @@ class TestGenerateSimFile(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA.sim")
-        if not os.path.isfile(self.filepathStd):
+        if is_bad_file(self.filepathStd):
             raise SkipTest
         self.generate = GenerateSimFile.GenerateSimFile(self.filepathStd)
 

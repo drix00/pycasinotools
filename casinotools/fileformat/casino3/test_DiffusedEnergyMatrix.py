@@ -9,7 +9,6 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -19,6 +18,7 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 import casinotools.fileformat.casino3.DiffusedEnergyMatrix as DiffusedEnergyMatrix
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
 import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -28,7 +28,7 @@ class TestDiffusedEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTo
         options = SimulationOptions.SimulationOptions()
         options._optionsDist.DEpos_Type = OptionsDist.DIST_DEPOS_TYPE_CARTESIAN
         results = DiffusedEnergyMatrix.DiffusedEnergyMatrix(options, None)
-        if not os.path.isfile(self.filepathCas):
+        if is_bad_file(self.filepathCas):
             raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(1012742)

@@ -17,6 +17,7 @@ __license__ = ""
 import os.path
 import logging
 import fnmatch
+from io import IOBase
 
 # Third party modules.
 
@@ -94,6 +95,38 @@ def find_all_files(root, patterns='*', ignorePathPatterns='', ignoreNamePatterns
         if single_level:
             logging.debug("single_level")
             break
+
+
+def _is_git_lfs_file(input_file):
+    try:
+        lines = input_file.readlines()
+    except UnicodeDecodeError:
+        return False
+
+    if lines[0].startswith("version https://git-lfs.github.com/spec"):
+        return True
+    else:
+        return False
+
+
+def is_git_lfs_file(file_path):
+    if isinstance(file_path, str):
+        with open(file_path, 'r') as input_file:
+            return _is_git_lfs_file(input_file)
+
+    return _is_git_lfs_file(file_path)
+
+
+def is_bad_file(file_path):
+    if isinstance(file_path, str):
+        if os.path.isfile(file_path) and not is_git_lfs_file(file_path):
+            return False
+        else:
+            return True
+    elif not is_git_lfs_file(file_path):
+        return False
+    else:
+        return True
 
 if __name__ == '__main__': #pragma: no cover
     import nose
