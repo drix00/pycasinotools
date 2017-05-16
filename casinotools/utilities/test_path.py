@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: test_path
-   :synopsis: Tests for the module :py:mod:`test_path`
+.. py:currentmodule:: casinotools.utilities.test_path
+   :synopsis: Tests for the module :py:mod:`casinotools.utilities.path`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`test_path`.
+Tests for the module :py:mod:`casinotools.utilities.path`.
 """
 
 ###############################################################################
@@ -45,7 +45,7 @@ import casinotools.utilities.path as path
 
 class TestPath(unittest.TestCase):
     """
-    TestCase class for the module `${moduleName}`.
+    TestCase class for the module `casinotools.utilities.path`.
     """
 
     def setUp(self):

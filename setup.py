@@ -1,46 +1,59 @@
 #!/usr/bin/env python
 
-# Script information for the file.
-__author__ = "Philippe T. Pinard"
-__email__ = "philippe.pinard@gmail.com"
-__version__ = "0.1"
-__copyright__ = "Copyright (c) 2013 Philippe T. Pinard"
-__license__ = "GPL v3"
-
 # Standard library modules.
 
 # Third party modules.
-from setuptools import setup, find_packages
+from setuptools import setup
 
 # Local modules.
 
 # Globals and constants variables.
 
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
+
+with open('HISTORY.rst') as history_file:
+    history = history_file.read()
+
+requirements = [
+    'Pillow', # Fork of PIL (Python 3 compatible),
+    'numpy'
+]
+
+test_requirements = [
+    'nose', 'coverage'
+]
+
 setup(name="pyCasinoTools",
-      version='0.2',
-      url='http://www.gel.usherbrooke.ca/casino',
-      description="Python interface to read and write Casino 2 files",
-      author="Hendrix Demers",
-      author_email="hendrix.demers@mail.mcgill.ca",
-      license="LGPL v3",
-      classifiers=['Development Status :: 4 - Beta',
-                   'Intended Audience :: Developers',
-                   'Intended Audience :: Science/Research',
-                   'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
-                   'Natural Language :: English',
-                   'Programming Language :: Python',
-                   'Operating System :: OS Independent',
-                   'Topic :: Scientific/Engineering',
-                   'Topic :: Scientific/Engineering :: Physics'],
+    version='0.2.0',
+    description="Python interface for the Monte Carlo simulation program CASINO version 2 and 3.",
+    long_description=readme + '\n\n' + history,
+    author="Hendrix Demers",
+    author_email="hendrix.demers@mail.mcgill.ca",
+    url='https://github.com/drix00/casinotools',
+    include_package_data=True,
+    install_requires=requirements,
+    license="Apache Software License 2.0",
+    zip_safe=False,
+    keywords='casinotools',
+    classifiers=[
+		'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: Apache Software License',
+        'Natural Language :: English',
+        'Programming Language :: Python',
+        'Operating System :: OS Independent',
+        'Topic :: Scientific/Engineering',
+        'Topic :: Scientific/Engineering :: Physics'],
 
-      packages=find_packages(),
+    packages=[
+        'casinotools',
+    ],
+    package_dir={'casinotools':
+                 'casinotools'},
 
-      include_package_data=False, # Do not include test data
-
-      install_requires=['Pillow', # Fork of PIL (Python 3 compatible),
-                        'numpy'],
-      setup_requires=['nose', 'coverage'],
-
-      test_suite='nose.collector',
+    test_suite='nose.collector',
+    tests_require=test_requirements
 )
 
