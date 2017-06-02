@@ -3,7 +3,6 @@
 
 """
 .. py:currentmodule:: casinotools.utilities.test_path
-   :synopsis: Tests for the module :py:mod:`casinotools.utilities.path`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 

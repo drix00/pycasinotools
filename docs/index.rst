@@ -1,5 +1,5 @@
 Welcome to pycasinotools's documentation!
-======================================
+=========================================
 
 Contents:
 
