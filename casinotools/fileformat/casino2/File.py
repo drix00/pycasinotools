@@ -50,7 +50,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position after reading option: %i", file.tell())
 
         # Read the results for each simulations if the file is a .cas.
-        if self._optionSimulationData._saveTrajectories:
+        if self._optionSimulationData._save_trajectories:
             self._numberSimulations = self.readInt(file)
 
             for dummy in range(self._numberSimulations):

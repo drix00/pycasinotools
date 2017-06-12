@@ -1,12 +1,29 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.fileformat.casino2.test_SimulationData
+
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the module :py:mod:`casinotools.fileformat.casino2.SimulationData`.
+"""
+
+###############################################################################
+# Copyright 2017 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 try:
@@ -25,8 +42,14 @@ from casinotools.utilities.path import is_bad_file
 # Globals and constants variables.
 from casinotools.fileformat.casino2.SimulationData import \
     EMITTED, GENERATED, LINE_K, LINE_L, LINE_M
+from casinotools.fileformat.casino2.line import ATOMLINE_KA1, ATOMLINE_KA2, ATOMLINE_KB1, ATOMLINE_KB2, ATOMLINE_LA, \
+    ATOMLINE_LB1, ATOMLINE_LB2, ATOMLINE_LG, ATOMLINE_MA
+
 
 class TestSimulationData(test_File.TestFile):
+    """
+    TestCase class for the module `casinotools.fileformat.casino2.SimulationData`.
+    """
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
@@ -34,7 +57,7 @@ class TestSimulationData(test_File.TestFile):
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file)
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathSim):
@@ -47,16 +70,16 @@ class TestSimulationData(test_File.TestFile):
 
     def _read_tests(self, file):
         file.seek(0)
-        simulationData = SimulationData.SimulationData()
-        simulationData.read(file)
+        simulation_data = SimulationData.SimulationData()
+        simulation_data.read(file)
 
-        self.assertEqual("WinCasino Simulation File", simulationData._header)
-        self.assertEqual(26, simulationData._version)
-        self.assertEqual('n', simulationData._status)
-        self.assertEqual(True, simulationData._saveSimulations)
-        self.assertEqual(True, simulationData._saveRegions)
-        self.assertEqual(False, simulationData._saveTrajectories)
-        self.assertEqual(False, simulationData._saveDistributions)
+        self.assertEqual("WinCasino Simulation File", simulation_data._header)
+        self.assertEqual(26, simulation_data._version)
+        self.assertEqual('n', simulation_data._status)
+        self.assertEqual(True, simulation_data._save_simulations)
+        self.assertEqual(True, simulation_data._save_regions)
+        self.assertEqual(False, simulation_data._save_trajectories)
+        self.assertEqual(False, simulation_data._save_distributions)
 
     def testGetTotalXrayIntensities(self):
         if is_bad_file(self.filepathCas):
@@ -64,11 +87,11 @@ class TestSimulationData(test_File.TestFile):
         # Single region
         f = open(self.filepathCas, 'rb')
         f.seek(98348)
-        simulationData = SimulationData.SimulationData()
-        simulationData.read(f)
+        simulation_data = SimulationData.SimulationData()
+        simulation_data.read(f)
         f.close()
 
-        intensities = simulationData.getTotalXrayIntensities()
+        intensities = simulation_data.getTotalXrayIntensities()
 
         self.assertAlmostEqual(2538.63, intensities[5][LINE_K][GENERATED], 2)
         self.assertAlmostEqual(344.49, intensities[5][LINE_K][EMITTED], 2)
@@ -81,11 +104,11 @@ class TestSimulationData(test_File.TestFile):
             raise SkipTest
         f = open(self.filepathCas_nicr, 'rb')
         f.seek(98348)
-        simulationData = SimulationData.SimulationData()
-        simulationData.read(f)
+        simulation_data = SimulationData.SimulationData()
+        simulation_data.read(f)
         f.close()
 
-        intensities = simulationData.getTotalXrayIntensities()
+        intensities = simulation_data.getTotalXrayIntensities()
 
         self.assertAlmostEqual(0.76, intensities[79][LINE_M][GENERATED], 2)
         self.assertAlmostEqual(0.52, intensities[79][LINE_M][EMITTED], 2)
@@ -103,6 +126,34 @@ class TestSimulationData(test_File.TestFile):
         self.assertAlmostEqual(1.57, intensities[14][LINE_K][GENERATED], 2)
         self.assertAlmostEqual(1.22, intensities[14][LINE_K][EMITTED], 2)
 
-if __name__ == '__main__': #pragma: no cover
+    def test_get_total_xray_intensities_1_esr(self):
+        if is_bad_file(self.filepath_cas_v250):
+            raise SkipTest
+        with open(self.filepath_cas_v250, 'rb') as file:
+            # Single region
+            file.seek(50193)
+            simulation_data = SimulationData.SimulationData()
+            simulation_data.read(file)
+            file.close()
+
+            intensities_ref = {}
+            intensities_ref[13] = {}
+            intensities_ref[13][ATOMLINE_KA1] = 5.835395033573165e-06
+            intensities_ref[13][ATOMLINE_KA2] = 2.9356111795863593e-06
+            intensities_ref[13][ATOMLINE_KB1] = 8.534944299596802e-08
+
+            intensities = simulation_data.get_total_xray_intensities_1_esr()
+
+            self.assertEqual(len(intensities_ref), len(intensities))
+            self.assertEqual(len(intensities_ref[13]), len(intensities[13]))
+
+            for atomic_line in intensities[13]:
+                with self.subTest(atomic_line=atomic_line):
+                    self.assertAlmostEqual(intensities_ref[13][atomic_line], intensities[13][atomic_line])
+
+        # self.fail("Test if the testcase is working.")
+
+
+if __name__ == '__main__':  # pragma: no cover
     import nose
     nose.runmodule()

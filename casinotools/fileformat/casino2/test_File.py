@@ -1,23 +1,40 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.fileformat.casino2.test_File
+
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the module :py:mod:`casinotools.fileformat.casino2.File`.
+"""
+
+###############################################################################
+# Copyright 2017 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import unittest
 import os
 try:
     from io import BytesIO
-except ImportError: # Python 2
+except ImportError:  # Python 2
     from StringIO import StringIO as BytesIO
 
 # Third party modules.
-from pkg_resources import resource_filename #@UnresolvedImport
+from pkg_resources import resource_filename  # @UnresolvedImport
 from nose.plugins.skip import SkipTest
 
 # Local modules.
@@ -25,16 +42,26 @@ import casinotools.fileformat.casino2.File as File
 import casinotools.fileformat.casino2.Version as Version
 from casinotools.fileformat.casino2.Element import LINE_K, GENERATED, EMITTED
 from casinotools.utilities.path import is_bad_file
+from casinotools.fileformat.casino2.Version import VERSION_2_45, VERSION_2_50
 
 # Globals and constants variables.
 
+
 class TestFile(unittest.TestCase):
+    """
+    TestCase class for the module `casinotools.fileformat.casino2.File`.
+    """
 
     def setUp(self):
+        """
+        Setup method.
+        """
+
         unittest.TestCase.setUp(self)
 
         self.filepathSim = resource_filename(__name__, "../../../test_data/wincasino2.45/id475.sim")
         self.filepathCas = resource_filename(__name__, "../../../test_data/wincasino2.45/id475.cas")
+        self.version_2_45 = VERSION_2_45
 
         self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA.sim")
         self.filepathWrite = resource_filename(__name__, "../../../test_data/casino2.x/stdTest.sim")
@@ -44,14 +71,26 @@ class TestFile(unittest.TestCase):
 
         self.filepathCas_nicr = resource_filename(__name__, "../../../test_data/casino2.x/nicr.cas")
 
+        self.filepath_sim_v250 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.5.sim")
+        self.filepath_cas_v250 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.5.cas")
+        self.version_2_50 = VERSION_2_50
+
     def tearDown(self):
+        """
+        Teardown method.
+        """
+
         unittest.TestCase.tearDown(self)
 
         if os.path.isfile(self.filepathWrite):
             os.remove(self.filepathWrite)
 
     def testSkeleton(self):
-        #self.fail("Test if the testcase is working.")
+        """
+        First test to check if the testcase is working with the testing framework.
+        """
+
+        # self.fail("Test if the testcase is working.")
         self.assertTrue(True)
 
     def test_read(self):
@@ -69,7 +108,7 @@ class TestFile(unittest.TestCase):
 
         self.assertEqual(1, len(file._resultSimulationDataList))
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_read_StringIO(self):
         # sim
@@ -102,32 +141,32 @@ class TestFile(unittest.TestCase):
         self.assertTrue(file._isSimulationFilepath(self.filepathSim))
         self.assertFalse(file._isSimulationFilepath(self.filepathCas))
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_write(self):
         if is_bad_file(self.filepathStd):
             raise SkipTest
 
         file = File.File()
-        optionSimulationData = self._getOptionSimulationData()
-        file.setOptionSimulationData(optionSimulationData)
+        option_simulation_data = self._getOptionSimulationData()
+        file.setOptionSimulationData(option_simulation_data)
         file.write(self.filepathWrite)
 
         with open(self.filepathStd, 'rb') as fp:
-            dataRef = fp.read()
+            data_ref = fp.read()
         with open(self.filepathWrite, 'rb') as fp:
             data = fp.read()
         index = 0
-        for charRef, char in zip(dataRef, data):
+        for charRef, char in zip(data_ref, data):
             self.assertEqual(charRef, char, index)
             index += 1
 
-        self.assertEqual(len(dataRef), len(data))
+        self.assertEqual(len(data_ref), len(data))
 
         import filecmp
         self.assertTrue(filecmp.cmp(self.filepathStd, self.filepathWrite, shallow=True))
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def _getOptionSimulationData(self):
         file = File.File()
@@ -142,12 +181,12 @@ class TestFile(unittest.TestCase):
         file = File.File()
         file.readFromFilepath(self.filepathCas, isSkipReadingData=False)
 
-        trajectoriesData = file.getResultsFirstSimulation().getTrajectoriesData()
-        self.assertEqual(221, trajectoriesData._numberTrajectories)
-        self.assertEqual(89, trajectoriesData._trajectories[0].NbElec)
-        self.assertEqual(89, len(trajectoriesData._trajectories[0]._scatteringEvents))
+        trajectories_data = file.getResultsFirstSimulation().getTrajectoriesData()
+        self.assertEqual(221, trajectories_data._numberTrajectories)
+        self.assertEqual(89, trajectories_data._trajectories[0].NbElec)
+        self.assertEqual(89, len(trajectories_data._trajectories[0]._scatteringEvents))
 
-        event = trajectoriesData._trajectories[0]._scatteringEvents[0]
+        event = trajectories_data._trajectories[0]._scatteringEvents[0]
         self.assertAlmostEqual(-2.903983831406E+00, event.X)
         self.assertAlmostEqual(-3.020418643951E+00, event.Y)
         self.assertAlmostEqual(0.0, event.Z)
@@ -158,39 +197,39 @@ class TestFile(unittest.TestCase):
         file = File.File()
         file.readFromFilepath(self.filepathCas, isSkipReadingData=True)
 
-        trajectoriesData = file.getResultsFirstSimulation().getTrajectoriesData()
-        self.assertEqual(221, trajectoriesData._numberTrajectories)
-        self.assertEqual(89, trajectoriesData._trajectories[0].NbElec)
-        self.assertEqual(0, len(trajectoriesData._trajectories[0]._scatteringEvents))
+        trajectories_data = file.getResultsFirstSimulation().getTrajectoriesData()
+        self.assertEqual(221, trajectories_data._numberTrajectories)
+        self.assertEqual(89, trajectories_data._trajectories[0].NbElec)
+        self.assertEqual(0, len(trajectories_data._trajectories[0]._scatteringEvents))
 
-        simulationResults = file.getResultsFirstSimulation().getSimulationResults()
+        simulation_results = file.getResultsFirstSimulation().getSimulationResults()
 
-        self.assertEqual(1, simulationResults.BE_Intensity_Size)
-        self.assertEqual(3.950000000000E-02, simulationResults.BE_Intensity[0])
+        self.assertEqual(1, simulation_results.BE_Intensity_Size)
+        self.assertEqual(3.950000000000E-02, simulation_results.BE_Intensity[0])
 
-        element = simulationResults._elementIntensityList[0]
+        element = simulation_results._elementIntensityList[0]
         self.assertEqual("B", element.Name)
         self.assertAlmostEqual(3.444919288026E+02, element.IntensityK[0])
 
-        element = simulationResults._elementIntensityList[1]
+        element = simulation_results._elementIntensityList[1]
         self.assertEqual("C", element.Name)
         self.assertAlmostEqual(4.687551040349E+01, element.IntensityK[0])
 
-        self.assertEqual(1000, simulationResults.NbPointDZMax)
-        self.assertEqual(500, simulationResults.NbPointDENR)
-        self.assertEqual(500, simulationResults.NbPointDENT)
-        self.assertEqual(500, simulationResults.NbPointDRSR)
-        #self.assertEqual(0, simulationResults.NbPointDNCR)
-        self.assertEqual(50, simulationResults.NbPointDEpos_X)
-        self.assertEqual(50, simulationResults.NbPointDEpos_Y)
-        self.assertEqual(50, simulationResults.NbPointDEpos_Z)
-        self.assertAlmostEqual(1.608165461510E-02, simulationResults.DEpos_maxE)
-        self.assertEqual(91, simulationResults.NbPointDBANG)
-        self.assertEqual(91, simulationResults.NbPointDAngleVSEnergie)
+        self.assertEqual(1000, simulation_results.NbPointDZMax)
+        self.assertEqual(500, simulation_results.NbPointDENR)
+        self.assertEqual(500, simulation_results.NbPointDENT)
+        self.assertEqual(500, simulation_results.NbPointDRSR)
+        # self.assertEqual(0, simulationResults.NbPointDNCR)
+        self.assertEqual(50, simulation_results.NbPointDEpos_X)
+        self.assertEqual(50, simulation_results.NbPointDEpos_Y)
+        self.assertEqual(50, simulation_results.NbPointDEpos_Z)
+        self.assertAlmostEqual(1.608165461510E-02, simulation_results.DEpos_maxE)
+        self.assertEqual(91, simulation_results.NbPointDBANG)
+        self.assertEqual(91, simulation_results.NbPointDAngleVSEnergie)
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
-    def test_readv242(self):
+    def test_read_v242(self):
         if is_bad_file(self.filepathSim_v242):
             raise SkipTest
         if is_bad_file(self.filepathCas_v242):
@@ -202,23 +241,23 @@ class TestFile(unittest.TestCase):
         self.assertEqual(self.filepathSim_v242, file._filepath)
         self.assertEqual(0, file._numberSimulations)
 
-        optionSimulationData = file.getOptionSimulationData()
-        version = optionSimulationData.getVersion()
+        option_simulation_data = file.getOptionSimulationData()
+        version = option_simulation_data.getVersion()
         self.assertEqual(Version.VERSION_2_42, version)
 
-        simulationOptions = optionSimulationData.getSimulationOptions()
+        simulation_options = option_simulation_data.getSimulationOptions()
 
-        numberElectrons = simulationOptions.getNumberElectrons()
-        self.assertEqual(10000, numberElectrons)
+        number_electrons = simulation_options.getNumberElectrons()
+        self.assertEqual(10000, number_electrons)
 
-        incidentEnergy_keV = simulationOptions.getIncidentEnergy_keV()
-        self.assertAlmostEqual(3.0, incidentEnergy_keV)
+        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
+        self.assertAlmostEqual(3.0, incident_energy_keV)
 
-        toa_deg = simulationOptions.getTOA_deg()
+        toa_deg = simulation_options.getTOA_deg()
         self.assertAlmostEqual(40.0, toa_deg)
 
-        numberXRayLayers = simulationOptions.getNumberXRayLayers()
-        self.assertEqual(500, numberXRayLayers)
+        number_xray_layers = simulation_options.getNumberXRayLayers()
+        self.assertEqual(500, number_xray_layers)
 
         # .cas
         file = File.File()
@@ -228,38 +267,113 @@ class TestFile(unittest.TestCase):
 
         self.assertEqual(1, len(file._resultSimulationDataList))
 
-        optionSimulationData = file.getOptionSimulationData()
-        version = optionSimulationData.getVersion()
+        option_simulation_data = file.getOptionSimulationData()
+        version = option_simulation_data.getVersion()
         self.assertEqual(Version.VERSION_2_42, version)
 
-        simulationOptions = optionSimulationData.getSimulationOptions()
+        simulation_options = option_simulation_data.getSimulationOptions()
 
-        numberElectrons = simulationOptions.getNumberElectrons()
-        self.assertEqual(10000, numberElectrons)
+        number_electrons = simulation_options.getNumberElectrons()
+        self.assertEqual(10000, number_electrons)
 
-        incidentEnergy_keV = simulationOptions.getIncidentEnergy_keV()
-        self.assertAlmostEqual(3.0, incidentEnergy_keV)
+        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
+        self.assertAlmostEqual(3.0, incident_energy_keV)
 
-        toa_deg = simulationOptions.getTOA_deg()
+        toa_deg = simulation_options.getTOA_deg()
         self.assertAlmostEqual(40.0, toa_deg)
 
-        numberXRayLayers = simulationOptions.getNumberXRayLayers()
-        self.assertEqual(500, numberXRayLayers)
+        number_xray_layers = simulation_options.getNumberXRayLayers()
+        self.assertEqual(500, number_xray_layers)
 
-        resultSimulationData = file.getResultsSimulation(0)
-        regionOptions = resultSimulationData.getRegionOptions()
-        region = regionOptions.getRegion(0)
+        result_simulation_data = file.getResultsSimulation(0)
+        region_options = result_simulation_data.getRegionOptions()
+        region = region_options.getRegion(0)
         element = region.getElement(0)
         intensities = element.getTotalXrayIntensities()
 
         self.assertAlmostEqual(2164.75, intensities[LINE_K][GENERATED], 2)
         self.assertAlmostEqual(415.81, intensities[LINE_K][EMITTED], 2)
 
-        atomicNumber = element.getAtomicNumber()
-        self.assertEqual(5, atomicNumber)
+        atomic_number = element.getAtomicNumber()
+        self.assertEqual(5, atomic_number)
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
-if __name__ == '__main__': #pragma: no cover
+    def test_read_sim_v250(self):
+        if is_bad_file(self.filepath_sim_v250):
+            raise SkipTest
+
+        # .sim
+        file = File.File()
+        file.readFromFilepath(self.filepath_sim_v250)
+        self.assertEqual(self.filepath_sim_v250, file._filepath)
+        self.assertEqual(0, file._numberSimulations)
+
+        option_simulation_data = file.getOptionSimulationData()
+        version = option_simulation_data.getVersion()
+        self.assertEqual(Version.VERSION_2_50, version)
+
+        simulation_options = option_simulation_data.getSimulationOptions()
+
+        number_electrons = simulation_options.getNumberElectrons()
+        self.assertEqual(10000, number_electrons)
+
+        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
+        self.assertAlmostEqual(2.0, incident_energy_keV)
+
+        toa_deg = simulation_options.getTOA_deg()
+        self.assertAlmostEqual(40.0, toa_deg)
+
+        number_xray_layers = simulation_options.getNumberXRayLayers()
+        self.assertEqual(500, number_xray_layers)
+
+        # self.fail("Test if the testcase is working.")
+
+    def test_read_cas_v250(self):
+        if is_bad_file(self.filepath_cas_v250):
+            raise SkipTest
+
+        # .cas
+        file = File.File()
+        file.readFromFilepath(self.filepath_cas_v250)
+        self.assertEqual(self.filepath_cas_v250, file._filepath)
+        self.assertEqual(1, file._numberSimulations)
+
+        self.assertEqual(1, len(file._resultSimulationDataList))
+
+        option_simulation_data = file.getOptionSimulationData()
+        version = option_simulation_data.getVersion()
+        self.assertEqual(Version.VERSION_2_50, version)
+
+        simulation_options = option_simulation_data.getSimulationOptions()
+
+        number_electrons = simulation_options.getNumberElectrons()
+        self.assertEqual(10000, number_electrons)
+
+        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
+        self.assertAlmostEqual(2.0, incident_energy_keV)
+
+        toa_deg = simulation_options.getTOA_deg()
+        self.assertAlmostEqual(40.0, toa_deg)
+
+        number_xray_layers = simulation_options.getNumberXRayLayers()
+        self.assertEqual(500, number_xray_layers)
+
+        result_simulation_data = file.getResultsSimulation(0)
+        region_options = result_simulation_data.getRegionOptions()
+        region = region_options.getRegion(0)
+        element = region.getElement(0)
+        intensities = element.getTotalXrayIntensities()
+
+        self.assertAlmostEqual(20.99961280822754, intensities[LINE_K][GENERATED], 7)
+        self.assertAlmostEqual(20.968143463134766, intensities[LINE_K][EMITTED], 7)
+
+        atomic_number = element.getAtomicNumber()
+        self.assertEqual(13, atomic_number)
+
+        # self.fail("Test if the testcase is working.")
+
+
+if __name__ == '__main__':  # pragma: no cover
     import nose
     nose.runmodule()

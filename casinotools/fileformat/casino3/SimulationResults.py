@@ -61,7 +61,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
             self._rkoMax = self.readDouble(file)
 
     def _readSimulationResults(self, file, options):
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_readSimulationResults", file.tell())
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_simulation_results", file.tell())
         tagID = b"*SIMRESULTS%%%%"
         if self.findTag(file, tagID):
             self._versionSimulationResults = self.readInt(file)
@@ -76,7 +76,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                 self._DDiffusedEnergy_Density = DiffusedEnergyMatrix.DiffusedEnergyMatrix(options, options._optionsDist.DEpos_Center)
                 self._DDiffusedEnergy_Density.read(file)
 
-        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_readSimulationResults", file.tell())
+        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_read_simulation_results", file.tell())
         tagID = b"*SIMRESULTSEND"
         if not self.findTag(file, tagID):
             raise IOError
