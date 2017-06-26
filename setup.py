@@ -3,7 +3,7 @@
 # Standard library modules.
 
 # Third party modules.
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Local modules.
 
@@ -23,6 +23,8 @@ requirements = [
 test_requirements = [
     'nose', 'coverage'
 ]
+
+packages = find_packages()
 
 setup(name="pyCasinoTools",
     version='0.2.0',
@@ -47,9 +49,7 @@ setup(name="pyCasinoTools",
         'Topic :: Scientific/Engineering',
         'Topic :: Scientific/Engineering :: Physics'],
 
-    packages=[
-        'casinotools',
-    ],
+    packages=packages,
     package_dir={'casinotools':
                  'casinotools'},
 
