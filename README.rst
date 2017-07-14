@@ -4,23 +4,28 @@ pycasinotools
 
 
 .. image:: https://img.shields.io/pypi/v/pycasinotools.svg
-    :target: https://pypi.python.org/pypi/pycasinotools
+   :target: https://pypi.python.org/pypi/pycasinotools
+   :alt: Pypi Status
 
 .. image:: https://img.shields.io/travis/drix00/casinotools.svg
    :target: https://travis-ci.org/drix00/pycasinotools
+   :alt: Build Status
 
-.. image:: https://readthedocs.org/projects/pycasinotools//badge/?version=latest
+.. image:: https://readthedocs.org/projects/pycasinotools/badge/?version=latest
    :target: https://pycasinotools.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
 .. image:: https://img.shields.io/codecov/c/github/pycasinotools/pycasinotools.svg
    :target: https://codecov.io/gh/drix00/pycasinotools
+   :alt: Code coverage Status
 
 .. image:: https://codecov.io/gh/drix00/pycasinotools/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/drix00/pycasinotools
+   :target: https://codecov.io/gh/drix00/pycasinotools
+   :alt: Code coverage Status
 
 .. image:: https://img.shields.io/badge/license-Apache%202-blue.svg
    :target: https://raw.githubusercontent.com/drix00/pycasinotools/master/LICENSE
+   :alt: License Status
 
 Python interface for the Monte Carlo simulation program CASINO version 2 and 3.
 
