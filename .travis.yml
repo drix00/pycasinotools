@@ -15,8 +15,15 @@ matrix:
       env:
       - TOXENV=py35
 
+cache:
+  directories:
+  - $HOME/.pip-cache/
+
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox
+install:
+  - pip install -U tox
+  - pip install --cache-dir $HOME/.pip-cache --upgrade pip codecov
+  - pip install --cache-dir $HOME/.pip-cache --upgrade -e .[develop]
 
 # command to run tests, e.g. python setup.py test
 script: tox -e ${TOXENV}
@@ -33,3 +40,9 @@ deploy:
     tags: true
     repo: drix00/casinotools
     condition: $TOXENV == py27
+
+after_success:
+  - codecov
+
+notifications:
+  email: false
