@@ -22,6 +22,7 @@ cache:
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -U tox
+  - pip install --cache-dir $HOME/.pip-cache --upgrade pip nose
   - pip install --cache-dir $HOME/.pip-cache --upgrade pip codecov
   - pip install --cache-dir $HOME/.pip-cache --upgrade -e .[develop]
 
