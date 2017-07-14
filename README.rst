@@ -9,12 +9,15 @@ pycasinotools
 .. image:: https://img.shields.io/travis/drix00/casinotools.svg
    :target: https://travis-ci.org/drix00/pycasinotools
 
-.. image:: https://readthedocs.org/projects/casinotools/badge/?version=latest
+.. image:: https://readthedocs.org/projects/pycasinotools//badge/?version=latest
    :target: https://pycasinotools.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
 .. image:: https://img.shields.io/codecov/c/github/pycasinotools/pycasinotools.svg
    :target: https://codecov.io/gh/drix00/pycasinotools
+
+.. image:: https://codecov.io/gh/drix00/pycasinotools/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/drix00/pycasinotools
 
 .. image:: https://img.shields.io/badge/license-Apache%202-blue.svg
    :target: https://raw.githubusercontent.com/drix00/pycasinotools/master/LICENSE
