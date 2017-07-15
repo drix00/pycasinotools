@@ -7,7 +7,7 @@ pycasinotools
    :target: https://pypi.python.org/pypi/pycasinotools
    :alt: Pypi Status
 
-.. image:: https://img.shields.io/travis/drix00/casinotools.svg
+.. image:: https://travis-ci.org/drix00/pycasinotools.svg?branch=master
    :target: https://travis-ci.org/drix00/pycasinotools
    :alt: Build Status
 
