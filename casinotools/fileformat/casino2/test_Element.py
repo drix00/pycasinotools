@@ -122,23 +122,24 @@ class TestElement(test_File.TestFile):
         # self.fail("Test if the testcase is working.")
 
     def test_get_total_xray_intensities_1_esr(self):
-        if is_bad_file(self.filepath_cas_v250):
+        if is_bad_file(self.filepath_cas_v251):
             raise SkipTest
-        with open(self.filepath_cas_v250, 'rb') as file:
+
+        with open(self.filepath_cas_v251, 'rb') as file:
             file.seek(0)
             element = Element.Element()
             # read the empty simulation data structure.
-            element.read(file, 500, self.version_2_50)
+            element.read(file, 500, self.version_2_51)
             self.assertEqual(50193, file.tell())
             # read the first simulation data structure.
-            element.read(file, 500, self.version_2_50)
+            element.read(file, 500, self.version_2_51)
             self.assertEqual(100638, file.tell())
 
             intensities_ref = {}
 
-            intensities_ref[ATOMLINE_KA1] = 5.835395033573165e-06
-            intensities_ref[ATOMLINE_KA2] = 2.9356111795863593e-06
-            intensities_ref[ATOMLINE_KB1] = 8.534944299596802e-08
+            intensities_ref[ATOMLINE_KA1] = 9.263789055711976e-07
+            intensities_ref[ATOMLINE_KA2] = 4.6603327728141307e-07
+            intensities_ref[ATOMLINE_KB1] = 1.3565722012566445e-08
 
             intensities = element.get_total_xray_intensities_1_esr()
 

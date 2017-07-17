@@ -42,7 +42,7 @@ import casinotools.fileformat.casino2.File as File
 import casinotools.fileformat.casino2.Version as Version
 from casinotools.fileformat.casino2.Element import LINE_K, GENERATED, EMITTED
 from casinotools.utilities.path import is_bad_file
-from casinotools.fileformat.casino2.Version import VERSION_2_45, VERSION_2_50
+from casinotools.fileformat.casino2.Version import VERSION_2_45, VERSION_2_50, VERSION_2_51, VERSION_2_42, VERSION_2_46
 
 # Globals and constants variables.
 
@@ -59,21 +59,29 @@ class TestFile(unittest.TestCase):
 
         unittest.TestCase.setUp(self)
 
-        self.filepathSim = resource_filename(__name__, "../../../test_data/wincasino2.45/id475.sim")
-        self.filepathCas = resource_filename(__name__, "../../../test_data/wincasino2.45/id475.cas")
+        self.filepathSim = resource_filename(__name__, "../../../test_data/wincasino2.45/id475_v2.46.sim")
+        self.filepathCas = resource_filename(__name__, "../../../test_data/wincasino2.45/id475_v2.46.cas")
         self.version_2_45 = VERSION_2_45
 
-        self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA.sim")
+        self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA_v2.42.sim")
         self.filepathWrite = resource_filename(__name__, "../../../test_data/casino2.x/stdTest.sim")
 
-        self.filepathSim_v242 = resource_filename(__name__, "../../../test_data/casino2.x/std_B_3keV_v2.42_23.sim")
-        self.filepathCas_v242 = resource_filename(__name__, "../../../test_data/casino2.x/std_B_3keV_v2.42_23.cas")
+        self.filepathSim_v242 = resource_filename(__name__, "../../../test_data/casino2.x/std_B_3keV_v2.42.sim")
+        self.filepathCas_v242 = resource_filename(__name__, "../../../test_data/casino2.x/std_B_3keV_v2.42.cas")
 
-        self.filepathCas_nicr = resource_filename(__name__, "../../../test_data/casino2.x/nicr.cas")
+        self.filepathCas_nicr = resource_filename(__name__, "../../../test_data/casino2.x/nicr_v2.46.cas")
 
-        self.filepath_sim_v250 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.5.sim")
-        self.filepath_cas_v250 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.5.cas")
+        self.filepath_sim_v250 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.50.sim")
+        self.filepath_cas_v250 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.50.cas")
         self.version_2_50 = VERSION_2_50
+
+        self.filepath_sim_v251 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.51.sim")
+        self.filepath_cas_v251 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.51.cas")
+        self.version_2_51 = VERSION_2_51
+
+        self.filepath_problem_sim_v250 = resource_filename(__name__, "../../../test_data/casino2.x/VerticalLayers3_v2.50.sim")
+        self.filepath_problem_pymontecarlo_sim_v250 = resource_filename(__name__, "../../../test_data/casino2.x/VerticalLayers3_pymontecarlo_v2.50.sim")
+        self.filepath_good_sim_v251 = resource_filename(__name__, "../../../test_data/casino2.x/VerticalLayers3_good_v2.51.sim")
 
     def tearDown(self):
         """
@@ -373,6 +381,90 @@ class TestFile(unittest.TestCase):
 
         # self.fail("Test if the testcase is working.")
 
+
+    def test_problem_sim_v250(self):
+        if is_bad_file(self.filepath_problem_sim_v250):
+            raise SkipTest
+
+        # .sim
+        file = File.File()
+        file.readFromFilepath(self.filepath_problem_sim_v250)
+        self.assertEqual(self.filepath_problem_sim_v250, file._filepath)
+        self.assertEqual(0, file._numberSimulations)
+
+        option_simulation_data = file.getOptionSimulationData()
+        version = option_simulation_data.getVersion()
+        self.assertEqual(Version.VERSION_2_50, version)
+
+        simulation_options = option_simulation_data.getSimulationOptions()
+
+        number_electrons = simulation_options.getNumberElectrons()
+        self.assertEqual(200, number_electrons)
+
+        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
+        self.assertAlmostEqual(1.0, incident_energy_keV)
+
+        toa_deg = simulation_options.getTOA_deg()
+        self.assertAlmostEqual(40.0, toa_deg)
+
+        number_xray_layers = simulation_options.getNumberXRayLayers()
+        self.assertEqual(500, number_xray_layers)
+
+        if is_bad_file(self.filepath_good_sim_v251):
+            raise SkipTest
+
+        # .sim
+        file = File.File()
+        file.readFromFilepath(self.filepath_good_sim_v251)
+        self.assertEqual(self.filepath_good_sim_v251, file._filepath)
+        self.assertEqual(0, file._numberSimulations)
+
+        option_simulation_data = file.getOptionSimulationData()
+        version = option_simulation_data.getVersion()
+        self.assertEqual(Version.VERSION_2_51, version)
+
+        simulation_options = option_simulation_data.getSimulationOptions()
+
+        number_electrons = simulation_options.getNumberElectrons()
+        self.assertEqual(200, number_electrons)
+
+        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
+        self.assertAlmostEqual(1.0, incident_energy_keV)
+
+        toa_deg = simulation_options.getTOA_deg()
+        self.assertAlmostEqual(40.0, toa_deg)
+
+        number_xray_layers = simulation_options.getNumberXRayLayers()
+        self.assertEqual(500, number_xray_layers)
+
+        # self.fail("Test if the testcase is working.")
+
+    def test_extract_version(self):
+        """
+        Test extract_version method.
+        """
+        if is_bad_file(self.filepathSim):
+            raise SkipTest
+
+        file_paths = []
+        file_paths.append((self.filepathSim, VERSION_2_45))
+        file_paths.append((self.filepathCas, VERSION_2_45))
+        file_paths.append((self.filepathStd, VERSION_2_50))
+        file_paths.append((self.filepathSim_v242, VERSION_2_42))
+        file_paths.append((self.filepathCas_v242, VERSION_2_42))
+        file_paths.append((self.filepathCas_nicr, VERSION_2_46))
+        file_paths.append((self.filepath_sim_v250, VERSION_2_50))
+        file_paths.append((self.filepath_cas_v250, VERSION_2_50))
+        file_paths.append((self.filepath_problem_sim_v250, VERSION_2_50))
+        file_paths.append((self.filepath_problem_pymontecarlo_sim_v250, VERSION_2_50))
+        file_paths.append((self.filepath_good_sim_v251, VERSION_2_51))
+
+        for file_path, version_ref in file_paths:
+            casino_file = File.File()
+            version = casino_file.extract_version(file_path)
+            self.assertEqual(version_ref, version, msg=file_path)
+
+        # self.fail("Test if the testcase is working.")
 
 if __name__ == '__main__':  # pragma: no cover
     import nose

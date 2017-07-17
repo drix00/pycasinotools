@@ -26,7 +26,7 @@ class TestGenerateSimFile(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA.sim")
+        self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA_v2.42.sim")
         if is_bad_file(self.filepathStd):
             raise SkipTest
         self.generate = GenerateSimFile.GenerateSimFile(self.filepathStd)

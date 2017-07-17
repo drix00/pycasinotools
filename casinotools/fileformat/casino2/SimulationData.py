@@ -43,6 +43,8 @@ from casinotools.fileformat.casino2.Element import \
 from casinotools.fileformat.casino2.line import ATOMLINE_KA1, ATOMLINE_KA2, ATOMLINE_KB1, ATOMLINE_KB2, ATOMLINE_LA, \
     ATOMLINE_LB1, ATOMLINE_LB2, ATOMLINE_LG, ATOMLINE_MA
 
+from casinotools.fileformat.casino2.Version import CURRENT_VERSION
+
 # Globals and constants variables.
 HEADER = b"WinCasino Simulation File"
 TAG_VERSION = b"*VERSION%%%%%%%"
@@ -55,7 +57,7 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
         self._is_skip_reading_data = is_skip_reading_data
 
         self._header = HEADER
-        self._version = 2040601
+        self._version = CURRENT_VERSION
         self._status = None
 
         self._save_simulations = None
@@ -221,10 +223,10 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
         Returns a :class:`dict` with the intensities (emitted) of
         all the lines and elements in the simulation in photon / (electron * steradian).
         The dictionary is structured as followed: atomic number, line.
-        The lines can either be :const:`ATOMLINE_KA1`, :const:`ATOMLINE_KA2`, :const:`ATOMLINE_KB1`, 
-        :const:`ATOMLINE_KB2`, :const:`ATOMLINE_LA`, :const:`ATOMLINE_LB1`, :const:`ATOMLINE_LB2`, 
+        The lines can either be :const:`ATOMLINE_KA1`, :const:`ATOMLINE_KA2`, :const:`ATOMLINE_KB1`,
+        :const:`ATOMLINE_KB2`, :const:`ATOMLINE_LA`, :const:`ATOMLINE_LB1`, :const:`ATOMLINE_LB2`,
         :const:`ATOMLINE_LG`, :const:`ATOMLINE_MA`.
-         
+
         :rtype: class:`dict`
         """
         intensities = {}

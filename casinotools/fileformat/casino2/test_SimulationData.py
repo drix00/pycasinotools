@@ -127,9 +127,9 @@ class TestSimulationData(test_File.TestFile):
         self.assertAlmostEqual(1.22, intensities[14][LINE_K][EMITTED], 2)
 
     def test_get_total_xray_intensities_1_esr(self):
-        if is_bad_file(self.filepath_cas_v250):
+        if is_bad_file(self.filepath_cas_v251):
             raise SkipTest
-        with open(self.filepath_cas_v250, 'rb') as file:
+        with open(self.filepath_cas_v251, 'rb') as file:
             # Single region
             file.seek(50193)
             simulation_data = SimulationData.SimulationData()
@@ -138,9 +138,9 @@ class TestSimulationData(test_File.TestFile):
 
             intensities_ref = {}
             intensities_ref[13] = {}
-            intensities_ref[13][ATOMLINE_KA1] = 5.835395033573165e-06
-            intensities_ref[13][ATOMLINE_KA2] = 2.9356111795863593e-06
-            intensities_ref[13][ATOMLINE_KB1] = 8.534944299596802e-08
+            intensities_ref[13][ATOMLINE_KA1] = 9.263789055711976e-07
+            intensities_ref[13][ATOMLINE_KA2] = 4.6603327728141307e-07
+            intensities_ref[13][ATOMLINE_KB1] = 1.3565722012566445e-08
 
             intensities = simulation_data.get_total_xray_intensities_1_esr()
 
@@ -149,7 +149,7 @@ class TestSimulationData(test_File.TestFile):
 
             for atomic_line in intensities[13]:
                 with self.subTest(atomic_line=atomic_line):
-                    self.assertAlmostEqual(intensities_ref[13][atomic_line], intensities[13][atomic_line])
+                    self.assertAlmostEqual(intensities_ref[13][atomic_line], intensities[13][atomic_line], 10)
 
         # self.fail("Test if the testcase is working.")
 

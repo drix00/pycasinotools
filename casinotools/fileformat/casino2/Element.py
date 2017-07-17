@@ -35,7 +35,7 @@ import math
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino2.Composition as Composition
 from casinotools.fileformat.casino2.line import NUMBER_ATOM_LINES
-from casinotools.fileformat.casino2.Version import VERSION_2050000
+from casinotools.fileformat.casino2.Version import VERSION_2050100
 
 # Globals and constants variables.
 LINE_K = 'K'
@@ -136,7 +136,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
             value = self.readFloat(file)
             self.Int_PRZ_ABS.append(value)
 
-        if version >= VERSION_2050000:
+        if version >= VERSION_2050100:
             self.intensity_1_esr = []
             for _dummy in range(NUMBER_ATOM_LINES):
                 value = self.readDouble(file)
