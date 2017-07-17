@@ -138,9 +138,9 @@ class TestSimulationData(test_File.TestFile):
 
             intensities_ref = {}
             intensities_ref[13] = {}
-            intensities_ref[13][ATOMLINE_KA1] = 9.263789055711976e-07
-            intensities_ref[13][ATOMLINE_KA2] = 4.6603327728141307e-07
-            intensities_ref[13][ATOMLINE_KB1] = 1.3565722012566445e-08
+            intensities_ref[13][ATOMLINE_KA1] = 9.269059346795805e-07
+            intensities_ref[13][ATOMLINE_KA2] = 4.662984097246555e-07
+            intensities_ref[13][ATOMLINE_KB1] = 1.355707793206891e-08
 
             intensities = simulation_data.get_total_xray_intensities_1_esr()
 
@@ -149,7 +149,7 @@ class TestSimulationData(test_File.TestFile):
 
             for atomic_line in intensities[13]:
                 with self.subTest(atomic_line=atomic_line):
-                    self.assertAlmostEqual(intensities_ref[13][atomic_line], intensities[13][atomic_line], 10)
+                    self.assertAlmostEqual(intensities_ref[13][atomic_line]*1.0e6, intensities[13][atomic_line]*1.0e6)
 
         # self.fail("Test if the testcase is working.")
 
