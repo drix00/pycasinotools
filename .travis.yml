@@ -1,0 +1,49 @@
+# Config file for automatic testing at travis-ci.org
+# This file will be regenerated if you run travis_pypi_setup.py
+
+language: python
+python: 3.6
+
+env:
+  - TOXENV=py36
+  - TOXENV=py34
+  - TOXENV=py27
+
+matrix:
+  include:
+    - python: 3.5
+      env:
+      - TOXENV=py35
+
+cache:
+  directories:
+  - $HOME/.pip-cache/
+
+# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+install:
+  - pip install -U tox
+  - pip install --cache-dir $HOME/.pip-cache --upgrade pip nose
+  - pip install --cache-dir $HOME/.pip-cache --upgrade pip codecov
+  - pip install --cache-dir $HOME/.pip-cache --upgrade -e .[develop]
+
+# command to run tests, e.g. python setup.py test
+script: tox -e ${TOXENV}
+
+# After you create the Github repo and add it to Travis, run the
+# travis_pypi_setup.py script to finish PyPI deployment setup
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: drix00
+  password:
+    secure: PLEASE_REPLACE_ME
+  on:
+    tags: true
+    repo: drix00/casinotools
+    condition: $TOXENV == py27
+
+after_success:
+  - codecov
+
+notifications:
+  email: false

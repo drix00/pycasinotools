@@ -19,6 +19,7 @@ from nose.plugins.skip import SkipTest
 # Local modules.
 import casinotools.fileformat.casino2.XrayRadialReader as XrayRadialReader
 import casinotools.fileformat.casino2.XrayRadial as XrayRadial
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -27,7 +28,7 @@ class TestXrayRadialReader(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 
-        basepath = resource_filename(__name__, "../../../testData/casino2.x/exportedData")
+        basepath = resource_filename(__name__, "../../../test_data/casino2.x/exportedData")
         self.filepath_Cu_K = os.path.join(basepath, "XrayRadial_Cu_K.txt")
         self.filepath_Cu_L = os.path.join(basepath, "XrayRadial_Cu_L.txt")
         self.filepath_Au_M = os.path.join(basepath, "XrayRadial_Au_M.txt")
@@ -41,7 +42,7 @@ class TestXrayRadialReader(unittest.TestCase):
         self.assertTrue(True)
 
     def test_readTextFile(self):
-        if not os.path.isfile(self.filepath_Cu_K):
+        if is_bad_file(self.filepath_Cu_K):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
@@ -71,21 +72,21 @@ class TestXrayRadialReader(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
     def test_getLine(self):
-        if not os.path.isfile(self.filepath_Cu_K):
+        if is_bad_file(self.filepath_Cu_K):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
         self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
 
-        if not os.path.isfile(self.filepath_Cu_L):
+        if is_bad_file(self.filepath_Cu_L):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_L)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
         self.assertEqual(XrayRadialReader.L, xrayRadial.getLine())
 
-        if not os.path.isfile(self.filepath_Au_M):
+        if is_bad_file(self.filepath_Au_M):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Au_M)
@@ -95,21 +96,21 @@ class TestXrayRadialReader(unittest.TestCase):
         #self.fail("Test if the testcase is working.")
 
     def test_getElementSymbol(self):
-        if not os.path.isfile(self.filepath_Cu_K):
+        if is_bad_file(self.filepath_Cu_K):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
         self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
-        if not os.path.isfile(self.filepath_Cu_L):
+        if is_bad_file(self.filepath_Cu_L):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_L)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
         self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
-        if not os.path.isfile(self.filepath_Au_M):
+        if is_bad_file(self.filepath_Au_M):
             raise SkipTest
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Au_M)

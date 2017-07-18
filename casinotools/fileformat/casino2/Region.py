@@ -1,12 +1,29 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.fileformat.casino2.Region
+
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Region data from CASINO v2.
+"""
+
+###############################################################################
+# Copyright 2017 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -28,15 +45,37 @@ TAG_REGIONS_DATA = b"*REGIONSDATA%%%"
 
 
 class Region(FileReaderWriterTools.FileReaderWriterTools):
-    def __init__(self, numberXRayLayers):
-        self._numberXRayLayers = numberXRayLayers
+    def __init__(self, number_xray_layers):
+        self._number_xray_layers = number_xray_layers
 
-    def read(self, file):
+        self.ID = None
+        self.IDed = None
+        self.NbEl = None
+        self.Rho = None
+        self.Zmoy = None
+
+        self.Parametre = []
+
+        self.Forme = None
+        self.Substrate = None
+        self.color = None
+        self.cindex = None
+        self.User_Density = None
+        self.User_Composition = None
+
+        self._elements = []
+
+        self.NbEl = None
+        self.Rho = None
+        self.Zmoy = None
+        self.Name = None
+
+    def read(self, file, version):
         assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = TAG_REGIONS_DATA
-        self.findTag(file, tagID)
+        tag_id = TAG_REGIONS_DATA
+        self.findTag(file, tag_id)
 
         self.ID = self.readInt(file)
         self.IDed = self.readInt(file)
@@ -61,15 +100,15 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self._elements = []
         for dummy in range(self.NbEl):
             element = Element.Element()
-            element.read(file, self._numberXRayLayers)
+            element.read(file, self._number_xray_layers, version)
             self._elements.append(element)
 
     def write(self, file):
         assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
-        tagID = TAG_REGIONS_DATA
-        self.addTagOld(file, tagID)
+        tag_id = TAG_REGIONS_DATA
+        self.addTagOld(file, tag_id)
         self.writeInt(file, self.ID)
         self.writeInt(file, self.IDed)
         self.writeInt(file, self.NbEl)
@@ -93,7 +132,7 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         assert len(self._elements) == self.NbEl
         for index in range(self.NbEl):
             element = self._elements[index]
-            element.write(file, self._numberXRayLayers)
+            element.write(file, self._number_xray_layers)
 
     def getNumberElements(self):
         assert len(self._elements) == self.NbEl
@@ -104,10 +143,10 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self._elements = []
         assert len(self._elements) == self.NbEl
 
-    def addElement(self, symbol, weightFraction=1.0, numberXRayLayers=500):
+    def addElement(self, symbol, weight_fraction=1.0, number_xray_layers=500):
         self.NbEl += 1
-        element = Element.Element(numberXRayLayers)
-        element.setElement(symbol, weightFraction)
+        element = Element.Element(number_xray_layers)
+        element.setElement(symbol, weight_fraction)
         self._elements.append(element)
         assert len(self._elements) == self.NbEl
 
@@ -117,10 +156,10 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
     def getElements(self):
         return self._elements
 
-    def setElement(self, elementSymbol, weightFraction=1.0, numberXRayLayers=500, indexElement=0):
-        element = Element.Element(numberXRayLayers)
-        element.setElement(elementSymbol, weightFraction)
-        self._elements[indexElement] = element
+    def setElement(self, element_symbol, weight_fraction=1.0, number_xray_layers=500, index_element=0):
+        element = Element.Element(number_xray_layers)
+        element.setElement(element_symbol, weight_fraction)
+        self._elements[index_element] = element
         assert len(self._elements) == self.NbEl
         self.update()
 
@@ -130,87 +169,87 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
                 return element
 
     def update(self):
-        self.NbEl = self._computeNumberElements()
-        self.Rho = self._computeMeanMassDensity_g_cm3()
-        self.Zmoy = self._computeMeanAtomicNumber()
-        self.Name = self._generateName()
+        self.NbEl = self._compute_number_elements()
+        self.Rho = self._compute_mean_mass_density_g_cm3()
+        self.Zmoy = self._compute_mean_atomic_number()
+        self.Name = self._generate_name()
 
-        self._computeAtomicFractionElements()
-        self._checkWeightFraction()
-        self._checkAtomicFraction()
+        self._compute_atomic_fraction_elements()
+        self._check_weight_fraction()
+        self._check_atomic_fraction()
 
-    def _computeNumberElements(self):
+    def _compute_number_elements(self):
         return len(self._elements)
 
-    def _computeMeanMassDensity_g_cm3(self):
-        inverseTotal = 0.0
+    def _compute_mean_mass_density_g_cm3(self):
+        inverse_total = 0.0
         for element in self._elements:
-            weightFraction = element.getWeightFraction()
-            massDensity_g_cm3 = element.getMassDensity_g_cm3()
+            weight_fraction = element.getWeightFraction()
+            mass_density_g_cm3 = element.getMassDensity_g_cm3()
 
-            inverseTotal += weightFraction / massDensity_g_cm3
+            inverse_total += weight_fraction / mass_density_g_cm3
 
-        meanMassDensity = 1.0 / inverseTotal
-        return meanMassDensity
+        mean_mass_density = 1.0 / inverse_total
+        return mean_mass_density
 
-    def _computeMeanAtomicNumber(self):
-        Total_Z = 0.0
-        Total_Elements = 0.0
+    def _compute_mean_atomic_number(self):
+        total_z = 0.0
+        total__elements = 0.0
 
         for element in self._elements:
             repetition = element.getRepetition()
-            Total_Elements += repetition
-            Total_Z += element.getAtomicNumber() * repetition
+            total__elements += repetition
+            total_z += element.getAtomicNumber() * repetition
 
-        meanAtomicNumber = Total_Z / Total_Elements
-        return meanAtomicNumber
+        mean_atomic_number = total_z / total__elements
+        return mean_atomic_number
 
-    def _generateName(self):
+    def _generate_name(self):
         name = ""
         for element in self._elements:
             name += element.getSymbol().strip()
 
         return name
 
-    def _computeAtomicFractionElements(self):
+    def _compute_atomic_fraction_elements(self):
         total = 0.0
         for element in self._elements:
-            weightFraction = element.getWeightFraction()
-            atomicWeight = element.getAtomicWeight_g_mol()
+            weight_fraction = element.getWeightFraction()
+            atomic_weight = element.getAtomicWeight_g_mol()
 
-            total += weightFraction / atomicWeight
+            total += weight_fraction / atomic_weight
 
         for element in self._elements:
-            weightFraction = element.getWeightFraction()
-            atomicWeight = element.getAtomicWeight_g_mol()
+            weight_fraction = element.getWeightFraction()
+            atomic_weight = element.getAtomicWeight_g_mol()
 
-            atomicFraction = (weightFraction / atomicWeight) / total
-            element.setAtomicFraction(atomicFraction)
+            atomic_fraction = (weight_fraction / atomic_weight) / total
+            element.setAtomicFraction(atomic_fraction)
 
-    def _checkWeightFraction(self):
-        weightFractions = [element.getWeightFraction() for element in self._elements]
-        total = sum(weightFractions)
+    def _check_weight_fraction(self):
+        weight_fractions = [element.getWeightFraction() for element in self._elements]
+        total = sum(weight_fractions)
         assert abs(total - 1.0) < EPSILON
 
         for element in self._elements:
-            newWeightFraction = decimal.Decimal(str(element.getWeightFraction())) / decimal.Decimal(str(total))
-            element.setWeightFraction(float(newWeightFraction))
+            new_weight_fraction = decimal.Decimal(str(element.getWeightFraction())) / decimal.Decimal(str(total))
+            element.setWeightFraction(float(new_weight_fraction))
 
-        weightFractions = [element.getWeightFraction() for element in self._elements]
-        total = sum(weightFractions)
+        weight_fractions = [element.getWeightFraction() for element in self._elements]
+        total = sum(weight_fractions)
         assert abs(total - 1.0) < EPSILON * EPSILON
 
-    def _checkAtomicFraction(self):
-        atomicFractions = [element.getAtomicFraction() for element in self._elements]
-        total = sum(atomicFractions)
+    def _check_atomic_fraction(self):
+        atomic_fractions = [element.getAtomicFraction() for element in self._elements]
+        total = sum(atomic_fractions)
         assert abs(total - 1.0) < EPSILON
 
         for element in self._elements:
-            newAtomicFraction = decimal.Decimal(str(element.getAtomicFraction())) / decimal.Decimal(str(total))
-            element.setAtomicFraction(float(newAtomicFraction))
+            new_atomic_fraction = decimal.Decimal(str(element.getAtomicFraction())) / decimal.Decimal(str(total))
+            element.setAtomicFraction(float(new_atomic_fraction))
 
-        atomicFractions = [element.getAtomicFraction() for element in self._elements]
-        total = sum(atomicFractions)
+        atomic_fractions = [element.getAtomicFraction() for element in self._elements]
+        total = sum(atomic_fractions)
         assert abs(total - 1.0) < EPSILON * EPSILON
 
     def getMeanMassDensity_g_cm3(self):

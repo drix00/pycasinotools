@@ -9,7 +9,6 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -17,13 +16,14 @@ from nose.plugins.skip import SkipTest
 # Local modules.
 import casinotools.fileformat.casino3.Region as Region
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
 class TestRegion(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         file = open(self.filepathSim, 'rb')
         file.seek(6560)

@@ -351,7 +351,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
 
 def _run():
     from pkg_resources import resource_filename #@UnresolvedImport
-    #filepathCas = Files.getCurrentModulePath(__file__, "../../testData/casino3.x/WaterAuTop_wSE.cas")
+    #filepathCas = Files.getCurrentModulePath(__file__, "../../test_data/casino3.x/WaterAuTop_wSE.cas")
     filepathCas = resource_filename(__file__, "/Volumes/drix01/resultsUdeS/Simulations/Microfluidic/SecondaryElectrons/WaterAuTop_wSE_100e_CS5.cas")
     #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_1Me.cas")
     #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_100ke.cas")

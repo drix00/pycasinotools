@@ -1,16 +1,6 @@
 #!/usr/bin/env python
 
-# Script information for the file.
-__author__ = "Philippe T. Pinard"
-__email__ = "philippe.pinard@gmail.com"
-__version__ = "0.1"
-__copyright__ = "Copyright (c) 2013 Philippe T. Pinard"
-__license__ = "GPL v3"
-
 # Standard library modules.
-import os
-import zipfile
-from distutils.cmd import Command
 
 # Third party modules.
 from setuptools import setup, find_packages
@@ -19,63 +9,63 @@ from setuptools import setup, find_packages
 
 # Globals and constants variables.
 
-class TestDataCommand(Command):
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
 
-    description = "create a zip of all files in the testData folder"
-    user_options = [('dist-dir=', 'd',
-                     "directory to put final built distributions in "
-                     "[default: dist]"), ]
+with open('HISTORY.rst') as history_file:
+    history = history_file.read()
 
-    def initialize_options(self):
-        self.dist_dir = None
+requirements = [
+    'Pillow',  # Fork of PIL (Python 3 compatible),
+    'numpy'
+]
 
-    def finalize_options(self):
-        if self.dist_dir is None:
-            self.dist_dir = "dist"
+test_requirements = [
+    'nose', 'coverage'
+]
 
-    def run(self):
-        if not os.path.isdir(self.dist_dir):
-            os.makedirs(self.dist_dir)
+long_description = """
+Python interface for the Monte Carlo simulation program CASINO version 2 and 3.
 
-        basepath = os.path.dirname(__file__)
-        testdatapath = os.path.join(basepath, 'testData')
+CASINO: http://www.gel.usherbrooke.ca/casino/index.html
+"""
 
-        zipfilename = self.distribution.get_fullname() + '-testData.zip'
-        zipfilepath = os.path.join(self.dist_dir, zipfilename)
-        with zipfile.ZipFile(zipfilepath, 'w') as z:
-            for root, _dirs, files in os.walk(testdatapath):
-                for file in files:
-                    filename = os.path.join(root, file)
-                    arcname = os.path.relpath(filename, basepath)
-                    z.write(filename, arcname)
+packages = find_packages()
 
 setup(name="pyCasinoTools",
-      version='0.2',
-      url='http://www.gel.usherbrooke.ca/casino',
-      description="Python interface to read and write Casino 2 files",
+      version='0.2.1',
+      description="Python interface for the Monte Carlo simulation program CASINO version 2 and 3.",
+      long_description=long_description,
       author="Hendrix Demers",
       author_email="hendrix.demers@mail.mcgill.ca",
-      license="LGPL v3",
-      classifiers=['Development Status :: 4 - Beta',
-                   'Intended Audience :: Developers',
-                   'Intended Audience :: Science/Research',
-                   'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
-                   'Natural Language :: English',
-                   'Programming Language :: Python',
-                   'Operating System :: OS Independent',
-                   'Topic :: Scientific/Engineering',
-                   'Topic :: Scientific/Engineering :: Physics'],
+      url='https://github.com/drix00/casinotools',
+      include_package_data=True,
+      install_requires=requirements,
+      license="Apache Software License 2.0",
+      zip_safe=False,
+      keywords='casinotools',
+      classifiers=[
+          'Development Status :: 4 - Beta',
+          'Intended Audience :: Developers',
+          'Intended Audience :: Science/Research',
+          'License :: OSI Approved :: Apache Software License',
+          'Natural Language :: English',
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: Implementation :: CPython',
+          'Operating System :: OS Independent',
+          'Topic :: Scientific/Engineering',
+          'Topic :: Scientific/Engineering :: Physics'],
 
-      packages=find_packages(),
-
-      include_package_data=False, # Do not include test data
-
-      install_requires=['Pillow', # Fork of PIL (Python 3 compatible),
-                        'numpy'],
-      setup_requires=['nose', 'coverage'],
+      packages=packages,
+      package_dir={'casinotools':
+                       'casinotools'},
 
       test_suite='nose.collector',
-
-      cmdclass={'zip_testdata': TestDataCommand},
-)
-
+      tests_require=test_requirements
+      )

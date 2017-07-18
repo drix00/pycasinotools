@@ -21,13 +21,14 @@ import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWrite
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
 import casinotools.fileformat.casino3.File as CasinoFile
 from casinotools.utilities.path import get_current_module_path
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
 class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         file = open(self.filepathSim, "rb")
         file.seek(55)
@@ -55,7 +56,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_read3202(self):
-        if not os.path.isfile(self.filepathSim_3202):
+        if is_bad_file(self.filepathSim_3202):
             raise SkipTest
         file = open(self.filepathSim_3202, "rb")
         file.seek(55)
@@ -83,10 +84,10 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_getRotationYZ_deg(self):
-        testDataPath = get_current_module_path(__file__, "../../../testData")
+        testDataPath = get_current_module_path(__file__, "../../../test_data")
 
         filepathSim = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
-        if not os.path.isfile(filepathSim):
+        if is_bad_file(filepathSim):
             raise SkipTest
 
         casinoFile = open(filepathSim, "rb")
@@ -100,7 +101,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertAlmostEqual(0.0, rotationZ_deg)
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationY10.sim")
-        if not os.path.isfile(filepathSim):
+        if is_bad_file(filepathSim):
             raise SkipTest
 
         casinoFile = open(filepathSim, "rb")
@@ -114,7 +115,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertAlmostEqual(0.0, rotationZ_deg)
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationZ15.sim")
-        if not os.path.isfile(filepathSim):
+        if is_bad_file(filepathSim):
             raise SkipTest
 
         casinoFile = open(filepathSim, "rb")
@@ -128,7 +129,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertAlmostEqual(15.0, rotationZ_deg)
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationY20Z35.sim")
-        if not os.path.isfile(filepathSim):
+        if is_bad_file(filepathSim):
             raise SkipTest
 
         casinoFile = open(filepathSim, "rb")
@@ -144,9 +145,9 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         #self.fail("Test if the testcase is working.")
 
     def test_modifyRotationYZ_deg(self):
-        testDataPath = get_current_module_path(__file__, "../../../testData")
+        testDataPath = get_current_module_path(__file__, "../../../test_data")
         sourceFilepath = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
-        if not os.path.isfile(sourceFilepath):
+        if is_bad_file(sourceFilepath):
             raise SkipTest
 
         if not os.path.isdir(self.temporaryDir):

@@ -10,7 +10,6 @@ __license__ = ""
 
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -18,13 +17,14 @@ from nose.plugins.skip import SkipTest
 # Local modules.
 import casinotools.fileformat.casino3.Trajectory as Trajectory
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
 class TestTrajectory(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
-        if not os.path.isfile(self.filepathCas):
+        if is_bad_file(self.filepathCas):
             raise SkipTest
         file = open(self.filepathCas, 'rb')
         file.seek(4042541)

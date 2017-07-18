@@ -17,7 +17,7 @@ __license__ = ""
 import os.path
 import logging
 import fnmatch
-import shutil
+from io import IOBase
 
 # Third party modules.
 
@@ -96,16 +96,38 @@ def find_all_files(root, patterns='*', ignorePathPatterns='', ignoreNamePatterns
             logging.debug("single_level")
             break
 
-def create_temp_data_path(path):
-    temp_data_path = os.path.join(path, "tmp")
-    if not os.path.isdir(temp_data_path):
-        os.mkdir(temp_data_path)
 
-    return temp_data_path
+def _is_git_lfs_file(input_file):
+    try:
+        lines = input_file.readlines()
+    except UnicodeDecodeError:
+        return False
 
-def remove_temp_data_path(path):
-    if os.path.expanduser(path):
-        shutil.rmtree(path)
+    if lines[0].startswith("version https://git-lfs.github.com/spec"):
+        return True
+    else:
+        return False
+
+
+def is_git_lfs_file(file_path):
+    if isinstance(file_path, str):
+        with open(file_path, 'r') as input_file:
+            return _is_git_lfs_file(input_file)
+
+    return _is_git_lfs_file(file_path)
+
+
+def is_bad_file(file_path):
+    if isinstance(file_path, str):
+        if os.path.isfile(file_path) and not is_git_lfs_file(file_path):
+            return False
+        else:
+            return True
+    elif not is_git_lfs_file(file_path):
+        return False
+    else:
+        return True
+
 
 if __name__ == '__main__': #pragma: no cover
     import nose

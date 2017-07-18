@@ -1,12 +1,29 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.fileformat.casino2.File
+
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+CASINO file structure: either sim or .cas.
+"""
+
+###############################################################################
+# Copyright 2017 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -15,10 +32,14 @@ import os.path
 # Third party modules.
 
 # Local modules.
+
+# Project modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import casinotools.fileformat.casino2.SimulationData as SimulationData
+from casinotools.fileformat.casino2.Version import UNKNOWN_VERSION
 
 # Globals and constants variables.
+
 
 class File(FileReaderWriterTools.FileReaderWriterTools):
     def __init__(self):
@@ -50,7 +71,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position after reading option: %i", file.tell())
 
         # Read the results for each simulations if the file is a .cas.
-        if self._optionSimulationData._saveTrajectories:
+        if self._optionSimulationData._save_trajectories:
             self._numberSimulations = self.readInt(file)
 
             for dummy in range(self._numberSimulations):
@@ -98,25 +119,42 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
     def getResultsSimulations(self):
         return self._resultSimulationDataList
 
-def _run():
-    from pkg_resources import resource_filename #@UnresolvedImport
-    filepathCas = resource_filename(__file__, "../../testData/wincasino2.45/id475.cas")
-    file = File()
-    file.readFromFilepath(filepathCas, isSkipReadingData=True)
+    def extract_version(self, file_path):
+        version = UNKNOWN_VERSION
 
-def runProfile():
+        with open(file_path, 'rb') as casino_file:
+            casino_file.seek(0)
+
+            tag_id = SimulationData.TAG_VERSION
+            if self.findTag(casino_file, tag_id):
+                logging.debug("File pos: %i", casino_file.tell())
+                version = self.readInt(casino_file)
+
+        return version
+
+
+def _run():
+    from pkg_resources import resource_filename  # @UnresolvedImport
+    file_path_cas = resource_filename(__file__, "../../test_data/wincasino2.45/id475_v2.46.cas")
+    file = File()
+    file.readFromFilepath(file_path_cas, isSkipReadingData=True)
+
+
+def run_profile():
     import cProfile
     cProfile.run('_run()', 'Casino2.x_File.prof')
 
-def runProfile2():
+
+def run_profile2():
     try:
         import hotshot
-    except ImportError: # hotshot not supported in Python 3
+    except ImportError:  # hotshot not supported in Python 3
         return
 
     prof = hotshot.Profile("Casino2.x_File.prof", lineevents=1)
     prof.runcall(_run)
     prof.close()
 
-if __name__ == '__main__': #pragma: no cover
-    runProfile()
+
+if __name__ == '__main__':  # pragma: no cover
+    run_profile()

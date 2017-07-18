@@ -13,7 +13,6 @@ try:
     from io import BytesIO
 except ImportError: # Python 2
     from StringIO import StringIO as BytesIO
-import os.path
 
 # Third party modules.
 from nose.plugins.skip import SkipTest
@@ -21,19 +20,20 @@ from nose.plugins.skip import SkipTest
 # Local modules.
 import casinotools.fileformat.casino2.SimulationOptions as SimulationOptions
 import casinotools.fileformat.casino2.test_File as test_File
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
 class TestSimulationOptions(test_File.TestFile):
 
     def test_read(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file)
 
     def test_read_StringIO(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         f = open(self.filepathSim, 'rb')
         file = BytesIO(f.read())
@@ -104,7 +104,7 @@ class TestSimulationOptions(test_File.TestFile):
         #self.fail("Test if the testcase is working.")
 
     def testSetLinescanParameters(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         f = open(self.filepathSim, 'rb')
         f.seek(0)
@@ -122,7 +122,7 @@ class TestSimulationOptions(test_File.TestFile):
         self.assertEqual(10, simulationOptions._positionNumberStep)
 
     def testSetPosition(self):
-        if not os.path.isfile(self.filepathSim):
+        if is_bad_file(self.filepathSim):
             raise SkipTest
         f = open(self.filepathSim, 'rb')
         f.seek(0)
