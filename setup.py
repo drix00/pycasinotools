@@ -18,7 +18,8 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Pillow',  # Fork of PIL (Python 3 compatible),
-    'numpy'
+    'numpy',
+    "h5py",
 ]
 
 test_requirements = [
