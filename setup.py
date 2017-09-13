@@ -4,6 +4,7 @@
 
 # Third party modules.
 from setuptools import setup, find_packages
+from casinotools import __version__
 
 # Local modules.
 
@@ -33,7 +34,7 @@ CASINO: http://www.gel.usherbrooke.ca/casino/index.html
 packages = find_packages()
 
 setup(name="pyCasinoTools",
-      version='0.2.1',
+      version=__version__,
       description="Python interface for the Monte Carlo simulation program CASINO version 2 and 3.",
       long_description=long_description,
       author="Hendrix Demers",
