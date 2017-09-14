@@ -47,3 +47,6 @@ after_success:
 
 notifications:
   email: false
+
+git:
+  lfs_skip_smudge: true
