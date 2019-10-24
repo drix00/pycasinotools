@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: tests
+.. py:currentmodule:: tests.fileformat.casino3
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Package that contains the tests for the project.
+Tests for package casinotools.fileformat.casino3.
 """
 
 # Copyright 2019 Hendrix Demers
