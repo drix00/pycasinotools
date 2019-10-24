@@ -32,7 +32,7 @@ except ImportError:  # Python 2
     from StringIO import StringIO as BytesIO
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino2.RegionOptions as RegionOptions
@@ -49,13 +49,13 @@ class TestRegionOptions(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file, self.version_2_45)
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         f = open(self.filepathSim, 'rb')
         file = BytesIO(f.read())
         file.mode = 'rb'
@@ -68,7 +68,3 @@ class TestRegionOptions(test_File.TestFile):
         region_options.read(file, version)
 
         self.assertEqual(1, region_options._numberRegions)
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

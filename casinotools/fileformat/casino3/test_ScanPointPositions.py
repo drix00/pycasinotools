@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.ScanPointPositions as ScanPointPositions
@@ -24,7 +24,7 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathSim, 'rb')
         reader = ScanPointPositions.ScanPointPositions()
         error = reader.read(file)
@@ -33,7 +33,7 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
         self.assertEqual(5, reader.getNumberPoints())
 
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathCas, 'rb')
         reader = ScanPointPositions.ScanPointPositions()
         error = reader.read(file)
@@ -53,7 +53,3 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
                 self.assertAlmostEqual(pointRef[i], point[i])
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

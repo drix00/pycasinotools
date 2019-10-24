@@ -42,7 +42,3 @@ class TestMeanIonizationPotential(unittest.TestCase):
         self.assertAlmostEqual(jRef, j)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

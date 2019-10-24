@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions
@@ -27,7 +27,7 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
 
         for filepath in [self.filepathSim, self.filepathCas]:
             if is_bad_file(filepath):
-                raise SkipTest
+                pytest.skip
             file = open(filepath, 'rb')
             simulationOptions = SimulationOptions.SimulationOptions()
             error = simulationOptions.read(file)
@@ -108,7 +108,3 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
             self.assertAlmostEqual(0.0, simulationOptions._optionsXray.PhieRX)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

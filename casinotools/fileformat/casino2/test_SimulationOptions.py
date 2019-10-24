@@ -15,7 +15,7 @@ except ImportError: # Python 2
     from StringIO import StringIO as BytesIO
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino2.SimulationOptions as SimulationOptions
@@ -28,13 +28,13 @@ class TestSimulationOptions(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file)
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         f = open(self.filepathSim, 'rb')
         file = BytesIO(f.read())
         file.mode = 'rb'
@@ -105,7 +105,7 @@ class TestSimulationOptions(test_File.TestFile):
 
     def testSetLinescanParameters(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         f = open(self.filepathSim, 'rb')
         f.seek(0)
         simulationOptions = SimulationOptions.SimulationOptions()
@@ -123,7 +123,7 @@ class TestSimulationOptions(test_File.TestFile):
 
     def testSetPosition(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         f = open(self.filepathSim, 'rb')
         f.seek(0)
         simulationOptions = SimulationOptions.SimulationOptions()
@@ -138,7 +138,3 @@ class TestSimulationOptions(test_File.TestFile):
         self.assertAlmostEqual(50, simulationOptions._positionEnd_nm, 4)
         self.assertAlmostEqual(1.0, simulationOptions._positionStep_nm, 4)
         self.assertEqual(1, simulationOptions._positionNumberStep)
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

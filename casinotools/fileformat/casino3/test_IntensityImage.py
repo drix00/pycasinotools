@@ -14,7 +14,7 @@ import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.IntensityImage as IntensityImage
@@ -29,7 +29,7 @@ class TestIntensityImage(unittest.TestCase):
         resultsPath = resource_filename(__name__, "../../../test_data/casino3.x/createImage")
         self._casBinnedFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_binned.cas")
         if is_bad_file(self._casBinnedFilepath):
-            raise SkipTest()
+            pytest.skip()
 
         self._casAllFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_all.cas")
 
@@ -229,7 +229,3 @@ class TestIntensityImage(unittest.TestCase):
         image._createImage()
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

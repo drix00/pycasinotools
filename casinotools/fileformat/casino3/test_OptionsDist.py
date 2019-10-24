@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
@@ -24,7 +24,7 @@ class TestOptionsDist(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathSim, 'rb')
         reader = OptionsDist.OptionsDist()
         error = reader.read(file)
@@ -50,7 +50,3 @@ class TestOptionsDist(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEqual(OptionsDist.DIST_DEPOS_POSITION_ABSOLUTE, reader.DEpos_Position)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

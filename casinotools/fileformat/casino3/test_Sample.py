@@ -13,7 +13,7 @@ import os.path
 import shutil
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.Sample as Sample
@@ -29,7 +29,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathSim, "rb")
         file.seek(55)
         sample = Sample.Sample()
@@ -57,7 +57,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read3202(self):
         if is_bad_file(self.filepathSim_3202):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathSim_3202, "rb")
         file.seek(55)
         sample = Sample.Sample()
@@ -88,7 +88,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
         filepathSim = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
         if is_bad_file(filepathSim):
-            raise SkipTest
+            pytest.skip
 
         casinoFile = open(filepathSim, "rb")
         casinoFile.seek(55)
@@ -102,7 +102,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationY10.sim")
         if is_bad_file(filepathSim):
-            raise SkipTest
+            pytest.skip
 
         casinoFile = open(filepathSim, "rb")
         casinoFile.seek(55)
@@ -116,7 +116,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationZ15.sim")
         if is_bad_file(filepathSim):
-            raise SkipTest
+            pytest.skip
 
         casinoFile = open(filepathSim, "rb")
         casinoFile.seek(55)
@@ -130,7 +130,7 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
         filepathSim = os.path.join(testDataPath, "casino3.x/RotationY20Z35.sim")
         if is_bad_file(filepathSim):
-            raise SkipTest
+            pytest.skip
 
         casinoFile = open(filepathSim, "rb")
         casinoFile.seek(55)
@@ -148,10 +148,10 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         testDataPath = get_current_module_path(__file__, "../../../test_data")
         sourceFilepath = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
         if is_bad_file(sourceFilepath):
-            raise SkipTest
+            pytest.skip
 
         if not os.path.isdir(self.temporaryDir):
-            raise SkipTest
+            pytest.skip
 
         rotationYRef_deg = 10.0
         filename = "RotationY10.sim"
@@ -237,7 +237,3 @@ class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
         del casinoFile
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

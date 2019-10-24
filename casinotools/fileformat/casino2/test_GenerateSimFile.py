@@ -13,7 +13,7 @@ import unittest
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino2.GenerateSimFile as GenerateSimFile
@@ -28,7 +28,7 @@ class TestGenerateSimFile(unittest.TestCase):
 
         self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA_v2.42.sim")
         if is_bad_file(self.filepathStd):
-            raise SkipTest
+            pytest.skip
         self.generate = GenerateSimFile.GenerateSimFile(self.filepathStd)
 
     def tearDown(self):
@@ -156,7 +156,3 @@ class TestGenerateSimFile(unittest.TestCase):
         self.assertEqual(0, numberElement)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

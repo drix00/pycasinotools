@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.RegionIntensityInfo as RegionIntensityInfo
@@ -24,7 +24,7 @@ class TestRegionIntensityInfo(test_FileReaderWriterTools.TestFileReaderWriterToo
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathCas, 'rb')
         file.seek(2012986)
         results = RegionIntensityInfo.RegionIntensityInfo()
@@ -50,7 +50,3 @@ class TestRegionIntensityInfo(test_FileReaderWriterTools.TestFileReaderWriterToo
         self.assertAlmostEqual(7.268071702406E+05, results._energyIntensity)
         self.assertEqual(3, results._regionID)
         self.assertAlmostEqual(7.268071702406E-01, results._normalizedEnergyIntensity)
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

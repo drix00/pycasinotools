@@ -14,7 +14,7 @@ import shutil
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
@@ -59,7 +59,7 @@ class TestFileReaderWriterTools(unittest.TestCase):
 
     def test_extractVersionString(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         casinoFile = File.File(self.filepathSim)
 
         version = File.V30103040
@@ -83,7 +83,3 @@ class TestFileReaderWriterTools(unittest.TestCase):
         self.assertEqual(versionStrRef, versionStr)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

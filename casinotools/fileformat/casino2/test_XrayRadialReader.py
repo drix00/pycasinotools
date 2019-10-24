@@ -14,7 +14,7 @@ import os.path
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino2.XrayRadialReader as XrayRadialReader
@@ -43,7 +43,7 @@ class TestXrayRadialReader(unittest.TestCase):
 
     def test_readTextFile(self):
         if is_bad_file(self.filepath_Cu_K):
-            raise SkipTest
+            pytest.skip
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
 
@@ -73,21 +73,21 @@ class TestXrayRadialReader(unittest.TestCase):
 
     def test_getLine(self):
         if is_bad_file(self.filepath_Cu_K):
-            raise SkipTest
+            pytest.skip
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
         self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
 
         if is_bad_file(self.filepath_Cu_L):
-            raise SkipTest
+            pytest.skip
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_L)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
         self.assertEqual(XrayRadialReader.L, xrayRadial.getLine())
 
         if is_bad_file(self.filepath_Au_M):
-            raise SkipTest
+            pytest.skip
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Au_M)
         xrayRadial = xrayRadialReader.getData('Au', XrayRadialReader.M)
@@ -97,21 +97,21 @@ class TestXrayRadialReader(unittest.TestCase):
 
     def test_getElementSymbol(self):
         if is_bad_file(self.filepath_Cu_K):
-            raise SkipTest
+            pytest.skip
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
         self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
         if is_bad_file(self.filepath_Cu_L):
-            raise SkipTest
+            pytest.skip
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_L)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
         self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
         if is_bad_file(self.filepath_Au_M):
-            raise SkipTest
+            pytest.skip
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Au_M)
         xrayRadial = xrayRadialReader.getData('Au', XrayRadialReader.M)
@@ -159,7 +159,3 @@ class TestXrayRadialReader(unittest.TestCase):
         self.assertEqual(XrayRadial.DISTANCE_nm, labels[0])
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

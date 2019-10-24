@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.Region as Region
@@ -24,7 +24,7 @@ class TestRegion(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathSim, 'rb')
         file.seek(6560)
         region = Region.Region()
@@ -53,7 +53,3 @@ class TestRegion(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertAlmostEqual(1.0, region._triangleColor_Z)
 
         self.assertEqual("Si", region._chemicalName)
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

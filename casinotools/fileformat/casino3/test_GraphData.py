@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.GraphData as GraphData
@@ -24,7 +24,7 @@ class TestGraphData(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathCas, 'rb')
         file.seek(2013179)
 
@@ -44,7 +44,3 @@ class TestGraphData(test_FileReaderWriterTools.TestFileReaderWriterTools):
         values = results.getValues()
         self.assertAlmostEqual(1.0, values[0])
         self.assertAlmostEqual(0.0, values[-1])
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

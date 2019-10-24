@@ -18,7 +18,7 @@ import unittest
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 
@@ -64,7 +64,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
         if is_bad_file(filepath):
-            raise SkipTest(filepath)
+            pytest.skip(filepath)
 
         casinoFile = File.File(filepath)
 
@@ -91,7 +91,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         for filename in filenames:
             filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
             if is_bad_file(filepath):
-                raise SkipTest(filepath)
+                pytest.skip(filepath)
 
             casinoFile = File.File(filepath)
 
@@ -117,7 +117,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
 
         filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
         if is_bad_file(filepath):
-            raise SkipTest(filepath)
+            pytest.skip(filepath)
 
         casinoFile = File.File(filepath)
 
@@ -147,7 +147,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         filename = "SiN_wPSFs_bG_T200nm.cas"
         filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
         if is_bad_file(filepath):
-            raise SkipTest(filepath)
+            pytest.skip(filepath)
 
         casinoFile = File.File(filepath)
 
@@ -191,7 +191,3 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         self.assertIsInstance(scanPointResults[0].getPointSpreadFunctionMatrix(), PointSpreadFunctionMatrix.PointSpreadFunctionMatrix)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

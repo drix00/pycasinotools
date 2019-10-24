@@ -15,7 +15,7 @@ except ImportError: # Python 2
     from StringIO import StringIO as BytesIO
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino2.ScatteringEvent as ScatteringEvent
@@ -28,13 +28,13 @@ class TestScatteringEvent(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         with open(self.filepathCas, 'rb') as file:
             self._read_tests(file)
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         f = open(self.filepathCas, 'rb')
         file = BytesIO(f.read())
         file.mode = 'rb'
@@ -52,7 +52,3 @@ class TestScatteringEvent(test_File.TestFile):
         self.assertAlmostEqual(4.000000000000E+00, event.E)
         self.assertEqual(0, event.Intersect)
         self.assertEqual(0, event.id)
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

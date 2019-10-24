@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
@@ -29,7 +29,7 @@ class TestDiffusedEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTo
         options._optionsDist.DEpos_Type = OptionsDist.DIST_DEPOS_TYPE_CARTESIAN
         results = DiffusedEnergyMatrix.DiffusedEnergyMatrix(options, None)
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathCas, 'rb')
         file.seek(1012742)
 
@@ -40,7 +40,3 @@ class TestDiffusedEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTo
         self.assertEqual(1012762, results._startPosition)
         self.assertEqual(2012806, results._endPosition)
         #TODO why the end position is more than startPosition + _numberElements*sizeof(double)?
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

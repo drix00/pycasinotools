@@ -64,9 +64,3 @@ class TestLine(unittest.TestCase):
 
         # self.fail("Test if the testcase is working.")
         self.assert_(True)
-
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-
-    nose.runmodule()

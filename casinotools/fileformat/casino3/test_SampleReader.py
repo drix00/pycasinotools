@@ -13,7 +13,7 @@ import unittest
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.SampleReader as SampleReader
@@ -38,7 +38,7 @@ class TestSampleReader(unittest.TestCase):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathSim, 'rb')
         reader = SampleReader.SampleReader()
         error = reader.read(file)
@@ -47,7 +47,7 @@ class TestSampleReader(unittest.TestCase):
         self.assertEqual(30107002, reader._version)
 
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathCas, 'rb')
         reader = SampleReader.SampleReader()
         error = reader.read(file)
@@ -56,7 +56,3 @@ class TestSampleReader(unittest.TestCase):
         self.assertEqual(30107002, reader._version)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

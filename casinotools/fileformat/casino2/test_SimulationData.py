@@ -32,7 +32,7 @@ except ImportError: # Python 2
     from StringIO import StringIO as BytesIO
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino2.SimulationData as SimulationData
@@ -53,7 +53,7 @@ class TestSimulationData(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file)
 
@@ -61,7 +61,7 @@ class TestSimulationData(test_File.TestFile):
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         f = open(self.filepathSim, 'rb')
         file = BytesIO(f.read())
         file.mode = 'rb'
@@ -83,7 +83,7 @@ class TestSimulationData(test_File.TestFile):
 
     def testGetTotalXrayIntensities(self):
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         # Single region
         f = open(self.filepathCas, 'rb')
         f.seek(98348)
@@ -101,7 +101,7 @@ class TestSimulationData(test_File.TestFile):
 
         # Multiple regions
         if is_bad_file(self.filepathCas_nicr):
-            raise SkipTest
+            pytest.skip
         f = open(self.filepathCas_nicr, 'rb')
         f.seek(98348)
         simulation_data = SimulationData.SimulationData()
@@ -128,7 +128,7 @@ class TestSimulationData(test_File.TestFile):
 
     def test_get_total_xray_intensities_1_esr(self):
         if is_bad_file(self.filepath_cas_v251):
-            raise SkipTest
+            pytest.skip
         with open(self.filepath_cas_v251, 'rb') as file:
             # Single region
             file.seek(50193)
@@ -152,8 +152,3 @@ class TestSimulationData(test_File.TestFile):
                     self.assertAlmostEqual(intensities_ref[13][atomic_line]*1.0e6, intensities[13][atomic_line]*1.0e6)
 
         # self.fail("Test if the testcase is working.")
-
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-    nose.runmodule()

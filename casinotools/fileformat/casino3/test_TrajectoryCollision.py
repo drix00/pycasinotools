@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.TrajectoryCollision as TrajectoryCollision
@@ -24,7 +24,7 @@ class TestTrajectoryCollision(test_FileReaderWriterTools.TestFileReaderWriterToo
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathCas, 'rb')
         file.seek(4042617)
         results = TrajectoryCollision.TrajectoryCollision()
@@ -38,7 +38,3 @@ class TestTrajectoryCollision(test_FileReaderWriterTools.TestFileReaderWriterToo
         self.assertAlmostEqual(1.000000000000E+04, results._segmentLength)
         self.assertEqual(3, results._collisionType)
         self.assertEqual(-1, results._regionID)
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

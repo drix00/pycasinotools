@@ -29,7 +29,3 @@ class TestSimulationData(unittest.TestCase):
     def testSkeleton(self):
         #self.fail("Test if the testcase is working.")
         self.assertTrue(True)
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

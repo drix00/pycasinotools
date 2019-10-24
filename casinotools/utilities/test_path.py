@@ -32,7 +32,7 @@ from tempfile import TemporaryFile, SpooledTemporaryFile
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 
@@ -82,7 +82,7 @@ class TestPath(unittest.TestCase):
     def test_is_git_lfs_file_bad(self):
         file_path = resource_filename(__name__, "test_path.py")
         if not os.path.isfile(file_path):
-            raise SkipTest
+            pytest.skip
         self.assertEqual(False, path.is_git_lfs_file(file_path))
 
         #self.fail("Test if the testcase is working.")
@@ -95,7 +95,7 @@ class TestPath(unittest.TestCase):
     def test_is_bad_file(self):
         file_path = resource_filename(__name__, "test_path.py")
         if not os.path.isfile(file_path):
-            raise SkipTest
+            pytest.skip
         self.assertEqual(False, path.is_bad_file(file_path))
 
         #self.fail("Test if the testcase is working.")
@@ -110,9 +110,3 @@ class TestPath(unittest.TestCase):
         self.assertEqual(True, path.is_bad_file(file_path))
 
         #self.fail("Test if the testcase is working.")
-
-
-if __name__ == '__main__':  # pragma: no cover
-    import nose
-
-    nose.runmodule()

@@ -13,7 +13,7 @@ import unittest
 
 # Third party modules.
 from pkg_resources import resource_filename #@UnresolvedImport
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.Tags as Tags
@@ -28,7 +28,7 @@ class TestTags(unittest.TestCase):
 
         filepath = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
         if is_bad_file(filepath):
-            raise SkipTest
+            pytest.skip
         self.file = open(filepath, 'rb')
 
     def tearDown(self):
@@ -107,7 +107,3 @@ class TestTags(unittest.TestCase):
             self.assertEqual(isTagFoundRef, isTagFound)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

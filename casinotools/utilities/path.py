@@ -127,8 +127,3 @@ def is_bad_file(file_path):
         return False
     else:
         return True
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    logging.getLogger().setLevel(logging.DEBUG)
-    nose.main()

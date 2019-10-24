@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.OptionsAdvBackSet as OptionsAdvBackSet
@@ -24,7 +24,7 @@ class TestOptionsAdvBackSet(test_FileReaderWriterTools.TestFileReaderWriterTools
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathSim, 'rb')
         reader = OptionsAdvBackSet.OptionsAdvBackSet()
         error = reader.read(file)
@@ -70,7 +70,3 @@ class TestOptionsAdvBackSet(test_FileReaderWriterTools.TestFileReaderWriterTools
         self.assertEqual(0, reader.FEFilter)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

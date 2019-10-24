@@ -75,9 +75,9 @@ requirements = [
     'numpy'
 ]
 
-test_requirements = [
-    'nose', 'coverage'
-]
+# test_requirements = [
+#     'nose', 'coverage'
+# ]
 
 # long_description = read('README.rst')
 long_description = """

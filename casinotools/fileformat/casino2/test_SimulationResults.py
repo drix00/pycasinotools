@@ -15,7 +15,7 @@ except ImportError: # Python 2
     from StringIO import StringIO as BytesIO
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino2.SimulationResults as SimulationResults
@@ -29,13 +29,13 @@ class TestSimulationResults(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         with open(self.filepathCas, 'rb') as file:
             self._read_tests(file)
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         f = open(self.filepathCas, 'rb')
         file = BytesIO(f.read())
         file.mode = 'rb'
@@ -74,7 +74,3 @@ class TestSimulationResults(test_File.TestFile):
         self.assertEqual(91, simulationResults.NbPointDAngleVSEnergie)
 
         #self.fail("Test if the testcase is working.")
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

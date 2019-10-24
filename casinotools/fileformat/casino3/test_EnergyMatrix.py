@@ -11,7 +11,7 @@ __license__ = ""
 # Standard library modules.
 
 # Third party modules.
-from nose.plugins.skip import SkipTest
+import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.EnergyMatrix as EnergyMatrix
@@ -29,7 +29,7 @@ class TestEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTools):
         options._optionsDist.DEpos_Type = OptionsDist.DIST_DEPOS_TYPE_CARTESIAN
         results = EnergyMatrix.EnergyMatrix(options, None)
         if is_bad_file(self.filepathCas):
-            raise SkipTest
+            pytest.skip
         file = open(self.filepathCas, 'rb')
         file.seek(4042541)
 
@@ -38,7 +38,3 @@ class TestEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTools):
         self.assertEqual(125000, results._numberElements)
         self.assertEqual(4042541, results._startPosition)
         self.assertEqual(4042541 + 125000 * 8, results._endPosition)
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()

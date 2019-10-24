@@ -39,7 +39,3 @@ class TestGraphData(test_File.TestFile):
 
         self.assertAlmostEqual(1.0, results._values[0])
         self.assertAlmostEqual(0.0, results._values[-1])
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    nose.runmodule()
