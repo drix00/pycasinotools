@@ -24,7 +24,7 @@ class TestElement(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathSim, 'rb')
         file.seek(7159)
         element = Element.Element()

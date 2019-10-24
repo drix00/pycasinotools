@@ -24,7 +24,7 @@ class TestOptionsEnergyByPos(test_FileReaderWriterTools.TestFileReaderWriterTool
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathSim, 'rb')
         reader = OptionsEnergyByPos.OptionsEnergyByPos()
         error = reader.read(file)

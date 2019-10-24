@@ -59,7 +59,7 @@ class TestFileReaderWriterTools(unittest.TestCase):
 
     def test_extractVersionString(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         casinoFile = File.File(self.filepathSim)
 
         version = File.V30103040

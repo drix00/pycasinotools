@@ -24,7 +24,7 @@ class TestTrajectoryCollision(test_FileReaderWriterTools.TestFileReaderWriterToo
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathCas, 'rb')
         file.seek(4042617)
         results = TrajectoryCollision.TrajectoryCollision()

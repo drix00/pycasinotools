@@ -25,7 +25,7 @@ class TestSampleSubtrate(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathSim, "rb")
         file.seek(103)
         sample = SampleObjectFactory.CreateObjectFromType(SHAPE_SUBSTRATE)

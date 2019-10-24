@@ -24,7 +24,7 @@ class TestOptionsMicro(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathSim, 'rb')
         reader = OptionsMicro.OptionsMicro()
         error = reader.read(file)

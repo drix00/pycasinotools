@@ -28,14 +28,14 @@ class TestElementIntensity(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
 
         with open(self.filepathCas, 'rb') as casinoFile:
             self._read_tests(casinoFile)
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
 
         f = open(self.filepathCas, 'rb')
         casinoFile = BytesIO(f.read())

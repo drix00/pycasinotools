@@ -24,7 +24,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_init(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
 
         casinoFile = File.File(self.filepathSim)
 
@@ -34,7 +34,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_getFileType(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         casinoFile = File.File(self.filepathSim)
 
         type = casinoFile.getFileType()
@@ -48,7 +48,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test__readExtension(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         casinoFile = File.File(self.filepathSim)
         file = casinoFile._open(self.filepathSim)
         extension = casinoFile._readExtension(file)
@@ -62,7 +62,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test__readVersion(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         casinoFile = File.File(self.filepathSim)
         file = casinoFile._open(self.filepathSim)
         version = casinoFile._readVersion(file)
@@ -72,7 +72,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_open(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         casinoFile = File.File(self.filepathSim)
         casinoFile.open()
 
@@ -83,7 +83,7 @@ class TestFile(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def testReadCasFile(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         casinoFile = File.File(self.filepathCas)
         casinoFile.open()
 

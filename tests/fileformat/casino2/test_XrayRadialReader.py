@@ -43,7 +43,7 @@ class TestXrayRadialReader(unittest.TestCase):
 
     def test_readTextFile(self):
         if is_bad_file(self.filepath_Cu_K):
-            pytest.skip
+            pytest.skip()
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
 
@@ -73,21 +73,21 @@ class TestXrayRadialReader(unittest.TestCase):
 
     def test_getLine(self):
         if is_bad_file(self.filepath_Cu_K):
-            pytest.skip
+            pytest.skip()
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
         self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
 
         if is_bad_file(self.filepath_Cu_L):
-            pytest.skip
+            pytest.skip()
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_L)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
         self.assertEqual(XrayRadialReader.L, xrayRadial.getLine())
 
         if is_bad_file(self.filepath_Au_M):
-            pytest.skip
+            pytest.skip()
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Au_M)
         xrayRadial = xrayRadialReader.getData('Au', XrayRadialReader.M)
@@ -97,21 +97,21 @@ class TestXrayRadialReader(unittest.TestCase):
 
     def test_getElementSymbol(self):
         if is_bad_file(self.filepath_Cu_K):
-            pytest.skip
+            pytest.skip()
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_K)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
         self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
         if is_bad_file(self.filepath_Cu_L):
-            pytest.skip
+            pytest.skip()
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Cu_L)
         xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
         self.assertEqual("Cu", xrayRadial.getElementSymbol())
 
         if is_bad_file(self.filepath_Au_M):
-            pytest.skip
+            pytest.skip()
         xrayRadialReader = XrayRadialReader.XrayRadialReader()
         xrayRadialReader.readTextFile(self.filepath_Au_M)
         xrayRadial = xrayRadialReader.getData('Au', XrayRadialReader.M)

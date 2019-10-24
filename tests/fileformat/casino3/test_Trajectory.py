@@ -25,7 +25,7 @@ class TestTrajectory(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathCas, 'rb')
         file.seek(4042541)
         results = Trajectory.Trajectory()

@@ -28,7 +28,7 @@ class TestTags(unittest.TestCase):
 
         filepath = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
         if is_bad_file(filepath):
-            pytest.skip
+            pytest.skip()
         self.file = open(filepath, 'rb')
 
     def tearDown(self):

@@ -103,7 +103,7 @@ class TestFile(unittest.TestCase):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         file = File.File()
         file.readFromFilepath(self.filepathSim)
         self.assertEqual(self.filepathSim, file._filepath)
@@ -121,7 +121,7 @@ class TestFile(unittest.TestCase):
     def test_read_StringIO(self):
         # sim
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         f = open(self.filepathSim, 'rb')
         buf = BytesIO(f.read())
         buf.mode = 'rb'
@@ -153,7 +153,7 @@ class TestFile(unittest.TestCase):
 
     def test_write(self):
         if is_bad_file(self.filepathStd):
-            pytest.skip
+            pytest.skip()
 
         file = File.File()
         option_simulation_data = self._getOptionSimulationData()
@@ -184,7 +184,7 @@ class TestFile(unittest.TestCase):
 
     def test_skipReadingData(self):
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
 
         file = File.File()
         file.readFromFilepath(self.filepathCas, isSkipReadingData=False)
@@ -239,9 +239,9 @@ class TestFile(unittest.TestCase):
 
     def test_read_v242(self):
         if is_bad_file(self.filepathSim_v242):
-            pytest.skip
+            pytest.skip()
         if is_bad_file(self.filepathCas_v242):
-            pytest.skip
+            pytest.skip()
 
         # .sim
         file = File.File()
@@ -309,7 +309,7 @@ class TestFile(unittest.TestCase):
 
     def test_read_sim_v250(self):
         if is_bad_file(self.filepath_sim_v250):
-            pytest.skip
+            pytest.skip()
 
         # .sim
         file = File.File()
@@ -339,7 +339,7 @@ class TestFile(unittest.TestCase):
 
     def test_read_cas_v250(self):
         if is_bad_file(self.filepath_cas_v250):
-            pytest.skip
+            pytest.skip()
 
         # .cas
         file = File.File()
@@ -384,7 +384,7 @@ class TestFile(unittest.TestCase):
 
     def test_problem_sim_v250(self):
         if is_bad_file(self.filepath_problem_sim_v250):
-            pytest.skip
+            pytest.skip()
 
         # .sim
         file = File.File()
@@ -411,7 +411,7 @@ class TestFile(unittest.TestCase):
         self.assertEqual(500, number_xray_layers)
 
         if is_bad_file(self.filepath_good_sim_v251):
-            pytest.skip
+            pytest.skip()
 
         # .sim
         file = File.File()
@@ -444,7 +444,7 @@ class TestFile(unittest.TestCase):
         Test extract_version method.
         """
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
 
         file_paths = []
         file_paths.append((self.filepathSim, VERSION_2_45))

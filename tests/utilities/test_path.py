@@ -82,7 +82,7 @@ class TestPath(unittest.TestCase):
     def test_is_git_lfs_file_bad(self):
         file_path = resource_filename(__name__, "test_path.py")
         if not os.path.isfile(file_path):
-            pytest.skip
+            pytest.skip()
         self.assertEqual(False, path.is_git_lfs_file(file_path))
 
         #self.fail("Test if the testcase is working.")
@@ -95,7 +95,7 @@ class TestPath(unittest.TestCase):
     def test_is_bad_file(self):
         file_path = resource_filename(__name__, "test_path.py")
         if not os.path.isfile(file_path):
-            pytest.skip
+            pytest.skip()
         self.assertEqual(False, path.is_bad_file(file_path))
 
         #self.fail("Test if the testcase is working.")

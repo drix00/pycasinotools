@@ -29,7 +29,7 @@ class TestEnergyMatrix(test_FileReaderWriterTools.TestFileReaderWriterTools):
         options._optionsDist.DEpos_Type = OptionsDist.DIST_DEPOS_TYPE_CARTESIAN
         results = EnergyMatrix.EnergyMatrix(options, None)
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathCas, 'rb')
         file.seek(4042541)
 

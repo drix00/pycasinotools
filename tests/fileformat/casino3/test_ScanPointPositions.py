@@ -24,7 +24,7 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathSim, 'rb')
         reader = ScanPointPositions.ScanPointPositions()
         error = reader.read(file)
@@ -33,7 +33,7 @@ class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTool
         self.assertEqual(5, reader.getNumberPoints())
 
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathCas, 'rb')
         reader = ScanPointPositions.ScanPointPositions()
         error = reader.read(file)

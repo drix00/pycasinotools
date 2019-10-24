@@ -28,7 +28,7 @@ class TestGenerateSimFile(unittest.TestCase):
 
         self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA_v2.42.sim")
         if is_bad_file(self.filepathStd):
-            pytest.skip
+            pytest.skip()
         self.generate = GenerateSimFile.GenerateSimFile(self.filepathStd)
 
     def tearDown(self):

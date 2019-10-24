@@ -27,7 +27,7 @@ class TestSimulationOptions(test_FileReaderWriterTools.TestFileReaderWriterTools
 
         for filepath in [self.filepathSim, self.filepathCas]:
             if is_bad_file(filepath):
-                pytest.skip
+                pytest.skip()
             file = open(filepath, 'rb')
             simulationOptions = SimulationOptions.SimulationOptions()
             error = simulationOptions.read(file)

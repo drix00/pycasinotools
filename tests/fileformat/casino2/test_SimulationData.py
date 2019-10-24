@@ -52,7 +52,7 @@ class TestSimulationData(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file)
 
@@ -60,7 +60,7 @@ class TestSimulationData(test_File.TestFile):
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         f = open(self.filepathSim, 'rb')
         file = BytesIO(f.read())
         file.mode = 'rb'
@@ -82,7 +82,7 @@ class TestSimulationData(test_File.TestFile):
 
     def testGetTotalXrayIntensities(self):
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
         # Single region
         f = open(self.filepathCas, 'rb')
         f.seek(98348)
@@ -100,7 +100,7 @@ class TestSimulationData(test_File.TestFile):
 
         # Multiple regions
         if is_bad_file(self.filepathCas_nicr):
-            pytest.skip
+            pytest.skip()
         f = open(self.filepathCas_nicr, 'rb')
         f.seek(98348)
         simulation_data = SimulationData.SimulationData()
@@ -127,7 +127,7 @@ class TestSimulationData(test_File.TestFile):
 
     def test_get_total_xray_intensities_1_esr(self):
         if is_bad_file(self.filepath_cas_v251):
-            pytest.skip
+            pytest.skip()
         with open(self.filepath_cas_v251, 'rb') as file:
             # Single region
             file.seek(50193)

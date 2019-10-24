@@ -28,13 +28,13 @@ class TestSimulationOptions(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file)
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         f = open(self.filepathSim, 'rb')
         file = BytesIO(f.read())
         file.mode = 'rb'
@@ -105,7 +105,7 @@ class TestSimulationOptions(test_File.TestFile):
 
     def testSetLinescanParameters(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         f = open(self.filepathSim, 'rb')
         f.seek(0)
         simulationOptions = SimulationOptions.SimulationOptions()
@@ -123,7 +123,7 @@ class TestSimulationOptions(test_File.TestFile):
 
     def testSetPosition(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         f = open(self.filepathSim, 'rb')
         f.seek(0)
         simulationOptions = SimulationOptions.SimulationOptions()

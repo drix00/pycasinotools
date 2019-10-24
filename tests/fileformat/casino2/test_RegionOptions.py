@@ -49,13 +49,13 @@ class TestRegionOptions(test_File.TestFile):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         with open(self.filepathSim, 'rb') as file:
             self._read_tests(file, self.version_2_45)
 
     def test_read_StringIO(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         f = open(self.filepathSim, 'rb')
         file = BytesIO(f.read())
         file.mode = 'rb'

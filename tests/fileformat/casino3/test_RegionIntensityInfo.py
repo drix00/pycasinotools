@@ -24,7 +24,7 @@ class TestRegionIntensityInfo(test_FileReaderWriterTools.TestFileReaderWriterToo
 
     def test_read(self):
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathCas, 'rb')
         file.seek(2012986)
         results = RegionIntensityInfo.RegionIntensityInfo()

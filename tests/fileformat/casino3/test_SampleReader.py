@@ -38,7 +38,7 @@ class TestSampleReader(unittest.TestCase):
 
     def test_read(self):
         if is_bad_file(self.filepathSim):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathSim, 'rb')
         reader = SampleReader.SampleReader()
         error = reader.read(file)
@@ -47,7 +47,7 @@ class TestSampleReader(unittest.TestCase):
         self.assertEqual(30107002, reader._version)
 
         if is_bad_file(self.filepathCas):
-            pytest.skip
+            pytest.skip()
         file = open(self.filepathCas, 'rb')
         reader = SampleReader.SampleReader()
         error = reader.read(file)
