@@ -68,8 +68,8 @@ class TestPath(unittest.TestCase):
         First test to check if the testcase is working with the testing framework.
         """
 
-        #self.fail("Test if the testcase is working.")
-        self.assert_(True)
+        # self.fail("Test if the testcase is working.")
+        self.assertTrue(True)
 
     def create_git_lfs_file(self):
         self.git_lfs_file = TemporaryFile("w+t")
@@ -85,12 +85,12 @@ class TestPath(unittest.TestCase):
             pytest.skip()
         self.assertEqual(False, path.is_git_lfs_file(file_path))
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_is_git_lfs_file_good(self):
         self.assertEqual(True, path.is_git_lfs_file(self.git_lfs_file))
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_is_bad_file(self):
         file_path = resource_filename(__name__, "test_path.py")
@@ -98,15 +98,15 @@ class TestPath(unittest.TestCase):
             pytest.skip()
         self.assertEqual(False, path.is_bad_file(file_path))
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_is_bad_file_git_lfs(self):
         self.assertEqual(True, path.is_bad_file(self.git_lfs_file))
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_is_bad_file_no_file(self):
         file_path = resource_filename(__name__, "../../test_data/this_file_does_not_exist.txt")
         self.assertEqual(True, path.is_bad_file(file_path))
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
