@@ -13,8 +13,6 @@ matrix:
   include:
     - python: 3.5
       dist: xenial
-  allow_failures:
-    - python: 3.8
 
 # command to install dependencies
 before_install:
