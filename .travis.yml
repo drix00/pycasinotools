@@ -5,14 +5,8 @@ dist: bionic
 language: python
 cache: pip
 python:
-  - '3.6'
   - '3.7'
   - '3.8'
-
-matrix:
-  include:
-    - python: 3.5
-      dist: xenial
 
 # command to install dependencies
 before_install:
