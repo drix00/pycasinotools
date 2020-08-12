@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule::
+.. py:currentmodule:: tests.utilities.test_values3
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-
+Tests for the :py:mod:`casinotools.utilities.values3` module.
 """
 
-# Copyright 2019 Hendrix Demers
+# Copyright 2020 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,107 +24,285 @@
 # limitations under the License.
 
 # Standard library modules.
+import copy
 
 # Third party modules.
 import pytest
+import attr
+import cattr
 
 # Local modules.
 
 # Project modules.
-from casinotools.utilities.values import generate_experiments, Varied, has_varied_value, VariedOptions
+from casinotools.utilities.values import Options, Varied, generate_experiments, flatten, deflatten
+from casinotools.utilities.multipleloop import combine
 
 # Globals and constants variables.
 
 
-def test_one_varied_values(options_input):
-    options_input.value1 = Varied([1, 2])
-
-    experiments = generate_experiments(options_input)
-
-    assert len(experiments) == 2
-
-    options_1 = experiments[0]
-    assert options_1.value1 == 1
-
-    options_2 = experiments[1]
-    assert options_2.value1 == 2
-
-
-def test_two_varied_values(options_input):
-    options_input.value1 = Varied([1, 2])
-    options_input.value2 = Varied([3, 4])
-
-    experiments = generate_experiments(options_input)
-
-    assert len(experiments) == 4
-
-    options_1 = experiments[0]
-    assert options_1.value1 == 1
-    assert options_1.value2 == 3
-
-    options_2 = experiments[1]
-    assert options_2.value1 == 1
-    assert options_2.value2 == 4
-
-    options_3 = experiments[2]
-    assert options_3.value1 == 2
-    assert options_3.value2 == 3
-
-    options_4 = experiments[3]
-    assert options_4.value1 == 2
-    assert options_4.value2 == 4
-
-
-@pytest.mark.skip(reason="implementation does not work")
-def test_one_sub_varied_values(options_input):
-    options_input.sub_options_a.value3 = Varied([1, 2])
-
-    experiments = generate_experiments(options_input)
-
-    assert len(experiments) == 2
-
-    options_1 = experiments[0]
-    assert options_1.value1 == 1
-
-    options_2 = experiments[1]
-    assert options_2.value1 == 2
-
-
-def test_has_varied_value(options_input):
-    assert has_varied_value(options_input) is False
-
-    options_input.value1 = Varied([1, 2])
-    assert has_varied_value(options_input) is True
-
-
-@pytest.mark.skip(reason="implementation does not work")
-def test_has_sub_varied_value(options_input):
-    assert has_varied_value(options_input) is False
-
-    options_input.sub_options_a.value3 = Varied([1, 2])
-    assert has_varied_value(options_input) is True
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
 
 @pytest.fixture()
 def options_input():
-    class SubOptionsA:
-        def __init__(self):
-            self.value3 = 3
-            self.value4 = 4
+    options = Options()
+    options.default()
 
-    class SubOptionsB:
-        def __init__(self):
-            self.value5 = 5
-            self.value6 = 6
+    return options
 
-    class Options:
-        def __init__(self):
-            self.value1 = 1
-            self.value2 = 2
 
-            self.sub_options_a = SubOptionsA()
-            self.sub_options_b = SubOptionsB()
+@pytest.fixture()
+def options_input_level1():
+    options = Options()
+    options.default()
+    options.value1 = [1, 2, 3]
 
-    options_input = Options()
+    return options
 
-    return options_input
+
+@pytest.fixture()
+def options_input_level2():
+    options = Options()
+    options.default()
+    options.sub_options_b.value5 = [56, 34]
+
+    return options
+
+
+@pytest.fixture()
+def options_input_complex():
+    options = Options()
+    options.default()
+    options.value1 = [1, 2, 3]
+    options.sub_options_b.value5 = [56, 34]
+
+    return options
+
+
+def test_asdict(options_input):
+    assert attr.asdict(options_input) == {'sub_options_a': {'value3': 3, 'value4': 4},
+                                          'sub_options_b': {'value5': 5, 'value6': 6},
+                                          'value1': 1, 'value2': 2}
+
+
+def test_one_varied_values(options_input):
+    options = copy.deepcopy(options_input)
+    options.value1 = Varied([1, 2])
+
+    experiments = generate_experiments(options)
+
+    assert len(experiments) == 2
+
+    options_1 = experiments[0]
+    assert options_1.value1 == 1
+
+    options_2 = experiments[1]
+    assert options_2.value1 == 2
+
+
+def test_cattr_structure(options_input):
+    options = cattr.unstructure(options_input)
+
+    assert options == {'sub_options_a': {'value3': 3, 'value4': 4},
+                       'sub_options_b': {'value5': 5, 'value6': 6},
+                       'value1': 1, 'value2': 2}
+
+    new_options = cattr.structure(options, Options)
+
+    assert new_options == options_input
+
+
+def test_cattr_structure_modified_level1(options_input):
+    options_input.value1 = 42
+
+    options = cattr.unstructure(options_input)
+
+    assert options == {'sub_options_a': {'value3': 3, 'value4': 4},
+                       'sub_options_b': {'value5': 5, 'value6': 6},
+                       'value1': 42, 'value2': 2}
+
+    new_options = cattr.structure(options, Options)
+
+    assert new_options == options_input
+
+    options = Options()
+    assert options != new_options
+    assert options != options_input
+
+
+def test_cattr_structure_modified_level2(options_input):
+    options_input.sub_options_a.value3 = 42
+
+    options = cattr.unstructure(options_input)
+
+    assert options == {'sub_options_a': {'value3': 42, 'value4': 4},
+                       'sub_options_b': {'value5': 5, 'value6': 6},
+                       'value1': 1, 'value2': 2}
+
+    new_options = cattr.structure(options, Options)
+    assert new_options == options_input
+
+    options = Options()
+    options.default()
+    assert options != new_options
+    assert options == options_input
+
+
+def test_multipleloop(options_input):
+    options = flatten(cattr.unstructure(options_input))
+    all, names, varied = combine(options)
+
+    assert all == [[1, 2, 3, 4, 5, 6]]
+    assert names == ['value1',
+                     'value2',
+                     'sub_options_a.value3',
+                     'sub_options_a.value4',
+                     'sub_options_b.value5',
+                     'sub_options_b.value6']
+    assert varied == []
+
+    new_dict = deflatten(dict(zip(names, all[0])))
+
+    new_options = cattr.structure(new_dict, Options)
+
+    assert new_options == options_input
+
+
+def test_multipleloop_level1(options_input_level1):
+    options = flatten(cattr.unstructure(options_input_level1))
+    all, names, varied = combine(options)
+
+    assert all == [[1, 2, 3, 4, 5, 6],
+                   [2, 2, 3, 4, 5, 6],
+                   [3, 2, 3, 4, 5, 6]]
+    assert names == ['value1', 'value2', 'sub_options_a.value3', 'sub_options_a.value4', 'sub_options_b.value5',
+                     'sub_options_b.value6']
+    assert varied == ['value1']
+
+    options = Options()
+    options.value1 = 1
+    new_dict = deflatten(dict(zip(names, all[0])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options.value1 = 2
+    new_dict = deflatten(dict(zip(names, all[1])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options.value1 = 3
+    new_dict = deflatten(dict(zip(names, all[2])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+
+def test_multipleloop_level2(options_input_level2):
+    options = flatten(cattr.unstructure(options_input_level2))
+    all, names, varied = combine(options)
+
+    assert all == [[1, 2, 3, 4, 56, 6],
+                   [1, 2, 3, 4, 34, 6]]
+    assert names == ['value1', 'value2', 'sub_options_a.value3', 'sub_options_a.value4', 'sub_options_b.value5',
+                     'sub_options_b.value6']
+    assert varied == ['sub_options_b.value5']
+
+    options = Options()
+    options.default()
+    options.sub_options_b.value5 = 56
+    new_dict = deflatten(dict(zip(names, all[0])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options.sub_options_b.value5 = 34
+    new_dict = deflatten(dict(zip(names, all[1])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options = Options()
+    options.default()
+    assert new_options != options
+
+
+# def test_multipleloop_complex(options_input_complex):
+#     options = flatten(cattr.unstructure(options_input_complex))
+#     all, names, varied = combine(options)
+#
+#     assert all == [[1, 2, 3, 4, 56, 6],
+#                    [2, 2, 3, 4, 56, 6],
+#                    [3, 2, 3, 4, 56, 6],
+#                    [1, 2, 3, 4, 34, 6],
+#                    [2, 2, 3, 4, 34, 6],
+#                    [3, 2, 3, 4, 34, 6]]
+#     assert names == ['value1', 'value2', 'sub_options_a.value3', 'sub_options_a.value4', 'sub_options_b.value5',
+#                      'sub_options_b.value6']
+#     assert varied == ['value1', 'sub_options_b.value5']
+#
+#     options = Options()
+#     options.value1 = 1
+#     options.sub_options_b.value5 = 56
+#     new_dict = deflatten(dict(zip(names, all[0])))
+#     new_options = cattr.structure(new_dict, Options)
+#     assert new_options == options
+#
+#     options.value1 = 2
+#     options.sub_options_b.value5 = 56
+#     new_dict = deflatten(dict(zip(names, all[1])))
+#     new_options = cattr.structure(new_dict, Options)
+#     assert new_options == options
+#
+#     options.value1 = 3
+#     options.sub_options_b.value5 = 56
+#     new_dict = deflatten(dict(zip(names, all[2])))
+#     new_options = cattr.structure(new_dict, Options)
+#     assert new_options == options
+#
+#     options.value1 = 1
+#     options.sub_options_b.value5 = 34
+#     new_dict = deflatten(dict(zip(names, all[3])))
+#     new_options = cattr.structure(new_dict, Options)
+#     assert new_options == options
+#
+#     options.value1 = 2
+#     options.sub_options_b.value5 = 34
+#     new_dict = deflatten(dict(zip(names, all[4])))
+#     new_options = cattr.structure(new_dict, Options)
+#     assert new_options == options
+#
+#     options.value1 = 3
+#     options.sub_options_b.value5 = 34
+#     new_dict = deflatten(dict(zip(names, all[5])))
+#     new_options = cattr.structure(new_dict, Options)
+#     assert new_options == options
+
+
+def test_flatten():
+    options = Options()
+    options.default()
+    options_dict = flatten(cattr.unstructure(options))
+
+    assert options_dict == {'value1': 1,
+                       'value2': 2,
+                       'sub_options_a.value3': 3,
+                       'sub_options_a.value4': 4,
+                       'sub_options_b.value5': 5,
+                       'sub_options_b.value6': 6}
+
+
+def test_deflatten():
+    options = {'value1': 1,
+                'value2': 2,
+                'sub_options_a.value3': 3,
+                'sub_options_a.value4': 4,
+                'sub_options_b.value5': 5,
+                'sub_options_b.value6': 6}
+
+    new_options = deflatten(options)
+    assert new_options == {'sub_options_a': {'value3': 3, 'value4': 4},
+                           'sub_options_b': {'value5': 5, 'value6': 6},
+                           'value1': 1, 'value2': 2}

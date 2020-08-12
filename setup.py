@@ -52,8 +52,6 @@ def read(*filenames, **kwargs):
     return sep.join(buf)
 
 
-
-
 class PyTest(TestCommand):
     def finalize_options(self):
         TestCommand.finalize_options(self)
@@ -71,8 +69,9 @@ readme = read('README.rst')
 history = read('HISTORY.rst')
 
 requirements = [
-    'Pillow',  # Fork of PIL (Python 3 compatible),
-    'numpy'
+    'Pillow',
+    'numpy',
+    "attr"
 ]
 
 # test_requirements = [
