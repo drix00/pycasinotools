@@ -112,7 +112,7 @@ setup(
     tests_require=['pytest', 'coverage', 'pytest-cov'],
     extras_require={
         'testing': ['pytest', 'coverage', 'pytest-cov'],
-        'develop': ['setuptools', 'Sphinx', 'sphinx-rtd-theme', 'coverage', 'pytest', 'pytest-cov']
+        'develop': ['setuptools', 'Sphinx', 'sphinx-rtd-theme', 'coverage', 'pytest', 'pytest-cov', "cattr"]
     },
 
     license="Apache Software License 2.0",
