@@ -5,26 +5,36 @@ dist: bionic
 language: python
 cache: pip
 python:
-  - '3.7'
-  - '3.8'
+    - 3.6
+    - 3.7
+    - 3.8
+matrix:
+  include:
+    - python: 3.5
+      dist: xenial
+  allow_failures:
+    - python:
+        - 3.5
+        - 3.6
 
 # command to install dependencies
 before_install:
-  - python --version
-  - pip install --upgrade pip
-  - pip install --upgrade pytest
-  - pip install --upgrade coveralls
+    - python --version
+    - pip install --upgrade pip
+    - pip install --upgrade pytest
+    - pip install --upgrade coveralls
 
 install:
-  - pip install --upgrade -e .[develop]
-  - python3 setup.py build
+    - pip install -r requirements.txt
+    - pip install --upgrade -e .[develop]
+    - python3 setup.py build
 
 # command to run tests
 script:
-  - pytest --cov=casinotools --cov-branch --cov-report xml
+    - pytest --cov=casinotools --cov=tests --cov-branch --cov-report xml
 
 after_success:
-  - coveralls
+    - coveralls
 
 notifications:
   email:
