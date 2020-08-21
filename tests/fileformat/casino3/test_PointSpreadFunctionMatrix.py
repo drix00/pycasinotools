@@ -74,7 +74,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         version = casinoFile.getVersion()
         self.assertEqual(versionRef, version)
 
-        versionStr = casinoFile._extractVersionString(version)
+        versionStr = casinoFile._extract_version_string(version)
         self.assertEqual(versionStrRef, versionStr)
 
         optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
@@ -101,7 +101,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
             version = casinoFile.getVersion()
             self.assertEqual(versionRef, version)
 
-            versionStr = casinoFile._extractVersionString(version)
+            versionStr = casinoFile._extract_version_string(version)
             self.assertEqual(versionStrRef, versionStr)
 
             optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
@@ -127,7 +127,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         version = casinoFile.getVersion()
         self.assertEqual(versionRef, version)
 
-        versionStr = casinoFile._extractVersionString(version)
+        versionStr = casinoFile._extract_version_string(version)
         self.assertEqual(versionStrRef, versionStr)
 
         optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
@@ -157,7 +157,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         version = casinoFile.getVersion()
         self.assertEqual(versionRef, version)
 
-        versionStr = casinoFile._extractVersionString(version)
+        versionStr = casinoFile._extract_version_string(version)
         self.assertEqual(versionStrRef, versionStr)
 
         optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
@@ -179,7 +179,7 @@ class TestPointSpreadFunctionMatrix(unittest.TestCase):
         version = casinoFile.getVersion()
         self.assertEqual(versionRef, version)
 
-        versionStr = casinoFile._extractVersionString(version)
+        versionStr = casinoFile._extract_version_string(version)
         self.assertEqual(versionStrRef, versionStr)
 
         optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()

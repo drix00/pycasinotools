@@ -13,7 +13,7 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 #-----------------------------------------------------------------------------
@@ -41,20 +41,20 @@ class OptionsADF(FileReaderWriterTools.FileReaderWriterTools):
 
     def read(self, file):
         tagID = b"*ADF_SET_BEG"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
 
-        self.DQE = self.readDouble(file)
+        self.DQE = self.read_double(file)
 
-        self.Enabled = self.readInt(file)
-        self.keepData = self.readInt(file)
-        self.MaxAngle = self.readDouble(file)
-        self.MinAngle = self.readDouble(file)
-        self.MaxPoints = self.readInt(file)
+        self.Enabled = self.read_int(file)
+        self.keepData = self.read_int(file)
+        self.MaxAngle = self.read_double(file)
+        self.MinAngle = self.read_double(file)
+        self.MaxPoints = self.read_int(file)
 
         tagID = b"*ADF_SET_END"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
     def reset(self):
         # max semi-angle of the detector

@@ -15,7 +15,7 @@ import math
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 COLLISION_TYPE_ATOM = 0
@@ -49,20 +49,20 @@ class TrajectoryCollision(FileReaderWriterTools.FileReaderWriterTools):
     def _readOriginal(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        self._positionX = self.readDouble(file)
-        self._positionY = self.readDouble(file)
-        self._positionZ = self.readDouble(file)
-        self._energy = self.readDouble(file)
-        self._segmentLength = self.readDouble(file)
-        self._collisionType = self.readInt(file)
+        self._positionX = self.read_double(file)
+        self._positionY = self.read_double(file)
+        self._positionZ = self.read_double(file)
+        self._energy = self.read_double(file)
+        self._segmentLength = self.read_double(file)
+        self._collisionType = self.read_int(file)
 
-        self._regionID = self.readInt(file)
+        self._regionID = self.read_int(file)
 
     def _readOptimized(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
         format = "5d2i"
-        items = self.readMultipleValues(file, format)
+        items = self.read_multiple_values(file, format)
 
         self.setValues(items)
 

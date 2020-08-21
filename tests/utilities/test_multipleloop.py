@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.utilities
+.. py:currentmodule:: tests.utilities.test_multipleloop
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Utilities used in reading and writing CASINO files.
+Tests for the :py:mod:`casinotools.utilities.multipleloop` module.
 """
 
-###############################################################################
+
 # Copyright 2020 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@ Utilities used in reading and writing CASINO files.
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-###############################################################################
 
 # Standard library modules.
 
@@ -33,3 +32,12 @@ Utilities used in reading and writing CASINO files.
 # Project modules.
 
 # Globals and constants variables.
+
+
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True

@@ -14,7 +14,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino3.ScanPointResults as ScanPointResults
 import casinotools.fileformat.casino3.EnergyMatrix as EnergyMatrix
 import casinotools.fileformat.casino3.DiffusedEnergyMatrix as DiffusedEnergyMatrix
@@ -35,7 +35,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        self._numberSimulations = self.readInt(file)
+        self._numberSimulations = self.read_int(file)
 
         for dummy in range(self._numberSimulations):
             self._readRuntimeState(file)
@@ -48,41 +48,41 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readRuntimeState(self, file):
         tagID = b"*RUNTIMESTATE%%"
-        if self.findTag(file, tagID):
-            self._version = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._version = self.read_int(file)
 
             if self._version == 20031202:
                 self._readSimulationState(file)
 
     def _readSimulationState(self, file):
         tagID = b"*SIMSTATE%%%%%%"
-        if self.findTag(file, tagID):
-            self._initialEnergy_keV = self.readDouble(file)
-            self._rkoMax = self.readDouble(file)
+        if self.find_tag(file, tagID):
+            self._initialEnergy_keV = self.read_double(file)
+            self._rkoMax = self.read_double(file)
 
     def _readSimulationResults(self, file, options):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_simulation_results", file.tell())
         tagID = b"*SIMRESULTS%%%%"
-        if self.findTag(file, tagID):
-            self._versionSimulationResults = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._versionSimulationResults = self.read_int(file)
 
-            self._isTotalEnergyDensitySaved = self.readBool(file)
+            self._isTotalEnergyDensitySaved = self.read_bool(file)
             if self._isTotalEnergyDensitySaved:
                 self._DEnergy_Density = EnergyMatrix.EnergyMatrix(options, options._optionsDist.DEpos_Center)
                 self._DEnergy_Density.read(file)
 
-            self._isDiffusedTotalEnergyDensitySaved = self.readBool(file)
+            self._isDiffusedTotalEnergyDensitySaved = self.read_bool(file)
             if self._isDiffusedTotalEnergyDensitySaved:
                 self._DDiffusedEnergy_Density = DiffusedEnergyMatrix.DiffusedEnergyMatrix(options, options._optionsDist.DEpos_Center)
                 self._DDiffusedEnergy_Density.read(file)
 
         logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_read_simulation_results", file.tell())
         tagID = b"*SIMRESULTSEND"
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
     def _readScanPoints(self, file, options):
-        self._numberScanPoints = self.readInt(file)
+        self._numberScanPoints = self.read_int(file)
 
         self._scanPoints = []
         for dummy in range(self._numberScanPoints):

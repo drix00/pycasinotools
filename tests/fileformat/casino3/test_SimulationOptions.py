@@ -15,7 +15,7 @@ import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions
-import tests.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
+import tests.fileformat.test_file_reader_writer_tools as test_FileReaderWriterTools
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
 from casinotools.utilities.path import is_bad_file
 

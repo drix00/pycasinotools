@@ -14,7 +14,7 @@ import struct
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 
@@ -26,9 +26,9 @@ class ScatteringEvent(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        self.X = self.readFloat(file)
-        self.Y = self.readFloat(file)
-        self.Z = self.readFloat(file)
-        self.E = self.readFloat(file)
-        self.Intersect = self.readInt(file)
-        self.id = self.readInt(file)
+        self.X = self.read_float(file)
+        self.Y = self.read_float(file)
+        self.Z = self.read_float(file)
+        self.E = self.read_float(file)
+        self.Intersect = self.read_int(file)
+        self.id = self.read_int(file)

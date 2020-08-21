@@ -28,10 +28,10 @@ Tests for the module :py:mod:`casinotools.utilities.path`.
 # Standard library modules.
 import unittest
 import os.path
-from tempfile import TemporaryFile, SpooledTemporaryFile
+from tempfile import TemporaryFile
 
 # Third party modules.
-from pkg_resources import resource_filename #@UnresolvedImport
+from pkg_resources import resource_filename
 import pytest
 
 # Local modules.
@@ -41,6 +41,16 @@ import casinotools.utilities.path as path
 
 
 # Globals and constants variables.
+
+
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
+
 
 class TestPath(unittest.TestCase):
     """
@@ -85,12 +95,8 @@ class TestPath(unittest.TestCase):
             pytest.skip()
         self.assertEqual(False, path.is_git_lfs_file(file_path))
 
-        # self.fail("Test if the testcase is working.")
-
     def test_is_git_lfs_file_good(self):
         self.assertEqual(True, path.is_git_lfs_file(self.git_lfs_file))
-
-        # self.fail("Test if the testcase is working.")
 
     def test_is_bad_file(self):
         file_path = resource_filename(__name__, "test_path.py")
@@ -98,15 +104,9 @@ class TestPath(unittest.TestCase):
             pytest.skip()
         self.assertEqual(False, path.is_bad_file(file_path))
 
-        # self.fail("Test if the testcase is working.")
-
     def test_is_bad_file_git_lfs(self):
         self.assertEqual(True, path.is_bad_file(self.git_lfs_file))
-
-        # self.fail("Test if the testcase is working.")
 
     def test_is_bad_file_no_file(self):
         file_path = resource_filename(__name__, "../../test_data/this_file_does_not_exist.txt")
         self.assertEqual(True, path.is_bad_file(file_path))
-
-        # self.fail("Test if the testcase is working.")

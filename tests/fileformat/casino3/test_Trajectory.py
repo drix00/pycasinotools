@@ -16,7 +16,7 @@ import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.Trajectory as Trajectory
-import tests.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
+import tests.fileformat.test_file_reader_writer_tools as test_FileReaderWriterTools
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.

@@ -6,9 +6,10 @@
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-
+Example class of values that can be used with multipleloop for parameters looping.
 """
 
+###############################################################################
 # Copyright 2020 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +23,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import collections

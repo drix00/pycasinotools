@@ -38,18 +38,18 @@ class DiffusedEnergyMatrix(EnergyMatrix.EnergyMatrix):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
         tagID = DIFFUSED_TAG
-        if self.findTag(file, tagID):
-            self._version = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._version = self.read_int(file)
 
             self._numberElements = self._nbPtsX * self._nbPtsY * self._nbPtsZ
             self._startPosition = file.tell()
-            #self._values = self.readDoubleList(file, self._numberElements)
-            skipOffset = self.getSizeOfDoubleList(self._numberElements)
+            #self._values = self.read_double_list(file, self._numberElements)
+            skipOffset = self.get_size_of_double_list(self._numberElements)
             file.seek(skipOffset, os.SEEK_CUR)
 
             logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", file.tell())
             tagID = DIFFUSED_END_TAG
-            if not self.findTag(file, tagID):
+            if not self.find_tag(file, tagID):
                 raise IOError
 
         self._endPosition = file.tell()

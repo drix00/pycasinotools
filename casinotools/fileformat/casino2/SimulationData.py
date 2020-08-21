@@ -31,7 +31,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino2.SimulationOptions as SimulationOptions
 import casinotools.fileformat.casino2.RegionOptions as RegionOptions
 import casinotools.fileformat.casino2.TrajectoriesData as TrajectoriesData
@@ -71,24 +71,24 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
-        self._header = self.readStrLength(file, 26)
+        self._header = self.read_str_length(file, 26)
 
         logging.debug("File pos: %i", file.tell())
         tag_id = TAG_VERSION
-        if self.findTag(file, tag_id):
+        if self.find_tag(file, tag_id):
             logging.debug("File pos: %i", file.tell())
-            self._version = self.readInt(file)
+            self._version = self.read_int(file)
 
         tag_id = TAG_STATUS
-        if self.findTag(file, tag_id):
-            self._status = self.readStrLength(file, 1)
+        if self.find_tag(file, tag_id):
+            self._status = self.read_str_length(file, 1)
 
         tag_id = TAG_SAVE_SETUP
-        if self.findTag(file, tag_id):
-            self._save_simulations = self.readInt(file)
-            self._save_regions = self.readInt(file)
-            self._save_trajectories = self.readInt(file)
-            self._save_distributions = self.readInt(file)
+        if self.find_tag(file, tag_id):
+            self._save_simulations = self.read_int(file)
+            self._save_regions = self.read_int(file)
+            self._save_trajectories = self.read_int(file)
+            self._save_distributions = self.read_int(file)
 
         if self._save_simulations:
             self._read_simulation_options(file)
@@ -126,22 +126,22 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
         assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
-        self.writeStrLength(file, self._header, 26)
+        self.write_str_length(file, self._header, 26)
 
         tag_id = TAG_VERSION
-        self.addTagOld(file, tag_id)
-        self.writeInt(file, self._version)
+        self.add_tag_old(file, tag_id)
+        self.write_int(file, self._version)
 
         tag_id = TAG_STATUS
-        self.addTagOld(file, tag_id)
-        self.writeStrLength(file, self._status, 1)
+        self.add_tag_old(file, tag_id)
+        self.write_str_length(file, self._status, 1)
 
         tag_id = TAG_SAVE_SETUP
-        self.addTagOld(file, tag_id)
-        self.writeInt(file, self._save_simulations)
-        self.writeInt(file, self._save_regions)
-        self.writeInt(file, self._save_trajectories)
-        self.writeInt(file, self._save_distributions)
+        self.add_tag_old(file, tag_id)
+        self.write_int(file, self._save_simulations)
+        self.write_int(file, self._save_regions)
+        self.write_int(file, self._save_trajectories)
+        self.write_int(file, self._save_distributions)
 
         if self._save_simulations:
             self._write_simulation_options(file)

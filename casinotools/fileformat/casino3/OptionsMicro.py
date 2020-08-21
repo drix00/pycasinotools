@@ -13,7 +13,7 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 # Filename to store the defaults settings
@@ -211,38 +211,38 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
 
     def read(self, file):
         tagID = b"*MICRO_SET_BEG"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
 
-        self.scanning_mode = self.readInt(file)
-        self.X_plane_position = self.readDouble(file)
-        self.Y_plane_position = self.readDouble(file)
+        self.scanning_mode = self.read_int(file)
+        self.X_plane_position = self.read_double(file)
+        self.Y_plane_position = self.read_double(file)
 
-        self.NoiseType = self.readInt(file)
-        self.NoiseEnabled = self.readInt(file)
-        self.NoisePercentage = self.readDouble(file)
+        self.NoiseType = self.read_int(file)
+        self.NoiseEnabled = self.read_int(file)
+        self.NoisePercentage = self.read_double(file)
 
-        self.Beam_angle = self.readDouble(file)
-        self.Beam_Radius = self.readDouble(file)
-        self.Beam_ApertureWidth = self.readDouble(file)
-        self.Z_plane_position = self.readDouble(file)
-        self.Beam_Dist_Variance = self.readDouble(file)
-        self.Beam_Distribution = self.readInt(file)
-        self.Beam_AdvSet = self.readInt(file)
+        self.Beam_angle = self.read_double(file)
+        self.Beam_Radius = self.read_double(file)
+        self.Beam_ApertureWidth = self.read_double(file)
+        self.Z_plane_position = self.read_double(file)
+        self.Beam_Dist_Variance = self.read_double(file)
+        self.Beam_Distribution = self.read_int(file)
+        self.Beam_AdvSet = self.read_int(file)
 
-        self.Trajectories_Number = self.readInt(file)
-        self.KEV_End = self.readDouble(file)
-        self.KEV_Start = self.readDouble(file)
-        self.KEV_Step = self.readDouble(file)
-        self.Multiple_Scan_Energy = self.readInt(file)
-        self.FGenerateSecondary = self.readInt(file)
-        self.FGenerateXRays = self.readInt(file)
-        self.scanPtDist = self.readFloat(file)
-        self.keep_simulation_data = self.readInt(file)
+        self.Trajectories_Number = self.read_int(file)
+        self.KEV_End = self.read_double(file)
+        self.KEV_Start = self.read_double(file)
+        self.KEV_Step = self.read_double(file)
+        self.Multiple_Scan_Energy = self.read_int(file)
+        self.FGenerateSecondary = self.read_int(file)
+        self.FGenerateXRays = self.read_int(file)
+        self.scanPtDist = self.read_float(file)
+        self.keep_simulation_data = self.read_int(file)
 
         tagID = b"*MICRO_SET_END"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
     def reset(self):
         self.Beam_angle = 0.0

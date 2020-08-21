@@ -17,7 +17,7 @@ import math
 import numpy as np
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 from casinotools.utilities.path import create_path
 
 # Globals and constants variables.
@@ -36,14 +36,14 @@ def generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totals_nm2,
     binaryWriter = FileReaderWriterTools.FileReaderWriterTools()
 
     for energy_eV, total_nm2 in zip(energiesGrid_eV, totals_nm2):
-        binaryWriter.writeInt(file, VERSION_LASTEST)
-        binaryWriter.writeDouble(file, atomicNumber)
+        binaryWriter.write_int(file, VERSION_LASTEST)
+        binaryWriter.write_double(file, atomicNumber)
         energy_keV = energy_eV / 1000.0
-        binaryWriter.writeDouble(file, energy_keV)
-        binaryWriter.writeDouble(file, total_nm2)
+        binaryWriter.write_double(file, energy_keV)
+        binaryWriter.write_double(file, total_nm2)
 
         size = len(polarAnglesGrid_deg)
-        binaryWriter.writeLong(file, size)
+        binaryWriter.write_long(file, size)
 
         partials_nm2_sr = partialsList_nm2_sr[energy_eV]
         partialSinThetas_nm2_sr = []
@@ -62,7 +62,7 @@ def generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totals_nm2,
             ratioList.append(ratio)
 
         for ratio, angle_rad in zip(ratioList, polarAngleGrid_rad):
-            binaryWriter.writeDouble(file, ratio)
-            binaryWriter.writeDouble(file, angle_rad)
+            binaryWriter.write_double(file, ratio)
+            binaryWriter.write_double(file, angle_rad)
 
     file.close()

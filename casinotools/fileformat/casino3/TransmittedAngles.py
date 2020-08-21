@@ -16,7 +16,7 @@ import os
 import numpy as np
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 
@@ -40,16 +40,16 @@ class TransmittedAngles(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        self._numberTransmittedElectrons = self.readInt(file)
-        self._numberTransmittedDetectedElectrons = self.readInt(file)
+        self._numberTransmittedElectrons = self.read_int(file)
+        self._numberTransmittedDetectedElectrons = self.read_int(file)
 
-        self._numberAngles = self.readInt(file)
+        self._numberAngles = self.read_int(file)
         self._startPosition = file.tell()
-        skipOffset = self.getSizeOfDoubleList(self._numberAngles)
+        skipOffset = self.get_size_of_double_list(self._numberAngles)
         file.seek(skipOffset, os.SEEK_CUR)
 
-        self._numberBinnedAngles = self.readInt(file)
-        skipOffset = self.getSizeOfIntList(self._numberBinnedAngles)
+        self._numberBinnedAngles = self.read_int(file)
+        skipOffset = self.get_size_of_int_list(self._numberBinnedAngles)
         file.seek(skipOffset, os.SEEK_CUR)
 
         self._endPosition = file.tell()
@@ -57,10 +57,10 @@ class TransmittedAngles(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readAngleValues(self):
         self._file.seek(self._startPosition)
-        self._angles = self.readDoubleList(self._file, self._numberAngles)
+        self._angles = self.read_double_list(self._file, self._numberAngles)
 
-        self._numberBinnedAngles = self.readInt(self._file)
-        self._binnedAngles = self.readIntList(self._file, self._numberBinnedAngles)
+        self._numberBinnedAngles = self.read_int(self._file)
+        self._binnedAngles = self.read_int_list(self._file, self._numberBinnedAngles)
 
     def getAngles(self):
         if self._angles is None:

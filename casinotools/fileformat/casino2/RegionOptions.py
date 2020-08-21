@@ -31,7 +31,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino2.Region as Region
 
 # Globals and constants variables.
@@ -51,9 +51,9 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = TAG_REGION_DATA
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._numberRegions = self.readInt(file)
+        self._numberRegions = self.read_int(file)
 
         for dummy in range(self._numberRegions):
             region = Region.Region(self._numberXRayLayers)
@@ -65,9 +65,9 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tag_id = TAG_REGION_DATA
-        self.addTagOld(file, tag_id)
+        self.add_tag_old(file, tag_id)
 
-        self.writeInt(file, self._numberRegions)
+        self.write_int(file, self._numberRegions)
 
         assert len(self._regions) == self._numberRegions
         for index in range(self._numberRegions):

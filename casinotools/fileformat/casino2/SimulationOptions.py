@@ -14,7 +14,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 TAG_BSE_COEFFICIENT = b"*BECOEFF%%%%%%%"
@@ -120,312 +120,312 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = TAG_BSE_COEFFICIENT
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
-        self._bseCoefficient = self.readDouble(file)
+        self._bseCoefficient = self.read_double(file)
 
         # Selected Physical Model variables
         tagID = TAG_PHYSIC_MODELS
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.FRan = self.readInt(file)
-        self.FDeds = self.readInt(file)
-        self.FSecTotal = self.readInt(file)
-        self.FSecPartiel = self.readInt(file)
-        self.FCosDirect = self.readInt(file)
-        self.FSecIon = self.readInt(file)
-        self.FPotMoy = self.readInt(file)
+        self.FRan = self.read_int(file)
+        self.FDeds = self.read_int(file)
+        self.FSecTotal = self.read_int(file)
+        self.FSecPartiel = self.read_int(file)
+        self.FCosDirect = self.read_int(file)
+        self.FSecIon = self.read_int(file)
+        self.FPotMoy = self.read_int(file)
 
         # Microscope SetUp
         tagID = TAG_MICROSCOPE_SETUP
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.Beam_angle = self.readDouble(file)
-        self.Beam_Diameter = self.readDouble(file)
-        self.Electron_Number = self.readLong(file)
-        self.KEV_End = self.readDouble(file)
-        self.KEV_Start = self.readDouble(file)
-        self.KEV_Step = self.readDouble(file)
+        self.Beam_angle = self.read_double(file)
+        self.Beam_Diameter = self.read_double(file)
+        self.Electron_Number = self.read_long(file)
+        self.KEV_End = self.read_double(file)
+        self.KEV_Start = self.read_double(file)
+        self.KEV_Step = self.read_double(file)
 
-        self.Scan_Image = self.readInt(file)
-        POS_End = self.readDouble(file)
+        self.Scan_Image = self.read_int(file)
+        POS_End = self.read_double(file)
         self._positionEnd_nm = POS_End
-        POS_Start = self.readDouble(file)
+        POS_Start = self.read_double(file)
         self._positionStart_nm = POS_Start
         # In CASINO POS_NStep is the step length.
-        POS_NStep = self.readDouble(file)
+        POS_NStep = self.read_double(file)
         self._positionStep_nm = POS_NStep
         # In CASINO POS_Step is the number of steps and not used.
-        POS_Step = self.readDouble(file)
+        POS_Step = self.read_double(file)
         self._positionNumberStep = POS_Step
 
         if version >= 21:
-            self.Scan_Energy = self.readInt(file)
+            self.Scan_Energy = self.read_int(file)
 
         if version >= 25:
-            self.UseEnBack = self.readBool(file)
-            self.WorkDist = self.readDouble(file)
-            self.DetectScaleX = self.readDouble(file)
-            self.DetectScaleY = self.readDouble(file)
+            self.UseEnBack = self.read_bool(file)
+            self.WorkDist = self.read_double(file)
+            self.DetectScaleX = self.read_double(file)
+            self.DetectScaleY = self.read_double(file)
 
             if self.UseEnBack:
                 self._matrixDetector = []
                 for dummy1 in range(101):
                     row = []
                     for dummy2 in range(101):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         row.append(value)
                     self._matrixDetector.append(row)
 
         # XRay
         tagID = TAG_XRAY
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.FEmissionRX = self.readInt(file)
-        self.NbreCoucheRX = self.readLong(file)
-        self.EpaisCouche = self.readDouble(file)
-        self.TOA = self.readDouble(file)
-        self.PhieRX = self.readFloat(file)
-        self.RkoMax = self.readDouble(file)
+        self.FEmissionRX = self.read_int(file)
+        self.NbreCoucheRX = self.read_long(file)
+        self.EpaisCouche = self.read_double(file)
+        self.TOA = self.read_double(file)
+        self.PhieRX = self.read_float(file)
+        self.RkoMax = self.read_double(file)
 
         if version >= 22:
-            self.RkoMaxW = self.readDouble(file)
+            self.RkoMaxW = self.read_double(file)
 
         # Simulation options
         tagID = TAG_SMULATION_OPTIONS
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.Eminimum = self.readDouble(file)
-        self.Electron_Display = self.readLong(file)
-        self.Electron_Save = self.readLong(file)
-        self.Memory_Keep = self.readInt(file)
-        self.First = self.readInt(file)
-        self.Keep_Sim = self.readInt(file)
+        self.Eminimum = self.read_double(file)
+        self.Electron_Display = self.read_long(file)
+        self.Electron_Save = self.read_long(file)
+        self.Memory_Keep = self.read_int(file)
+        self.First = self.read_int(file)
+        self.Keep_Sim = self.read_int(file)
 
         # Display Options
         tagID = TAG_DISPLAY_OPTIONS
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.Display_Colision = self.readInt(file)
-        self.Display_Color = self.readInt(file)
-        self.Display_Projection = self.readInt(file)
-        self.Display_Back = self.readInt(file)
-        self.Display_Refresh = self.readInt(file)
-        self.Minimum_Trajectory_Display_Distance = self.readDouble(file)
+        self.Display_Colision = self.read_int(file)
+        self.Display_Color = self.read_int(file)
+        self.Display_Projection = self.read_int(file)
+        self.Display_Back = self.read_int(file)
+        self.Display_Refresh = self.read_int(file)
+        self.Minimum_Trajectory_Display_Distance = self.read_double(file)
 
         # Region Info
         tagID = TAG_REGION_INFO
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.FForme = self.readInt(file)
-        self.Total_Thickness = self.readDouble(file)
-        self.Half_Width = self.readDouble(file)
+        self.FForme = self.read_int(file)
+        self.Total_Thickness = self.read_double(file)
+        self.Half_Width = self.read_double(file)
 
         # Energy by position
         if version >= 22:
             tagID = TAG_ENERGY_POSITIONS
-            if not self.findTag(file, tagID):
+            if not self.find_tag(file, tagID):
                 raise IOError
 
-            self.ShowFadedSqr = self.readInt(file)
-            self.ShowRegions = self.readInt(file)
-            self.SetPointstoRelativePosition = self.readInt(file)
-            self.Summation = self.readInt(file)
-            self.XZorXY = self.readInt(file)
-            self.Yplane = self.readInt(file)
-            self.Zplane = self.readInt(file)
+            self.ShowFadedSqr = self.read_int(file)
+            self.ShowRegions = self.read_int(file)
+            self.SetPointstoRelativePosition = self.read_int(file)
+            self.Summation = self.read_int(file)
+            self.XZorXY = self.read_int(file)
+            self.Yplane = self.read_int(file)
+            self.Zplane = self.read_int(file)
 
         # Distribution selection
         tagID = TAG_DISTRIBUTION_SELECTION
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.FDZmax = self.readInt(file)
-        self.FDenr = self.readInt(file)
-        self.FDent = self.readInt(file)
-        self.FDPoire = self.readInt(file)
-        self.FDrsr = self.readInt(file)
-        self.FDrsrLit = self.readInt(file)
-        self.FDncr = self.readInt(file)
+        self.FDZmax = self.read_int(file)
+        self.FDenr = self.read_int(file)
+        self.FDent = self.read_int(file)
+        self.FDPoire = self.read_int(file)
+        self.FDrsr = self.read_int(file)
+        self.FDrsrLit = self.read_int(file)
+        self.FDncr = self.read_int(file)
 
         self.FDEpos = 0
         if version >= 22:
-            self.FDEpos = self.readInt(file)
+            self.FDEpos = self.read_int(file)
 
         if version >= 25:
-            self.FDbang = self.readInt(file)
+            self.FDbang = self.read_int(file)
 
         if version >= 26:
-            self.FDAngleVSEnergie = self.readInt(file)
+            self.FDAngleVSEnergie = self.read_int(file)
 
         # Distribution points
         tagID = TAG_DISTRIBUTION_POINTS
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.NbPointDZMax = self.readLong(file)
-        self.NbPointDENR = self.readLong(file)
-        self.NbPointDENT = self.readLong(file)
-        self.NbPointDRSR = self.readLong(file)
-        self.NbPointDNCR = self.readLong(file)
+        self.NbPointDZMax = self.read_long(file)
+        self.NbPointDENR = self.read_long(file)
+        self.NbPointDENT = self.read_long(file)
+        self.NbPointDRSR = self.read_long(file)
+        self.NbPointDNCR = self.read_long(file)
 
         if version >= 22:
-            self.NbPointDEpos_X = self.readLong(file)
-            self.NbPointDEpos_Y = self.readLong(file)
-            self.NbPointDEpos_Z = self.readLong(file)
+            self.NbPointDEpos_X = self.read_long(file)
+            self.NbPointDEpos_Y = self.read_long(file)
+            self.NbPointDEpos_Z = self.read_long(file)
 
         if version >= 25:
-            self.NbPointDBANG = self.readLong(file)
+            self.NbPointDBANG = self.read_long(file)
 
         if version >= 26:
-            self.NbPointDAngleVSEnergie = self.readLong(file)
+            self.NbPointDAngleVSEnergie = self.read_long(file)
 
         if version >= 23:
-            self.RangeFinder = self.readInt(file)
-            self.RangeSafetyFactor = self.readDouble(file)
-            self.FixedRange = self.readDouble(file)
+            self.RangeFinder = self.read_int(file)
+            self.RangeSafetyFactor = self.read_double(file)
+            self.FixedRange = self.read_double(file)
 
         if version >= 24:
-            self.BEMin_Angle = self.readDouble(file)
-            self.BEMax_Angle = self.readDouble(file)
+            self.BEMin_Angle = self.read_double(file)
+            self.BEMax_Angle = self.read_double(file)
 
-            self.FEFilter = self.readInt(file)
-            self.EFilterMax = self.readDouble(file)
-            self.EFilterMin = self.readDouble(file)
+            self.FEFilter = self.read_int(file)
+            self.EFilterMax = self.read_double(file)
+            self.EFilterMin = self.read_double(file)
 
             self.EFilterVal = []
             for dummy in range(101):
-                value = self.readDouble(file)
+                value = self.read_double(file)
                 self.EFilterVal.append(value)
 
         if version >= 2040601:
-            self.FDZmax = self.readInt(file)
-            self.FDZmaxLog = self.readInt(file)
-            self.NbPointDZMax = self.readLong(file)
-            self.DZmaxMax = self.readDouble(file)
-            self.DZmaxMin = self.readDouble(file)
+            self.FDZmax = self.read_int(file)
+            self.FDZmaxLog = self.read_int(file)
+            self.NbPointDZMax = self.read_long(file)
+            self.DZmaxMax = self.read_double(file)
+            self.DZmaxMin = self.read_double(file)
 
-            self.FDenr = self.readInt(file)
-            self.FDenrLog = self.readInt(file)
-            self.NbPointDENR = self.readLong(file)
-            self.DenrMax = self.readDouble(file)
-            self.DenrMin = self.readDouble(file)
+            self.FDenr = self.read_int(file)
+            self.FDenrLog = self.read_int(file)
+            self.NbPointDENR = self.read_long(file)
+            self.DenrMax = self.read_double(file)
+            self.DenrMin = self.read_double(file)
 
-            self.FDent = self.readInt(file)
-            self.FDentLog = self.readInt(file)
-            self.NbPointDENT = self.readLong(file)
-            self.DentMax = self.readDouble(file)
-            self.DentMin = self.readDouble(file)
+            self.FDent = self.read_int(file)
+            self.FDentLog = self.read_int(file)
+            self.NbPointDENT = self.read_long(file)
+            self.DentMax = self.read_double(file)
+            self.DentMin = self.read_double(file)
 
-            self.FDrsr = self.readInt(file)
-            self.FDrsrLog = self.readInt(file)
-            self.NbPointDRSR = self.readLong(file)
-            self.DrsrMax = self.readDouble(file)
-            self.DrsrMin = self.readDouble(file)
+            self.FDrsr = self.read_int(file)
+            self.FDrsrLog = self.read_int(file)
+            self.NbPointDRSR = self.read_long(file)
+            self.DrsrMax = self.read_double(file)
+            self.DrsrMin = self.read_double(file)
 
-            self.FDbang = self.readInt(file)
-            self.FDbangLog = self.readInt(file)
-            self.NbPointDBANG = self.readLong(file)
-            self.DbangMax = self.readDouble(file)
-            self.DbangMin = self.readDouble(file)
+            self.FDbang = self.read_int(file)
+            self.FDbangLog = self.read_int(file)
+            self.NbPointDBANG = self.read_long(file)
+            self.DbangMax = self.read_double(file)
+            self.DbangMin = self.read_double(file)
 
-            self.FDAngleVSEnergie = self.readInt(file)
-            self.FDAngleVSEnergieLog = self.readInt(file)
-            self.NbPointDAngleVSEnergie = self.readLong(file)
-            self.DAngleVSEnergieMax = self.readDouble(file)
-            self.DAngleVSEnergieMin = self.readDouble(file)
+            self.FDAngleVSEnergie = self.read_int(file)
+            self.FDAngleVSEnergieLog = self.read_int(file)
+            self.NbPointDAngleVSEnergie = self.read_long(file)
+            self.DAngleVSEnergieMax = self.read_double(file)
+            self.DAngleVSEnergieMin = self.read_double(file)
 
         # Interrupted Simulation Data
         tagID = TAG_INTERRUPTED_SIMULATION_DATA
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.Eo = self.readDouble(file)
-        self.NoElec = self.readLong(file)
-        self.PositionF_X = self.readDouble(file)
-        self.PositionF_Y = self.readDouble(file)
-        self.Theta0 = self.readDouble(file)
-        self.Phi0 = self.readDouble(file)
-        self.num_at = self.readLong(file)
+        self.Eo = self.read_double(file)
+        self.NoElec = self.read_long(file)
+        self.PositionF_X = self.read_double(file)
+        self.PositionF_Y = self.read_double(file)
+        self.Theta0 = self.read_double(file)
+        self.Phi0 = self.read_double(file)
+        self.num_at = self.read_long(file)
         if version > 23:
-            self.Tot_Ret = self.readDouble(file)
+            self.Tot_Ret = self.read_double(file)
         else:
-            self.Tot_Ret = self.readLong(file)
+            self.Tot_Ret = self.read_long(file)
 
-        self.MinX = self.readDouble(file)
-        self.MinY = self.readDouble(file)
-        self.MinZ = self.readDouble(file)
-        self.MaxX = self.readDouble(file)
-        self.MaxY = self.readDouble(file)
-        self.MaxZ = self.readDouble(file)
-        self.NbCollMax = self.readDouble(file)
-        self.NbCollMax2 = self.readDouble(file)
-        self.RatioX = self.readDouble(file)
-        self.RatioY = self.readDouble(file)
-        self.RatioZ = self.readDouble(file)
+        self.MinX = self.read_double(file)
+        self.MinY = self.read_double(file)
+        self.MinZ = self.read_double(file)
+        self.MaxX = self.read_double(file)
+        self.MaxY = self.read_double(file)
+        self.MaxZ = self.read_double(file)
+        self.NbCollMax = self.read_double(file)
+        self.NbCollMax2 = self.read_double(file)
+        self.RatioX = self.read_double(file)
+        self.RatioY = self.read_double(file)
+        self.RatioZ = self.read_double(file)
 
         if version >= 25:
-            self.Tot_Ret_En = self.readDouble(file)
+            self.Tot_Ret_En = self.read_double(file)
 
         # Scale & grid data
         tagID = TAG_SCALE_GRID
-        if not self.findTag(file, tagID):
+        if not self.find_tag(file, tagID):
             raise IOError
 
-        self.NumVtabs = self.readInt(file)
-        self.NumHtabs = self.readInt(file)
+        self.NumVtabs = self.read_int(file)
+        self.NumHtabs = self.read_int(file)
 
     def write(self, file):
         assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tagID = TAG_BSE_COEFFICIENT
-        self.addTagOld(file, tagID)
-        self.writeDouble(file, self._bseCoefficient)
+        self.add_tag_old(file, tagID)
+        self.write_double(file, self._bseCoefficient)
 
         tagID = TAG_PHYSIC_MODELS
-        self.addTagOld(file, tagID)
-        self.writeInt(file, self.FRan)
-        self.writeInt(file, self.FDeds)
-        self.writeInt(file, self.FSecTotal)
-        self.writeInt(file, self.FSecPartiel)
-        self.writeInt(file, self.FCosDirect)
-        self.writeInt(file, self.FSecIon)
-        self.writeInt(file, self.FPotMoy)
+        self.add_tag_old(file, tagID)
+        self.write_int(file, self.FRan)
+        self.write_int(file, self.FDeds)
+        self.write_int(file, self.FSecTotal)
+        self.write_int(file, self.FSecPartiel)
+        self.write_int(file, self.FCosDirect)
+        self.write_int(file, self.FSecIon)
+        self.write_int(file, self.FPotMoy)
 
         tagID = TAG_MICROSCOPE_SETUP
-        self.addTagOld(file, tagID)
-        self.writeDouble(file, self.Beam_angle)
-        self.writeDouble(file, self.Beam_Diameter)
-        self.writeLong(file, self.Electron_Number)
-        self.writeDouble(file, self.KEV_End)
-        self.writeDouble(file, self.KEV_Start)
-        self.writeDouble(file, self.KEV_Step)
+        self.add_tag_old(file, tagID)
+        self.write_double(file, self.Beam_angle)
+        self.write_double(file, self.Beam_Diameter)
+        self.write_long(file, self.Electron_Number)
+        self.write_double(file, self.KEV_End)
+        self.write_double(file, self.KEV_Start)
+        self.write_double(file, self.KEV_Step)
 
-        self.writeInt(file, self.Scan_Image)
+        self.write_int(file, self.Scan_Image)
         POS_End = self._positionEnd_nm
-        self.writeDouble(file, POS_End)
+        self.write_double(file, POS_End)
         POS_Start = self._positionStart_nm
-        self.writeDouble(file, POS_Start)
+        self.write_double(file, POS_Start)
         # In CASINO POS_NStep is the step length.
         POS_NStep = self._positionStep_nm
-        self.writeDouble(file, POS_NStep)
+        self.write_double(file, POS_NStep)
         # In CASINO POS_Step is the number of steps and not used.
         POS_Step = self._positionNumberStep
-        self.writeDouble(file, POS_Step)
+        self.write_double(file, POS_Step)
 
-        self.writeInt(file, self.Scan_Energy)
+        self.write_int(file, self.Scan_Energy)
 
-        self.writeBool(file, self.UseEnBack)
-        self.writeDouble(file, self.WorkDist)
-        self.writeDouble(file, self.DetectScaleX)
-        self.writeDouble(file, self.DetectScaleY)
+        self.write_bool(file, self.UseEnBack)
+        self.write_double(file, self.WorkDist)
+        self.write_double(file, self.DetectScaleX)
+        self.write_double(file, self.DetectScaleY)
 
         if self.UseEnBack:
             assert len(self._matrixDetector) == 101
@@ -434,161 +434,161 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
                 assert len(row) == 101
                 for index2 in range(101):
                     value = row[index2]
-                    self.writeDouble(file, value)
+                    self.write_double(file, value)
 
         tagID = TAG_XRAY
-        self.addTagOld(file, tagID)
-        self.writeInt(file, self.FEmissionRX)
-        self.writeLong(file, self.NbreCoucheRX)
-        self.writeDouble(file, self.EpaisCouche)
-        self.writeDouble(file, self.TOA)
-        self.writeFloat(file, self.PhieRX)
-        self.writeDouble(file, self.RkoMax)
-        self.writeDouble(file, self.RkoMaxW)
+        self.add_tag_old(file, tagID)
+        self.write_int(file, self.FEmissionRX)
+        self.write_long(file, self.NbreCoucheRX)
+        self.write_double(file, self.EpaisCouche)
+        self.write_double(file, self.TOA)
+        self.write_float(file, self.PhieRX)
+        self.write_double(file, self.RkoMax)
+        self.write_double(file, self.RkoMaxW)
 
         tagID = TAG_SMULATION_OPTIONS
-        self.addTagOld(file, tagID)
-        self.writeDouble(file, self.Eminimum)
-        self.writeLong(file, self.Electron_Display)
-        self.writeLong(file, self.Electron_Save)
-        self.writeInt(file, self.Memory_Keep)
-        self.writeInt(file, self.First)
-        self.writeInt(file, self.Keep_Sim)
+        self.add_tag_old(file, tagID)
+        self.write_double(file, self.Eminimum)
+        self.write_long(file, self.Electron_Display)
+        self.write_long(file, self.Electron_Save)
+        self.write_int(file, self.Memory_Keep)
+        self.write_int(file, self.First)
+        self.write_int(file, self.Keep_Sim)
 
         tagID = TAG_DISPLAY_OPTIONS
-        self.addTagOld(file, tagID)
-        self.writeInt(file, self.Display_Colision)
-        self.writeInt(file, self.Display_Color)
-        self.writeInt(file, self.Display_Projection)
-        self.writeInt(file, self.Display_Back)
-        self.writeInt(file, self.Display_Refresh)
-        self.writeDouble(file, self.Minimum_Trajectory_Display_Distance)
+        self.add_tag_old(file, tagID)
+        self.write_int(file, self.Display_Colision)
+        self.write_int(file, self.Display_Color)
+        self.write_int(file, self.Display_Projection)
+        self.write_int(file, self.Display_Back)
+        self.write_int(file, self.Display_Refresh)
+        self.write_double(file, self.Minimum_Trajectory_Display_Distance)
 
         tagID = TAG_REGION_INFO
-        self.addTagOld(file, tagID)
-        self.writeInt(file, self.FForme)
-        self.writeDouble(file, self.Total_Thickness)
-        self.writeDouble(file, self.Half_Width)
+        self.add_tag_old(file, tagID)
+        self.write_int(file, self.FForme)
+        self.write_double(file, self.Total_Thickness)
+        self.write_double(file, self.Half_Width)
 
         tagID = TAG_ENERGY_POSITIONS
-        self.addTagOld(file, tagID)
-        self.writeInt(file, self.ShowFadedSqr)
-        self.writeInt(file, self.ShowRegions)
-        self.writeInt(file, self.SetPointstoRelativePosition)
-        self.writeInt(file, self.Summation)
-        self.writeInt(file, self.XZorXY)
-        self.writeInt(file, self.Yplane)
-        self.writeInt(file, self.Zplane)
+        self.add_tag_old(file, tagID)
+        self.write_int(file, self.ShowFadedSqr)
+        self.write_int(file, self.ShowRegions)
+        self.write_int(file, self.SetPointstoRelativePosition)
+        self.write_int(file, self.Summation)
+        self.write_int(file, self.XZorXY)
+        self.write_int(file, self.Yplane)
+        self.write_int(file, self.Zplane)
 
         tagID = TAG_DISTRIBUTION_SELECTION
-        self.addTagOld(file, tagID)
-        self.writeInt(file, self.FDZmax)
-        self.writeInt(file, self.FDenr)
-        self.writeInt(file, self.FDent)
-        self.writeInt(file, self.FDPoire)
-        self.writeInt(file, self.FDrsr)
-        self.writeInt(file, self.FDrsrLit)
-        self.writeInt(file, self.FDncr)
-        self.writeInt(file, self.FDEpos)
-        self.writeInt(file, self.FDbang)
-        self.writeInt(file, self.FDAngleVSEnergie)
+        self.add_tag_old(file, tagID)
+        self.write_int(file, self.FDZmax)
+        self.write_int(file, self.FDenr)
+        self.write_int(file, self.FDent)
+        self.write_int(file, self.FDPoire)
+        self.write_int(file, self.FDrsr)
+        self.write_int(file, self.FDrsrLit)
+        self.write_int(file, self.FDncr)
+        self.write_int(file, self.FDEpos)
+        self.write_int(file, self.FDbang)
+        self.write_int(file, self.FDAngleVSEnergie)
 
         tagID = TAG_DISTRIBUTION_POINTS
-        self.addTagOld(file, tagID)
-        self.writeLong(file, self.NbPointDZMax)
-        self.writeLong(file, self.NbPointDENR)
-        self.writeLong(file, self.NbPointDENT)
-        self.writeLong(file, self.NbPointDRSR)
-        self.writeLong(file, self.NbPointDNCR)
+        self.add_tag_old(file, tagID)
+        self.write_long(file, self.NbPointDZMax)
+        self.write_long(file, self.NbPointDENR)
+        self.write_long(file, self.NbPointDENT)
+        self.write_long(file, self.NbPointDRSR)
+        self.write_long(file, self.NbPointDNCR)
 
-        self.writeLong(file, self.NbPointDEpos_X)
-        self.writeLong(file, self.NbPointDEpos_Y)
-        self.writeLong(file, self.NbPointDEpos_Z)
+        self.write_long(file, self.NbPointDEpos_X)
+        self.write_long(file, self.NbPointDEpos_Y)
+        self.write_long(file, self.NbPointDEpos_Z)
 
-        self.writeLong(file, self.NbPointDBANG)
+        self.write_long(file, self.NbPointDBANG)
 
-        self.writeLong(file, self.NbPointDAngleVSEnergie)
+        self.write_long(file, self.NbPointDAngleVSEnergie)
 
-        self.writeInt(file, self.RangeFinder)
-        self.writeDouble(file, self.RangeSafetyFactor)
-        self.writeDouble(file, self.FixedRange)
+        self.write_int(file, self.RangeFinder)
+        self.write_double(file, self.RangeSafetyFactor)
+        self.write_double(file, self.FixedRange)
 
-        self.writeDouble(file, self.BEMin_Angle)
-        self.writeDouble(file, self.BEMax_Angle)
+        self.write_double(file, self.BEMin_Angle)
+        self.write_double(file, self.BEMax_Angle)
 
-        self.writeInt(file, self.FEFilter)
-        self.writeDouble(file, self.EFilterMax)
-        self.writeDouble(file, self.EFilterMin)
+        self.write_int(file, self.FEFilter)
+        self.write_double(file, self.EFilterMax)
+        self.write_double(file, self.EFilterMin)
 
         assert len(self.EFilterVal) == 101
         for index in range(101):
-            self.writeDouble(file, self.EFilterVal[index])
+            self.write_double(file, self.EFilterVal[index])
 
-        self.writeInt(file, self.FDZmax)
-        self.writeInt(file, self.FDZmaxLog)
-        self.writeLong(file, self.NbPointDZMax)
-        self.writeDouble(file, self.DZmaxMax)
-        self.writeDouble(file, self.DZmaxMin)
+        self.write_int(file, self.FDZmax)
+        self.write_int(file, self.FDZmaxLog)
+        self.write_long(file, self.NbPointDZMax)
+        self.write_double(file, self.DZmaxMax)
+        self.write_double(file, self.DZmaxMin)
 
-        self.writeInt(file, self.FDenr)
-        self.writeInt(file, self.FDenrLog)
-        self.writeLong(file, self.NbPointDENR)
-        self.writeDouble(file, self.DenrMax)
-        self.writeDouble(file, self.DenrMin)
+        self.write_int(file, self.FDenr)
+        self.write_int(file, self.FDenrLog)
+        self.write_long(file, self.NbPointDENR)
+        self.write_double(file, self.DenrMax)
+        self.write_double(file, self.DenrMin)
 
-        self.writeInt(file, self.FDent)
-        self.writeInt(file, self.FDentLog)
-        self.writeLong(file, self.NbPointDENT)
-        self.writeDouble(file, self.DentMax)
-        self.writeDouble(file, self.DentMin)
+        self.write_int(file, self.FDent)
+        self.write_int(file, self.FDentLog)
+        self.write_long(file, self.NbPointDENT)
+        self.write_double(file, self.DentMax)
+        self.write_double(file, self.DentMin)
 
-        self.writeInt(file, self.FDrsr)
-        self.writeInt(file, self.FDrsrLog)
-        self.writeLong(file, self.NbPointDRSR)
-        self.writeDouble(file, self.DrsrMax)
-        self.writeDouble(file, self.DrsrMin)
+        self.write_int(file, self.FDrsr)
+        self.write_int(file, self.FDrsrLog)
+        self.write_long(file, self.NbPointDRSR)
+        self.write_double(file, self.DrsrMax)
+        self.write_double(file, self.DrsrMin)
 
-        self.writeInt(file, self.FDbang)
-        self.writeInt(file, self.FDbangLog)
-        self.writeLong(file, self.NbPointDBANG)
-        self.writeDouble(file, self.DbangMax)
-        self.writeDouble(file, self.DbangMin)
+        self.write_int(file, self.FDbang)
+        self.write_int(file, self.FDbangLog)
+        self.write_long(file, self.NbPointDBANG)
+        self.write_double(file, self.DbangMax)
+        self.write_double(file, self.DbangMin)
 
-        self.writeInt(file, self.FDAngleVSEnergie)
-        self.writeInt(file, self.FDAngleVSEnergieLog)
-        self.writeLong(file, self.NbPointDAngleVSEnergie)
-        self.writeDouble(file, self.DAngleVSEnergieMax)
-        self.writeDouble(file, self.DAngleVSEnergieMin)
+        self.write_int(file, self.FDAngleVSEnergie)
+        self.write_int(file, self.FDAngleVSEnergieLog)
+        self.write_long(file, self.NbPointDAngleVSEnergie)
+        self.write_double(file, self.DAngleVSEnergieMax)
+        self.write_double(file, self.DAngleVSEnergieMin)
 
         tagID = TAG_INTERRUPTED_SIMULATION_DATA
-        self.addTagOld(file, tagID)
-        self.writeDouble(file, self.Eo)
-        self.writeLong(file, self.NoElec)
-        self.writeDouble(file, self.PositionF_X)
-        self.writeDouble(file, self.PositionF_Y)
-        self.writeDouble(file, self.Theta0)
-        self.writeDouble(file, self.Phi0)
-        self.writeLong(file, self.num_at)
-        self.writeDouble(file, self.Tot_Ret)
+        self.add_tag_old(file, tagID)
+        self.write_double(file, self.Eo)
+        self.write_long(file, self.NoElec)
+        self.write_double(file, self.PositionF_X)
+        self.write_double(file, self.PositionF_Y)
+        self.write_double(file, self.Theta0)
+        self.write_double(file, self.Phi0)
+        self.write_long(file, self.num_at)
+        self.write_double(file, self.Tot_Ret)
 
-        self.writeDouble(file, self.MinX)
-        self.writeDouble(file, self.MinY)
-        self.writeDouble(file, self.MinZ)
-        self.writeDouble(file, self.MaxX)
-        self.writeDouble(file, self.MaxY)
-        self.writeDouble(file, self.MaxZ)
-        self.writeDouble(file, self.NbCollMax)
-        self.writeDouble(file, self.NbCollMax2)
-        self.writeDouble(file, self.RatioX)
-        self.writeDouble(file, self.RatioY)
-        self.writeDouble(file, self.RatioZ)
+        self.write_double(file, self.MinX)
+        self.write_double(file, self.MinY)
+        self.write_double(file, self.MinZ)
+        self.write_double(file, self.MaxX)
+        self.write_double(file, self.MaxY)
+        self.write_double(file, self.MaxZ)
+        self.write_double(file, self.NbCollMax)
+        self.write_double(file, self.NbCollMax2)
+        self.write_double(file, self.RatioX)
+        self.write_double(file, self.RatioY)
+        self.write_double(file, self.RatioZ)
 
-        self.writeDouble(file, self.Tot_Ret_En)
+        self.write_double(file, self.Tot_Ret_En)
 
         tagID = TAG_SCALE_GRID
-        self.addTagOld(file, tagID)
-        self.writeInt(file, self.NumVtabs)
-        self.writeInt(file, self.NumHtabs)
+        self.add_tag_old(file, tagID)
+        self.write_int(file, self.NumVtabs)
+        self.write_int(file, self.NumHtabs)
 
     def setNumberElectrons(self, numberElectrons):
         self.Electron_Number = numberElectrons

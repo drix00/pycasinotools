@@ -14,7 +14,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino3.SampleShape.ShapeType as ShapeType
 
 # Globals and constants variables.
@@ -40,16 +40,16 @@ class SampleObject(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
         tagID = b"%SMPLOBJ"
-        if self.findTag(file, tagID):
-            self._version = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._version = self.read_int(file)
 
-            self._name = self.readStr(file)
-            self._regionName = self.readStr(file)
+            self._name = self.read_str(file)
+            self._regionName = self.read_str(file)
 
-            self._translation = self.readDoubleList(file, 3)
-            self._rotation = self.readDoubleList(file, 3)
-            self._scale = self.readDoubleList(file, 3)
-            self._color = self.readDoubleList(file, 3)
+            self._translation = self.read_double_list(file, 3)
+            self._rotation = self.read_double_list(file, 3)
+            self._scale = self.read_double_list(file, 3)
+            self._color = self.read_double_list(file, 3)
 
     def getName(self):
         return self._name
@@ -66,66 +66,66 @@ class SampleObject(FileReaderWriterTools.FileReaderWriterTools):
     def getScale_nm(self):
         return self._scale
 
-    def export(self, exportFile):
-        self._exportVersion(exportFile)
-        self._exportType(exportFile)
-        self._exportName(exportFile)
-        self._exportRegionName(exportFile)
-        self._exportTranslation(exportFile)
-        self._exportRotation(exportFile)
-        self._exportScale(exportFile)
-        self._exportColor(exportFile)
+    def export(self, export_file):
+        self._exportVersion(export_file)
+        self._exportType(export_file)
+        self._exportName(export_file)
+        self._exportRegionName(export_file)
+        self._exportTranslation(export_file)
+        self._exportRotation(export_file)
+        self._exportScale(export_file)
+        self._exportColor(export_file)
 
     def _exportVersion(self, exportFile):
         version = self.getVersion()
-        versionString = self._extractVersionString(version)
+        versionString = self._extract_version_string(version)
         line = "Sample object version: %s (%i)" % (versionString, version)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportType(self, exportFile):
         typeStr = ShapeType.getString(self._type)
         line = "Type: %s" % (typeStr)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportName(self, exportFile):
         line = "Name: %s" % (self._name)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportRegionName(self, exportFile):
         line = "Region name: %s" % (self._regionName)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportTranslation(self, exportFile):
         line = "Translation:"
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         for label, value in zip(["X", 'Y', 'Z'], self._translation):
             line = "\t%s: %g" % (label, value)
-            self.writeLine(exportFile, line)
+            self.write_line(exportFile, line)
 
     def _exportRotation(self, exportFile):
         line = "Rotation:"
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         for label, value in zip(["X", 'Y', 'Z'], self._rotation):
             line = "\t%s: %g" % (label, value)
-            self.writeLine(exportFile, line)
+            self.write_line(exportFile, line)
 
     def _exportScale(self, exportFile):
         line = "Scale:"
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         for label, value in zip(["X", 'Y', 'Z'], self._scale):
             line = "\t%s: %g" % (label, value)
-            self.writeLine(exportFile, line)
+            self.write_line(exportFile, line)
 
     def _exportColor(self, exportFile):
         line = "Color:"
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         for label, value in zip(["R", 'G', 'B'], self._color):
             line = "\t%s: %g" % (label, value)
-            self.writeLine(exportFile, line)
+            self.write_line(exportFile, line)
 
     def modifyPositionZ(self, newPositionZ_nm):
         if not self._file.closed:
@@ -150,13 +150,13 @@ class SampleObject(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_write", file.tell())
 
         tagID = "%SMPLOBJ"
-        if self.findTag(file, tagID):
-            self.writeInt(file, self._version)
+        if self.find_tag(file, tagID):
+            self.write_int(file, self._version)
 
-            self.writeStr(file, self._name)
-            self.writeStr(file, self._regionName)
+            self.write_str(file, self._name)
+            self.write_str(file, self._regionName)
 
-            self.writeDoubleList(file, self._translation, 3)
-            self.writeDoubleList(file, self._rotation, 3)
-            self.writeDoubleList(file, self._scale, 3)
-            self.writeDoubleList(file, self._color, 3)
+            self.write_double_list(file, self._translation, 3)
+            self.write_double_list(file, self._rotation, 3)
+            self.write_double_list(file, self._scale, 3)
+            self.write_double_list(file, self._color, 3)

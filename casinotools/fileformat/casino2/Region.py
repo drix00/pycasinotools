@@ -32,7 +32,7 @@ import decimal
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino2.Element as Element
 
 # Globals and constants variables.
@@ -75,27 +75,27 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tag_id = TAG_REGIONS_DATA
-        self.findTag(file, tag_id)
+        self.find_tag(file, tag_id)
 
-        self.ID = self.readInt(file)
-        self.IDed = self.readInt(file)
-        self.NbEl = self.readInt(file)
-        self.Rho = self.readDouble(file)
-        self.Zmoy = self.readDouble(file)
+        self.ID = self.read_int(file)
+        self.IDed = self.read_int(file)
+        self.NbEl = self.read_int(file)
+        self.Rho = self.read_double(file)
+        self.Zmoy = self.read_double(file)
 
         self.Parametre = []
         for dummy in range(NB_PAR_MAX):
-            value = self.readDouble(file)
+            value = self.read_double(file)
             self.Parametre.append(value)
 
-        self.Forme = self.readInt(file)
-        self.Substrate = self.readInt(file)
-        self.color = self.readLong(file)
-        self.cindex = self.readInt(file)
-        self.User_Density = self.readInt(file)
-        self.User_Composition = self.readInt(file)
+        self.Forme = self.read_int(file)
+        self.Substrate = self.read_int(file)
+        self.color = self.read_long(file)
+        self.cindex = self.read_int(file)
+        self.User_Density = self.read_int(file)
+        self.User_Composition = self.read_int(file)
 
-        self.Name = self.readStr(file)
+        self.Name = self.read_str(file)
 
         self._elements = []
         for dummy in range(self.NbEl):
@@ -108,26 +108,26 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tag_id = TAG_REGIONS_DATA
-        self.addTagOld(file, tag_id)
-        self.writeInt(file, self.ID)
-        self.writeInt(file, self.IDed)
-        self.writeInt(file, self.NbEl)
-        self.writeDouble(file, self.Rho)
-        self.writeDouble(file, self.Zmoy)
+        self.add_tag_old(file, tag_id)
+        self.write_int(file, self.ID)
+        self.write_int(file, self.IDed)
+        self.write_int(file, self.NbEl)
+        self.write_double(file, self.Rho)
+        self.write_double(file, self.Zmoy)
 
         assert len(self.Parametre) == NB_PAR_MAX
         for index in range(NB_PAR_MAX):
             value = self.Parametre[index]
-            self.writeDouble(file, value)
+            self.write_double(file, value)
 
-        self.writeInt(file, self.Forme)
-        self.writeInt(file, self.Substrate)
-        self.writeLong(file, self.color)
-        self.writeInt(file, self.cindex)
-        self.writeInt(file, self.User_Density)
-        self.writeInt(file, self.User_Composition)
+        self.write_int(file, self.Forme)
+        self.write_int(file, self.Substrate)
+        self.write_long(file, self.color)
+        self.write_int(file, self.cindex)
+        self.write_int(file, self.User_Density)
+        self.write_int(file, self.User_Composition)
 
-        self.writeStr(file, self.Name)
+        self.write_str(file, self.Name)
 
         assert len(self._elements) == self.NbEl
         for index in range(self.NbEl):

@@ -16,7 +16,7 @@ import struct
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino3.TrajectoryCollision as TrajectoryCollision
 
 # Globals and constants variables.
@@ -61,23 +61,23 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readHeader(self, file):
         self._file.seek(self._startPosition)
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
         # TRAJ_TYPE_BACKSCAT
-        self._type = self.readInt(file)
+        self._type = self.read_int(file)
         # TRAJ_TYPE_TRANSMIT
-        self._type |= self.readInt(file)
+        self._type |= self.read_int(file)
         # TRAJ_TYPE_DETEC
-        self._type |= self.readInt(file)
+        self._type |= self.read_int(file)
         # TRAJ_TYPE_SECONDARY
-        self._type |= self.readInt(file)
+        self._type |= self.read_int(file)
         # TRAJ_DISPLAY (0 or 1 for this version)
-        if self.readInt(file):
+        if self.read_int(file):
             self._type |= TRAJ_DISPLAY
 
-        self._order = self.readInt(file)
-        self._dirX = self.readDouble(file)
-        self._dirY = self.readDouble(file)
-        self._dirZ = self.readDouble(file)
+        self._order = self.read_int(file)
+        self._dirX = self.read_double(file)
+        self._dirY = self.read_double(file)
+        self._dirZ = self.read_double(file)
 
         self._readNumberScatteringEvents(file)
 
@@ -90,15 +90,15 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
     def _readNumberScatteringEvents(self, file):
         #logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_readNumberScatteringEvents", file.tell())
         tagID = b"NbElec"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         #logging.debug("File position after findtag of %s.%s: %i", self.__class__.__name__, "_readNumberScatteringEvents", file.tell())
-        self._numberScatteringEvents = self.readInt(file)
+        self._numberScatteringEvents = self.read_int(file)
         #logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_readNumberScatteringEvents", file.tell())
 
     def _readNumberScatteringEventsFast(self, file):
-        #tagID = "NbElec"
-        #self.findTag(file, tagID)
-        self._numberScatteringEvents = self.readInt(file)
+        #tag_id = "NbElec"
+        #self.find_tag(file, tag_id)
+        self._numberScatteringEvents = self.read_int(file)
 
     def _readScatteringEvents(self):
         self._readScatteringEventsOptimized()
@@ -128,7 +128,7 @@ class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
         self._file.seek(self._startPositionCollisions)
 
         format = "5d2i"*self._numberScatteringEvents
-        items = self.readMultipleValues(self._file, format)
+        items = self.read_multiple_values(self._file, format)
 
         self._trajectoryCollisions = [TrajectoryCollision.TrajectoryCollision(items[index * 7:(index * 7) + 7]) for index in range(self._numberScatteringEvents)]
 

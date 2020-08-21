@@ -15,7 +15,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.Tags as Tags
+import casinotools.fileformat.tags as Tags
 
 # Globals and constants variables.
 
@@ -29,7 +29,7 @@ class SampleReader(object):
 
         tagID = b"*CASINOSAMPLE%%"
 
-        if Tags.searchTag(file, tagID, Tags.TAG_LENGTH):
+        if Tags.search_tag(file, tagID, Tags.TAG_LENGTH):
             format = "i"
             size = struct.calcsize(format)
             buffer = file.read(size)

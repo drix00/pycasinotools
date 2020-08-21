@@ -16,7 +16,7 @@ import os
 import numpy as np
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
 
 # Globals and constants variables.
@@ -63,8 +63,8 @@ class EnergyMatrix(FileReaderWriterTools.FileReaderWriterTools):
 
         self._numberElements = self._nbPtsX * self._nbPtsY * self._nbPtsZ
         self._startPosition = file.tell()
-        #self._values = self.readDoubleList(file, self._numberElements)
-        skipOffset = self.getSizeOfDoubleList(self._numberElements)
+        #self._values = self.read_double_list(file, self._numberElements)
+        skipOffset = self.get_size_of_double_list(self._numberElements)
         file.seek(skipOffset, os.SEEK_CUR)
 
         self._endPosition = file.tell()
@@ -75,7 +75,7 @@ class EnergyMatrix(FileReaderWriterTools.FileReaderWriterTools):
             self._file = open(self._filePathname, 'rb')
 
         self._file.seek(self._startPosition)
-        self._values = self.readDoubleList(self._file, self._numberElements)
+        self._values = self.read_double_list(self._file, self._numberElements)
 
     def getData(self):
         if self._data is None:

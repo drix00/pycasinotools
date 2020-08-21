@@ -13,7 +13,7 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 # Filename to store the defaults settings
@@ -50,15 +50,15 @@ class OptionsXray(FileReaderWriterTools.FileReaderWriterTools):
 
     def read(self, file):
         tagID = b"*XRAY_OPT_BEG"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
 
-        self.TOA = self.readDouble(file)
-        self.PhieRX = self.readFloat(file)
+        self.TOA = self.read_double(file)
+        self.PhieRX = self.read_float(file)
 
         tagID = b"*XRAY_OPT_END"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
     def reset(self):
         self.TOA = 40.0

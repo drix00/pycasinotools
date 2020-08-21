@@ -14,7 +14,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 #import casinotools.fileformat.casino3.SampleSubtrate as SampleSubtrate
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
 import casinotools.fileformat.casino3.SampleTree as SampleTree
@@ -49,8 +49,8 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = b"*CASINOSAMPLE%%"
-        if self.findTag(file, tagID):
-            self._version = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._version = self.read_int(file)
 
             if self._version >= 3010301:
                 return self._read_3131(file)
@@ -61,55 +61,55 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_3131", file.tell())
 
         tagID = b"*SUBSTRATE%%%%%"
-        if self.findTag(file, tagID):
-            self._useSubstrate = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._useSubstrate = self.read_int(file)
 
             self._substrate = SampleObjectFactory.CreateObjectFromType(SampleObjectFactory.SHAPE_SUBSTRATE)
             self._substrate.read(file)
 
         tagID = b"*SAMPLEOBJECTS%"
-        if self.findTag(file, tagID):
-            self._count = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._count = self.read_int(file)
 
             for dummy in range(self._count):
-                type = self.readInt(file)
+                type = self.read_int(file)
 
                 sampleObject = SampleObjectFactory.CreateObjectFromType(type)
 
                 sampleObject.read(file)
 
                 if self._version >= 30200002:
-                    objectId = self.readInt(file)
+                    objectId = self.read_int(file)
                     self.addSampleObjectWithId(sampleObject, objectId)
                 else:
                     self.addSampleObject(sampleObject)
 
         if self._version < 30107001:
             tagID = b"*MAC%%%%%%%%%%%"
-            if self.findTag(file, tagID):
+            if self.find_tag(file, tagID):
                 #float MAC[100][100][3]
                 #file.read((char*)&MAC,sizeof(MAC[0][0][0]*100*100*3));
                 numberElements = 100 * 100 * 3
-                self._mac = self.readFloatList(file, numberElements)
+                self._mac = self.read_float_list(file, numberElements)
 
         tagID = b"*SAMPLEDATA%%%%"
-        if self.findTag(file, tagID):
-            self._maxSampleTreeLevel = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._maxSampleTreeLevel = self.read_int(file)
 
         if self._version >= Version.SIM_OPTIONS_VERSION_3_1_8_2:
             self._offsets[OFFSET_ROTATION_Y] = file.tell()
-            self._rotationAngleY_deg = self.readDouble(file)
+            self._rotationAngleY_deg = self.read_double(file)
             self._offsets[OFFSET_ROTATION_Z] = file.tell()
-            self._rotationAngleZ_deg = self.readDouble(file)
+            self._rotationAngleZ_deg = self.read_double(file)
 
-        self._presence = self.readInt(file)
+        self._presence = self.read_int(file)
         if self._presence:
             self._sampleTree = SampleTree.SampleTree()
             self._sampleTree.read(file)
 
         tagID = b"*REGIONDATA%%%%"
-        if self.findTag(file, tagID):
-            self._numberRegions = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._numberRegions = self.read_int(file)
 
         #return
         for dummy in range(self._numberRegions):
@@ -163,7 +163,7 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
 
     def modifyRotationY_deg(self, rotationAngle_deg):
         self._file.seek(self._offsets[OFFSET_ROTATION_Y])
-        self.writeDouble(self._file, rotationAngle_deg)
+        self.write_double(self._file, rotationAngle_deg)
         self._rotationAngleY_deg = rotationAngle_deg
 
     def getRotationZ_deg(self):
@@ -174,81 +174,81 @@ class Sample(FileReaderWriterTools.FileReaderWriterTools):
 
     def modifyRotationZ_deg(self, rotationAngle_deg):
         self._file.seek(self._offsets[OFFSET_ROTATION_Z])
-        self.writeDouble(self._file, rotationAngle_deg)
+        self.write_double(self._file, rotationAngle_deg)
         self._rotationAngleZ_deg = rotationAngle_deg
 
     def write(self, file):
         pass
 
-    def export(self, exportFile):
+    def export(self, export_file):
         # todo: implement the export method.
-        self._exportHeader(exportFile)
-        self._exportVersion(exportFile)
-        self._exportSubstrate(exportFile)
-        self._exportSampleObjects(exportFile)
-        self._exportSampleData(exportFile)
-        self._exportRegionData(exportFile)
+        self._exportHeader(export_file)
+        self._exportVersion(export_file)
+        self._exportSubstrate(export_file)
+        self._exportSampleObjects(export_file)
+        self._exportSampleData(export_file)
+        self._exportRegionData(export_file)
 
     def _exportHeader(self, exportFile):
         line = "-"*80
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         line = "%s" % ("Sample")
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         line = "-"*40
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportVersion(self, exportFile):
         version = self.getVersion()
-        versionString = self._extractVersionString(version)
+        versionString = self._extract_version_string(version)
         line = "File version: %s (%i)" % (versionString, version)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportSubstrate(self, exportFile):
-        text = self._extractBooleanString(self._useSubstrate)
+        text = self._extract_boolean_string(self._useSubstrate)
         line = "Use substract: %s" % (text)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         self._substrate.export(exportFile)
 
     def _exportSampleObjects(self, exportFile):
         line = "number of sample objects: %i" % (self._count)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         sampleObjectID = 0
         for sampleObject in self._sampleObjects:
             sampleObjectID += 1
             line = "Sample object: %i" % (sampleObjectID)
-            self.writeLine(exportFile, line)
+            self.write_line(exportFile, line)
 
             sampleObject.export(exportFile)
 
     def _exportSampleData(self, exportFile):
         line = "Maximum sample tree level: %i" % (self._maxSampleTreeLevel)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         line = "Sample rotation angle Y (deg): %g" % (self._rotationAngleY_deg)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         line = "Sample rotation angle Z (deg): %g" % (self._rotationAngleZ_deg)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
-        text = self._extractBooleanString(self._presence)
+        text = self._extract_boolean_string(self._presence)
         line = "Presence: %s" % (text)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         if self._presence:
             self._sampleTree.export(exportFile)
 
     def _exportRegionData(self, exportFile):
         line = "number of regions: %i" % (self._numberRegions)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         sampleRegionID = 0
         for region in self._regions:
             sampleRegionID += 1
             line = "Sample region: %i" % (sampleRegionID)
-            self.writeLine(exportFile, line)
+            self.write_line(exportFile, line)
 
             region.export(exportFile)

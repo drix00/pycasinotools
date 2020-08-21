@@ -39,9 +39,9 @@ class SphereShape(SampleObject):
 
         super(SphereShape, self).read(file)
 
-        self._radius_nm = self.readDouble(file)
-        self._divisionPhi = self.readInt(file)
-        self._divisionTheta = self.readInt(file)
+        self._radius_nm = self.read_double(file)
+        self._divisionPhi = self.read_int(file)
+        self._divisionTheta = self.read_int(file)
 
     def setRadius_nm(self, radius_nm):
         self._radius_nm = radius_nm

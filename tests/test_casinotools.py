@@ -6,7 +6,7 @@
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-
+Tests for the :py:mod:`casinotools` package.
 """
 
 # Copyright 2019 Hendrix Demers
@@ -24,14 +24,12 @@
 # limitations under the License.
 
 # Standard library modules.
-import sys
 
 # Third party modules.
 
 # Local modules.
 
 # Project modules.
-import casinotools
 
 # Globals and constants variables.
 

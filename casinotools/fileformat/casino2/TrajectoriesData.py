@@ -14,7 +14,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino2.Trajectory as Trajectory
 
 # Globals and constants variables.
@@ -28,9 +28,9 @@ class TrajectoriesData(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = b"*TRAJDATA%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._numberTrajectories = self.readLong(file)
+        self._numberTrajectories = self.read_long(file)
 
         self._trajectories = []
         for dummy in range(self._numberTrajectories):

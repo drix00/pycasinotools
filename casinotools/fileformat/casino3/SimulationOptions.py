@@ -14,7 +14,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 import casinotools.fileformat.casino3.OptionsPhysic as OptionsPhysic
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
@@ -53,8 +53,8 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
         tagID = b"*SIMULATIONOPT%"
-        if self.findTag(file, tagID):
-            self._version = self.readInt(file)
+        if self.find_tag(file, tagID):
+            self._version = self.read_int(file)
 
             self._optionsADF.read(file)
             self._optionsAdvBackSet.read(file)
@@ -70,7 +70,7 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
             self._optionsXray.read(file)
 
             tagID = b"*SIM_OPT_END%"
-            if not self.findTag(file, tagID):
+            if not self.find_tag(file, tagID):
                 return "Wrong version."
 
         self._endPosition = file.tell()
@@ -79,7 +79,7 @@ class SimulationOptions(FileReaderWriterTools.FileReaderWriterTools):
     def write(self, file):
         raise NotImplementedError
 
-    def export(self, exportFile):
+    def export(self, export_file):
         # todo: implement the export method.
         pass
 

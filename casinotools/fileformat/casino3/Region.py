@@ -15,7 +15,7 @@ import decimal
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino3.Element as Element
 
 # Globals and constants variables.
@@ -38,49 +38,49 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
 
         tagID = TAG_REGIONS_DATA
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
         if self._version > 30104072:
-            self._carrierDiffusionLength = self.readDouble(file)
+            self._carrierDiffusionLength = self.read_double(file)
 
         if self._version < 30105005:
-            self.IDed = self.readInt(file)
+            self.IDed = self.read_int(file)
 
-        self._numberElements = self.readInt(file)
-        self.Rho = self.readDouble(file)
+        self._numberElements = self.read_int(file)
+        self.Rho = self.read_double(file)
 
         if self._version < 30105001:
-            self.Zmoy = self.readDouble(file)
+            self.Zmoy = self.read_double(file)
 
-        self._workFunction = self.readDouble(file)
-        self._averagePlasmonEnergy = self.readDouble(file)
-        self.ID = self.readInt(file)
-        self.Substrate = self.readInt(file)
-        self.User_Density = self.readInt(file)
-        self.User_Composition = self.readInt(file)
-        self._checked = self.readInt(file)
+        self._workFunction = self.read_double(file)
+        self._averagePlasmonEnergy = self.read_double(file)
+        self.ID = self.read_int(file)
+        self.Substrate = self.read_int(file)
+        self.User_Density = self.read_int(file)
+        self.User_Composition = self.read_int(file)
+        self._checked = self.read_int(file)
 
         if self._version < 30105022:
-            self._energyIntensity = self.readDouble(file)
+            self._energyIntensity = self.read_double(file)
 
-        self.Name = self.readStr(file)
+        self.Name = self.read_str(file)
 
-        self._numberSampleObjects = self.readInt(file)
+        self._numberSampleObjects = self.read_int(file)
 
         self._sampleObjectIDs = {}
         for dummy in range(self._numberSampleObjects):
-            id = self.readInt(file)
-            insideOrOutside = self.readInt(file)
+            id = self.read_int(file)
+            insideOrOutside = self.read_int(file)
 
             self._sampleObjectIDs[id] = insideOrOutside
 
-        self._mollerInit = self.readDouble(file)
-        self._triangleColor_X = self.readDouble(file)
-        self._triangleColor_Y = self.readDouble(file)
-        self._triangleColor_Z = self.readDouble(file)
+        self._mollerInit = self.read_double(file)
+        self._triangleColor_X = self.read_double(file)
+        self._triangleColor_Y = self.read_double(file)
+        self._triangleColor_Z = self.read_double(file)
 
         self._elements = []
         for dummy in range(self._numberElements):
@@ -88,46 +88,46 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
             element.read(file)
             self._elements.append(element)
 
-        self._chemicalName = self.readStr(file)
+        self._chemicalName = self.read_str(file)
 
     def _modify(self, file):
         assert file.mode == 'r+b'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_write", file.tell())
 
         tagID = TAG_REGIONS_DATA
-        if self.findTag(file, tagID):
-            self.writeInt(file, self._version)
+        if self.find_tag(file, tagID):
+            self.write_int(file, self._version)
 
-            self.writeDouble(file, self._carrierDiffusionLength)
+            self.write_double(file, self._carrierDiffusionLength)
 
-            self.writeInt(file, self._numberElements)
-            self.writeDouble(file, self.Rho)
+            self.write_int(file, self._numberElements)
+            self.write_double(file, self.Rho)
 
-            self.writeDouble(file, self._workFunction)
-            self.writeDouble(file, self._averagePlasmonEnergy)
-            self.writeInt(file, self.ID)
-            self.writeInt(file, self.Substrate)
-            self.writeInt(file, self.User_Density)
-            self.writeInt(file, self.User_Composition)
-            self.writeInt(file, self._checked)
+            self.write_double(file, self._workFunction)
+            self.write_double(file, self._averagePlasmonEnergy)
+            self.write_int(file, self.ID)
+            self.write_int(file, self.Substrate)
+            self.write_int(file, self.User_Density)
+            self.write_int(file, self.User_Composition)
+            self.write_int(file, self._checked)
 
-            self.writeStr(file, self.Name)
+            self.write_str(file, self.Name)
 
-            self.writeInt(file, self._numberSampleObjects)
+            self.write_int(file, self._numberSampleObjects)
 
             for objectID in sorted(self._sampleObjectIDs.keys()):
-                self.writeInt(file, objectID)
-                self.writeInt(file, self._sampleObjectIDs[objectID])
+                self.write_int(file, objectID)
+                self.write_int(file, self._sampleObjectIDs[objectID])
 
-            self.writeDouble(file, self._mollerInit)
-            self.writeDouble(file, self._triangleColor_X)
-            self.writeDouble(file, self._triangleColor_Y)
-            self.writeDouble(file, self._triangleColor_Z)
+            self.write_double(file, self._mollerInit)
+            self.write_double(file, self._triangleColor_X)
+            self.write_double(file, self._triangleColor_Y)
+            self.write_double(file, self._triangleColor_Z)
 
             for element in self._elements:
                 element._modify(file)
 
-            self.writeStr(file, self._chemicalName)
+            self.write_str(file, self._chemicalName)
 
     def write(self, file):
         raise NotImplementedError
@@ -273,6 +273,6 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
     def getId(self):
         return self.ID
 
-    def export(self, exportFile):
+    def export(self, export_file):
         # todo: implement the export method.
         logging.error("implement the export method.")

@@ -16,7 +16,7 @@ import os
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 class GraphData(FileReaderWriterTools.FileReaderWriterTools):
@@ -40,19 +40,19 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        self._version = self.readInt(file)
-        self._size = self.readLong(file)
-        self._borneInf = self.readDouble(file)
-        self._borneSup = self.readDouble(file)
-        self._isLog = self.readInt(file)
-        self._isUneven = self.readInt(file)
+        self._version = self.read_int(file)
+        self._size = self.read_long(file)
+        self._borneInf = self.read_double(file)
+        self._borneSup = self.read_double(file)
+        self._isLog = self.read_int(file)
+        self._isUneven = self.read_int(file)
 
-        self._title = self.readStr(file)
-        self._xTitle = self.readStr(file)
-        self._yTitle = self.readStr(file)
+        self._title = self.read_str(file)
+        self._xTitle = self.read_str(file)
+        self._yTitle = self.read_str(file)
 
         self._startPosition = file.tell()
-        skipOffset = self.getSizeOfDoubleList(self._size)
+        skipOffset = self.get_size_of_double_list(self._size)
         if self._isUneven:
             skipOffset *= 2
 
@@ -72,11 +72,11 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
         self._values = []
         self._positions = []
         for dummy in range(self._size):
-            value = self.readDouble(self._file)
+            value = self.read_double(self._file)
             self._values.append(value)
 
             if self._isUneven:
-                position = self.readDouble(self._file)
+                position = self.read_double(self._file)
                 self._positions.append(position)
 
         if not self._isUneven:

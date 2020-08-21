@@ -37,7 +37,7 @@ class SampleSubtrate(SampleObject.SampleObject):
 
         super(SampleSubtrate, self).read(file)
 
-        self._numberEdges = self.readInt(file)
+        self._numberEdges = self.read_int(file)
 
         self._edges = []
         for dummyIndex in range(self._numberEdges):
@@ -45,6 +45,6 @@ class SampleSubtrate(SampleObject.SampleObject):
             edge.read(file)
             self._edges.append(edge)
 
-    def export(self, exportFile):
+    def export(self, export_file):
         # todo: implement the export method.
         logging.error("implement the export method.")

@@ -13,18 +13,18 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 
 class ElementIntensity(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
-        self.Name = self.readStrLength(file, 3)
+        self.Name = self.read_str_length(file, 3)
 
-        self.Size = self.readLong(file)
+        self.Size = self.read_long(file)
 
         if self.Size != 0:
-            self.IntensityK = self.readDoubleList(file, self.Size)
-            self.IntensityL = self.readDoubleList(file, self.Size)
-            self.IntensityM = self.readDoubleList(file, self.Size)
+            self.IntensityK = self.read_double_list(file, self.Size)
+            self.IntensityL = self.read_double_list(file, self.Size)
+            self.IntensityM = self.read_double_list(file, self.Size)

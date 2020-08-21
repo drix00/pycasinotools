@@ -32,7 +32,7 @@ import math
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino2.Composition as Composition
 from casinotools.fileformat.casino2.line import NUMBER_ATOM_LINES
 from casinotools.fileformat.casino2.Version import VERSION_2050100
@@ -110,17 +110,17 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tag_id = TAG_ELEMENT_DATA
-        self.findTag(file, tag_id)
+        self.find_tag(file, tag_id)
 
-        self.Z = self.readInt(file)
-        self.Nom = self.readStrLength(file, 3)
-        self.Rho = self.readDouble(file)
-        self.A = self.readDouble(file)
-        self.J = self.readDouble(file)
-        self.K = self.readDouble(file)
-        self.ef = self.readDouble(file)
-        self.kf = self.readDouble(file)
-        self.ep = self.readDouble(file)
+        self.Z = self.read_int(file)
+        self.Nom = self.read_str_length(file, 3)
+        self.Rho = self.read_double(file)
+        self.A = self.read_double(file)
+        self.J = self.read_double(file)
+        self.K = self.read_double(file)
+        self.ef = self.read_double(file)
+        self.kf = self.read_double(file)
+        self.ep = self.read_double(file)
 
         self._composition = Composition.Composition()
         self._composition.read(file)
@@ -128,54 +128,54 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         # This is the intensities as displayed in the casino program.
         self.Int_PRZ = []
         for dummy in range(3):
-            value = self.readFloat(file)
+            value = self.read_float(file)
             self.Int_PRZ.append(value)
 
         self.Int_PRZ_ABS = []
         for dummy in range(3):
-            value = self.readFloat(file)
+            value = self.read_float(file)
             self.Int_PRZ_ABS.append(value)
 
         if version >= VERSION_2050100:
             self.intensity_1_esr = []
             for _dummy in range(NUMBER_ATOM_LINES):
-                value = self.readDouble(file)
+                value = self.read_double(file)
                 self.intensity_1_esr.append(value)
         assert len(self.intensity_1_esr) == NUMBER_ATOM_LINES
 
         if number_xray_layers != 0.0:
-            self.COUCHE_K = self.readDoubleList(file, number_xray_layers)
-            self.COUCHE_LIII = self.readDoubleList(file, number_xray_layers)
-            self.COUCHE_MV = self.readDoubleList(file, number_xray_layers)
+            self.COUCHE_K = self.read_double_list(file, number_xray_layers)
+            self.COUCHE_LIII = self.read_double_list(file, number_xray_layers)
+            self.COUCHE_MV = self.read_double_list(file, number_xray_layers)
 
-            self.COUCHE_K_ABS = self.readDoubleList(file, number_xray_layers)
-            self.COUCHE_LIII_ABS = self.readDoubleList(file, number_xray_layers)
-            self.COUCHE_MV_ABS = self.readDoubleList(file, number_xray_layers)
+            self.COUCHE_K_ABS = self.read_double_list(file, number_xray_layers)
+            self.COUCHE_LIII_ABS = self.read_double_list(file, number_xray_layers)
+            self.COUCHE_MV_ABS = self.read_double_list(file, number_xray_layers)
 
-            self.COUCHE_RADIAL_K = self.readDoubleList(file, number_xray_layers)
-            self.COUCHE_RADIAL_LIII = self.readDoubleList(file, number_xray_layers)
-            self.COUCHE_RADIAL_MV = self.readDoubleList(file, number_xray_layers)
+            self.COUCHE_RADIAL_K = self.read_double_list(file, number_xray_layers)
+            self.COUCHE_RADIAL_LIII = self.read_double_list(file, number_xray_layers)
+            self.COUCHE_RADIAL_MV = self.read_double_list(file, number_xray_layers)
 
-            self.COUCHE_RADIAL_K_ABS = self.readDoubleList(file, number_xray_layers)
-            self.COUCHE_RADIAL_LIII_ABS = self.readDoubleList(file, number_xray_layers)
-            self.COUCHE_RADIAL_MV_ABS = self.readDoubleList(file, number_xray_layers)
+            self.COUCHE_RADIAL_K_ABS = self.read_double_list(file, number_xray_layers)
+            self.COUCHE_RADIAL_LIII_ABS = self.read_double_list(file, number_xray_layers)
+            self.COUCHE_RADIAL_MV_ABS = self.read_double_list(file, number_xray_layers)
 
     def write(self, file, number_xray_layers):
         assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tag_id = TAG_ELEMENT_DATA
-        self.addTagOld(file, tag_id)
+        self.add_tag_old(file, tag_id)
 
-        self.writeInt(file, self.Z)
-        self.writeStrLength(file, self.Nom, 3)
-        self.writeDouble(file, self.Rho)
-        self.writeDouble(file, self.A)
-        self.writeDouble(file, self.J)
-        self.writeDouble(file, self.K)
-        self.writeDouble(file, self.ef)
-        self.writeDouble(file, self.kf)
-        self.writeDouble(file, self.ep)
+        self.write_int(file, self.Z)
+        self.write_str_length(file, self.Nom, 3)
+        self.write_double(file, self.Rho)
+        self.write_double(file, self.A)
+        self.write_double(file, self.J)
+        self.write_double(file, self.K)
+        self.write_double(file, self.ef)
+        self.write_double(file, self.kf)
+        self.write_double(file, self.ep)
 
         self._composition.write(file)
 
@@ -183,34 +183,34 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         assert len(self.Int_PRZ) == 3
         for index in range(3):
             value = self.Int_PRZ[index]
-            self.writeFloat(file, value)
+            self.write_float(file, value)
 
         assert len(self.Int_PRZ_ABS) == 3
         for index in range(3):
             value = self.Int_PRZ_ABS[index]
-            self.writeFloat(file, value)
+            self.write_float(file, value)
 
         assert len(self.intensity_1_esr) == NUMBER_ATOM_LINES
         for line_index in range(NUMBER_ATOM_LINES):
             value = self.intensity_1_esr[line_index]
-            self.writeDouble(file, value)
+            self.write_double(file, value)
 
         if number_xray_layers != 0.0:
-            self.writeDoubleList(file, self.COUCHE_K, number_xray_layers)
-            self.writeDoubleList(file, self.COUCHE_LIII, number_xray_layers)
-            self.writeDoubleList(file, self.COUCHE_MV, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_K, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_LIII, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_MV, number_xray_layers)
 
-            self.writeDoubleList(file, self.COUCHE_K_ABS, number_xray_layers)
-            self.writeDoubleList(file, self.COUCHE_LIII_ABS, number_xray_layers)
-            self.writeDoubleList(file, self.COUCHE_MV_ABS, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_K_ABS, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_LIII_ABS, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_MV_ABS, number_xray_layers)
 
-            self.writeDoubleList(file, self.COUCHE_RADIAL_K, number_xray_layers)
-            self.writeDoubleList(file, self.COUCHE_RADIAL_LIII, number_xray_layers)
-            self.writeDoubleList(file, self.COUCHE_RADIAL_MV, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_RADIAL_K, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_RADIAL_LIII, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_RADIAL_MV, number_xray_layers)
 
-            self.writeDoubleList(file, self.COUCHE_RADIAL_K_ABS, number_xray_layers)
-            self.writeDoubleList(file, self.COUCHE_RADIAL_LIII_ABS, number_xray_layers)
-            self.writeDoubleList(file, self.COUCHE_RADIAL_MV_ABS, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_RADIAL_K_ABS, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_RADIAL_LIII_ABS, number_xray_layers)
+            self.write_double_list(file, self.COUCHE_RADIAL_MV_ABS, number_xray_layers)
 
     def getAtomicNumber(self):
         return self.Z

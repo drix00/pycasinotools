@@ -16,7 +16,7 @@ import os
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino2.ElementIntensity as ElementIntensity
 import casinotools.fileformat.casino2.GraphData as GraphData
 
@@ -33,12 +33,12 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tagID = b"*DISTDATA%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
         self._readBseIntensity(file, options, version)
 
         tagID = b"*REGULARDIST%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
         self._readMaximumDepth(file, options, version)
 
@@ -62,12 +62,12 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
     def _readBseIntensity(self, file, options, version):
         # Intensity distributions
         tagID = b"*INTENSITYDIST%"
-        self.findTag(file, tagID)
-        self.BE_Intensity_Size = self.readInt(file)
-        self.BE_Intensity = self.readDoubleList(file, self.BE_Intensity_Size)
+        self.find_tag(file, tagID)
+        self.BE_Intensity_Size = self.read_int(file)
+        self.BE_Intensity = self.read_double_list(file, self.BE_Intensity_Size)
         if version >= 25 and options.UseEnBack:
-            self.BE_Intensity_En = self.readDoubleList(file, self.BE_Intensity_Size)
-        self.eT = self.readLong(file)
+            self.BE_Intensity_En = self.read_double_list(file, self.BE_Intensity_Size)
+        self.eT = self.read_long(file)
         self._elementIntensityList = []
         for dummy in range(self.eT):
             element = ElementIntensity.ElementIntensity()
@@ -76,15 +76,15 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readMaximumDepth(self, file, options, version):
         tagID = b"*DZMAX%%%%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         if options.FDZmax:
             if version >= 2040601:
-                flag = self.readInt(file)
+                flag = self.read_int(file)
                 if flag == 1:
                     self.DZMax = GraphData.GraphData(file=file)
                     self.DZMaxRetro = GraphData.GraphData(file=file)
             else:
-                numberPoints = self.readLong(file)
+                numberPoints = self.read_long(file)
                 self.NbPointDZMax = numberPoints
                 if numberPoints > 0:
                     self.DZMax = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
@@ -94,11 +94,11 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                         0, 0, "Z Max", "Depth (nm)",
                         "Hits (Normalized)")
                     for dummy in range(numberPoints):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         self.DZMax.add(value)
 
                     for dummy in range(numberPoints):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         self.DZMaxRetro.add(value)
 
                 else:
@@ -116,22 +116,22 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readBackscatteredEnergy(self, file, options, version):
         tagID = b"*DENR%%%%%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         if options.FDenr:
             values = None
             if version >= 2040601:
-                flag = self.readInt(file)
+                flag = self.read_int(file)
                 if flag == 1:
                     values = GraphData.GraphData(file=file)
             else:
-                numberPoints = self.readLong(file)
+                numberPoints = self.read_long(file)
                 self.NbPointDENR = numberPoints
                 if numberPoints > 0:
                     values = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
                         0, 0, "Backscattered Energy", "Energy (KeV)",
                         "Hits (Normalized)")
                     for dummy in range(numberPoints):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         values.add(value)
 
                 else:
@@ -146,22 +146,22 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readBackscatteredEnergyT(self, file, options, version):
         tagID = b"*DENT%%%%%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         if options.FDent:
             values = None
             if version >= 2040601:
-                flag = self.readInt(file)
+                flag = self.read_int(file)
                 if flag == 1:
                     values = GraphData.GraphData(file=file)
             else:
-                numberPoints = self.readLong(file)
+                numberPoints = self.read_long(file)
                 self.NbPointDENT = numberPoints
                 if numberPoints > 0:
                     values = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
                         0, 0, "Backscattered Energy", "Energy (KeV)",
                         "Hits (Normalized)")
                     for dummy in range(numberPoints):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         values.add(value)
 
                 else:
@@ -176,15 +176,15 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readSurfaceRadiusBse(self, file, options, version):
         tagID = b"*DRSR%%%%%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         if options.FDrsr:
             if version >= 2040601:
-                flag = self.readInt(file)
+                flag = self.read_int(file)
                 if flag == 1:
                     self.DrasRetro = GraphData.GraphData(file=file)
                     self.DrasRetroEnr = GraphData.GraphData(file=file)
             else:
-                numberPoints = self.readLong(file)
+                numberPoints = self.read_long(file)
                 self.NbPointDRSR = numberPoints
                 if numberPoints > 0:
                     self.DrasRetro = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
@@ -194,11 +194,11 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                         0, 0, "Energy of Surface Radius of BE", "Radius (nm)",
                         "KeV / nm")
                     for dummy in range(numberPoints):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         self.DrasRetro.add(value)
 
                     for dummy in range(numberPoints):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         self.DrasRetroEnr.add(value)
 
                 else:
@@ -212,13 +212,13 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readDncr(self, file, options):
         tagID = b"*DNCR%%%%%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         if options.FDncr:
-            numberPoints = self.readLong(file)
+            numberPoints = self.read_long(file)
             if numberPoints > 0:
                 values = []
                 for dummy in range(numberPoints):
-                    value = self.readDouble(file)
+                    value = self.read_double(file)
                     values.append(value)
 
             else:
@@ -228,20 +228,20 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readDepositedEnergy(self, file, options):
         tagID = b"*DEPOS%%%%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         if options.FDEpos:
-            self.NbPointDEpos_X = self.readLong(file)
-            self.NbPointDEpos_Y = self.readLong(file)
-            self.NbPointDEpos_Z = self.readLong(file)
-            self.DEpos_maxE = self.readDouble(file)
+            self.NbPointDEpos_X = self.read_long(file)
+            self.NbPointDEpos_Y = self.read_long(file)
+            self.NbPointDEpos_Z = self.read_long(file)
+            self.DEpos_maxE = self.read_double(file)
             if self.NbPointDEpos_X > 0:
                 values = []
                 numberPoints = self.NbPointDEpos_X * self.NbPointDEpos_Y * self.NbPointDEpos_Z
 
                 if not self._isSkipReadingData:
-                    values = self.readDoubleList(file, numberPoints)
+                    values = self.read_double_list(file, numberPoints)
 #                    for dummy in range(numberPoints):
-#                        value = self.readDouble(file)
+#                        value = self.read_double(file)
 #                        values.append(value)
                 else:
                     offset = struct.calcsize("d") * numberPoints
@@ -273,24 +273,24 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readBackscatteredAngle(self, file, options, version):
         tagID = b"*DBANG%%%%%%%%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         if options.FDbang:
             if version >= 2040601:
-                flag = self.readInt(file)
+                flag = self.read_int(file)
                 if flag == 1:
                     self.Dbang = GraphData.GraphData(file=file)
                     if options.UseEnBack:
-                        flag = self.readInt(file)
+                        flag = self.read_int(file)
                         if flag == 1:
                             self.DEnBang = GraphData.GraphData(file=file)
             else:
-                numberPoints = self.readLong(file)
+                numberPoints = self.read_long(file)
                 if numberPoints > 0:
                     self.Dbang = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
                         0, 0, "Backscattered Angle", "Angle (degree)",
                         "Hits (Normalized)")
                     for dummy in range(numberPoints):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         self.Dbang.add(value)
 
                     if options.UseEnBack:
@@ -298,7 +298,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                             0, 0, "Detected Backscattered Angle", "Angle (degree)",
                             "Hits (Normalized)")
                         for dummy in range(numberPoints):
-                            value = self.readDouble(file)
+                            value = self.read_double(file)
                             self.DEnBang.add(value)
 
                 else:
@@ -313,24 +313,24 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
 
     def _readBseAngleEnergie(self, file, options, version):
         tagID = b"*DANGLEENERGY%%"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
         if options.FDAngleVSEnergie:
             if version >= 2040601:
-                flag = self.readInt(file)
+                flag = self.read_int(file)
                 if flag == 1:
                     self.DAngleVSEnergie = GraphData.GraphData(file=file)
                     if options.UseEnBack:
-                        flag = self.readInt(file)
+                        flag = self.read_int(file)
                         if flag == 1:
                             self.DEnAngleVSEnergie = GraphData.GraphData(file=file)
             else:
-                numberPoints = self.readLong(file)
+                numberPoints = self.read_long(file)
                 if numberPoints > 0:
                     self.DAngleVSEnergie = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
                         0, 0, "Backscattered Angle", "Angle (degree)",
                         "Hits (Normalized)")
                     for dummy in range(numberPoints):
-                        value = self.readDouble(file)
+                        value = self.read_double(file)
                         self.DAngleVSEnergie.add(value)
 
                     if options.UseEnBack:
@@ -338,7 +338,7 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                             0, 0, "Detected Backscattered Angle", "Angle (degree)",
                             "Hits (Normalized)")
                         for dummy in range(numberPoints):
-                            value = self.readDouble(file)
+                            value = self.read_double(file)
                             self.DEnAngleVSEnergie.add(value)
 
                 else:

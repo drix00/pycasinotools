@@ -15,7 +15,7 @@ import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
-import tests.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
+import tests.fileformat.test_file_reader_writer_tools as test_FileReaderWriterTools
 from casinotools.fileformat.casino3.SampleShape.ShapeType import SHAPE_SUBSTRATE
 from casinotools.utilities.path import is_bad_file
 

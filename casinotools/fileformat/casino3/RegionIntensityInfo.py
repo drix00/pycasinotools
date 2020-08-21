@@ -13,7 +13,7 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 
@@ -21,10 +21,10 @@ class RegionIntensityInfo(FileReaderWriterTools.FileReaderWriterTools):
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        self._version = self.readInt(file)
-        self._energyIntensity = self.readDouble(file)
-        self._regionID = self.readInt(file)
-        self._normalizedEnergyIntensity = self.readDouble(file)
+        self._version = self.read_int(file)
+        self._energyIntensity = self.read_double(file)
+        self._regionID = self.read_int(file)
+        self._normalizedEnergyIntensity = self.read_double(file)
 
     def getEnergyIntensity(self):
         return self._energyIntensity

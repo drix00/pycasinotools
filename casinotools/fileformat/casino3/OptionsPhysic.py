@@ -13,7 +13,7 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 #-----------------------------------------------------------------------------
@@ -242,27 +242,27 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
 
     def read(self, file):
         tagID = b"*PHYS_MOD_BEG"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
 
-        self.FRan = self.readInt(file)
-        self.FDeds = self.readInt(file)
-        self.FTotalCross = self.readInt(file)
-        self.FPartialCross = self.readInt(file)
-        self.FCosDirect = self.readInt(file)
+        self.FRan = self.read_int(file)
+        self.FDeds = self.read_int(file)
+        self.FTotalCross = self.read_int(file)
+        self.FPartialCross = self.read_int(file)
+        self.FCosDirect = self.read_int(file)
 #        FCosDirect = COS_DIRECT_MONSEL #Other Cos Direct are flawed for now
-        self.FSecIon = self.readInt(file)
-        self.FPotMoy = self.readInt(file)
+        self.FSecIon = self.read_int(file)
+        self.FPotMoy = self.read_int(file)
 
-        self.max_secondary_order = self.readInt(file)
-        self.Min_Energy_Nosec = self.readDouble(file)
-        self.Residual_Energy_Loss = self.readDouble(file)
-        self.Min_Energy_With_Sec = self.readDouble(file)
-        self.Min_Gen_Secondary_Energy = self.readDouble(file)
+        self.max_secondary_order = self.read_int(file)
+        self.Min_Energy_Nosec = self.read_double(file)
+        self.Residual_Energy_Loss = self.read_double(file)
+        self.Min_Energy_With_Sec = self.read_double(file)
+        self.Min_Gen_Secondary_Energy = self.read_double(file)
 
         tagID = b"*PHYS_MOD_END"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
     def reset(self):
         self.FRan = 0

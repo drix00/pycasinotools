@@ -16,9 +16,9 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.Tags as Tags
+import casinotools.fileformat.tags as Tags
 import casinotools.fileformat.casino3.SimulationData as SimulationData
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 SIMULATION_CONFIGURATIONS = "sim"
@@ -130,11 +130,11 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         self._readWithFileVersion(file, self._fileVersion)
 
     def _extractFileVersion(self, file):
-        if Tags.limitedSearchTag(file, b"V3.1.3.4", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        if Tags.limited_search_tag(file, b"V3.1.3.4", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             return V30103040
-        elif Tags.limitedSearchTag(file, b"V3.1.3.7", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        elif Tags.limited_search_tag(file, b"V3.1.3.7", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             return V30103070
-        elif Tags.limitedSearchTag(file, b"%SAVE_HEADER%", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        elif Tags.limited_search_tag(file, b"%SAVE_HEADER%", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             return V30104060
 
     def _readWithFileVersion(self, file, fileVersion):
@@ -144,7 +144,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
 
         self._numberSimulations = 1
         if self._version >= 30107002:
-            self._numberSimulations = self.readInt(file)
+            self._numberSimulations = self.read_int(file)
 
         self._simulationList = []
         for i in range(self._numberSimulations):
@@ -185,7 +185,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         extension = ""
 
         tagID = b"ext="
-        if Tags.limitedSearchTag(file, tagID, SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        if Tags.limited_search_tag(file, tagID, SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
             logging.debug("File position: %i", file.tell())
             format = "3s"
             size = struct.calcsize(format)
@@ -199,8 +199,8 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         version = 0
 
         tagID = b"%SAVE_HEADER%"
-        if Tags.limitedSearchTag(file, tagID, SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
-            version = self.readInt(file)
+        if Tags.limited_search_tag(file, tagID, SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+            version = self.read_int(file)
 
         return version
 
@@ -227,24 +227,24 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
             self._writeOneSimulation(file, simulationData)
 
     def _writeExtension(self, file, extension):
-        self.addTag(file, "ext=")
+        self.add_tag(file, "ext=")
         size = len(extension)
-        self.writeStrLength(file, extension, size)
+        self.write_str_length(file, extension, size)
 
     def _writeVersion(self, file, version):
-        self.addTag(file, "%SAVE_HEADER%")
-        self.writeInt(file, version)
+        self.add_tag(file, "%SAVE_HEADER%")
+        self.write_int(file, version)
 
     def _writeNumberSimulations(self, file):
         assert self._numberSimulations == 1
         assert self._numberSimulations == len(self._simulationList)
 
-        self.writeInt(file, self._numberSimulations)
+        self.write_int(file, self._numberSimulations)
 
     def _writeOneSimulation(self, file, simulationData):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_writeOneSimulation", file.tell())
 
-        self.writeInt(file, V30107002)
+        self.write_int(file, V30107002)
 
         if self._saveContent.sample:
             simulationData.writeSample(file)
@@ -299,53 +299,53 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         else:
             return self._version
 
-    def export(self, exportFile):
-        self._exportFilename(exportFile)
-        self._exportFileType(exportFile)
-        self._exportFileVersion(exportFile)
+    def export(self, export_file):
+        self._exportFilename(export_file)
+        self._exportFileType(export_file)
+        self._exportFileVersion(export_file)
 
-        self._exportHeader(exportFile)
-        self._exportNumberSimulations(exportFile)
-        self._exportSimulations(exportFile)
+        self._exportHeader(export_file)
+        self._exportNumberSimulations(export_file)
+        self._exportSimulations(export_file)
 
     def _exportFilename(self, exportFile):
         filename = os.path.basename(self._filepath)
         line = "Filename: %s" % (filename)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         line = "Filepath: %s" % (self._filepath)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportFileType(self, exportFile):
         line = "File type: %s" % (self._type)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportFileVersion(self, exportFile):
         version = self.getVersion()
-        versionString = self._extractVersionString(version)
+        versionString = self._extract_version_string(version)
         line = "File version: %s (%i)" % (versionString, version)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportHeader(self, exportFile):
         line = "-"*80
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         line = "%s" % ("Simulations")
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
         line = "-"*40
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportNumberSimulations(self, exportFile):
         line = "Number of simulations: %s" % (self._numberSimulations)
-        self.writeLine(exportFile, line)
+        self.write_line(exportFile, line)
 
     def _exportSimulations(self, exportFile):
         simulationID = 0
         for simulation in self._simulationList:
             simulationID += 1
             line = "Simulation: %i" % (simulationID)
-            self.writeLine(exportFile, line)
+            self.write_line(exportFile, line)
 
             simulation.export(exportFile)
 

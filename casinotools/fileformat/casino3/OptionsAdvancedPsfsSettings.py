@@ -20,7 +20,7 @@ __license__ = ""
 # Local modules.
 
 # Project modules
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino3.Version as Version
 import casinotools.fileformat.casino3.Vector as Vector
 
@@ -37,33 +37,33 @@ class OptionsAdvancedPsfsSettings(FileReaderWriterTools.FileReaderWriterTools):
         assert inputFile.mode == 'rb'
 
         tagID = b"*PSF_SET_BEG"
-        self.findTag(inputFile, tagID)
+        self.find_tag(inputFile, tagID)
 
-        self._version = self.readInt(inputFile)
+        self._version = self.read_int(inputFile)
         assert self._version >= Version.SIM_OPTIONS_VERSION_3_3_0_0
 
-        self._generatePsf = self.readBool(inputFile)
-        self._useScanPointForCenter = self.readBool(inputFile)
+        self._generatePsf = self.read_bool(inputFile)
+        self._useScanPointForCenter = self.read_bool(inputFile)
 
-        self._autoExportPsfData = self.readBool(inputFile)
-        self._exportTiff = self.readBool(inputFile)
-        self._exportCsv = self.readBool(inputFile)
-        self._exportStackedTiff = self.readBool(inputFile)
+        self._autoExportPsfData = self.read_bool(inputFile)
+        self._exportTiff = self.read_bool(inputFile)
+        self._exportCsv = self.read_bool(inputFile)
+        self._exportStackedTiff = self.read_bool(inputFile)
 
-        self._psfSize_nm.x = self.readDouble(inputFile)
-        self._psfSize_nm.y = self.readDouble(inputFile)
-        self._psfSize_nm.z = self.readDouble(inputFile)
+        self._psfSize_nm.x = self.read_double(inputFile)
+        self._psfSize_nm.y = self.read_double(inputFile)
+        self._psfSize_nm.z = self.read_double(inputFile)
 
-        self._psfNumberSteps.x = self.readInt(inputFile)
-        self._psfNumberSteps.y = self.readInt(inputFile)
-        self._psfNumberSteps.z = self.readInt(inputFile)
+        self._psfNumberSteps.x = self.read_int(inputFile)
+        self._psfNumberSteps.y = self.read_int(inputFile)
+        self._psfNumberSteps.z = self.read_int(inputFile)
 
-        self._psfCenter_nm.x = self.readDouble(inputFile)
-        self._psfCenter_nm.y = self.readDouble(inputFile)
-        self._psfCenter_nm.z = self.readDouble(inputFile)
+        self._psfCenter_nm.x = self.read_double(inputFile)
+        self._psfCenter_nm.y = self.read_double(inputFile)
+        self._psfCenter_nm.z = self.read_double(inputFile)
 
         tagID = b"*PSF_SET_END"
-        self.findTag(inputFile, tagID)
+        self.find_tag(inputFile, tagID)
 
     def reset(self):
         self._generatePsf = True;

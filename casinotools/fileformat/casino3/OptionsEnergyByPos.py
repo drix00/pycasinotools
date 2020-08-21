@@ -13,7 +13,7 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 # Filename to store the defaults settings
@@ -84,27 +84,27 @@ class OptionsEnergyByPos(FileReaderWriterTools.FileReaderWriterTools):
 
     def read(self, file):
         tagID = b"*EN_POS_SET_BEG"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
 
-        self.Diffuse = self.readInt(file)
+        self.Diffuse = self.read_int(file)
 
-        self.Depos_Summation = self.readInt(file)
-        self.XZorXY = self.readInt(file)
-        self.Yplane = self.readInt(file)
-        self.Zplane = self.readInt(file)
-        self.DEpos_IsoLevel = self.readDouble(file)
+        self.Depos_Summation = self.read_int(file)
+        self.XZorXY = self.read_int(file)
+        self.Yplane = self.read_int(file)
+        self.Zplane = self.read_int(file)
+        self.DEpos_IsoLevel = self.read_double(file)
 
-        self.CarrierSurfaceRecombination = self.readDouble(file)
+        self.CarrierSurfaceRecombination = self.read_double(file)
 
-        self.normalize = self.readInt(file)
+        self.normalize = self.read_int(file)
 
         #obsolete minimumDiffusionEnergy =
-        self.readDouble(file)
+        self.read_double(file)
 
         tagID = b"*EN_POS_SET_END"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
     def reset(self):
         self.Diffuse = 0

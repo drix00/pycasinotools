@@ -83,8 +83,8 @@ class CylindreShape(SampleObject):
 
         super(CylindreShape, self).read(file)
 
-        self._radius = self.readDouble(file)
-        self._divTheta = self.readInt(file)
+        self._radius = self.read_double(file)
+        self._divTheta = self.read_int(file)
 
 class RoundedRectangleShape(SampleObject):
     def __init__(self, type):
@@ -122,15 +122,15 @@ class TruncatedPyramidShape(SampleObject):
 
         if self._version < 30105004:
             for dummyIndex in range(8):
-                dummyCorner = self.readDoubleList(file, 3)
+                dummyCorner = self.read_double_list(file, 3)
 
-        self._x = self.readDouble(file)
-        self._y = self.readDouble(file)
-        self._z = self.readDouble(file)
-        self._angleA_deg = self.readDouble(file)
-        self._angleB_deg = self.readDouble(file)
-        self._angleC_deg = self.readDouble(file)
-        self._angleD_deg = self.readDouble(file)
+        self._x = self.read_double(file)
+        self._y = self.read_double(file)
+        self._z = self.read_double(file)
+        self._angleA_deg = self.read_double(file)
+        self._angleB_deg = self.read_double(file)
+        self._angleC_deg = self.read_double(file)
+        self._angleD_deg = self.read_double(file)
 
 class MeshObject(SampleObject):
     def __init__(self, type):

@@ -17,7 +17,7 @@ import pytest
 
 # Local modules.
 import casinotools.fileformat.casino3.Sample as Sample
-import tests.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
+import tests.fileformat.test_file_reader_writer_tools as test_FileReaderWriterTools
 import casinotools.fileformat.casino3.SampleObjectFactory as SampleObjectFactory
 import casinotools.fileformat.casino3.File as CasinoFile
 from casinotools.utilities.path import get_current_module_path

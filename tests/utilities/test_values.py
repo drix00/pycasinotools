@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: tests.utilities.test_values3
+.. py:currentmodule:: tests.utilities.test_values
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the :py:mod:`casinotools.utilities.values3` module.
+Tests for the :py:mod:`casinotools.utilities.values` module.
 """
 
 # Copyright 2020 Hendrix Demers
@@ -156,9 +156,9 @@ def test_cattr_structure_modified_level2(options_input):
 
 def test_multipleloop(options_input):
     options = flatten(cattr.unstructure(options_input))
-    all, names, varied = combine(options)
+    all_combinations, names, varied = combine(options)
 
-    assert all == [[1, 2, 3, 4, 5, 6]]
+    assert all_combinations == [[1, 2, 3, 4, 5, 6]]
     assert names == ['value1',
                      'value2',
                      'sub_options_a.value3',
@@ -167,7 +167,7 @@ def test_multipleloop(options_input):
                      'sub_options_b.value6']
     assert varied == []
 
-    new_dict = deflatten(dict(zip(names, all[0])))
+    new_dict = deflatten(dict(zip(names, all_combinations[0])))
 
     new_options = cattr.structure(new_dict, Options)
 
@@ -176,38 +176,38 @@ def test_multipleloop(options_input):
 
 def test_multipleloop_level1(options_input_level1):
     options = flatten(cattr.unstructure(options_input_level1))
-    all, names, varied = combine(options)
+    all_combinations, names, varied = combine(options)
 
-    assert all == [[1, 2, 3, 4, 5, 6],
-                   [2, 2, 3, 4, 5, 6],
-                   [3, 2, 3, 4, 5, 6]]
+    assert all_combinations == [[1, 2, 3, 4, 5, 6],
+                                [2, 2, 3, 4, 5, 6],
+                                [3, 2, 3, 4, 5, 6]]
     assert names == ['value1', 'value2', 'sub_options_a.value3', 'sub_options_a.value4', 'sub_options_b.value5',
                      'sub_options_b.value6']
     assert varied == ['value1']
 
     options = Options()
     options.value1 = 1
-    new_dict = deflatten(dict(zip(names, all[0])))
+    new_dict = deflatten(dict(zip(names, all_combinations[0])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
     options.value1 = 2
-    new_dict = deflatten(dict(zip(names, all[1])))
+    new_dict = deflatten(dict(zip(names, all_combinations[1])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
     options.value1 = 3
-    new_dict = deflatten(dict(zip(names, all[2])))
+    new_dict = deflatten(dict(zip(names, all_combinations[2])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
 
 def test_multipleloop_level2(options_input_level2):
     options = flatten(cattr.unstructure(options_input_level2))
-    all, names, varied = combine(options)
+    all_combinations, names, varied = combine(options)
 
-    assert all == [[1, 2, 3, 4, 56, 6],
-                   [1, 2, 3, 4, 34, 6]]
+    assert all_combinations == [[1, 2, 3, 4, 56, 6],
+                                [1, 2, 3, 4, 34, 6]]
     assert names == ['value1', 'value2', 'sub_options_a.value3', 'sub_options_a.value4', 'sub_options_b.value5',
                      'sub_options_b.value6']
     assert varied == ['sub_options_b.value5']
@@ -215,12 +215,12 @@ def test_multipleloop_level2(options_input_level2):
     options = Options()
     options.default()
     options.sub_options_b.value5 = 56
-    new_dict = deflatten(dict(zip(names, all[0])))
+    new_dict = deflatten(dict(zip(names, all_combinations[0])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
     options.sub_options_b.value5 = 34
-    new_dict = deflatten(dict(zip(names, all[1])))
+    new_dict = deflatten(dict(zip(names, all_combinations[1])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
@@ -287,20 +287,20 @@ def test_flatten():
     options_dict = flatten(cattr.unstructure(options))
 
     assert options_dict == {'value1': 1,
-                       'value2': 2,
-                       'sub_options_a.value3': 3,
-                       'sub_options_a.value4': 4,
-                       'sub_options_b.value5': 5,
-                       'sub_options_b.value6': 6}
+                            'value2': 2,
+                            'sub_options_a.value3': 3,
+                            'sub_options_a.value4': 4,
+                            'sub_options_b.value5': 5,
+                            'sub_options_b.value6': 6}
 
 
 def test_deflatten():
     options = {'value1': 1,
-                'value2': 2,
-                'sub_options_a.value3': 3,
-                'sub_options_a.value4': 4,
-                'sub_options_b.value5': 5,
-                'sub_options_b.value6': 6}
+               'value2': 2,
+               'sub_options_a.value3': 3,
+               'sub_options_a.value4': 4,
+               'sub_options_b.value5': 5,
+               'sub_options_b.value6': 6}
 
     new_options = deflatten(options)
     assert new_options == {'sub_options_a': {'value3': 3, 'value4': 4},

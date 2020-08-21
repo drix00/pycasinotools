@@ -14,7 +14,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 
@@ -31,23 +31,23 @@ class Composition(FileReaderWriterTools.FileReaderWriterTools):
         assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        self.NuEl = self.readInt(file)
-        self.FWt = self.readDouble(file)
-        self.FAt = self.readDouble(file)
-        self.SigmaT = self.readDouble(file)
-        self.SigmaTIne = self.readDouble(file)
-        self.Rep = self.readInt(file)
+        self.NuEl = self.read_int(file)
+        self.FWt = self.read_double(file)
+        self.FAt = self.read_double(file)
+        self.SigmaT = self.read_double(file)
+        self.SigmaTIne = self.read_double(file)
+        self.Rep = self.read_int(file)
 
     def write(self, file):
         assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
-        self.writeInt(file, self.NuEl)
-        self.writeDouble(file, self.FWt)
-        self.writeDouble(file, self.FAt)
-        self.writeDouble(file, self.SigmaT)
-        self.writeDouble(file, self.SigmaTIne)
-        self.writeInt(file, self.Rep)
+        self.write_int(file, self.NuEl)
+        self.write_double(file, self.FWt)
+        self.write_double(file, self.FAt)
+        self.write_double(file, self.SigmaT)
+        self.write_double(file, self.SigmaTIne)
+        self.write_int(file, self.Rep)
 
     def setIndex(self, index):
         self.NuEl = index

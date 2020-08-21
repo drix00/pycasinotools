@@ -13,7 +13,7 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 import casinotools.fileformat.casino3.Vector as Vector
 
 # Globals and constants variables.
@@ -231,71 +231,71 @@ class OptionsDist(FileReaderWriterTools.FileReaderWriterTools):
 
     def read(self, file):
         tagID = b"*DIST_OPT_BEG"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
 
-        self.DenrMax = self.readDouble(file)
-        self.DenrMin = self.readDouble(file)
-        self.DentMax = self.readDouble(file)
-        self.DentMin = self.readDouble(file)
-        self.DrsrMax = self.readDouble(file)
-        self.DrsrMin = self.readDouble(file)
-        self.DZmaxMax = self.readDouble(file)
-        self.DZmaxMin = self.readDouble(file)
-        self.DbangMax = self.readDouble(file)
-        self.DbangMin = self.readDouble(file)
+        self.DenrMax = self.read_double(file)
+        self.DenrMin = self.read_double(file)
+        self.DentMax = self.read_double(file)
+        self.DentMin = self.read_double(file)
+        self.DrsrMax = self.read_double(file)
+        self.DrsrMin = self.read_double(file)
+        self.DZmaxMax = self.read_double(file)
+        self.DZmaxMin = self.read_double(file)
+        self.DbangMax = self.read_double(file)
+        self.DbangMin = self.read_double(file)
 
-        self.FDZmaxLog = self.readInt(file)
-        self.FDenrLog = self.readInt(file)
-        self.FDentLog = self.readInt(file)
-        self.FDrsrLog = self.readInt(file)
-        self.FDbangLog = self.readInt(file)
-        self.FEmissionRXLog = self.readInt(file)
+        self.FDZmaxLog = self.read_int(file)
+        self.FDenrLog = self.read_int(file)
+        self.FDentLog = self.read_int(file)
+        self.FDrsrLog = self.read_int(file)
+        self.FDbangLog = self.read_int(file)
+        self.FEmissionRXLog = self.read_int(file)
 
-        self.FEmissionRX = self.readInt(file)
-        self.FDZmax = self.readInt(file)
-        self.FDenr = self.readInt(file)
-        self.FDent = self.readInt(file)
-        self.FDrsr = self.readInt(file)
-        self.Flag_Energy_Density = self.readInt(file)
-        self.FDbang = self.readInt(file)
+        self.FEmissionRX = self.read_int(file)
+        self.FDZmax = self.read_int(file)
+        self.FDenr = self.read_int(file)
+        self.FDent = self.read_int(file)
+        self.FDrsr = self.read_int(file)
+        self.Flag_Energy_Density = self.read_int(file)
+        self.FDbang = self.read_int(file)
 
-        self.NbPointDZMax = self.readInt(file)
-        self.NbPointDENR = self.readInt(file)
-        self.NbPointDENT = self.readInt(file)
-        self.NbPointDRSR = self.readInt(file)
-        self.NbPointDEpos_X = self.readInt(file)
-        self.NbPointDEpos_Y = self.readInt(file)
-        self.NbPointDEpos_Z = self.readInt(file)
-        self.NbPointDBANG = self.readInt(file)
+        self.NbPointDZMax = self.read_int(file)
+        self.NbPointDENR = self.read_int(file)
+        self.NbPointDENT = self.read_int(file)
+        self.NbPointDRSR = self.read_int(file)
+        self.NbPointDEpos_X = self.read_int(file)
+        self.NbPointDEpos_Y = self.read_int(file)
+        self.NbPointDEpos_Z = self.read_int(file)
+        self.NbPointDBANG = self.read_int(file)
 
-        self.RangeFinder = self.readInt(file)
+        self.RangeFinder = self.read_int(file)
 
-        self.DEpos_Center.x = self.readDouble(file)
-        self.DEpos_Center.y = self.readDouble(file)
-        self.DEpos_Center.z = self.readDouble(file)
-        self.DEpos_Size.x = self.readDouble(file)
-        self.DEpos_Size.y = self.readDouble(file)
-        self.DEpos_Size.z = self.readDouble(file)
+        self.DEpos_Center.x = self.read_double(file)
+        self.DEpos_Center.y = self.read_double(file)
+        self.DEpos_Center.z = self.read_double(file)
+        self.DEpos_Size.x = self.read_double(file)
+        self.DEpos_Size.y = self.read_double(file)
+        self.DEpos_Size.z = self.read_double(file)
 
-        self.DEpos_Type = self.readInt(file)
+        self.DEpos_Type = self.read_int(file)
 
-        self.DEposSpheric_Rad_Div = self.readInt(file)
-        self.DEposSpheric_Rad = self.readDouble(file)
-        self.DEposSpheric_Rad_Log = self.readInt(file)
+        self.DEposSpheric_Rad_Div = self.read_int(file)
+        self.DEposSpheric_Rad = self.read_double(file)
+        self.DEposSpheric_Rad_Log = self.read_int(file)
 
-        self.DEposCyl_Rad_Div = self.readInt(file)
-        self.DEposCyl_Rad = self.readDouble(file)
-        self.DEposCyl_Rad_Log = self.readInt(file)
-        self.DEposCyl_Z_Div = self.readInt(file)
-        self.DEposCyl_Z = self.readDouble(file)
-        self.DEposCyl_Z_Log = self.readInt(file)
+        self.DEposCyl_Rad_Div = self.read_int(file)
+        self.DEposCyl_Rad = self.read_double(file)
+        self.DEposCyl_Rad_Log = self.read_int(file)
+        self.DEposCyl_Z_Div = self.read_int(file)
+        self.DEposCyl_Z = self.read_double(file)
+        self.DEposCyl_Z_Log = self.read_int(file)
 
-        self.DEpos_Position = self.readInt(file)
+        self.DEpos_Position = self.read_int(file)
 
         tagID = b"*DIST_OPT_END"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
     def reset(self):
         self.FDZmax = 1;

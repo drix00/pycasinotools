@@ -9,6 +9,7 @@
 
 """
 
+###############################################################################
 # Copyright 2020 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +23,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
@@ -91,7 +93,8 @@ def combine(prm_values):
 
     Code example:
 
-    >>> dx = array([1.0/2**k for k in range(2,5)])
+    >>> from numpy import array
+    >>> dx = array([1.0/2**k for k in range(2, 5)])
     >>> dt = 3*dx;  dt = dt[:-1]
     >>> p = {'dx': dx, 'dt': dt}
     >>> p

@@ -13,7 +13,7 @@ __license__ = ""
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+import casinotools.fileformat.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 
@@ -123,36 +123,36 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
 
     def read(self, file):
         tagID = b"*MATRX_SET_BEG"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
-        self._version = self.readInt(file)
+        self._version = self.read_int(file)
 
-        self.UseEnBack = self.readBool(file)
-        self.WorkDist = self.readDouble(file)
-        self.DetectScaleX = self.readDouble(file)
-        self.DetectScaleY = self.readDouble(file)
-        self.ValidMatrix = self.readBool(file)
+        self.UseEnBack = self.read_bool(file)
+        self.WorkDist = self.read_double(file)
+        self.DetectScaleX = self.read_double(file)
+        self.DetectScaleY = self.read_double(file)
+        self.ValidMatrix = self.read_bool(file)
 
         if self.ValidMatrix:
             raise NotImplementedError
 #        for(int i = 0 i < 101 i++)
 #            for(int j = 0 j < 101 j++)
 #                double value
-#                saferead<double>(file, value = self.readDouble(file)
+#                saferead<double>(file, value = self.read_double(file)
 #                MatrixDetect.set(i, j, value)
 
-        self.BEMin_Angle = self.readDouble(file)
-        self.BEMax_Angle = self.readDouble(file)
-        self.EFilterMax = self.readDouble(file)
-        self.EFilterMin = self.readDouble(file)
+        self.BEMin_Angle = self.read_double(file)
+        self.BEMax_Angle = self.read_double(file)
+        self.EFilterMax = self.read_double(file)
+        self.EFilterMin = self.read_double(file)
 
         for i in range(101):
-            self.EFilterVal[i] = self.readDouble(file)
+            self.EFilterVal[i] = self.read_double(file)
 
-        self.FEFilter = self.readInt(file)
+        self.FEFilter = self.read_int(file)
 
         tagID = b"*MATRX_SET_END"
-        self.findTag(file, tagID)
+        self.find_tag(file, tagID)
 
     def reset(self):
         self.BEMin_Angle = 0.0

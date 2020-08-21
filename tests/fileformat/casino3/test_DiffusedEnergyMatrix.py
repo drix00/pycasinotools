@@ -14,7 +14,7 @@ __license__ = ""
 import pytest
 
 # Local modules.
-import tests.fileformat.test_FileReaderWriterTools as test_FileReaderWriterTools
+import tests.fileformat.test_file_reader_writer_tools as test_FileReaderWriterTools
 import casinotools.fileformat.casino3.DiffusedEnergyMatrix as DiffusedEnergyMatrix
 import casinotools.fileformat.casino3.OptionsDist as OptionsDist
 import casinotools.fileformat.casino3.SimulationOptions as SimulationOptions
