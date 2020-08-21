@@ -68,15 +68,7 @@ readme = read('README.rst')
 
 history = read('HISTORY.rst')
 
-requirements = [
-    'Pillow',
-    'numpy',
-    "attr"
-]
-
-# test_requirements = [
-#     'nose', 'coverage'
-# ]
+requirements = read("requirements.txt")
 
 # long_description = read('README.rst')
 long_description = """
