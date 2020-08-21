@@ -8,14 +8,6 @@ python:
     - 3.6
     - 3.7
     - 3.8
-matrix:
-  include:
-    - python: 3.5
-      dist: xenial
-  allow_failures:
-    - python:
-        - 3.5
-        - 3.6
 
 # command to install dependencies
 before_install:
@@ -23,6 +15,7 @@ before_install:
     - pip install --upgrade pip
     - pip install --upgrade pytest
     - pip install --upgrade coveralls
+    - pip install --upgrade codecov
 
 install:
     - pip install -r requirements.txt
@@ -35,6 +28,7 @@ script:
 
 after_success:
     - coveralls
+    - codecov
 
 notifications:
   email:
