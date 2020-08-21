@@ -43,6 +43,24 @@ from casinotools.utilities.path import is_bad_file
 # Globals and constants variables.
 
 
+@pytest.fixture()
+def filepath_sim():
+    file_path = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
+    return file_path
+
+
+@pytest.fixture()
+def filepath_sim_3202():
+    file_path = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
+    return file_path
+
+
+@pytest.fixture()
+def filepath_cas():
+    file_path = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
+    return file_path
+
+
 def test_is_discovered():
     """
     Test used to validate the file is included in the tests
@@ -69,42 +87,40 @@ class TestFileReaderWriterTools(unittest.TestCase):
         unittest.TestCase.tearDown(self)
         shutil.rmtree(self.temporaryDir, ignore_errors=True)
 
-    def testSkeleton(self):
-        # self.fail("Test if the testcase is working.")
-        self.assertTrue(True)
 
-    def test_checkAndCorrectValueSize(self):
-        value_ref = "WinCasino Simulation File"
-        size = 26
-        value = FileReaderWriterTools()._check_and_correct_value_size(value_ref, size)
-        self.assertEqual(value_ref, value)
+def test_check_and_correct_value_size():
+    value_ref = "WinCasino Simulation File"
+    size = 26
+    value = FileReaderWriterTools()._check_and_correct_value_size(value_ref, size)
+    assert value == value_ref
 
-        size = 6
-        value = FileReaderWriterTools()._check_and_correct_value_size(value_ref, size)
-        self.assertNotEquals(value_ref, value)
-        self.assertEqual(value_ref[:size], value)
+    size = 6
+    value = FileReaderWriterTools()._check_and_correct_value_size(value_ref, size)
+    assert value != value_ref
+    assert value == value_ref[:size]
 
-    def test_extractVersionString(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        casino_file = File.File(self.filepathSim)
 
-        version = File.V30103040
-        version_str_ref = "3.1.3.40"
-        version_str = casino_file._extract_version_string(version)
-        self.assertEqual(version_str_ref, version_str)
+def test_extract_version_string(filepath_sim):
+    if is_bad_file(filepath_sim):
+        pytest.skip()
+    casino_file = File.File(filepath_sim)
 
-        version = File.V30103070
-        version_str_ref = "3.1.3.70"
-        version_str = casino_file._extract_version_string(version)
-        self.assertEqual(version_str_ref, version_str)
+    version = File.V30103040
+    version_str_ref = "3.1.3.40"
+    version_str = casino_file._extract_version_string(version)
+    assert version_str == version_str_ref
 
-        version = File.V30104060
-        version_str_ref = "3.1.4.60"
-        version_str = casino_file._extract_version_string(version)
-        self.assertEqual(version_str_ref, version_str)
+    version = File.V30103070
+    version_str_ref = "3.1.3.70"
+    version_str = casino_file._extract_version_string(version)
+    assert version_str == version_str_ref
 
-        version = File.V30107002
-        version_str_ref = "3.1.7.2"
-        version_str = casino_file._extract_version_string(version)
-        self.assertEqual(version_str_ref, version_str)
+    version = File.V30104060
+    version_str_ref = "3.1.4.60"
+    version_str = casino_file._extract_version_string(version)
+    assert version_str == version_str_ref
+
+    version = File.V30107002
+    version_str_ref = "3.1.7.2"
+    version_str = casino_file._extract_version_string(version)
+    assert version_str == version_str_ref

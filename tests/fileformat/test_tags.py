@@ -25,7 +25,6 @@ Tests for the :py:mod:`casinotools.fileformat.tags` module.
 ###############################################################################
 
 # Standard library modules.
-import unittest
 
 # Third party modules.
 from pkg_resources import resource_filename
@@ -40,6 +39,16 @@ from casinotools.utilities.path import is_bad_file
 # Globals and constants variables.
 
 
+@pytest.fixture()
+def sim_file():
+    filepath = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
+    if is_bad_file(filepath):
+        pytest.skip("Bad file for test")
+
+    file = open(filepath, 'rb')
+    return file
+
+
 def test_is_discovered():
     """
     Test used to validate the file is included in the tests
@@ -49,62 +58,47 @@ def test_is_discovered():
     assert True
 
 
-class TestTags(unittest.TestCase):
+def test_create_tag_with_filler():
+    tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
+    tag_length = 15
+    filler = b'%'
 
-        filepath = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
-        if is_bad_file(filepath):
-            pytest.skip()
-        self.file = open(filepath, 'rb')
+    tag_refs = [b"V3.1.3.4%%%%%%%", b"V3.1.3.7%%%%%%%", b"%SAVE_HEADER%%%"]
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+    for tag_id, tag_ref in zip(tag_ids, tag_refs):
+        tag = create_tag_with_filler(tag_id, tag_length, filler)
 
-    def testSkeleton(self):
-        # self.fail("Test if the testcase is working.")
-        self.assertTrue(True)
+        assert tag == tag_ref
 
-    def test_createTagWithFiller(self):
-        tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
+    tag_length = 10
+    tag_refs = [b"V3.1.3.4%%", b"V3.1.3.7%%", b"%SAVE_HEADER%"]
 
-        tag_length = 15
-        filler = b'%'
+    for tag_id, tag_ref in zip(tag_ids, tag_refs):
+        tag = create_tag_with_filler(tag_id, tag_length, filler)
 
-        tag_refs = [b"V3.1.3.4%%%%%%%", b"V3.1.3.7%%%%%%%", b"%SAVE_HEADER%%%"]
+        assert tag == tag_ref
 
-        for tagID, tagRef in zip(tag_ids, tag_refs):
-            tag = create_tag_with_filler(tagID, tag_length, filler)
 
-            self.assertEqual(tagRef, tag)
+def test_limited_search_tag(sim_file):
+    search_length = 1024
 
-        tag_length = 10
-        tag_refs = [b"V3.1.3.4%%", b"V3.1.3.7%%", b"%SAVE_HEADER%"]
+    tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
 
-        for tagID, tagRef in zip(tag_ids, tag_refs):
-            tag = create_tag_with_filler(tagID, tag_length, filler)
+    is_tag_founds = [False, False, True]
 
-            self.assertEqual(tagRef, tag)
+    for tag_id, is_tag_found_ref in zip(tag_ids, is_tag_founds):
+        is_tag_found = limited_search_tag(sim_file, tag_id, search_length)
 
-    def test_limitedSearchTag(self):
-        search_length = 1024
+        assert is_tag_found == is_tag_found_ref
 
-        tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
 
-        is_tag_founds = [False, False, True]
+def test_search_tag(sim_file):
+    tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
 
-        for tagID, isTagFoundRef in zip(tag_ids, is_tag_founds):
-            is_tag_found = limited_search_tag(self.file, tagID, search_length)
+    is_tag_founds = [False, False, True]
 
-            self.assertEqual(isTagFoundRef, is_tag_found)
+    for tag_id, is_tag_found_ref in zip(tag_ids, is_tag_founds):
+        is_tag_found = search_tag(sim_file, tag_id)
 
-    def test_searchTag(self):
-        tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
-
-        is_tag_founds = [False, False, True]
-
-        for tagID, isTagFoundRef in zip(tag_ids, is_tag_founds):
-            is_tag_found = search_tag(self.file, tagID)
-
-            self.assertEqual(isTagFoundRef, is_tag_found)
+        assert is_tag_found == is_tag_found_ref

@@ -26,9 +26,7 @@ Tests for the module :py:mod:`casinotools.utilities.path`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
 import os.path
-from tempfile import TemporaryFile
 
 # Third party modules.
 from pkg_resources import resource_filename
@@ -43,6 +41,18 @@ import casinotools.utilities.path as path
 # Globals and constants variables.
 
 
+@pytest.fixture()
+def git_lfs_file(tmpdir):
+    git_lfs_file = tmpdir.join("temp_git_lfs_file.dat")
+
+    with open(str(git_lfs_file), 'w') as input_file:
+        input_file.write("version https://git-lfs.github.com/spec/v1\n")
+        input_file.write("oid sha256:4d7a214614ab2935c943f9e0ff69d22eadbb8f32b1258daaa5e2ca24d17e2393\n")
+        input_file.write("size 12345\n")
+
+    return str(git_lfs_file)
+
+
 def test_is_discovered():
     """
     Test used to validate the file is included in the tests
@@ -52,61 +62,28 @@ def test_is_discovered():
     assert True
 
 
-class TestPath(unittest.TestCase):
-    """
-    TestCase class for the module `casinotools.utilities.path`.
-    """
+def test_is_git_lfs_file_bad(git_lfs_file):
+    file_path = resource_filename(__name__, "test_path.py")
+    if not os.path.isfile(file_path):
+        pytest.skip()
+    assert path.is_git_lfs_file(file_path) is False
 
-    def setUp(self):
-        """
-        Setup method.
-        """
 
-        unittest.TestCase.setUp(self)
+def test_is_git_lfs_file_good(git_lfs_file):
+    assert path.is_git_lfs_file(git_lfs_file) is True
 
-        self.create_git_lfs_file()
 
-    def tearDown(self):
-        """
-        Teardown method.
-        """
+def test_is_bad_file():
+    file_path = resource_filename(__name__, "test_path.py")
+    if not os.path.isfile(file_path):
+        pytest.skip()
+    assert path.is_bad_file(file_path) is False
 
-        unittest.TestCase.tearDown(self)
 
-    def testSkeleton(self):
-        """
-        First test to check if the testcase is working with the testing framework.
-        """
+def test_is_bad_file_git_lfs(git_lfs_file):
+    assert path.is_bad_file(git_lfs_file) is True
 
-        # self.fail("Test if the testcase is working.")
-        self.assertTrue(True)
 
-    def create_git_lfs_file(self):
-        self.git_lfs_file = TemporaryFile("w+t")
-        self.git_lfs_file.write("version https://git-lfs.github.com/spec/v1\n")
-        self.git_lfs_file.write("oid sha256:4d7a214614ab2935c943f9e0ff69d22eadbb8f32b1258daaa5e2ca24d17e2393\n")
-        self.git_lfs_file.write("size 12345\n")
-        self.git_lfs_file.write("\n")
-        self.git_lfs_file.seek(0)
-
-    def test_is_git_lfs_file_bad(self):
-        file_path = resource_filename(__name__, "test_path.py")
-        if not os.path.isfile(file_path):
-            pytest.skip()
-        self.assertEqual(False, path.is_git_lfs_file(file_path))
-
-    def test_is_git_lfs_file_good(self):
-        self.assertEqual(True, path.is_git_lfs_file(self.git_lfs_file))
-
-    def test_is_bad_file(self):
-        file_path = resource_filename(__name__, "test_path.py")
-        if not os.path.isfile(file_path):
-            pytest.skip()
-        self.assertEqual(False, path.is_bad_file(file_path))
-
-    def test_is_bad_file_git_lfs(self):
-        self.assertEqual(True, path.is_bad_file(self.git_lfs_file))
-
-    def test_is_bad_file_no_file(self):
-        file_path = resource_filename(__name__, "../../test_data/this_file_does_not_exist.txt")
-        self.assertEqual(True, path.is_bad_file(file_path))
+def test_is_bad_file_no_file():
+    file_path = resource_filename(__name__, "../../test_data/this_file_does_not_exist.txt")
+    assert path.is_bad_file(file_path) is True
