@@ -9,10 +9,7 @@ __copyright__ = "Copyright (c) 2009 Hendrix Demers"
 __license__ = ""
 
 # Standard library modules.
-try:
-    from io import BytesIO
-except ImportError: # Python 2
-    from StringIO import StringIO as BytesIO
+from io import BytesIO
 
 # Third party modules.
 import pytest

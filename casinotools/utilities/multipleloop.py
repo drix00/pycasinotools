@@ -43,17 +43,18 @@ def _outer(a, b):
 
     The function is to be called repeatedly::
 
-        all = _outer(all, p)
+        all_combination = _outer(all_combination, p)
     """
-    all = []
+    all_combination = []
     if not isinstance(a, list):
         raise TypeError('a must be a list')
-    if isinstance(b, (float,int,complex,str)):  b = [b]  # scalar?
+    if isinstance(b, (float, int, complex, str)):
+        b = [b]  # scalar?
 
     if len(a) == 0:
         # first call:
         for j in b:
-            all.append([j])
+            all_combination.append([j])
     else:
         for j in b:
             for i in a:
@@ -63,9 +64,9 @@ def _outer(a, b):
                 # the underlying list (in a), which is not what
                 # we want, we need a copy, extend the copy, and
                 # add to all
-                k = i + [j]  # extend previous prms with new one
-                all.append(k)
-    return all
+                k = i + [j]  # extend previous parameters with new one
+                all_combination.append(k)
+    return all_combination
 
 
 def combine(prm_values):
@@ -95,8 +96,8 @@ def combine(prm_values):
     >>> p = {'dx': dx, 'dt': dt}
     >>> p
     {'dt': [ 0.75 , 0.375,], 'dx': [ 0.25  , 0.125 , 0.0625,]}
-    >>> all, names, varied = combine(p)
-    >>> all
+    >>> all_combination, names, varied = combine(p)
+    >>> all_combination
     [[0.75, 0.25], [0.375, 0.25], [0.75, 0.125], [0.375, 0.125],
      [0.75, 0.0625], [0.375, 0.0625]]
     """
@@ -104,11 +105,11 @@ def combine(prm_values):
         # turn dict into list [(name,values),(name,values),...]:
         prm_values = [(name, prm_values[name]) for name in prm_values]
 
-    all = []
+    all_combination = []
     varied = []
     for name, values in prm_values:
-        all = _outer(all, values)
+        all_combination = _outer(all_combination, values)
         if isinstance(values, list) and len(values) > 1:
             varied.append(name)
     names = [name for name, values in prm_values]
-    return all, names, varied
+    return all_combination, names, varied
