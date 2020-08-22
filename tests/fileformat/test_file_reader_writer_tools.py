@@ -36,7 +36,7 @@ import pytest
 
 # Project modules.
 from casinotools.fileformat.file_reader_writer_tools import FileReaderWriterTools
-import casinotools.fileformat.casino3.File as File
+import casinotools.fileformat.casino3.file as File
 from casinotools.utilities.path import create_path, get_current_module_path
 from casinotools.utilities.path import is_bad_file
 
