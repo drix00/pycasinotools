@@ -1,25 +1,43 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.options_micro
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+########################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+########################################
 
 # Standard library modules.
 
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
 # Filename to store the defaults settings
 OPTIONS_MICRO_DEF_FILENAME = "Microscope_Settings_Defaults.dat"
 
-# const for the Beam_Distribution option :
+# const for the beam_distribution option :
 # BEAM_DIST_GAUSSIAN : Gaussian Distribution using variance Beam_Variance
 # BEAM_DIST_UNIFORM : Uniform Distribution
 BEAM_DIST_GAUSSIAN = 0
@@ -59,117 +77,118 @@ Y_PLANE_POSITION_DEFAULT = 0
 X_PLANE_POSITION_DEFAULT = 0
 BEAM_CONEALGO_DEFAULT = CONE_FOCUS_NONE
 
-#//--------------------------------------
-#// Microscope settings
-#//--------------------------------------
-#
-#//-----------------------------------------------------------------------------
-## Angle du faisceau d'electrons du microscope. Definition du microscope
-#//-----------------------------------------------------------------------------
-#    double Beam_angle
-#//-----------------------------------------------------------------------------
-##Nombre d'electrons par point de simulation du microscope. Definition du microscope
-#//-----------------------------------------------------------------------------
-#    int Trajectories_Number
-#//-----------------------------------------------------------------------------
-## Puissance du faisceau en KeV a la derniere simulation.
-## Permet de refaire les scan points de la simulation avec plusieurs energies differentes
-#//-----------------------------------------------------------------------------
-#    double KEV_End
-#//-----------------------------------------------------------------------------
-## Puissance du faisceau en KeV a la premiere simulation.
-## Permet de refaire les scan points de la simulation avec plusieurs energies differentes
-#//-----------------------------------------------------------------------------
-#    double KEV_Start
-#//-----------------------------------------------------------------------------
-## Increment de puissance entre 2 simulations.
-## Permet de refaire les scan points de la simulation avec plusieurs energies differentes
-#//-----------------------------------------------------------------------------
-#    double KEV_Step
-#//-----------------------------------------------------------------------------
-## Flag indicating if we use multiple scan points.
-## 0 = No, positive = Yes.
-#//-----------------------------------------------------------------------------
-#    int Multiple_Scan_Energy
-#//-----------------------------------------------------------------------------
-#
-#//-----------------------------------------------------------------------------
-## Determine if we keep the simulation datas necessary to view the distributions.
-#//-----------------------------------------------------------------------------
-#    int keep_simulation_data
-#//-----------------------------------------------------------------------------
-#
-#//--------------------------------------
-#// Microscope settings - Beam Settings
-#//--------------------------------------
-#
-#//-----------------------------------------------------------------------------
-## Beam radius.
-#//-----------------------------------------------------------------------------
-#    double Beam_Radius
-#//-----------------------------------------------------------------------------
-## Beam Aperture Angle in Rad.
-#//-----------------------------------------------------------------------------
-#    double Beam_ApertureWidth
-#//-----------------------------------------------------------------------------
-## Z_plane_position position of the focal point when mode is XY scanning
-## Y_plane_position position of the Y plane when mode is XZ scanning
-## X_plane_position position of the X plane when mode is YZ scanning
-#//-----------------------------------------------------------------------------
-#    double Z_plane_position
-#    double Y_plane_position
-#    double X_plane_position
-#//-----------------------------------------------------------------------------
-## scanning mode : can be MODE_XY_SCAN, MODE_XZ_SCAN, MODE_YZ_SCAN
-#//-----------------------------------------------------------------------------
-#    int scanning_mode
-#//-----------------------------------------------------------------------------
-## Beam Distribution Variance Used in the Gaussian Distribution
-#//-----------------------------------------------------------------------------
-#    double Beam_Dist_Variance
-#//-----------------------------------------------------------------------------
-## Beam Distribution Type
-## See related const BEAM_DIST_ above
-#//-----------------------------------------------------------------------------
-#    int Beam_Distribution
-#//-----------------------------------------------------------------------------
-## Avanced beam options flag
-#//-----------------------------------------------------------------------------
-#    int Beam_AdvSet
-#//-----------------------------------------------------------------------------
-## Cone Beam Algorythm used in cone beam calculation
-#//-----------------------------------------------------------------------------
-#    int Beam_ConeAlgo
-#//-----------------------------------------------------------------------------
-#// Electron beam diameter
-#//-----------------------------------------------------------------------------
-#//    int BeamDiam
-#//-----------------------------------------------------------------------------
-#
-#//-----------------------------------------------------------------------------
-## Noise settings for electrons trajectories numbers
-#//-----------------------------------------------------------------------------
-#    int NoiseType
-#    int NoiseEnabled
-#    double NoisePercentage
-#//-----------------------------------------------------------------------------
-## Flag determining if we simulate secondary electrons.
-## Activated by the user in the settings dialogs.
-#//-----------------------------------------------------------------------------
-#    int FGenerateSecondary
-#//-----------------------------------------------------------------------------
-## Flag determinig if we generate X-Rays -- Not Used Right Now --.
-## Activated by the user in the settings dialogs. Should be used when
-## X-Rays will be reinplemented correctly.
-#//-----------------------------------------------------------------------------
-#    int FGenerateXRays
-#//-----------------------------------------------------------------------------
-## keep in memory the distance between scan point for the microscope settings dialog
-#    float scanPtDist
-#//-----------------------------------------------------------------------------
+# Microscope settings
+# Angle du faisceau d'electrons du microscope. Definition du microscope
+#    double beam_angle
 
-class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
+# Nombre d'electrons par point de simulation du microscope. Definition du microscope
+#    int trajectories_number
+
+# Puissance du faisceau en KeV a la derniere simulation.
+# Permet de refaire les scan points de la simulation avec plusieurs energies differentes
+#    double KEV_End
+
+# Puissance du faisceau en KeV a la premiere simulation.
+# Permet de refaire les scan points de la simulation avec plusieurs energies differentes
+#    double KEV_Start
+
+# Increment de puissance entre 2 simulations.
+# Permet de refaire les scan points de la simulation avec plusieurs energies differentes
+#    double KEV_Step
+
+# Flag indicating if we use multiple scan points.
+# 0 = No, positive = Yes.
+#    int multiple_scan_energy
+
+# Determine if we keep the simulation datas necessary to view the distributions.
+#    int keep_simulation_data
+
+# Microscope settings - Beam Settings
+# Beam radius.
+#    double beam_radius
+
+# Beam Aperture Angle in Rad.
+#    double beam_aperture_width
+
+# z_plane_position position of the focal point when mode is XY scanning
+# y_plane_position position of the Y plane when mode is XZ scanning
+# x_plane_position position of the X plane when mode is YZ scanning
+
+#    double z_plane_position
+#    double y_plane_position
+#    double x_plane_position
+
+# scanning mode : can be MODE_XY_SCAN, MODE_XZ_SCAN, MODE_YZ_SCAN
+#    int scanning_mode
+
+# Beam Distribution Variance Used in the Gaussian Distribution
+#    double beam_dist_variance
+
+# Beam Distribution Type
+# See related const BEAM_DIST_ above
+#    int beam_distribution
+
+# Avanced beam options flag
+#    int beam_adv_set
+
+# Cone Beam Algorithm used in cone beam calculation
+#    int beam_cone_algo
+
+# Electron beam diameter
+#    int BeamDiam
+
+# Noise settings for electrons trajectories numbers
+#    int noise_type
+#    int noise_enabled
+#    double noise_percentage
+
+# Flag determining if we simulate secondary electrons.
+# Activated by the user in the settings dialogs.
+#    int generate_secondary
+
+# Flag determining if we generate X-Rays -- Not Used Right Now --.
+# Activated by the user in the settings dialogs. Should be used when
+# X-Rays will be reimplemented correctly.
+#    int generate_x_rays
+
+# keep in memory the distance between scan point for the microscope settings dialog
+#    float scan_point_distribution
+
+
+class OptionsMicro(FileReaderWriterTools):
     def __init__(self):
+        self.beam_angle = 0.0
+        self.trajectories_number = 1000
+        self.KEV_End = 0.0
+        self.KEV_Start = 1.0
+        self.KEV_Step = 1.0
+        self.multiple_scan_energy = 0
+
+        self.beam_radius = 5.0
+        self.beam_adv_set = 0
+        self.beam_dist_variance = BEAM_VARIANCE_DEFAULT
+
+        self.z_plane_position = Z_PLANE_POSITION_DEFAULT
+        self.y_plane_position = Y_PLANE_POSITION_DEFAULT
+        self.x_plane_position = X_PLANE_POSITION_DEFAULT
+        self.scanning_mode = SCANNING_MODE_DEFAULT
+
+        self.beam_aperture_width = BEAM_APERTURE_WIDTH_DEFAULT
+        self.beam_distribution = BEAM_DISTRIBUTION_DEFAULT
+        self.beam_cone_algo = BEAM_CONEALGO_DEFAULT
+
+        self.generate_secondary = 0
+        self.generate_x_rays = 0
+        self.keep_simulation_data = 0
+        self.scan_point_distribution = 1
+
+        # Noise Settings
+        self.noise_type = NOISE_TYPE_DEFAULT
+        self.noise_enabled = False
+        self.noise_percentage = NOISE_PERCENTAGE_DEFAULT
+
+        self._version = 0
+
         self.reset()
 
     def write(self, file):
@@ -180,97 +199,97 @@ class OptionsMicro(FileReaderWriterTools.FileReaderWriterTools):
 #        writeVersion(file)
 #
 #    //--New version 3.1.4.6
-#    safewrite<int>(file, scanning_mode)
-#    safewrite<double>(file, X_plane_position)
-#    safewrite<double>(file, Y_plane_position)
+#    safe_write<int>(file, scanning_mode)
+#    safe_write<double>(file, x_plane_position)
+#    safe_write<double>(file, y_plane_position)
 #    //--
 #
-#    safewrite<int>(file, NoiseType)
-#    safewrite<int>(file, NoiseEnabled)
-#    safewrite<double>(file, NoisePercentage)
+#    safe_write<int>(file, noise_type)
+#    safe_write<int>(file, noise_enabled)
+#    safe_write<double>(file, noise_percentage)
 #
-#    safewrite<double>(file, Beam_angle)
-#    safewrite<double>(file, Beam_Radius)
-#    safewrite<double>(file, Beam_ApertureWidth)
-#    safewrite<double>(file, Z_plane_position)
-#    safewrite<double>(file, Beam_Dist_Variance)
-#    safewrite<int>(file, Beam_Distribution)
-#    safewrite<int>(file, Beam_AdvSet)
+#    safe_write<double>(file, beam_angle)
+#    safe_write<double>(file, beam_radius)
+#    safe_write<double>(file, beam_aperture_width)
+#    safe_write<double>(file, z_plane_position)
+#    safe_write<double>(file, beam_dist_variance)
+#    safe_write<int>(file, beam_distribution)
+#    safe_write<int>(file, beam_adv_set)
 #
-#    safewrite<int>(file, Trajectories_Number)
-#    safewrite<double>(file, KEV_End)
-#    safewrite<double>(file, KEV_Start)
-#    safewrite<double>(file, KEV_Step)
-#    safewrite<int>(file, Multiple_Scan_Energy)
-#    safewrite<int>(file, FGenerateSecondary)
-#    safewrite<int>(file, FGenerateXRays)
-#    safewrite<float>(file, scanPtDist)
-#    safewrite<int>(file, keep_simulation_data)
+#    safe_write<int>(file, trajectories_number)
+#    safe_write<double>(file, KEV_End)
+#    safe_write<double>(file, KEV_Start)
+#    safe_write<double>(file, KEV_Step)
+#    safe_write<int>(file, multiple_scan_energy)
+#    safe_write<int>(file, generate_secondary)
+#    safe_write<int>(file, generate_x_rays)
+#    safe_write<float>(file, scan_point_distribution)
+#    safe_write<int>(file, keep_simulation_data)
 #
 #    Tags::AddTag(file, "*MICRO_SET_END", 15)
 
     def read(self, file):
-        tagID = b"*MICRO_SET_BEG"
-        self.find_tag(file, tagID)
+        tag_id = b"*MICRO_SET_BEG"
+        self.find_tag(file, tag_id)
 
         self._version = self.read_int(file)
 
         self.scanning_mode = self.read_int(file)
-        self.X_plane_position = self.read_double(file)
-        self.Y_plane_position = self.read_double(file)
+        self.x_plane_position = self.read_double(file)
+        self.y_plane_position = self.read_double(file)
 
-        self.NoiseType = self.read_int(file)
-        self.NoiseEnabled = self.read_int(file)
-        self.NoisePercentage = self.read_double(file)
+        self.noise_type = self.read_int(file)
+        self.noise_enabled = self.read_int(file)
+        self.noise_percentage = self.read_double(file)
 
-        self.Beam_angle = self.read_double(file)
-        self.Beam_Radius = self.read_double(file)
-        self.Beam_ApertureWidth = self.read_double(file)
-        self.Z_plane_position = self.read_double(file)
-        self.Beam_Dist_Variance = self.read_double(file)
-        self.Beam_Distribution = self.read_int(file)
-        self.Beam_AdvSet = self.read_int(file)
+        self.beam_angle = self.read_double(file)
+        self.beam_radius = self.read_double(file)
+        self.beam_aperture_width = self.read_double(file)
+        self.z_plane_position = self.read_double(file)
+        self.beam_dist_variance = self.read_double(file)
+        self.beam_distribution = self.read_int(file)
+        self.beam_adv_set = self.read_int(file)
 
-        self.Trajectories_Number = self.read_int(file)
+        self.trajectories_number = self.read_int(file)
         self.KEV_End = self.read_double(file)
         self.KEV_Start = self.read_double(file)
         self.KEV_Step = self.read_double(file)
-        self.Multiple_Scan_Energy = self.read_int(file)
-        self.FGenerateSecondary = self.read_int(file)
-        self.FGenerateXRays = self.read_int(file)
-        self.scanPtDist = self.read_float(file)
+        self.multiple_scan_energy = self.read_int(file)
+        self.generate_secondary = self.read_int(file)
+        self.generate_x_rays = self.read_int(file)
+        self.scan_point_distribution = self.read_float(file)
         self.keep_simulation_data = self.read_int(file)
 
-        tagID = b"*MICRO_SET_END"
-        self.find_tag(file, tagID)
+        tag_id = b"*MICRO_SET_END"
+        self.find_tag(file, tag_id)
 
     def reset(self):
-        self.Beam_angle = 0.0
-        self.Trajectories_Number = 1000
+        self.beam_angle = 0.0
+        self.trajectories_number = 1000
         self.KEV_End = 0.0
         self.KEV_Start = 1.0
         self.KEV_Step = 1.0
-        self.Multiple_Scan_Energy = 0
+        self.multiple_scan_energy = 0
 
-        self.Beam_Radius = 5.0
-        self.Beam_AdvSet = 0
-        self.Beam_Dist_Variance = BEAM_VARIANCE_DEFAULT
+        self.beam_radius = 5.0
+        self.beam_adv_set = 0
+        self.beam_dist_variance = BEAM_VARIANCE_DEFAULT
 
-        self.Z_plane_position = Z_PLANE_POSITION_DEFAULT
-        self.Y_plane_position = Y_PLANE_POSITION_DEFAULT
-        self.X_plane_position = X_PLANE_POSITION_DEFAULT
+        self.z_plane_position = Z_PLANE_POSITION_DEFAULT
+        self.y_plane_position = Y_PLANE_POSITION_DEFAULT
+        self.x_plane_position = X_PLANE_POSITION_DEFAULT
         self.scanning_mode = SCANNING_MODE_DEFAULT
 
-        self.Beam_ApertureWidth = BEAM_APERTURE_WIDTH_DEFAULT
-        self.Beam_Distribution = BEAM_DISTRIBUTION_DEFAULT
-        self.Beam_ConeAlgo = BEAM_CONEALGO_DEFAULT
+        self.beam_aperture_width = BEAM_APERTURE_WIDTH_DEFAULT
+        self.beam_distribution = BEAM_DISTRIBUTION_DEFAULT
+        self.beam_cone_algo = BEAM_CONEALGO_DEFAULT
 
-        self.FGenerateSecondary = 0
-        self.FGenerateXRays = 0
+        self.generate_secondary = 0
+        self.generate_x_rays = 0
         self.keep_simulation_data = 0
-        self.scanPtDist = 1
+        self.scan_point_distribution = 1
 
         # Noise Settings
-        self.NoiseType = NOISE_TYPE_DEFAULT
-        self.NoiseEnabled = False
-        self.NoisePercentage = NOISE_PERCENTAGE_DEFAULT
+        self.noise_type = NOISE_TYPE_DEFAULT
+        self.noise_enabled = False
+        self.noise_percentage = NOISE_PERCENTAGE_DEFAULT

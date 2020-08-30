@@ -1,231 +1,181 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests.file_format.casino3.test_intensity_image
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the :py:mod:`casinotools.file_format.casino3.intensity_image` module.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
-import unittest
 import os.path
 
 # Third party modules.
-from pkg_resources import resource_filename #@UnresolvedImport
+from pkg_resources import resource_filename  # @UnresolvedImport
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino3.intensity_image as IntensityImage
-from casinotools.utilities.path import is_bad_file
+
+# Project modules.
+from casinotools.file_format.casino3.intensity_image import IntensityImage, INTENSITY_TRANSMITTED_DETECTED
 
 # Globals and constants variables.
 
-class TestIntensityImage(unittest.TestCase):
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-        resultsPath = resource_filename(__name__, "../../../test_data/casino3.x/createImage")
-        self._casBinnedFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_binned.cas")
-        if is_bad_file(self._casBinnedFilepath):
-            pytest.skip()
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        self._casAllFilepath = os.path.join(resultsPath, "Au_C_thin_1nm_Inside_100ke_all.cas")
+# Third party modules.
 
-        self._imageBinned = IntensityImage.IntensityImage(self._casBinnedFilepath)
+# Local modules.
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+# Globals and constants variables.
 
-    def testSkeleton(self):
-        #self.fail("Test if the testcase is working.")
-        self.assertTrue(True)
 
-    def test_init(self):
-        image = self._imageBinned
-        self.assertEqual(self._casBinnedFilepath, image._filepath)
-        self.assertEqual(IntensityImage.INTENSITY_TRANSMITTED_DETECTED, image._intensityType)
+@pytest.fixture()
+def file_path_cas_binned():
+    results_path = resource_filename(__name__, "../../../test_data/casino3.x/createImage")
+    file_path = os.path.join(results_path, "Au_C_thin_1nm_Inside_100ke_binned.cas")
+    return file_path
 
-        #self.fail("Test if the testcase is working.")
 
-    def test_extractData(self):
-        image = self._imageBinned
-        image._extractData()
+@pytest.fixture()
+def image_binned(file_path_cas_binned):
+    image = IntensityImage(file_path_cas_binned)
+    return image
 
-        self.assertEqual(100, image._numberScanPoints)
 
-        self.assertEqual(100, len(image._positions))
-        self.assertEqual(100, len(image._intensities))
+@pytest.fixture()
+def file_path_cas_all():
+    results_path = resource_filename(__name__, "../../../test_data/casino3.x/createImage")
+    file_path = os.path.join(results_path, "Au_C_thin_1nm_Inside_100ke_all.cas")
+    return file_path
 
-        #self.fail("Test if the testcase is working.")
 
-    def test_analyzePositionsXY(self):
-        positions = []
-        positions.append((-5, -5, 0))
-        positions.append((0, -5, 0))
-        positions.append((5, -5, 0))
-        positions.append((-5, 0, 0))
-        positions.append((0, 0, 0))
-        positions.append((5, 0, 0))
-        positions.append((-5, 5, 0))
-        positions.append((0, 5, 0))
-        positions.append((5, 5, 0))
+def test_init(image_binned, file_path_cas_binned):
+    image = image_binned
+    assert image._filepath == file_path_cas_binned
+    assert image._intensity_type == INTENSITY_TRANSMITTED_DETECTED
 
-        image = self._imageBinned
-        image._positions = positions
-        image._analyzePositions()
 
-        self.assertEqual("XY", image._imageType)
-        #self.fail("Test if the testcase is working.")
+def test_extract_data(image_binned):
+    image = image_binned
+    image._extract_data()
 
-    def test_analyzePositionsXZ(self):
-        positions = []
-        positions.append((-5, 0, -5))
-        positions.append((0, 0, -5))
-        positions.append((5, 0, -5))
-        positions.append((-5, 0, 0))
-        positions.append((0, 0, 0))
-        positions.append((5, 0, 0))
-        positions.append((-5, 0, 5))
-        positions.append((0, 0, 5))
-        positions.append((5, 0, 5))
+    assert image._number_scan_points == 100
 
-        image = self._imageBinned
-        image._positions = positions
-        image._analyzePositions()
+    assert len(image._positions) == 100
+    assert len(image._intensities) == 100
 
-        self.assertEqual("XZ", image._imageType)
-        #self.fail("Test if the testcase is working.")
 
-    def test_analyzePositionsYZ(self):
-        positions = []
-        positions.append((0, -5, -5))
-        positions.append((0, 0, -5))
-        positions.append((0, 5, -5))
-        positions.append((0, -5, 0))
-        positions.append((0, 0, 0))
-        positions.append((0, 5, 0))
-        positions.append((0, -5, 5))
-        positions.append((0, 0, 5))
-        positions.append((0, 5, 5))
+def test_analyze_positions_xy(image_binned):
+    positions = [(-5, -5, 0), (0, -5, 0), (5, -5, 0), (-5, 0, 0), (0, 0, 0), (5, 0, 0), (-5, 5, 0), (0, 5, 0),
+                 (5, 5, 0)]
 
-        image = self._imageBinned
-        image._positions = positions
-        image._analyzePositions()
+    image = image_binned
+    image._positions = positions
+    image._analyze_positions()
 
-        self.assertEqual("YZ", image._imageType)
-        #self.fail("Test if the testcase is working.")
+    assert image._imageType == "XY"
 
-    def test_analyzePositionsX(self):
-        positions = []
-        positions.append((-5, 0, 0))
-        positions.append((0, 0, 0))
-        positions.append((5, 0, 0))
-        positions.append((-5, 0, 0))
-        positions.append((0, 0, 0))
-        positions.append((5, 0, 0))
-        positions.append((-5, 0, 0))
-        positions.append((0, 0, 0))
-        positions.append((5, 0, 0))
 
-        image = self._imageBinned
-        image._positions = positions
-        image._analyzePositions()
+def test_analyze_positions_xz(image_binned):
+    positions = [(-5, 0, -5), (0, 0, -5), (5, 0, -5), (-5, 0, 0), (0, 0, 0), (5, 0, 0), (-5, 0, 5), (0, 0, 5),
+                 (5, 0, 5)]
 
-        self.assertEqual("X", image._imageType)
-        #self.fail("Test if the testcase is working.")
+    image = image_binned
+    image._positions = positions
+    image._analyze_positions()
 
-    def test_analyzePositionsY(self):
-        positions = []
-        positions.append((0, -5, 0))
-        positions.append((0, 0, 0))
-        positions.append((0, 5, 0))
-        positions.append((0, -5, 0))
-        positions.append((0, 0, 0))
-        positions.append((0, 5, 0))
-        positions.append((0, -5, 0))
-        positions.append((0, 0, 0))
-        positions.append((0, 5, 0))
+    assert image._imageType == "XZ"
 
-        image = self._imageBinned
-        image._positions = positions
-        image._analyzePositions()
 
-        self.assertEqual("Y", image._imageType)
-        #self.fail("Test if the testcase is working.")
+def test_analyze_positions_yz(image_binned):
+    positions = [(0, -5, -5), (0, 0, -5), (0, 5, -5), (0, -5, 0), (0, 0, 0), (0, 5, 0), (0, -5, 5), (0, 0, 5),
+                 (0, 5, 5)]
 
-    def test_analyzePositionsZ(self):
-        positions = []
-        positions.append((0, 0, -5))
-        positions.append((0, 0, -5))
-        positions.append((0, 0, -5))
-        positions.append((0, 0, 0))
-        positions.append((0, 0, 0))
-        positions.append((0, 0, 0))
-        positions.append((0, 0, 5))
-        positions.append((0, 0, 5))
-        positions.append((0, 0, 5))
+    image = image_binned
+    image._positions = positions
+    image._analyze_positions()
 
-        image = self._imageBinned
-        image._positions = positions
-        image._analyzePositions()
+    assert image._imageType == "YZ"
 
-        self.assertEqual("Z", image._imageType)
-        #self.fail("Test if the testcase is working.")
 
-    def test_analyzePositionsP(self):
-        positions = []
-        positions.append((0, 0, 0))
+def test_analyze_positions_x(image_binned):
+    positions = [(-5, 0, 0), (0, 0, 0), (5, 0, 0), (-5, 0, 0), (0, 0, 0), (5, 0, 0), (-5, 0, 0), (0, 0, 0), (5, 0, 0)]
 
-        image = self._imageBinned
-        image._positions = positions
-        image._analyzePositions()
+    image = image_binned
+    image._positions = positions
+    image._analyze_positions()
 
-        self.assertEqual("P", image._imageType)
-        #self.fail("Test if the testcase is working.")
+    assert image._imageType == "X"
 
-    def test_analyzePositions3D(self):
-        positions = []
-        positions.append((-5, -5, -5))
-        positions.append((0, -5, -5))
-        positions.append((5, -5, -5))
-        positions.append((-5, 0, -5))
-        positions.append((0, 0, -5))
-        positions.append((5, 0, -5))
-        positions.append((-5, 5, -5))
-        positions.append((0, 5, -5))
-        positions.append((5, 5, -5))
 
-        positions.append((-5, -5, 0))
-        positions.append((0, -5, 0))
-        positions.append((5, -5, 0))
-        positions.append((-5, 0, 0))
-        positions.append((0, 0, 0))
-        positions.append((5, 0, 0))
-        positions.append((-5, 5, 0))
-        positions.append((0, 5, 0))
-        positions.append((5, 5, 0))
+def test_analyze_positions_y(image_binned):
+    positions = [(0, -5, 0), (0, 0, 0), (0, 5, 0), (0, -5, 0), (0, 0, 0), (0, 5, 0), (0, -5, 0), (0, 0, 0), (0, 5, 0)]
 
-        positions.append((-5, -5, 5))
-        positions.append((0, -5, 5))
-        positions.append((5, -5, 5))
-        positions.append((-5, 0, 5))
-        positions.append((0, 0, 5))
-        positions.append((5, 0, 5))
-        positions.append((-5, 5, 5))
-        positions.append((0, 5, 5))
-        positions.append((5, 5, 5))
+    image = image_binned
+    image._positions = positions
+    image._analyze_positions()
 
-        image = self._imageBinned
-        image._positions = positions
-        image._analyzePositions()
+    assert image._imageType == "Y"
 
-        self.assertEqual("3D", image._imageType)
-        #self.fail("Test if the testcase is working.")
 
-    def test_createImage(self):
-        image = self._imageBinned
-        image._createImage()
+def test_analyze_positions_z(image_binned):
+    positions = [(0, 0, -5), (0, 0, -5), (0, 0, -5), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 5), (0, 0, 5), (0, 0, 5)]
 
-        #self.fail("Test if the testcase is working.")
+    image = image_binned
+    image._positions = positions
+    image._analyze_positions()
+
+    assert image._imageType == "z"
+
+
+def test_analyze_positions_p(image_binned):
+    positions = [(0, 0, 0)]
+
+    image = image_binned
+    image._positions = positions
+    image._analyze_positions()
+
+    assert image._imageType == "P"
+
+
+def test_analyze_positions_3d(image_binned):
+    positions = [(-5, -5, -5), (0, -5, -5), (5, -5, -5), (-5, 0, -5), (0, 0, -5), (5, 0, -5), (-5, 5, -5), (0, 5, -5),
+                 (5, 5, -5), (-5, -5, 0), (0, -5, 0), (5, -5, 0), (-5, 0, 0), (0, 0, 0), (5, 0, 0), (-5, 5, 0),
+                 (0, 5, 0), (5, 5, 0), (-5, -5, 5), (0, -5, 5), (5, -5, 5), (-5, 0, 5), (0, 0, 5), (5, 0, 5),
+                 (-5, 5, 5), (0, 5, 5), (5, 5, 5)]
+
+    image = image_binned
+    image._positions = positions
+    image._analyze_positions()
+
+    assert image._imageType == "3D"
+
+
+def test_create_image(image_binned):
+    image = image_binned
+    image._create_image()

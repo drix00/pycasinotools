@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.file
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import os.path
@@ -16,9 +32,11 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.tags as Tags
-import casinotools.file_format.casino3.simulation_data as SimulationData
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.tags import limited_search_tag, TAG_LENGTH
+from casinotools.file_format.casino3.simulation_data import SimulationData
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
 SIMULATION_CONFIGURATIONS = "sim"
@@ -31,6 +49,7 @@ V30103070 = 30103070
 V30104060 = 30104060
 V30107002 = 30107002
 
+
 class SaveContent(object):
     def __init__(self):
         self.sample = False
@@ -39,50 +58,53 @@ class SaveContent(object):
         self.results = False
         self.runtime = False
 
-class File(FileReaderWriterTools.FileReaderWriterTools):
-    def __init__(self, filepath, isModifiable=False):
-        self._filepath = filepath
-        self._isModifiable = isModifiable
 
-        self._simulationList = []
-        self._saveContent = SaveContent()
+class File(FileReaderWriterTools):
+    def __init__(self, filepath, is_modifiable=False):
+        self._filepath = filepath
+        self._is_modifiable = is_modifiable
+
+        self._simulation_list = []
+        self._save_content = SaveContent()
         self._file = None
 
-        self._version = None
+        self._version = 0
+        self._type = ""
+
         self.open()
 
     def _open(self, filepath):
         logging.debug("Filepath to be open in %s: %s", self.__class__.__name__, filepath)
-        if self._isModifiable:
+        if self._is_modifiable:
             file = open(filepath, 'r+b')
         else:
             file = open(filepath, 'rb')
         return file
 
-    def _openWriting(self, filepath):
+    def _open_writing(self, filepath):
         logging.debug("Filepath to be open in %s: %s", self.__class__.__name__, filepath)
         file = open(filepath, 'wb')
         return file
 
-    def getFileType(self):
-        type = self._getFileTypeFromFileTag()
+    def get_file_type(self):
+        file_type = self._get_file_type_from_file_tag()
 
         self.reset()
 
-        if type == None:
-            type = self._getFileTypeFromExtension()
+        if file_type is None:
+            file_type = self._get_file_type_from_extension()
 
-        return type
+        return file_type
 
-    def _getFileTypeFromFileTag(self):
-        extension = self._readExtension(self._file)
+    def _get_file_type_from_file_tag(self):
+        extension = self._read_extension(self._file)
 
         if extension.lower() == SIMULATION_CONFIGURATIONS:
             return SIMULATION_CONFIGURATIONS
         elif extension.lower() == SIMULATION_RESULTS:
             return SIMULATION_RESULTS
 
-    def _getFileTypeFromExtension(self):
+    def _get_file_type_from_extension(self):
         extension = os.path.splitext(self._filepath)[-1]
 
         if extension.lower() == '.' + SIMULATION_CONFIGURATIONS:
@@ -93,292 +115,302 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
     def reset(self):
         self._file.seek(0)
 
-    def getFilepath(self):
+    def get_filepath(self):
         return self._filepath
 
-    def setFilepath(self, filepath):
+    def set_filepath(self, filepath):
         self._filepath = filepath
 
     def open(self):
         self._file = self._open(self._filepath)
 
-        self._type = self.getFileType()
+        self._type = self.get_file_type()
 
         if self._type == SIMULATION_CONFIGURATIONS:
-            self._openSim()
+            self._open_sim()
         elif self._type == SIMULATION_RESULTS:
-            self._openCas()
+            self._open_cas()
 
-    def _openSim(self):
-        self._saveContent.sample = True
-        self._saveContent.options = True
-        self._saveContent.scanPointPositions = True
+    def _open_sim(self):
+        self._save_content.sample = True
+        self._save_content.options = True
+        self._save_content.scanPointPositions = True
 
-        self._readCasinoFile(self._file)
+        self._read_casino_file(self._file)
 
-    def _openCas(self):
-        self._saveContent.sample = True
-        self._saveContent.options = True
-        self._saveContent.scanPointPositions = True
-        self._saveContent.results = True
+    def _open_cas(self):
+        self._save_content.sample = True
+        self._save_content.options = True
+        self._save_content.scanPointPositions = True
+        self._save_content.results = True
 
-        self._readCasinoFile(self._file)
+        self._read_casino_file(self._file)
 
-    def _readCasinoFile(self, file):
-        self._fileVersion = self._extractFileVersion(file)
+    def _read_casino_file(self, file):
+        self._fileVersion = self._extract_file_version(file)
 
-        self._readWithFileVersion(file, self._fileVersion)
+        self._read_with_file_version(file, self._fileVersion)
 
-    def _extractFileVersion(self, file):
-        if Tags.limited_search_tag(file, b"V3.1.3.4", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+    @staticmethod
+    def _extract_file_version(file):
+        if limited_search_tag(file, b"V3.1.3.4", SAVEFILE_HEADER_MAXCHAR, TAG_LENGTH):
             return V30103040
-        elif Tags.limited_search_tag(file, b"V3.1.3.7", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        elif limited_search_tag(file, b"V3.1.3.7", SAVEFILE_HEADER_MAXCHAR, TAG_LENGTH):
             return V30103070
-        elif Tags.limited_search_tag(file, b"%SAVE_HEADER%", SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        elif limited_search_tag(file, b"%SAVE_HEADER%", SAVEFILE_HEADER_MAXCHAR, TAG_LENGTH):
             return V30104060
 
-    def _readWithFileVersion(self, file, fileVersion):
-        if fileVersion >= V30104060:
+    def _read_with_file_version(self, file, file_version):
+        if file_version >= V30104060:
             self.reset()
-            self._version = self._readVersion(file)
+            self._version = self._read_version(file)
 
         self._numberSimulations = 1
         if self._version >= 30107002:
             self._numberSimulations = self.read_int(file)
 
-        self._simulationList = []
+        self._simulation_list = []
         for i in range(self._numberSimulations):
             logging.debug("Read simulation %i", i)
-            simulation = self._readOneSimulation(file)
-            self._simulationList.append(simulation)
+            simulation = self._read_one_simulation(file)
+            self._simulation_list.append(simulation)
 
-    def _readOneSimulation(self, file):
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_readOneSimulation", file.tell())
-        simulationData = SimulationData.SimulationData()
+    def _read_one_simulation(self, file):
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_one_simulation",
+                      file.tell())
+        simulation_data = SimulationData()
 
-        if self._saveContent.sample:
-            simulationData.readSample(file)
+        if self._save_content.sample:
+            simulation_data.read_sample(file)
 
-        if self._saveContent.options:
-            simulationData.readOptions(file)
+        if self._save_content.options:
+            simulation_data.read_options(file)
 
-        if self._saveContent.scanPointPositions:
-            simulationData.readScanPointPositions(file)
+        if self._save_content.scanPointPositions:
+            simulation_data.read_scan_point_positions(file)
 
-        if self._saveContent.results:
-            simulationData.readResults(file)
+        if self._save_content.results:
+            simulation_data.read_results(file)
 
-        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_readOneSimulation", file.tell())
-        return simulationData
+        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_read_one_simulation",
+                      file.tell())
+        return simulation_data
 
-    def openFile(self):
+    def open_file(self):
         if self._file.closed:
-            self._file = open(self._filePathname, 'rb')
+            self._file = open(self._filepath, 'rb')
 
-    def closeFile(self):
+    def close_file(self):
         if self._file is not None:
             self._file.close()
 
-################################################################################
-    def _readExtension(self, file):
+    @staticmethod
+    def _read_extension(file):
         logging.debug("File position: %i", file.tell())
         extension = ""
 
-        tagID = b"ext="
-        if Tags.limited_search_tag(file, tagID, SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        tag_id = b"ext="
+        if limited_search_tag(file, tag_id, SAVEFILE_HEADER_MAXCHAR, TAG_LENGTH):
             logging.debug("File position: %i", file.tell())
-            format = "3s"
-            size = struct.calcsize(format)
+            value_format = "3s"
+            size = struct.calcsize(value_format)
             buffer = file.read(size)
-            items = struct.unpack_from(format, buffer)
+            items = struct.unpack_from(value_format, buffer)
             extension = items[0].decode('ascii')
 
         return extension
 
-    def _readVersion(self, file):
+    def _read_version(self, file):
         version = 0
 
-        tagID = b"%SAVE_HEADER%"
-        if Tags.limited_search_tag(file, tagID, SAVEFILE_HEADER_MAXCHAR, Tags.TAG_LENGTH):
+        tag_id = b"%SAVE_HEADER%"
+        if limited_search_tag(file, tag_id, SAVEFILE_HEADER_MAXCHAR, TAG_LENGTH):
             version = self.read_int(file)
 
         return version
 
     def save(self, filepath):
-        file = self._openWriting(filepath)
+        file = self._open_writing(filepath)
         self.write(file)
 
     def write(self, file):
-        self._writeSim(file)
+        self._write_sim(file)
 
-    def _writeSim(self, file):
-        self._saveContent.sample = True
-        self._saveContent.options = True
-        self._saveContent.scanPointPositions = True
+    def _write_sim(self, file):
+        self._save_content.sample = True
+        self._save_content.options = True
+        self._save_content.scanPointPositions = True
 
-        self._writeCasinoFile(file)
+        self._write_casino_file(file)
 
-    def _writeCasinoFile(self, file):
-        self._writeExtension(file, SIMULATION_CONFIGURATIONS)
-        self._writeVersion(file, V30107002)
-        self._writeNumberSimulations(file)
+    def _write_casino_file(self, file):
+        self._write_extension(file, SIMULATION_CONFIGURATIONS)
+        self._write_version(file, V30107002)
+        self._write_number_simulations(file)
 
-        for simulationData in self._simulationList:
-            self._writeOneSimulation(file, simulationData)
+        for simulationData in self._simulation_list:
+            self._write_one_simulation(file, simulationData)
 
-    def _writeExtension(self, file, extension):
+    def _write_extension(self, file, extension):
         self.add_tag(file, "ext=")
         size = len(extension)
         self.write_str_length(file, extension, size)
 
-    def _writeVersion(self, file, version):
+    def _write_version(self, file, version):
         self.add_tag(file, "%SAVE_HEADER%")
         self.write_int(file, version)
 
-    def _writeNumberSimulations(self, file):
+    def _write_number_simulations(self, file):
         assert self._numberSimulations == 1
-        assert self._numberSimulations == len(self._simulationList)
+        assert self._numberSimulations == len(self._simulation_list)
 
         self.write_int(file, self._numberSimulations)
 
-    def _writeOneSimulation(self, file, simulationData):
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_writeOneSimulation", file.tell())
+    def _write_one_simulation(self, file, simulation_data):
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_write_one_simulation",
+                      file.tell())
 
         self.write_int(file, V30107002)
 
-        if self._saveContent.sample:
-            simulationData.writeSample(file)
+        if self._save_content.sample:
+            simulation_data.write_sample(file)
 
-        if self._saveContent.options:
-            simulationData.writeOptions(file)
+        if self._save_content.options:
+            simulation_data.write_options(file)
 
-        if self._saveContent.scanPointPositions:
-            simulationData.writeScanPointPositions(file)
+        if self._save_content.scanPointPositions:
+            simulation_data.write_scan_point_positions(file)
 
-        if self._saveContent.results:
-            simulationData.writeResults(file)
+        if self._save_content.results:
+            simulation_data.write_results(file)
 
-        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_writeOneSimulation", file.tell())
+        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_write_one_simulation",
+                      file.tell())
 
-    def getNumberSimulations(self):
+    def get_number_simulations(self):
         return self._numberSimulations
 
-    def getSimulations(self):
-        return self._simulationList
+    def get_simulations(self):
+        return self._simulation_list
 
-    def getFirstSimulation(self):
-        return self._simulationList[0]
+    def get_first_simulation(self):
+        return self._simulation_list[0]
 
-    def getOptions(self):
-        return self._simulationList[0].getOptions()
+    def get_options(self):
+        return self._simulation_list[0].get_options()
 
-    def getResults(self):
-        return self._simulationList[0].getResultList()
+    def get_results(self):
+        return self._simulation_list[0].get_result_list()
 
-    def getScanPointResults(self):
-        return self._simulationList[0].getResultList().getScanPointsResults()
+    def get_scan_point_results(self):
+        return self._simulation_list[0].get_result_list().get_scan_points_results()
 
-    def getFirstSphereShape(self):
-        sample = self._simulationList[0].getSample()
-        firstSphereShape = sample.getFirstSphereShape()
-        return firstSphereShape
+    def get_first_sphere_shape(self):
+        sample = self._simulation_list[0].get_sample()
+        first_sphere_shape = sample.get_first_sphere_shape()
+        return first_sphere_shape
 
-    def getAllShapes(self):
-        sample = self._simulationList[0].getSample()
-        shapes = sample.getShapes()
+    def get_all_shapes(self):
+        sample = self._simulation_list[0].get_sample()
+        shapes = sample.get_shapes()
         return shapes
 
-    def getAllRegions(self):
-        sample = self._simulationList[0].getSample()
-        regions = sample.getRegions()
+    def get_all_regions(self):
+        sample = self._simulation_list[0].get_sample()
+        regions = sample.get_regions()
         return regions
 
-    def getVersion(self):
+    def get_version(self):
         if self._version is None:
             return self._fileVersion
         else:
             return self._version
 
     def export(self, export_file):
-        self._exportFilename(export_file)
-        self._exportFileType(export_file)
-        self._exportFileVersion(export_file)
+        self._export_filename(export_file)
+        self._export_file_type(export_file)
+        self._export_file_version(export_file)
 
-        self._exportHeader(export_file)
-        self._exportNumberSimulations(export_file)
-        self._exportSimulations(export_file)
+        self._export_header(export_file)
+        self._export_number_simulations(export_file)
+        self._export_simulations(export_file)
 
-    def _exportFilename(self, exportFile):
+    def _export_filename(self, export_file):
         filename = os.path.basename(self._filepath)
-        line = "Filename: %s" % (filename)
-        self.write_line(exportFile, line)
+        line = "Filename: {}".format(filename)
+        self.write_line(export_file, line)
 
-        line = "Filepath: %s" % (self._filepath)
-        self.write_line(exportFile, line)
+        line = "Filepath: {}".format(self._filepath)
+        self.write_line(export_file, line)
 
-    def _exportFileType(self, exportFile):
-        line = "File type: %s" % (self._type)
-        self.write_line(exportFile, line)
+    def _export_file_type(self, export_file):
+        line = "File shape_type: {}".format(self._type)
+        self.write_line(export_file, line)
 
-    def _exportFileVersion(self, exportFile):
-        version = self.getVersion()
-        versionString = self._extract_version_string(version)
-        line = "File version: %s (%i)" % (versionString, version)
-        self.write_line(exportFile, line)
+    def _export_file_version(self, export_file):
+        version = self.get_version()
+        version_string = self._extract_version_string(version)
+        line = "File version: {} ({:d})".format(version_string, version)
+        self.write_line(export_file, line)
 
-    def _exportHeader(self, exportFile):
+    def _export_header(self, export_file):
         line = "-"*80
-        self.write_line(exportFile, line)
+        self.write_line(export_file, line)
 
-        line = "%s" % ("Simulations")
-        self.write_line(exportFile, line)
+        line = "{}".format("Simulations")
+        self.write_line(export_file, line)
 
         line = "-"*40
-        self.write_line(exportFile, line)
+        self.write_line(export_file, line)
 
-    def _exportNumberSimulations(self, exportFile):
-        line = "Number of simulations: %s" % (self._numberSimulations)
-        self.write_line(exportFile, line)
+    def _export_number_simulations(self, export_file):
+        line = "Number of simulations: {}".format(self._numberSimulations)
+        self.write_line(export_file, line)
 
-    def _exportSimulations(self, exportFile):
-        simulationID = 0
-        for simulation in self._simulationList:
-            simulationID += 1
-            line = "Simulation: %i" % (simulationID)
-            self.write_line(exportFile, line)
+    def _export_simulations(self, export_file):
+        simulation_id = 0
+        for simulation in self._simulation_list:
+            simulation_id += 1
+            line = "Simulation: {:d}".format(simulation_id)
+            self.write_line(export_file, line)
 
-            simulation.export(exportFile)
+            simulation.export(export_file)
+
 
 def _run():
-    from pkg_resources import resource_filename #@UnresolvedImport
-    #filepathCas = Files.getCurrentModulePath(__file__, "../../test_data/casino3.x/WaterAuTop_wSE.cas")
-    filepathCas = resource_filename(__file__, "/Volumes/drix01/resultsUdeS/Simulations/Microfluidic/SecondaryElectrons/WaterAuTop_wSE_100e_CS5.cas")
-    #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_1Me.cas")
-    #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_100ke.cas")
-    #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_10ke.cas")
-    #filepathCas = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/ResistLines/SiSubstrateThreeLines_PointsEdep.cas")
+    from pkg_resources import resource_filename  # @UnresolvedImport
+    # filepath_cas  = Files.getCurrentModulePath(__file__, "../../test_data/casino3.x/WaterAuTop_wSE.cas")
+    filepath_cas = resource_filename(__file__, "/Volumes/drix01/resultsUdeS/Simulations/Microfluidic/SecondaryElectrons/WaterAuTop_wSE_100e_CS5.cas")
+    # filepath_cas  = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_1Me.cas")
+    # filepath_cas  = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_100ke.cas")
+    # filepath_cas  = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_10ke.cas")
+    # filepath_cas  = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/ResistLines/SiSubstrateThreeLines_PointsEdep.cas")
 
-    file = File(filepathCas)
-    print("File name: %s" % (file._file.name))
-    print("File descriptor: %i" % (file._file.fileno()))
-    print("File type: %s" % (file.getFileType()))
-    print("File version: %i" % (file._version))
-    print("Number of simualtions: %i" % (file._numberSimulations))
-    scanPointResults = file.getResults().getScanPointsResultsFromIndex(0)
-    print("Number of saved trajectories: %i" % (scanPointResults.getNumberSavedTrajectories()))
-    firstTrajectory = scanPointResults.getSavedTrajectory(0)
-    print("Number of collisions in first saved trajectory: %i" % (firstTrajectory.getNumberScatteringEvents()))
-    scatteringEvent = firstTrajectory.getScatteringEvent(-1)
-    print("Last collision type: %s" % (scatteringEvent.getCollisionType()))
-    file.closeFile()
+    file = File(filepath_cas)
+    print("File name: {}".format(file._file.name))
+    print("File descriptor: {:d}".format(file._file.fileno()))
+    print("File shape_type: {}".format(file.get_file_type()))
+    print("File version: {:d}".format(file._version))
+    print("Number of simualtions: {:d}".format(file._numberSimulations))
+    scan_point_results = file.get_results().get_scan_points_results_from_index(0)
+    print("Number of saved trajectories: {:d}".format(scan_point_results.get_number_saved_trajectories()))
+    first_trajectory = scan_point_results.get_saved_trajectory(0)
+    number_events = first_trajectory.get_number_scattering_events()
+    print("Number of collisions in first saved trajectory: {:d}".format(number_events))
+    scattering_event = first_trajectory.get_scattering_event(-1)
+    print("Last collision shape_type: {}".format(scattering_event.get_collision_type()))
+    file.close_file()
 
-def runProfile():
+
+def run_profile():
     import cProfile
     cProfile.run('_run()', 'Casino3.x_File.prof')
 
-def runDebug():
+
+def run_debug():
     logging.getLogger().setLevel(logging.DEBUG)
     _run()
 
-if __name__ == '__main__': #pragma: no cover
-    runProfile()
+
+if __name__ == '__main__':  # pragma: no cover
+    run_profile()

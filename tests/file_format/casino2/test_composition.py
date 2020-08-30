@@ -33,8 +33,7 @@ import pytest
 # Local modules.
 
 # Project modules.
-import casinotools.file_format.casino2.composition as Composition
-import tests.file_format.casino2.test_file as test_File
+from casinotools.file_format.casino2.composition import Composition
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
@@ -49,33 +48,32 @@ def test_is_discovered():
     assert True
 
 
-class TestComposition(test_File.TestFile):
+def test_read(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
 
-    def test_read(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
+    with open(filepath_sim_2_45, 'rb') as file:
+        _read_tests(file)
 
-        with open(self.filepathSim, 'rb') as file:
-            self._read_tests(file)
 
-    def test_read_StringIO(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
+def test_read_string_io(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
 
-        f = open(self.filepathSim, 'rb')
-        buf = BytesIO(f.read())
-        buf.mode = 'rb'
-        f.close()
-        self._read_tests(buf)
+    f = open(filepath_sim_2_45, 'rb')
+    buf = BytesIO(f.read())
+    f.close()
+    _read_tests(buf)
 
-    def _read_tests(self, file):
-        file.seek(1889)
-        composition = Composition.Composition()
-        composition.read(file)
 
-        self.assertEqual(0, composition.NuEl)
-        self.assertAlmostEqual(7.981000000000E-01, composition.FWt)
-        self.assertAlmostEqual(8.145442797934E-01, composition.FAt)
-        self.assertAlmostEqual(0.0, composition.SigmaT)
-        self.assertAlmostEqual(0.0, composition.SigmaTIne)
-        self.assertEqual(1, composition.Rep)
+def _read_tests(file):
+    file.seek(1889)
+    composition = Composition()
+    composition.read(file)
+
+    assert composition.NuEl == 0
+    assert composition.FWt == pytest.approx(7.981000000000E-01)
+    assert composition.FAt == pytest.approx(8.145442797934E-01)
+    assert composition.SigmaT == pytest.approx(0.0)
+    assert composition.SigmaTIne == pytest.approx(0.0)
+    assert composition.Rep == 1

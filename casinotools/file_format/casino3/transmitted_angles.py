@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: module_name
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -16,107 +32,124 @@ import os
 import numpy as np
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
 
-class TransmittedAngles(FileReaderWriterTools.FileReaderWriterTools):
+
+# Third party modules.
+
+# Local modules.
+
+# Globals and constants variables.
+
+
+class TransmittedAngles(FileReaderWriterTools):
     def __init__(self):
         self._file = None
-        self._startPosition = 0
-        self._startPositionCollisions = 0
-        self._endPosition = 0
-        self._filePathname = ""
-        self._fileDescriptor = 0
+        self._start_position = 0
+        self._start_position_collisions = 0
+        self._end_position = 0
+        self._file_pathname = ""
+        self._file_descriptor = 0
 
         self._angles = None
-        self._binnedAngles = None
+        self._binned_angles = None
+
+        self._number_transmitted_electrons = 0
+        self._number_transmitted_detected_electrons = 0
+        self._number_angles = 0
+        self._number_binned_angles = 0
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
-        self._startPosition = file.tell()
-        self._filePathname = file.name
-        self._fileDescriptor = file.fileno()
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
+        self._start_position = file.tell()
+        self._file_pathname = file.name
+        self._file_descriptor = file.fileno()
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
-        self._numberTransmittedElectrons = self.read_int(file)
-        self._numberTransmittedDetectedElectrons = self.read_int(file)
+        self._number_transmitted_electrons = self.read_int(file)
+        self._number_transmitted_detected_electrons = self.read_int(file)
 
-        self._numberAngles = self.read_int(file)
-        self._startPosition = file.tell()
-        skipOffset = self.get_size_of_double_list(self._numberAngles)
-        file.seek(skipOffset, os.SEEK_CUR)
+        self._number_angles = self.read_int(file)
+        self._start_position = file.tell()
+        skip_offset = self.get_size_of_double_list(self._number_angles)
+        file.seek(skip_offset, os.SEEK_CUR)
 
-        self._numberBinnedAngles = self.read_int(file)
-        skipOffset = self.get_size_of_int_list(self._numberBinnedAngles)
-        file.seek(skipOffset, os.SEEK_CUR)
+        self._number_binned_angles = self.read_int(file)
+        skip_offset = self.get_size_of_int_list(self._number_binned_angles)
+        file.seek(skip_offset, os.SEEK_CUR)
 
-        self._endPosition = file.tell()
-        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._endPosition)
+        self._end_position = file.tell()
+        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._end_position)
 
-    def _readAngleValues(self):
-        self._file.seek(self._startPosition)
-        self._angles = self.read_double_list(self._file, self._numberAngles)
+    def _read_angle_values(self):
+        self._file.seek(self._start_position)
+        self._angles = self.read_double_list(self._file, self._number_angles)
 
-        self._numberBinnedAngles = self.read_int(self._file)
-        self._binnedAngles = self.read_int_list(self._file, self._numberBinnedAngles)
+        self._number_binned_angles = self.read_int(self._file)
+        self._binned_angles = self.read_int_list(self._file, self._number_binned_angles)
 
-    def getAngles(self):
+    def get_angles(self):
         if self._angles is None:
-            self._readAngleValues()
+            self._read_angle_values()
 
         return self._angles
 
-    def getBinnedAngles(self):
-        if self._binnedAngles is None:
-            self._readAngleValues()
+    def get_binned_angles(self):
+        if self._binned_angles is None:
+            self._read_angle_values()
 
-        return self._binnedAngles
+        return self._binned_angles
 
-    def getTransmittedDetectedElectrons(self, betaMin, betaMax):
-        if self._numberAngles > 0:
-            return self.getTransmittedDetectedElectronsByAngles(betaMin, betaMax)
-        elif self._numberBinnedAngles > 0:
-            return self.getTransmittedDetectedElectronsByBinnedAngles(betaMin, betaMax)
+    def get_transmitted_detected_electrons(self, beta_min, beta_max):
+        if self._number_angles > 0:
+            return self.get_transmitted_detected_electrons_by_angles(beta_min, beta_max)
+        elif self._number_binned_angles > 0:
+            return self.get_transmitted_detected_electrons_by_binned_angles(beta_min, beta_max)
 
-    def getTransmittedDetectedElectronsByAngles(self, betaMin_mrad, betaMax_mrad):
+    def get_transmitted_detected_electrons_by_angles(self, beta_min_mrad, beta_max_mrad):
         if self._angles is None:
-            self._readAngleValues()
+            self._read_angle_values()
 
-        if betaMin_mrad == None:
-            betaMin_rad = min(self._angles)
+        if beta_min_mrad is None:
+            beta_min_rad = min(self._angles)
         else:
-            betaMin_rad = betaMin_mrad * 1.0e-3
+            beta_min_rad = beta_min_mrad * 1.0e-3
 
-        if betaMax_mrad == None:
-            betaMax_rad = max(self._angles)
+        if beta_max_mrad is None:
+            beta_max_rad = max(self._angles)
         else:
-            betaMax_rad = betaMax_mrad * 1.0e-3
+            beta_max_rad = beta_max_mrad * 1.0e-3
 
         angles = np.array(self._angles)
-        numberDetectedElectrons = np.ma.masked_outside(angles, betaMin_rad, betaMax_rad).count()
+        number_detected_electrons = np.ma.masked_outside(angles, beta_min_rad, beta_max_rad).count()
 
-        return numberDetectedElectrons
+        return number_detected_electrons
 
-    def getTransmittedDetectedElectronsByBinnedAngles(self, betaMin, betaMax):
-        if self._binnedAngles is None:
-            self._readAngleValues()
+    def get_transmitted_detected_electrons_by_binned_angles(self, beta_min, beta_max):
+        if self._binned_angles is None:
+            self._read_angle_values()
 
-        startAngle_mrad = 0.0
-        stopAngle_mrad = (np.pi / 2.0) * 1.0e3
-        numberAngles = self._numberBinnedAngles
-        angles = np.linspace(startAngle_mrad, stopAngle_mrad, numberAngles)
-        assert len(angles) == len(self._binnedAngles)
+        start_angle_mrad = 0.0
+        stop_angle_mrad = (np.pi / 2.0) * 1.0e3
+        number_angles = self._number_binned_angles
+        angles = np.linspace(start_angle_mrad, stop_angle_mrad, number_angles)
+        assert len(angles) == len(self._binned_angles)
 
+        index_min = 0
+        index_max = 0
         for index, angle in enumerate(angles):
-            if angle >= betaMin:
-                indexMin = index
+            if angle >= beta_min:
+                index_min = index
                 break
 
         for index, angle in enumerate(angles):
-            if angle <= betaMax:
-                indexMax = index
+            if angle <= beta_max:
+                index_max = index
 
-        numberElectrons = sum(self._binnedAngles[indexMin:indexMax + 1])
-        return numberElectrons
+        number_electrons = sum(self._binned_angles[index_min:index_max + 1])
+        return number_electrons

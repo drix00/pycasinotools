@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests.file_format.casino3.test_options_physic
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the :py:mod:`casinotools.file_format.casino3.options_physic` module.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
@@ -14,55 +30,62 @@ __license__ = ""
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino3.options_physic as OptionsPhysic
-import tests.file_format.test_file_reader_writer_tools as test_FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.casino3.options_physic import OptionsPhysic
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
-class TestOptionsPhysic(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
-    def test_read(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        file = open(self.filepathSim, 'rb')
-        reader = OptionsPhysic.OptionsPhysic()
-        error = reader.read(file)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        self.assertEqual(None, error)
-        self.assertEqual(30107002, reader._version)
-        self.assertEqual(3, reader.FRan)
-        self.assertEqual(1, reader.FDeds)
-        self.assertEqual(5, reader.FTotalCross)
-        self.assertEqual(5, reader.FPartialCross)
-        self.assertEqual(1, reader.FCosDirect)
-        self.assertEqual(3, reader.FSecIon)
-        self.assertEqual(0, reader.FPotMoy)
 
-        self.assertEqual(10, reader.max_secondary_order)
-        self.assertAlmostEqual(0.05, reader.Min_Energy_Nosec)
-        self.assertAlmostEqual(0.0004, reader.Residual_Energy_Loss)
-        self.assertAlmostEqual(-1, reader.Min_Energy_With_Sec)
-        self.assertAlmostEqual(-1, reader.Min_Gen_Secondary_Energy)
+def test_read(filepath_sim, filepath_cas):
+    if is_bad_file(filepath_sim):
+        pytest.skip()
+    file = open(filepath_sim, 'rb')
+    reader = OptionsPhysic()
+    error = reader.read(file)
 
-        reader = OptionsPhysic.OptionsPhysic()
-        file = open(self.filepathCas, 'rb')
-        error = reader.read(file)
+    assert error is None
+    assert reader._version == 30107002
+    assert reader.FRan == 3
+    assert reader.FDeds == 1
+    assert reader.FTotalCross == 5
+    assert reader.FPartialCross == 5
+    assert reader.FCosDirect == 1
+    assert reader.FSecIon == 3
+    assert reader.FPotMoy == 0
 
-        self.assertEqual(None, error)
-        self.assertEqual(30107002, reader._version)
-        self.assertEqual(3, reader.FRan)
-        self.assertEqual(1, reader.FDeds)
-        self.assertEqual(5, reader.FTotalCross)
-        self.assertEqual(5, reader.FPartialCross)
-        self.assertEqual(1, reader.FCosDirect)
-        self.assertEqual(3, reader.FSecIon)
-        self.assertEqual(0, reader.FPotMoy)
+    assert reader.max_secondary_order == 10
+    assert reader.Min_Energy_Nosec == pytest.approx(0.05)
+    assert reader.Residual_Energy_Loss == pytest.approx(0.0004)
+    assert reader.Min_Energy_With_Sec == pytest.approx(-1)
+    assert reader.Min_Gen_Secondary_Energy == pytest.approx(-1)
 
-        self.assertEqual(10, reader.max_secondary_order)
-        self.assertAlmostEqual(0.05, reader.Min_Energy_Nosec)
-        self.assertAlmostEqual(0.0004, reader.Residual_Energy_Loss)
-        self.assertAlmostEqual(-1, reader.Min_Energy_With_Sec)
-        self.assertAlmostEqual(-1, reader.Min_Gen_Secondary_Energy)
+    reader = OptionsPhysic()
+    file = open(filepath_cas, 'rb')
+    error = reader.read(file)
 
-        #self.fail("Test if the testcase is working.")
+    assert error is None
+    assert reader._version == 30107002
+    assert reader.FRan == 3
+    assert reader.FDeds == 1
+    assert reader.FTotalCross == 5
+    assert reader.FPartialCross == 5
+    assert reader.FCosDirect == 1
+    assert reader.FSecIon == 3
+    assert reader.FPotMoy == 0
+
+    assert reader.max_secondary_order == 10
+    assert reader.Min_Energy_Nosec == pytest.approx(0.05)
+    assert reader.Residual_Energy_Loss == pytest.approx(0.0004)
+    assert reader.Min_Energy_With_Sec == pytest.approx(-1)
+    assert reader.Min_Gen_Secondary_Energy == pytest.approx(-1)

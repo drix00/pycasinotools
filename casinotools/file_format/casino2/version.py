@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino2.Version
+.. py:currentmodule:: casinotools.file_format.casino2.version
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 

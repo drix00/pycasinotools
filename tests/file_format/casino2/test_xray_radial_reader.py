@@ -1,161 +1,202 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests.file_format.casino2.test_xray_radial_reader
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the :py:mod:`casinotools.file_format.casino2.xray_radial_reader` module.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
-import unittest
 import os.path
 
 # Third party modules.
-from pkg_resources import resource_filename #@UnresolvedImport
+from pkg_resources import resource_filename  # @UnresolvedImport
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino2.xray_radial_reader as XrayRadialReader
-import casinotools.file_format.casino2.xray_radial as XrayRadial
+
+# Project modules.
+from casinotools.file_format.casino2.xray_radial_reader import XrayRadialReader, K, L, M, HEADER_ELEMENT
+from casinotools.file_format.casino2.xray_radial_reader import HEADER_ELEMENT_LINE, HEADER_ALL
+from casinotools.file_format.casino2.xray_radial import DISTANCE_nm, INTENSITY, INTENSITY_ABSORBED
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
-class TestXrayRadialReader(unittest.TestCase):
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        basepath = resource_filename(__name__, "../../../test_data/casino2.x/exportedData")
-        self.filepath_Cu_K = os.path.join(basepath, "XrayRadial_Cu_K.txt")
-        self.filepath_Cu_L = os.path.join(basepath, "XrayRadial_Cu_L.txt")
-        self.filepath_Au_M = os.path.join(basepath, "XrayRadial_Au_M.txt")
-        self.filepath_Cu = os.path.join(basepath, "XrayRadial_Cu.txt")
+# Third party modules.
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+# Local modules.
 
-    def testSkeleton(self):
-        #self.fail("Test if the testcase is working.")
-        self.assertTrue(True)
+# Globals and constants variables.
 
-    def test_readTextFile(self):
-        if is_bad_file(self.filepath_Cu_K):
-            pytest.skip()
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader.readTextFile(self.filepath_Cu_K)
 
-        xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
-        self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
-        self.assertEqual("Cu", xrayRadial.getElementSymbol())
+@pytest.fixture
+def base_path():
+    base_path = resource_filename(__name__, "../../../test_data/casino2.x/exportedData")
+    return base_path
 
-        dataLabelsRef = [XrayRadial.DISTANCE_nm, XrayRadial.INTENSITY, XrayRadial.INTENSITY_ABSORBED]
-        self.assertEqual(dataLabelsRef, xrayRadial.getDataLabels())
 
-        distances_nm = xrayRadial.getDistances_nm()
-        self.assertEqual(500, len(distances_nm))
-        self.assertAlmostEqual(0.0, distances_nm[0])
-        self.assertAlmostEqual(953.396625, distances_nm[-1])
+@pytest.fixture
+def filepath_Cu_K(base_path):
+    file_path = os.path.join(base_path, "XrayRadial_Cu_K.txt")
+    return file_path
 
-        intensities = xrayRadial.getIntensities()
-        self.assertEqual(500, len(intensities))
-        self.assertAlmostEqual(111.260633, intensities[0])
-        self.assertAlmostEqual(0.000128, intensities[-1])
 
-        intensitiesAbsorbed = xrayRadial.getIntensitiesAbsorbed()
-        self.assertEqual(500, len(intensitiesAbsorbed))
-        self.assertAlmostEqual(111.007526, intensitiesAbsorbed[0])
-        self.assertAlmostEqual(0.000127, intensitiesAbsorbed[-1])
+@pytest.fixture
+def filepath_Cu_L(base_path):
+    file_path = os.path.join(base_path, "XrayRadial_Cu_L.txt")
+    return file_path
 
-        #self.fail("Test if the testcase is working.")
 
-    def test_getLine(self):
-        if is_bad_file(self.filepath_Cu_K):
-            pytest.skip()
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader.readTextFile(self.filepath_Cu_K)
-        xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
-        self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
+@pytest.fixture
+def filepath_Au_M(base_path):
+    file_path = os.path.join(base_path, "XrayRadial_Au_M.txt")
+    return file_path
 
-        if is_bad_file(self.filepath_Cu_L):
-            pytest.skip()
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader.readTextFile(self.filepath_Cu_L)
-        xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
-        self.assertEqual(XrayRadialReader.L, xrayRadial.getLine())
 
-        if is_bad_file(self.filepath_Au_M):
-            pytest.skip()
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader.readTextFile(self.filepath_Au_M)
-        xrayRadial = xrayRadialReader.getData('Au', XrayRadialReader.M)
-        self.assertEqual(XrayRadialReader.M, xrayRadial.getLine())
+@pytest.fixture
+def filepath_Cu(base_path):
+    file_path = os.path.join(base_path, "XrayRadial_Cu.txt")
+    return file_path
 
-        #self.fail("Test if the testcase is working.")
 
-    def test_getElementSymbol(self):
-        if is_bad_file(self.filepath_Cu_K):
-            pytest.skip()
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader.readTextFile(self.filepath_Cu_K)
-        xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
-        self.assertEqual("Cu", xrayRadial.getElementSymbol())
+def test_read_text_file(filepath_Cu_K):
+    if is_bad_file(filepath_Cu_K):
+        pytest.skip()
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader.readTextFile(filepath_Cu_K)
 
-        if is_bad_file(self.filepath_Cu_L):
-            pytest.skip()
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader.readTextFile(self.filepath_Cu_L)
-        xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
-        self.assertEqual("Cu", xrayRadial.getElementSymbol())
+    xray_radial = xray_radial_reader.getData('Cu', K)
+    assert xray_radial.get_line() == K
+    assert xray_radial.get_element_symbol() == "Cu"
 
-        if is_bad_file(self.filepath_Au_M):
-            pytest.skip()
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader.readTextFile(self.filepath_Au_M)
-        xrayRadial = xrayRadialReader.getData('Au', XrayRadialReader.M)
-        self.assertEqual("Au", xrayRadial.getElementSymbol())
+    data_labels_ref = [DISTANCE_nm, INTENSITY, INTENSITY_ABSORBED]
+    assert xray_radial.get_data_labels() == data_labels_ref
 
-        #self.fail("Test if the testcase is working.")
+    distances_nm = xray_radial.get_distances_nm()
+    assert len(distances_nm) == 500
+    assert distances_nm[0] == pytest.approx(0.0)
+    assert distances_nm[-1] == pytest.approx(953.396625)
 
-    def NOtestReadElement(self):
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader.readTextFile(self.filepath_Cu)
+    intensities = xray_radial.get_intensities()
+    assert len(intensities) == 500
+    assert intensities[0] == pytest.approx(111.260633)
+    assert intensities[-1] == pytest.approx(0.000128)
 
-        self.assertEqual(XrayRadialReader.HEADER_ELEMENT, xrayRadialReader._version)
+    intensities_absorbed = xray_radial.get_intensities_absorbed()
+    assert len(intensities_absorbed) == 500
+    assert intensities_absorbed[0] == pytest.approx(111.007526)
+    assert intensities_absorbed[-1] == pytest.approx(0.000127)
 
-        xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.K)
-        self.assertEqual("Cu", xrayRadial.getElementSymbol())
-        self.assertEqual(XrayRadialReader.K, xrayRadial.getLine())
 
-        xrayRadial = xrayRadialReader.getData('Cu', XrayRadialReader.L)
-        self.assertEqual("Cu", xrayRadial.getElementSymbol())
-        self.assertEqual(XrayRadialReader.L, xrayRadial.getLine())
+def test_getLine(filepath_Cu_K, filepath_Cu_L, filepath_Au_M):
+    if is_bad_file(filepath_Cu_K):
+        pytest.skip()
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader.readTextFile(filepath_Cu_K)
+    xray_radial = xray_radial_reader.getData('Cu', K)
+    assert xray_radial.get_line() == K
 
-    def test__setTextFileVersion(self):
-        line = "Radial XRay Distribution Layer MV of Element Au"
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader._setTextFileVersion(line)
-        self.assertEqual(XrayRadialReader.HEADER_ELEMENT_LINE, xrayRadialReader._version)
+    if is_bad_file(filepath_Cu_L):
+        pytest.skip()
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader.readTextFile(filepath_Cu_L)
+    xray_radial = xray_radial_reader.getData('Cu', L)
+    assert xray_radial.get_line() == L
 
-        line = "Radial Distribution of Cu"
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader._setTextFileVersion(line)
-        self.assertEqual(XrayRadialReader.HEADER_ELEMENT, xrayRadialReader._version)
+    if is_bad_file(filepath_Au_M):
+        pytest.skip()
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader.readTextFile(filepath_Au_M)
+    xray_radial = xray_radial_reader.getData('Au', M)
+    assert xray_radial.get_line() == M
 
-        line = "XRay Radial of Cu"
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader._setTextFileVersion(line)
-        self.assertEqual(XrayRadialReader.HEADER_ALL, xrayRadialReader._version)
 
-        #self.fail("Test if the testcase is working.")
+def test_get_element_symbol(filepath_Cu_K, filepath_Cu_L, filepath_Au_M):
+    if is_bad_file(filepath_Cu_K):
+        pytest.skip()
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader.readTextFile(filepath_Cu_K)
+    xray_radial = xray_radial_reader.getData('Cu', K)
+    assert xray_radial.get_element_symbol() == "Cu"
 
-    def test__extractDataLabelLineDataElement(self):
-        line = "Distance(nm)\tIntensity: K\tIntensity: K ABS\tIntensity: LIII\tIntensity: LIII ABS"
-        xrayRadialReader = XrayRadialReader.XrayRadialReader()
-        xrayRadialReader._extractDataLabelLineDataElement(line)
-        labels = xrayRadialReader._labels
-        self.assertEqual(XrayRadial.DISTANCE_nm, labels[0])
+    if is_bad_file(filepath_Cu_L):
+        pytest.skip()
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader.readTextFile(filepath_Cu_L)
+    xray_radial = xray_radial_reader.getData('Cu', L)
+    assert xray_radial.get_element_symbol() == "Cu"
 
-        #self.fail("Test if the testcase is working.")
+    if is_bad_file(filepath_Au_M):
+        pytest.skip()
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader.readTextFile(filepath_Au_M)
+    xray_radial = xray_radial_reader.getData('Au', M)
+    assert xray_radial.get_element_symbol() == "Au"
+
+
+def no_test_read_element(filepath_Cu):
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader.readTextFile(filepath_Cu)
+
+    assert xray_radial_reader._version == HEADER_ELEMENT
+
+    xray_radial = xray_radial_reader.getData('Cu', K)
+    assert xray_radial.get_element_symbol() == "Cu"
+    assert xray_radial.get_line() == K
+
+    xray_radial = xray_radial_reader.getData('Cu', L)
+    assert xray_radial.get_element_symbol() == "Cu"
+    assert xray_radial.get_line() == L
+
+
+def test_set_text_file_version():
+    line = "Radial XRay Distribution Layer MV of Element Au"
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader._setTextFileVersion(line)
+    assert xray_radial_reader._version == HEADER_ELEMENT_LINE
+
+    line = "Radial Distribution of Cu"
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader._setTextFileVersion(line)
+    assert xray_radial_reader._version == HEADER_ELEMENT
+
+    line = "XRay Radial of Cu"
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader._setTextFileVersion(line)
+    assert xray_radial_reader._version == HEADER_ALL
+
+
+def test_extract_data_label_line_data_element():
+    line = "Distance(nm)\tIntensity: K\tIntensity: K ABS\tIntensity: LIII\tIntensity: LIII ABS"
+    xray_radial_reader = XrayRadialReader()
+    xray_radial_reader._extractDataLabelLineDataElement(line)
+    labels = xray_radial_reader._labels
+    assert labels[0] == DISTANCE_nm

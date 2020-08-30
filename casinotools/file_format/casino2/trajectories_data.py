@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino2.trajectories_data
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -14,29 +30,41 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino2.trajectory as Trajectory
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino2.trajectory import Trajectory
 
 # Globals and constants variables.
 
-class TrajectoriesData(FileReaderWriterTools.FileReaderWriterTools):
-    def __init__(self, isSkipReadingData=False):
-        self._isSkipReadingData = isSkipReadingData
+# Third party modules.
+
+# Local modules.
+
+# Globals and constants variables.
+
+
+class TrajectoriesData(FileReaderWriterTools):
+    def __init__(self, is_skip_reading_data=False):
+        self._is_skip_reading_data = is_skip_reading_data
+
+        self._number_trajectories = 0
+        self._trajectories = []
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = b"*TRAJDATA%%%%%%"
-        self.find_tag(file, tagID)
+        tag_id = b"*TRAJDATA%%%%%%"
+        self.find_tag(file, tag_id)
 
-        self._numberTrajectories = self.read_long(file)
+        self._number_trajectories = self.read_long(file)
 
         self._trajectories = []
-        for dummy in range(self._numberTrajectories):
-            trajectory = Trajectory.Trajectory(self._isSkipReadingData)
+        for dummy in range(self._number_trajectories):
+            trajectory = Trajectory(self._is_skip_reading_data)
             trajectory.read(file)
             self._trajectories.append(trajectory)
 
-    def getTrajectories(self):
+    def get_trajectories(self):
         return self._trajectories

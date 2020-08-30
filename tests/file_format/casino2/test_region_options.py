@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino2.test_RegionOptions
+.. py:currentmodule:: tests.file_format.casino2.test_region_options
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`casinotools.file_format.casino2.RegionOptions`.
+Tests for the module :py:mod:`casinotools.file_format.casino2.region_options`.
 """
 
 ###############################################################################
@@ -26,45 +26,49 @@ Tests for the module :py:mod:`casinotools.file_format.casino2.RegionOptions`.
 ###############################################################################
 
 # Standard library modules.
-try:
-    from io import BytesIO
-except ImportError:  # Python 2
-    from StringIO import StringIO as BytesIO
+from io import BytesIO
 
 # Third party modules.
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino2.region_options as RegionOptions
-import tests.file_format.casino2.test_file as test_File
+
+# Project modules.
+from casinotools.file_format.casino2.region_options import RegionOptions
+from casinotools.file_format.casino2.version import VERSION_2_45
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
 
-class TestRegionOptions(test_File.TestFile):
+def test_is_discovered():
     """
-    TestCase class for the module `casinotools.file_format.casino2.RegionOptions`.
+    Test used to validate the file is included in the tests
+    by the test framework.
     """
+    # assert False
+    assert True
 
-    def test_read(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        with open(self.filepathSim, 'rb') as file:
-            self._read_tests(file, self.version_2_45)
 
-    def test_read_StringIO(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        f = open(self.filepathSim, 'rb')
-        file = BytesIO(f.read())
-        file.mode = 'rb'
-        f.close()
-        self._read_tests(file, self.version_2_45)
+def test_read(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
+    with open(filepath_sim_2_45, 'rb') as file:
+        _read_tests(file, VERSION_2_45)
 
-    def _read_tests(self, file, version):
-        file.seek(0)
-        region_options = RegionOptions.RegionOptions(500)
-        region_options.read(file, version)
 
-        self.assertEqual(1, region_options._numberRegions)
+def test_read_string_io(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
+    f = open(filepath_sim_2_45, 'rb')
+    file = BytesIO(f.read())
+    f.close()
+    _read_tests(file, VERSION_2_45)
+
+
+def _read_tests(file, version):
+    file.seek(0)
+    region_options = RegionOptions(500)
+    region_options.read(file, version)
+
+    assert region_options._numberRegions == 1

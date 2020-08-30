@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests.file_format.casino3.test_sample
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the :py:mod:`casinotools.file_format.casino3.sample` module.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import os.path
@@ -16,224 +32,225 @@ import shutil
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino3.sample as Sample
-import tests.file_format.test_file_reader_writer_tools as test_FileReaderWriterTools
-import casinotools.file_format.casino3.sample_object_factory as SampleObjectFactory
-import casinotools.file_format.casino3.file as CasinoFile
+
+# Project modules.
+from casinotools.file_format.casino3.sample import Sample
+from casinotools.file_format.casino3.sample_object_factory import SHAPE_BOX
+from casinotools.file_format.casino3.file import File
 from casinotools.utilities.path import get_current_module_path
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
-class TestSample(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
-    def test_read(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        file = open(self.filepathSim, "rb")
-        file.seek(55)
-        sample = Sample.Sample()
-        sample.read(file)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        self.assertEqual(30107002, sample._version)
-        self.assertEqual(False, sample._useSubstrate)
 
-        self.assertEqual(4, sample._count)
+def test_read(filepath_sim):
+    if is_bad_file(filepath_sim):
+        pytest.skip()
+    file = open(filepath_sim, "rb")
+    file.seek(55)
+    sample = Sample()
+    sample.read(file)
 
-        boxShape = sample._sampleObjects[0]
+    assert sample._version == 30107002
+    assert sample._useSubstrate == 0
 
-        self.assertEqual(SampleObjectFactory.SHAPE_BOX, boxShape._type)
-        self.assertEqual(30105004, boxShape._version)
-        self.assertEqual("Box_0", boxShape._name)
-        self.assertEqual("Undefined", boxShape._regionName)
-        self.assertEqual((0.0, 0.0, 5000.0), boxShape._translation)
-        self.assertEqual((0.0, 0.0, 0.0), boxShape._rotation)
-        self.assertEqual((10000.0, 10000.0, 10000.0), boxShape._scale)
-        self.assertEqual((0.984375, 0.0, 0.0), boxShape._color)
+    assert sample._count == 4
 
-        self.assertEqual(20, sample._maxSampleTreeLevel)
+    box_shape = sample._sample_objects[0]
 
-        #self.fail("Test if the testcase is working.")
+    assert box_shape._shape_type == SHAPE_BOX
+    assert box_shape._version == 30105004
+    assert box_shape._name == "Box_0"
+    assert box_shape._region_name == "Undefined"
+    assert box_shape._translation == (0.0, 0.0, 5000.0)
+    assert box_shape._rotation == (0.0, 0.0, 0.0)
+    assert box_shape._scale == (10000.0, 10000.0, 10000.0)
+    assert box_shape._color == (0.984375, 0.0, 0.0)
 
-    def test_read3202(self):
-        if is_bad_file(self.filepathSim_3202):
-            pytest.skip()
-        file = open(self.filepathSim_3202, "rb")
-        file.seek(55)
-        sample = Sample.Sample()
-        sample.read(file)
+    assert sample._maxSampleTreeLevel == 20
 
-        self.assertEqual(30200002, sample._version)
-        self.assertEqual(False, sample._useSubstrate)
 
-        self.assertEqual(4, sample._count)
+def test_read3202(filepath_sim_3202):
+    if is_bad_file(filepath_sim_3202):
+        pytest.skip()
+    file = open(filepath_sim_3202, "rb")
+    file.seek(55)
+    sample = Sample()
+    sample.read(file)
 
-        boxShape = sample._sampleObjects[0]
+    assert sample._version == 30200002
+    assert sample._useSubstrate == 0
 
-        self.assertEqual(SampleObjectFactory.SHAPE_BOX, boxShape._type)
-        self.assertEqual(30105004, boxShape._version)
-        self.assertEqual("Box_0", boxShape._name)
-        self.assertEqual("Undefined", boxShape._regionName)
-        self.assertEqual((0.0, 0.0, 5000.0), boxShape._translation)
-        self.assertEqual((0.0, 0.0, 0.0), boxShape._rotation)
-        self.assertEqual((10000.0, 10000.0, 10000.0), boxShape._scale)
-        self.assertEqual((0.984375, 0.0, 0.0), boxShape._color)
+    assert sample._count == 4
 
-        self.assertEqual(20, sample._maxSampleTreeLevel)
+    box_shape = sample._sample_objects[0]
 
-        #self.fail("Test if the testcase is working.")
+    assert box_shape._shape_type == SHAPE_BOX
+    assert box_shape._version == 30105004
+    assert box_shape._name == "Box_0"
+    assert box_shape._region_name == "Undefined"
+    assert box_shape._translation == (0.0, 0.0, 5000.0)
+    assert box_shape._rotation == (0.0, 0.0, 0.0)
+    assert box_shape._scale == (10000.0, 10000.0, 10000.0)
+    assert box_shape._color == (0.984375, 0.0, 0.0)
 
-    def test_getRotationYZ_deg(self):
-        testDataPath = get_current_module_path(__file__, "../../../test_data")
+    assert sample._maxSampleTreeLevel == 20
 
-        filepathSim = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
-        if is_bad_file(filepathSim):
-            pytest.skip()
 
-        casinoFile = open(filepathSim, "rb")
-        casinoFile.seek(55)
-        sample = Sample.Sample()
-        sample.read(casinoFile)
+def test_get_rotation_yz_deg():
+    test_data_path = get_current_module_path(__file__, "../../../test_data")
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(0.0, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(0.0, rotationZ_deg)
+    filepath_sim = os.path.join(test_data_path, "casino3.x/NoRotationY.sim")
+    if is_bad_file(filepath_sim):
+        pytest.skip()
 
-        filepathSim = os.path.join(testDataPath, "casino3.x/RotationY10.sim")
-        if is_bad_file(filepathSim):
-            pytest.skip()
+    casino_file = open(filepath_sim, "rb")
+    casino_file.seek(55)
+    sample = Sample()
+    sample.read(casino_file)
 
-        casinoFile = open(filepathSim, "rb")
-        casinoFile.seek(55)
-        sample = Sample.Sample()
-        sample.read(casinoFile)
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(0.0)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(0.0)
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(10.0, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(0.0, rotationZ_deg)
+    filepath_sim = os.path.join(test_data_path, "casino3.x/RotationY10.sim")
+    if is_bad_file(filepath_sim):
+        pytest.skip()
 
-        filepathSim = os.path.join(testDataPath, "casino3.x/RotationZ15.sim")
-        if is_bad_file(filepathSim):
-            pytest.skip()
+    casino_file = open(filepath_sim, "rb")
+    casino_file.seek(55)
+    sample = Sample()
+    sample.read(casino_file)
 
-        casinoFile = open(filepathSim, "rb")
-        casinoFile.seek(55)
-        sample = Sample.Sample()
-        sample.read(casinoFile)
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(10.0)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(0.0)
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(0.0, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(15.0, rotationZ_deg)
+    filepath_sim = os.path.join(test_data_path, "casino3.x/RotationZ15.sim")
+    if is_bad_file(filepath_sim):
+        pytest.skip()
 
-        filepathSim = os.path.join(testDataPath, "casino3.x/RotationY20Z35.sim")
-        if is_bad_file(filepathSim):
-            pytest.skip()
+    casino_file = open(filepath_sim, "rb")
+    casino_file.seek(55)
+    sample = Sample()
+    sample.read(casino_file)
 
-        casinoFile = open(filepathSim, "rb")
-        casinoFile.seek(55)
-        sample = Sample.Sample()
-        sample.read(casinoFile)
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(0.0)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(15.0)
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(20.0, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(35.0, rotationZ_deg)
+    filepath_sim = os.path.join(test_data_path, "casino3.x/RotationY20Z35.sim")
+    if is_bad_file(filepath_sim):
+        pytest.skip()
 
-        #self.fail("Test if the testcase is working.")
+    casino_file = open(filepath_sim, "rb")
+    casino_file.seek(55)
+    sample = Sample()
+    sample.read(casino_file)
 
-    def test_modifyRotationYZ_deg(self):
-        testDataPath = get_current_module_path(__file__, "../../../test_data")
-        sourceFilepath = os.path.join(testDataPath, "casino3.x/NoRotationY.sim")
-        if is_bad_file(sourceFilepath):
-            pytest.skip()
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(20.0)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(35.0)
 
-        if not os.path.isdir(self.temporaryDir):
-            pytest.skip()
 
-        rotationYRef_deg = 10.0
-        filename = "RotationY10.sim"
-        destinationFilepath = os.path.join(self.temporaryDir, filename)
+def test_modify_rotation_yz_deg(tmpdir):
+    test_data_path = get_current_module_path(__file__, "../../../test_data")
+    source_filepath = os.path.join(test_data_path, "casino3.x/NoRotationY.sim")
+    if is_bad_file(source_filepath):
+        pytest.skip()
 
-        shutil.copy2(sourceFilepath, destinationFilepath)
+    rotation_y_ref_deg = 10.0
+    filename = "RotationY10.sim"
+    destination_filepath = os.path.join(tmpdir, filename)
 
-        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=True)
-        sample = casinoFile.getFirstSimulation().getSample()
+    shutil.copy2(source_filepath, destination_filepath)
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(0.0, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(0.0, rotationZ_deg)
+    casino_file = File(destination_filepath, is_modifiable=True)
+    sample = casino_file.get_first_simulation().get_sample()
 
-        sample.modifyRotationY_deg(rotationYRef_deg)
-        del casinoFile
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(0.0)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(0.0)
 
-        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=False)
-        sample = casinoFile.getFirstSimulation().getSample()
+    sample.modify_rotation_y_deg(rotation_y_ref_deg)
+    del casino_file
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(rotationYRef_deg, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(0.0, rotationZ_deg)
+    casino_file = File(destination_filepath, is_modifiable=False)
+    sample = casino_file.get_first_simulation().get_sample()
 
-        del casinoFile
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(rotation_y_ref_deg)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(0.0)
 
-        rotationZRef_deg = 15.0
-        filename = "RotationZ15.sim"
-        destinationFilepath = os.path.join(self.temporaryDir, filename)
+    del casino_file
 
-        shutil.copy2(sourceFilepath, destinationFilepath)
+    rotation_z_ref_deg = 15.0
+    filename = "RotationZ15.sim"
+    destination_filepath = os.path.join(tmpdir, filename)
 
-        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=True)
-        sample = casinoFile.getFirstSimulation().getSample()
+    shutil.copy2(source_filepath, destination_filepath)
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(0.0, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(0.0, rotationZ_deg)
+    casino_file = File(destination_filepath, is_modifiable=True)
+    sample = casino_file.get_first_simulation().get_sample()
 
-        sample.modifyRotationZ_deg(rotationZRef_deg)
-        del casinoFile
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(0.0)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(0.0)
 
-        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=False)
-        sample = casinoFile.getFirstSimulation().getSample()
+    sample.modify_rotation_z_deg(rotation_z_ref_deg)
+    del casino_file
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(0.0, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(rotationZRef_deg, rotationZ_deg)
+    casino_file = File(destination_filepath, is_modifiable=False)
+    sample = casino_file.get_first_simulation().get_sample()
 
-        del casinoFile
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(0.0)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(rotation_z_ref_deg)
 
-        rotationYRef_deg = 20.0
-        rotationZRef_deg = 35.0
-        filename = "RotationY20Z35.sim"
-        destinationFilepath = os.path.join(self.temporaryDir, filename)
+    del casino_file
 
-        shutil.copy2(sourceFilepath, destinationFilepath)
+    rotation_y_ref_deg = 20.0
+    rotation_z_ref_deg = 35.0
+    filename = "RotationY20Z35.sim"
+    destination_filepath = os.path.join(tmpdir, filename)
 
-        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=True)
-        sample = casinoFile.getFirstSimulation().getSample()
+    shutil.copy2(source_filepath, destination_filepath)
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(0.0, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(0.0, rotationZ_deg)
+    casino_file = File(destination_filepath, is_modifiable=True)
+    sample = casino_file.get_first_simulation().get_sample()
 
-        sample.modifyRotationY_deg(rotationYRef_deg)
-        sample.modifyRotationZ_deg(rotationZRef_deg)
-        del casinoFile
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(0.0)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(0.0)
 
-        casinoFile = CasinoFile.File(destinationFilepath, isModifiable=False)
-        sample = casinoFile.getFirstSimulation().getSample()
+    sample.modify_rotation_y_deg(rotation_y_ref_deg)
+    sample.modify_rotation_z_deg(rotation_z_ref_deg)
+    del casino_file
 
-        rotationY_deg = sample.getRotationY_deg()
-        self.assertAlmostEqual(rotationYRef_deg, rotationY_deg)
-        rotationZ_deg = sample.getRotationZ_deg()
-        self.assertAlmostEqual(rotationZRef_deg, rotationZ_deg)
+    casino_file = File(destination_filepath, is_modifiable=False)
+    sample = casino_file.get_first_simulation().get_sample()
 
-        del casinoFile
+    rotation_y_deg = sample.get_rotation_y_deg()
+    assert rotation_y_deg == pytest.approx(rotation_y_ref_deg)
+    rotation_z_deg = sample.get_rotation_z_deg()
+    assert rotation_z_deg == pytest.approx(rotation_z_ref_deg)
 
-        #self.fail("Test if the testcase is working.")
+    del casino_file

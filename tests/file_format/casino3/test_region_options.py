@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests.file_format.casino3.test_region_options
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the :py:mod:`casinotools.file_format.casino3.region_options` module.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
@@ -14,20 +30,29 @@ __license__ = ""
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino3.region_options as RegionOptions
-import tests.file_format.test_file_reader_writer_tools as test_FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.casino3.region_options import RegionOptions
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
-class TestRegionOptions(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
-    def test_read(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        file = open(self.filepathSim, 'rb')
-        file.seek(6536)
-        regionOptions = RegionOptions.RegionOptions()
-        regionOptions.read(file)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        self.assertEqual(8, regionOptions._numberRegions)
+
+def test_read(filepath_sim):
+    if is_bad_file(filepath_sim):
+        pytest.skip()
+    file = open(filepath_sim, 'rb')
+    file.seek(6536)
+    region_options = RegionOptions()
+    region_options.read(file)
+
+    assert region_options._numberRegions == 8

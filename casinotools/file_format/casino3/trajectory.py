@@ -1,216 +1,239 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.trajectory
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
-#import logging
 import os
 import struct
 
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino3.trajectory_collision as TrajectoryCollision
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino3.trajectory_collision import TrajectoryCollision, get_size_scattering_event
 
 # Globals and constants variables.
-TRAJ_TYPE_NONE = 0x00;
-TRAJ_TYPE_BACKSCAT = 0x01;
-TRAJ_TYPE_TRANSMIT = 0x02;
-TRAJ_TYPE_DETEC = 0x04;
-TRAJ_TYPE_SECONDARY = 0x08;
-TRAJ_DISPLAY = 0x100;
+TRAJECTORY_TYPE_NONE = 0x00
+TRAJECTORY_TYPE_BACKSCATTERED = 0x01
+TRAJECTORY_TYPE_TRANSMITTED = 0x02
+TRAJECTORY_TYPE_DETECTED = 0x04
+TRAJECTORY_TYPE_SECONDARY = 0x08
+TRAJECTORY_DISPLAY = 0x100
 
-class Trajectory(FileReaderWriterTools.FileReaderWriterTools):
+
+class Trajectory(FileReaderWriterTools):
     def __init__(self):
         self._file = None
-        self._startPosition = 0
-        self._startPositionCollisions = 0
-        self._endPosition = 0
-        self._filePathname = ""
-        self._fileDescriptor = 0
+        self._start_position = 0
+        self._start_position_collisions = 0
+        self._end_position = 0
+        self._file_pathname = ""
+        self._file_descriptor = 0
 
         self._version = None
-        self._trajectoryCollisions = None
+        self._trajectory_collisions = None
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
         self._file = file
-        self._startPosition = file.tell()
-        self._filePathname = file.name
-        self._fileDescriptor = file.fileno()
-        #logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
+        self._start_position = file.tell()
+        self._file_pathname = file.name
+        self._file_descriptor = file.fileno()
+        # logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read",
+        #               self._start_position)
 
-        self._startPosition = file.tell()
-        #self._readHeaderFast(file)
-        self._readHeader(file)
+        self._start_position = file.tell()
+        # self._read_header_fast(file)
+        self._read_header(file)
 
-        self._startPositionCollisions = file.tell()
-        sizeScatteringEvent = TrajectoryCollision.getSizeScatteringEvent()
-        skipOffset = sizeScatteringEvent * self._numberScatteringEvents
-        file.seek(skipOffset, os.SEEK_CUR)
+        self._start_position_collisions = file.tell()
+        size_scattering_event = get_size_scattering_event()
+        skip_offset = size_scattering_event * self._number_scattering_events
+        file.seek(skip_offset, os.SEEK_CUR)
 
-        self._endPosition = file.tell()
-        #logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._endPosition)
+        self._end_position = file.tell()
+        # logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._end_position)
 
-    def _readHeader(self, file):
-        self._file.seek(self._startPosition)
+    def _read_header(self, file):
+        self._file.seek(self._start_position)
         self._version = self.read_int(file)
-        # TRAJ_TYPE_BACKSCAT
+        # TRAJECTORY_TYPE_BACKSCATTERED
         self._type = self.read_int(file)
-        # TRAJ_TYPE_TRANSMIT
+        # TRAJECTORY_TYPE_TRANSMITTED
         self._type |= self.read_int(file)
-        # TRAJ_TYPE_DETEC
+        # TRAJECTORY_TYPE_DETECTED
         self._type |= self.read_int(file)
-        # TRAJ_TYPE_SECONDARY
+        # TRAJECTORY_TYPE_SECONDARY
         self._type |= self.read_int(file)
-        # TRAJ_DISPLAY (0 or 1 for this version)
+        # TRAJECTORY_DISPLAY (0 or 1 for this version)
         if self.read_int(file):
-            self._type |= TRAJ_DISPLAY
+            self._type |= TRAJECTORY_DISPLAY
 
         self._order = self.read_int(file)
-        self._dirX = self.read_double(file)
-        self._dirY = self.read_double(file)
-        self._dirZ = self.read_double(file)
+        self._dir_x = self.read_double(file)
+        self._dir_y = self.read_double(file)
+        self._dir_z = self.read_double(file)
 
-        self._readNumberScatteringEvents(file)
+        self._read_number_scattering_events(file)
 
-    def _readHeaderFast(self, file):
+    def _read_header_fast(self, file):
         size = struct.calcsize("=7i3d4x16s")
         file.seek(size, os.SEEK_CUR)
 
-        self._readNumberScatteringEventsFast(file)
+        self._read_number_scattering_events_fast(file)
 
-    def _readNumberScatteringEvents(self, file):
-        #logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_readNumberScatteringEvents", file.tell())
-        tagID = b"NbElec"
-        self.find_tag(file, tagID)
-        #logging.debug("File position after findtag of %s.%s: %i", self.__class__.__name__, "_readNumberScatteringEvents", file.tell())
-        self._numberScatteringEvents = self.read_int(file)
-        #logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_readNumberScatteringEvents", file.tell())
+    def _read_number_scattering_events(self, file):
+        # logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__,
+        #               "_read_number_scattering_events", file.tell())
+        tag_id = b"NbElec"
+        self.find_tag(file, tag_id)
+        # logging.debug("File position after find_tag of %s.%s: %i", self.__class__.__name__,
+        #               "_read_number_scattering_events", file.tell())
+        self._number_scattering_events = self.read_int(file)
+        # logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__,
+        #               "_read_number_scattering_events", file.tell())
 
-    def _readNumberScatteringEventsFast(self, file):
-        #tag_id = "NbElec"
-        #self.find_tag(file, tag_id)
-        self._numberScatteringEvents = self.read_int(file)
+    def _read_number_scattering_events_fast(self, file):
+        # tag_id = "NbElec"
+        # self.find_tag(file, tag_id)
+        self._number_scattering_events = self.read_int(file)
 
-    def _readScatteringEvents(self):
-        self._readScatteringEventsOptimized()
+    def _read_scattering_events(self):
+        self._read_scattering_events_optimized()
 
-    def _readScatteringEventsOriginal(self):
-        closeFile = False
+    def _read_scattering_events_original(self):
+        close_file = False
         if self._file.closed:
-            self._file = open(self._filePathname, 'rb')
-            closeFile = True
+            self._file = open(self._file_pathname, 'rb')
+            close_file = True
 
-        self._file.seek(self._startPositionCollisions)
-        self._trajectoryCollisions = []
-        for dummy in range(self._numberScatteringEvents):
-            trajectoryCollision = TrajectoryCollision.TrajectoryCollision()
-            trajectoryCollision.read(self._file)
-            self._trajectoryCollisions.append(trajectoryCollision)
+        self._file.seek(self._start_position_collisions)
+        self._trajectory_collisions = []
+        for dummy in range(self._number_scattering_events):
+            trajectory_collision = TrajectoryCollision()
+            trajectory_collision.read(self._file)
+            self._trajectory_collisions.append(trajectory_collision)
 
-        if closeFile:
+        if close_file:
             self._file.close()
 
-    def _readScatteringEventsOptimized(self):
-        closeFile = False
+    def _read_scattering_events_optimized(self):
+        close_file = False
         if self._file.closed:
-            self._file = open(self._filePathname, 'rb')
-            closeFile = True
+            self._file = open(self._file_pathname, 'rb')
+            close_file = True
 
-        self._file.seek(self._startPositionCollisions)
+        self._file.seek(self._start_position_collisions)
 
-        format = "5d2i"*self._numberScatteringEvents
-        items = self.read_multiple_values(self._file, format)
+        values_format = "5d2i"*self._number_scattering_events
+        items = self.read_multiple_values(self._file, values_format)
 
-        self._trajectoryCollisions = [TrajectoryCollision.TrajectoryCollision(items[index * 7:(index * 7) + 7]) for index in range(self._numberScatteringEvents)]
+        self._trajectory_collisions = [TrajectoryCollision(items[index * 7:(index * 7) + 7])
+                                       for index in range(self._number_scattering_events)]
 
-        if closeFile:
+        if close_file:
             self._file.close()
 
-    def getNumberScatteringEvents(self):
-        return self._numberScatteringEvents
+    def get_number_scattering_events(self):
+        return self._number_scattering_events
 
-    def getScatteringEvent(self, index):
-        if self._trajectoryCollisions is None:
-            self._readScatteringEvents()
+    def get_scattering_event(self, index):
+        if self._trajectory_collisions is None:
+            self._read_scattering_events()
 
-        return self._trajectoryCollisions[index]
+        return self._trajectory_collisions[index]
 
-    def getScatteringEvents(self):
-        if self._trajectoryCollisions is None:
-            self._readScatteringEvents()
+    def get_scattering_events(self):
+        if self._trajectory_collisions is None:
+            self._read_scattering_events()
 
-        return self._trajectoryCollisions
+        return self._trajectory_collisions
 
-    def getScatteringEventsByType(self, type):
-        if self._trajectoryCollisions is None:
-            self._readScatteringEvents()
+    def get_scattering_events_by_type(self, collision_type):
+        if self._trajectory_collisions is None:
+            self._read_scattering_events()
 
         collisions = []
-        for collision in self._trajectoryCollisions:
-            if collision.getCollisionType() == type:
+        for collision in self._trajectory_collisions:
+            if collision.get_collision_type() == collision_type:
                 collisions.append(collision)
 
         return collisions
 
-    def deleteAllTrajectoryCollisions(self):
-        del self._trajectoryCollisions
-        self._trajectoryCollisions = None
+    def delete_all_trajectory_collisions(self):
+        del self._trajectory_collisions
+        self._trajectory_collisions = None
 
-    def getVersion(self):
+    def get_version(self):
         if self._version is None:
-            self._readHeader(self._file)
+            self._read_header(self._file)
 
         return self._version
 
-    def getType(self):
+    def get_type(self):
         if self._type is None:
-            self._readHeader(self._file)
+            self._read_header(self._file)
 
         return self._type
 
-    def getTypeName(self):
+    def get_type_name(self):
         name = ""
-        if self.isTypeNone():
+        if self.is_type_none():
             name += "None "
-        elif self.isTypeBackscattered():
+        elif self.is_type_backscattered():
             name += "BSE "
-        elif self.isTypeTransmitted():
+        elif self.is_type_transmitted():
             name += "TE "
-        elif self.isTypeDetected():
+        elif self.is_type_detected():
             name += "Detected "
-        elif self.isTypeSecondary():
+        elif self.is_type_secondary():
             name += "SE "
-        elif self.isTypeDisplayed():
+        elif self.is_type_displayed():
             name += "Displayed "
 
         return name
 
-    def isTypeNone(self):
-        return self._isType(TRAJ_TYPE_NONE)
+    def is_type_none(self):
+        return self._is_type(TRAJECTORY_TYPE_NONE)
 
-    def isTypeBackscattered(self):
-        return self._isType(TRAJ_TYPE_BACKSCAT)
+    def is_type_backscattered(self):
+        return self._is_type(TRAJECTORY_TYPE_BACKSCATTERED)
 
-    def isTypeTransmitted(self):
-        return self._isType(TRAJ_TYPE_TRANSMIT)
+    def is_type_transmitted(self):
+        return self._is_type(TRAJECTORY_TYPE_TRANSMITTED)
 
-    def isTypeDetected(self):
-        return self._isType(TRAJ_TYPE_DETEC)
+    def is_type_detected(self):
+        return self._is_type(TRAJECTORY_TYPE_DETECTED)
 
-    def isTypeSecondary(self):
-        return self._isType(TRAJ_TYPE_SECONDARY)
+    def is_type_secondary(self):
+        return self._is_type(TRAJECTORY_TYPE_SECONDARY)
 
-    def isTypeDisplayed(self):
-        return self._isType(TRAJ_DISPLAY)
+    def is_type_displayed(self):
+        return self._is_type(TRAJECTORY_DISPLAY)
 
-    def _isType(self, trajectoryType):
-        return self.getType() & trajectoryType
+    def _is_type(self, trajectory_type):
+        return self.get_type() & trajectory_type

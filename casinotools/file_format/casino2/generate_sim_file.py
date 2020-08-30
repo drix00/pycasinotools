@@ -1,91 +1,108 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino2.generate_sim_file
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.casino2.file as File
-#import casinotools.file_format.casino2.SimulationOptions as SimulationOptions
-from casinotools.file_format.casino2.simulation_options import \
-    DIRECTION_COSINES_SOUM, CROSS_SECTION_MOTT_JOY, CROSS_SECTION_MOTT_RUTHERFORD #@UnusedImport
+
+# Project modules.
+from casinotools.file_format.casino2.file import File
 
 # Globals and constants variables.
-#DIRECTION_COSINES_SOUM = SimulationOptions.DIRECTION_COSINES_SOUM
 
-class GenerateSimFile(object):
-    def __init__(self, templateFilepath):
-        self._templateFilepath = templateFilepath
-        self._optionSimulationData = self._extractOptionSimulationData(self._templateFilepath)
 
-    def _extractOptionSimulationData(self, filepath):
-        file = File.File()
-        file.readFromFilepath(filepath)
+class GenerateSimFile:
+    def __init__(self, template_filepath):
+        self._templateFilepath = template_filepath
+        self._optionSimulationData = self._extract_option_simulation_data(self._templateFilepath)
 
-        return file.getOptionSimulationData()
+    @staticmethod
+    def _extract_option_simulation_data(filepath):
+        file = File()
+        file.read_from_filepath(filepath)
 
-    def getOptionSimulationData(self):
+        return file.get_option_simulation_data()
+
+    def get_option_simulation_data(self):
         return self._optionSimulationData
 
-    def setNumberElectrons(self, numberElectrons):
-        self._optionSimulationData.getSimulationOptions().setNumberElectrons(numberElectrons)
+    def set_number_electrons(self, number_electrons):
+        self._optionSimulationData.get_simulation_options().set_number_electrons(number_electrons)
 
-    def setIncidentEnergy_keV(self, energy_keV):
-        self._optionSimulationData.getSimulationOptions().setIncidentEnergy_keV(energy_keV)
+    def set_incident_energy_keV(self, energy_keV):
+        self._optionSimulationData.get_simulation_options().set_incident_energy_keV(energy_keV)
 
-    def setTOA_deg(self, toa_deg):
-        self._optionSimulationData.getSimulationOptions().setTOA_deg(toa_deg)
+    def set_toa_deg(self, toa_deg):
+        self._optionSimulationData.get_simulation_options().set_toa_deg(toa_deg)
 
-    def setBeamAngle_deg(self, beamAngle_deg):
-        self._optionSimulationData.getSimulationOptions().setBeamAngle_deg(beamAngle_deg)
+    def set_beam_angle_deg(self, beam_angle_deg):
+        self._optionSimulationData.get_simulation_options().set_beam_angle_deg(beam_angle_deg)
 
-    def addElements(self, symbols, weightFractions=None):
-        self._removeAllElements()
+    def add_elements(self, symbols, weight_fractions=None):
+        self._remove_all_elements()
 
-        if weightFractions == None:
-            weightFractions = []
+        if weight_fractions is None:
+            weight_fractions = []
 
-        if len(weightFractions) == len(symbols) - 1:
-            lastWeightFraction = 1.0 - sum(weightFractions)
-            weightFractions.append(lastWeightFraction)
+        if len(weight_fractions) == len(symbols) - 1:
+            last_weight_fraction = 1.0 - sum(weight_fractions)
+            weight_fractions.append(last_weight_fraction)
 
-        assert len(weightFractions) == len(symbols)
+        assert len(weight_fractions) == len(symbols)
 
-        for symbol, weightFraction in zip(symbols, weightFractions):
-            self._addElement(symbol, weightFraction)
+        for symbol, weightFraction in zip(symbols, weight_fractions):
+            self._add_element(symbol, weightFraction)
 
-        self._optionSimulationData.getRegionOptions().getRegion(0).update()
+        self._optionSimulationData.get_region_options().get_region(0).update()
 
-    def _removeAllElements(self):
-        self._optionSimulationData.getRegionOptions().getRegion(0).removeAllElements()
+    def _remove_all_elements(self):
+        self._optionSimulationData.get_region_options().get_region(0).remove_all_elements()
 
-    def _addElement(self, symbol, weightFraction=1.0):
-        numberXRayLayers = self._optionSimulationData.getSimulationOptions().getNumberXRayLayers()
-        self._optionSimulationData.getRegionOptions().getRegion(0).addElement(symbol, weightFraction, numberXRayLayers)
+    def _add_element(self, symbol, weight_fraction=1.0):
+        number_x_ray_layers = self._optionSimulationData.get_simulation_options().get_number_x_ray_layers()
+        self._optionSimulationData.get_region_options().get_region(0).add_element(symbol, weight_fraction,
+                                                                                  number_x_ray_layers)
 
     def save(self, filepath):
-        file = File.File()
-        file.setOptionSimulationData(self._optionSimulationData)
+        file = File()
+        file.set_option_simulation_data(self._optionSimulationData)
         file.write(filepath)
 
-    def setDirectionCosines(self, directionCosinesModel):
-        self._optionSimulationData.getSimulationOptions().setDirectionCosines(directionCosinesModel)
+    def set_direction_cosines(self, direction_cosines_model):
+        self._optionSimulationData.get_simulation_options().set_direction_cosines(direction_cosines_model)
 
-    def setElectronElasticCrossSection(self, crossSectionModel):
-        self._optionSimulationData.getSimulationOptions().setTotalElectronElasticCrossSection(crossSectionModel)
-        self._optionSimulationData.getSimulationOptions().setPartialElectronElasticCrossSection(crossSectionModel)
+    def set_electron_elastic_cross_section(self, cross_section_model):
+        options = self._optionSimulationData.get_simulation_options()
+        options.set_total_electron_elastic_cross_section(cross_section_model)
+        options.set_partial_electron_elastic_cross_section(cross_section_model)
 
-    def setIonizationCrossSection(self, crossSectionModel):
-        self._optionSimulationData.getSimulationOptions().setIonizationCrossSectionType(crossSectionModel)
+    def set_ionization_cross_section(self, cross_section_model):
+        self._optionSimulationData.get_simulation_options().set_ionization_cross_section_type(cross_section_model)
 
-    def setIonizationPotential(self, model):
-        self._optionSimulationData.getSimulationOptions().setIonizationPotentialType(model)
-
+    def set_ionization_potential(self, model):
+        self._optionSimulationData.get_simulation_options().set_ionization_potential_type(model)

@@ -121,7 +121,4 @@ setup(
         'Topic :: Scientific/Engineering :: Physics'],
 
     package_dir={'casinotools': 'casinotools'},
-
-    # test_suite='nose.collector',
-    # tests_require=test_requirements
 )

@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests.file_format.casino3.test_scan_point_positions
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the :py:mod:`casinotools.file_format.casino3.scan_point_positions` module.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
@@ -14,42 +30,48 @@ __license__ = ""
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino3.scan_point_positions as ScanPointPositions
-import tests.file_format.test_file_reader_writer_tools as test_FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.casino3.scan_point_positions import ScanPointPositions
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
-class TestScanPointPositions(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
-    def test_read(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        file = open(self.filepathSim, 'rb')
-        reader = ScanPointPositions.ScanPointPositions()
-        error = reader.read(file)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        self.assertEqual(None, error)
-        self.assertEqual(5, reader.getNumberPoints())
 
-        if is_bad_file(self.filepathCas):
-            pytest.skip()
-        file = open(self.filepathCas, 'rb')
-        reader = ScanPointPositions.ScanPointPositions()
-        error = reader.read(file)
+def test_read(filepath_sim, filepath_cas):
+    if is_bad_file(filepath_sim):
+        pytest.skip()
+    file = open(filepath_sim, 'rb')
+    reader = ScanPointPositions()
+    error = reader.read(file)
 
-        self.assertEqual(None, error)
-        self.assertEqual(5, reader.getNumberPoints())
+    assert error is None
+    assert reader.get_number_points() == 5
 
-        positionsRef = []
-        positionsRef.append((0.0, 0.0, 0.0))
-        positionsRef.append((40.0, 0.0, 0.0))
-        positionsRef.append((45.0, 0.0, 0.0))
-        positionsRef.append((50.0, 0.0, 0.0))
-        positionsRef.append((100.0, 0.0, 0.0))
+    if is_bad_file(filepath_cas):
+        pytest.skip()
+    file = open(filepath_cas, 'rb')
+    reader = ScanPointPositions()
+    error = reader.read(file)
 
-        for point, pointRef in zip(reader.getPositions(), positionsRef):
-            for i in range(3):
-                self.assertAlmostEqual(pointRef[i], point[i])
+    assert error is None
+    assert reader.get_number_points() == 5
 
-        #self.fail("Test if the testcase is working.")
+    positions_ref = [(0.0, 0.0, 0.0),
+                     (40.0, 0.0, 0.0),
+                     (45.0, 0.0, 0.0),
+                     (50.0, 0.0, 0.0),
+                     (100.0, 0.0, 0.0)]
+
+    for point, point_ref in zip(reader.get_positions(), positions_ref):
+        for i in range(3):
+            assert point[i] == pytest.approx(point_ref[i])

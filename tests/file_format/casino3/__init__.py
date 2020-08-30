@@ -3,7 +3,6 @@
 
 """
 .. py:currentmodule:: tests.file_format.casino3
-
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Tests for package casinotools.file_format.casino3.

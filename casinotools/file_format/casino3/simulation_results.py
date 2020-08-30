@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.simulation_results
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -14,90 +30,97 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino3.scan_point_results as ScanPointResults
-import casinotools.file_format.casino3.energy_matrix as EnergyMatrix
-import casinotools.file_format.casino3.diffused_energy_matrix as DiffusedEnergyMatrix
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino3.scan_point_results import ScanPointResults
+from casinotools.file_format.casino3.energy_matrix import EnergyMatrix
+from casinotools.file_format.casino3.diffused_energy_matrix import DiffusedEnergyMatrix
 
 # Globals and constants variables.
 
-class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
+
+class SimulationResults(FileReaderWriterTools):
     def __init__(self):
-        self._startPosition = 0
-        self._endPosition = 0
-        self._filePathname = ""
-        self._fileDescriptor = 0
+        self._start_position = 0
+        self._end_position = 0
+        self._file_pathname = ""
+        self._file_descriptor = 0
+
+        self._number_simulations = 0
 
     def read(self, file, options):
         assert getattr(file, 'mode', 'rb') == 'rb'
-        self._startPosition = file.tell()
-        self._filePathname = file.name
-        self._fileDescriptor = file.fileno()
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
+        self._start_position = file.tell()
+        self._file_pathname = file.name
+        self._file_descriptor = file.fileno()
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
-        self._numberSimulations = self.read_int(file)
+        self._number_simulations = self.read_int(file)
 
-        for dummy in range(self._numberSimulations):
-            self._readRuntimeState(file)
+        for dummy in range(self._number_simulations):
+            self._read_runtime_state(file)
 
-            self._readSimulationResults(file, options)
+            self._read_simulation_results(file, options)
 
-            self._readScanPoints(file, options)
+            self._read_scan_points(file, options)
 
         return None
 
-    def _readRuntimeState(self, file):
-        tagID = b"*RUNTIMESTATE%%"
-        if self.find_tag(file, tagID):
+    def _read_runtime_state(self, file):
+        tag_id = b"*RUNTIMESTATE%%"
+        if self.find_tag(file, tag_id):
             self._version = self.read_int(file)
 
             if self._version == 20031202:
-                self._readSimulationState(file)
+                self._read_simulation_state(file)
 
-    def _readSimulationState(self, file):
-        tagID = b"*SIMSTATE%%%%%%"
-        if self.find_tag(file, tagID):
-            self._initialEnergy_keV = self.read_double(file)
-            self._rkoMax = self.read_double(file)
+    def _read_simulation_state(self, file):
+        tag_id = b"*SIMSTATE%%%%%%"
+        if self.find_tag(file, tag_id):
+            self._initial_energy_keV = self.read_double(file)
+            self._rko_max = self.read_double(file)
 
-    def _readSimulationResults(self, file, options):
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_simulation_results", file.tell())
-        tagID = b"*SIMRESULTS%%%%"
-        if self.find_tag(file, tagID):
-            self._versionSimulationResults = self.read_int(file)
+    def _read_simulation_results(self, file, options):
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_simulation_results",
+                      file.tell())
+        tag_id = b"*SIMRESULTS%%%%"
+        if self.find_tag(file, tag_id):
+            self._version_simulation_results = self.read_int(file)
 
-            self._isTotalEnergyDensitySaved = self.read_bool(file)
-            if self._isTotalEnergyDensitySaved:
-                self._DEnergy_Density = EnergyMatrix.EnergyMatrix(options, options._optionsDist.DEpos_Center)
-                self._DEnergy_Density.read(file)
+            self._is_total_energy_density_saved = self.read_bool(file)
+            if self._is_total_energy_density_saved:
+                self._deposited_energy_density = EnergyMatrix(options, options._options_dist.DEpos_Center)
+                self._deposited_energy_density.read(file)
 
-            self._isDiffusedTotalEnergyDensitySaved = self.read_bool(file)
-            if self._isDiffusedTotalEnergyDensitySaved:
-                self._DDiffusedEnergy_Density = DiffusedEnergyMatrix.DiffusedEnergyMatrix(options, options._optionsDist.DEpos_Center)
-                self._DDiffusedEnergy_Density.read(file)
+            self._is_diffused_total_energy_density_saved = self.read_bool(file)
+            if self._is_diffused_total_energy_density_saved:
+                self._diffused_energy_density = DiffusedEnergyMatrix(options, options._options_dist.DEpos_Center)
+                self._diffused_energy_density.read(file)
 
-        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_read_simulation_results", file.tell())
-        tagID = b"*SIMRESULTSEND"
-        if not self.find_tag(file, tagID):
+        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_read_simulation_results",
+                      file.tell())
+        tag_id = b"*SIMRESULTSEND"
+        if not self.find_tag(file, tag_id):
             raise IOError
 
-    def _readScanPoints(self, file, options):
-        self._numberScanPoints = self.read_int(file)
+    def _read_scan_points(self, file, options):
+        self._number_scan_points = self.read_int(file)
 
-        self._scanPoints = []
-        for dummy in range(self._numberScanPoints):
-            scanPoint = ScanPointResults.ScanPointResults()
-            scanPoint.read(file, options)
-            self._scanPoints.append(scanPoint)
+        self._scan_points = []
+        for dummy in range(self._number_scan_points):
+            scan_point = ScanPointResults()
+            scan_point.read(file, options)
+            self._scan_points.append(scan_point)
 
-    def getScanPointsResults(self):
-        return self._scanPoints
+    def get_scan_points_results(self):
+        return self._scan_points
 
-    def getScanPointsResultsFromIndex(self, index):
-        return self._scanPoints[index]
+    def get_scan_points_results_from_index(self, index):
+        return self._scan_points[index]
 
-    def getFirstScanPointResults(self):
-        return self.getScanPointsResultsFromIndex(0)
+    def get_first_scan_point_results(self):
+        return self.get_scan_points_results_from_index(0)
 
-    def getTotalDepositedEnergies_keV(self):
-        return self._DEnergy_Density
+    def get_total_deposited_energies_ke_v(self):
+        return self._deposited_energy_density

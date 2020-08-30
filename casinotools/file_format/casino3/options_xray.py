@@ -1,39 +1,55 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.options_xray
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
+
 # Filename to store the defaults settings
 OPTIONS_XRAY_DEF_FILENAME = "XRay_Settings_Defaults.dat"
 
-#//--------------------------------------
-#// XRays
-#//--------------------------------------
-#
-#//-----------------------------------------------------------------------------
-#/// Take off angle of the X-ray detector
-#//-----------------------------------------------------------------------------
-#    double TOA
-#//-----------------------------------------------------------------------------
-#/// Polar angle of the X-Ray detecteur
-#//-----------------------------------------------------------------------------
-#    float PhieRX
-#//-----------------------------------------------------------------------------
-class OptionsXray(FileReaderWriterTools.FileReaderWriterTools):
+
+# // XRays
+# /// Take off angle of the X-ray detector
+#    double toa
+# /// Polar angle of the X-Ray detector
+#    float phi_rx
+class OptionsXray(FileReaderWriterTools):
     def __init__(self):
+        self._version = 0
+        self.toa = 0.0
+        self.phi_rx = 0.0
+
         self.reset()
 
     def write(self, file):
@@ -43,23 +59,23 @@ class OptionsXray(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file,"*XRAY_OPT_BEG", 15)
 #    writeVersion(file)
 #
-#    safewrite<double>(file, TOA)
-#    safewrite<float>(file, PhieRX)
+#    safe_write<double>(file, toa)
+#    safe_write<float>(file, phi_rx)
 #
 #    Tags::AddTag(file, "*XRAY_OPT_END", 15)
 
     def read(self, file):
-        tagID = b"*XRAY_OPT_BEG"
-        self.find_tag(file, tagID)
+        tag_id = b"*XRAY_OPT_BEG"
+        self.find_tag(file, tag_id)
 
         self._version = self.read_int(file)
 
-        self.TOA = self.read_double(file)
-        self.PhieRX = self.read_float(file)
+        self.toa = self.read_double(file)
+        self.phi_rx = self.read_float(file)
 
-        tagID = b"*XRAY_OPT_END"
-        self.find_tag(file, tagID)
+        tag_id = b"*XRAY_OPT_END"
+        self.find_tag(file, tag_id)
 
     def reset(self):
-        self.TOA = 40.0
-        self.PhieRX = 0.0
+        self.toa = 40.0
+        self.phi_rx = 0.0

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino2.RegionOptions
+.. py:currentmodule:: casinotools.file_format.casino2.region_options
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
@@ -31,14 +31,16 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino2.region as Region
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino2.region import Region
 
 # Globals and constants variables.
 TAG_REGION_DATA = b"*REGIONDATA%%%%"
 
 
-class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
+class RegionOptions(FileReaderWriterTools):
     def __init__(self, number_xray_layers):
         self._numberXRayLayers = number_xray_layers
 
@@ -50,13 +52,13 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
         assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = TAG_REGION_DATA
-        self.find_tag(file, tagID)
+        tag_id = TAG_REGION_DATA
+        self.find_tag(file, tag_id)
 
         self._numberRegions = self.read_int(file)
 
         for dummy in range(self._numberRegions):
-            region = Region.Region(self._numberXRayLayers)
+            region = Region(self._numberXRayLayers)
             region.read(file, version)
             self._regions.append(region)
 
@@ -74,51 +76,51 @@ class RegionOptions(FileReaderWriterTools.FileReaderWriterTools):
             region = self._regions[index]
             region.write(file)
 
-    def getRegion(self, index):
+    def get_region(self, index):
         return self._regions[index]
 
-    def getNumberRegions(self):
+    def get_number_regions(self):
         return len(self._regions)
 
-    def getRegions(self):
+    def get_regions(self):
         return self._regions
 
-    def setElement(self, element_symbol, index_region=0):
-        self._regions[index_region].setElement(element_symbol, number_xray_layers=self._numberXRayLayers)
+    def set_element(self, element_symbol, index_region=0):
+        self._regions[index_region].set_element(element_symbol, number_xray_layers=self._numberXRayLayers)
 
-    def setFilmThickness(self, thickness_nm):
+    def set_film_thickness(self, thickness_nm):
         assert len(self._regions) == 2
 
-        parameters = self._regions[0].getParameters()
+        parameters = self._regions[0].get_parameters()
         parameters[1] = thickness_nm
-        self._regions[0].setParameters(parameters)
+        self._regions[0].set_parameters(parameters)
 
-        parameters = self._regions[1].getParameters()
+        parameters = self._regions[1].get_parameters()
         parameters[2] = parameters[1]
         parameters[1] = 1.0e10
         parameters[0] = thickness_nm
-        self._regions[1].setParameters(parameters)
+        self._regions[1].set_parameters(parameters)
 
-    def setFilmThicknessInSubstrate(self, layer_top_position_z_nm, thickness_nm):
+    def set_film_thickness_in_substrate(self, layer_top_position_z_nm, thickness_nm):
         assert len(self._regions) == 3
 
-        parameters = self._regions[0].getParameters()
+        parameters = self._regions[0].get_parameters()
         parameters[1] = layer_top_position_z_nm
-        self._regions[0].setParameters(parameters)
+        self._regions[0].set_parameters(parameters)
 
-        parameters = self._regions[1].getParameters()
+        parameters = self._regions[1].get_parameters()
         # parameters[2] = parameters[1]
         parameters[1] = layer_top_position_z_nm + thickness_nm
         parameters[0] = layer_top_position_z_nm
-        self._regions[1].setParameters(parameters)
+        self._regions[1].set_parameters(parameters)
 
-        parameters = self._regions[2].getParameters()
+        parameters = self._regions[2].get_parameters()
         parameters[0] = layer_top_position_z_nm + thickness_nm
-        self._regions[2].setParameters(parameters)
+        self._regions[2].set_parameters(parameters)
 
-    def setThinFilmThickness(self, thickness_nm):
+    def set_thin_film_thickness(self, thickness_nm):
         assert len(self._regions) == 1
 
-        parameters = self._regions[0].getParameters()
+        parameters = self._regions[0].get_parameters()
         parameters[1] = thickness_nm
-        self._regions[0].setParameters(parameters)
+        self._regions[0].set_parameters(parameters)

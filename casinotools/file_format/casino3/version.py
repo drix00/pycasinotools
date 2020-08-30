@@ -1,18 +1,36 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2010 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.version
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Different versions of CASINO 3.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
 # Third party modules.
 
 # Local modules.
+
+# Project modules.
 
 # Globals and constants variables.
 
@@ -300,7 +318,7 @@ Version of casino.
 @version 30108002 -> 3.1.8.2
 
 Added:
- - Sample roration Y and Z in casino_sample.
+ - Sample rotation Y and z in casino_sample.
  """
 SIM_OPTIONS_VERSION_3_1_8_2 = 30108002
 
@@ -375,11 +393,5 @@ SIM_OPTIONS_VERSION_3_3_0_4 = 30300004
 """
 Current version of casino.
 
-@note Don't forget to change the version in wincasino.rc -> Version -> VS_VERSION_INFO
-and strings in wincasino.rc -> Dialog -> IDD_ABOUTBOX.
-wincasino.rc -> String Table -> ID_VERSION
-wincasino.rc -> String Table -> IDR_MAINFRAME
-wincasino.rc -> String Table -> IDR_MAINFRAME2
-Also change Casino_Constants::DEFAULT_APP_TITLE in Casino_Constants.h.
  """
 SIM_OPTIONS_CURRENT_VERSION = SIM_OPTIONS_VERSION_3_3_0_4

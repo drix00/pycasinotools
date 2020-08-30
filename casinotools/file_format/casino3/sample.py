@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.sample
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -14,241 +30,250 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-#import casinotools.file_format.casino3.SampleSubtrate as SampleSubtrate
-import casinotools.file_format.casino3.sample_object_factory as SampleObjectFactory
-import casinotools.file_format.casino3.sample_tree as SampleTree
-import casinotools.file_format.casino3.region as Region
-import casinotools.file_format.casino3.version as Version
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino3.sample_object_factory import create_object_from_type, SHAPE_SUBSTRATE, SHAPE_SPHERE
+from casinotools.file_format.casino3.sample_object_factory import SHAPE_PLANE
+from casinotools.file_format.casino3.sample_tree import SampleTree
+from casinotools.file_format.casino3.region import Region
+from casinotools.file_format.casino3.version import SIM_OPTIONS_VERSION_3_1_8_2
 
 # Globals and constants variables.
 OFFSET_ROTATION_Y = "offset_rotation_y"
 OFFSET_ROTATION_Z = "offset_rotation_z"
 
-class ShapeError(Exception): pass
 
-class Sample(FileReaderWriterTools.FileReaderWriterTools):
+class ShapeError(Exception):
+    pass
+
+
+class Sample(FileReaderWriterTools):
     def __init__(self):
         self._file = None
-        self._startPosition = 0
-        self._endPosition = 0
-        self._filePathname = ""
-        self._fileDescriptor = 0
+        self._start_position = 0
+        self._end_position = 0
+        self._file_pathname = ""
+        self._file_descriptor = 0
 
-        self._sampleObjects = []
+        self._version = 0
+
+        self._sample_objects = []
         self._regions = []
 
         self._offsets = {}
 
+        self._rotation_angle_y_deg = 0.0
+        self._rotation_angle_z_deg = 0.0
+
     def read(self, file):
         self._file = file
-        self._startPosition = file.tell()
-        self._filePathname = file.name
-        self._fileDescriptor = file.fileno()
+        self._start_position = file.tell()
+        self._file_pathname = file.name
+        self._file_descriptor = file.fileno()
 
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = b"*CASINOSAMPLE%%"
-        if self.find_tag(file, tagID):
+        tag_id = b"*CASINOSAMPLE%%"
+        if self.find_tag(file, tag_id):
             self._version = self.read_int(file)
 
             if self._version >= 3010301:
                 return self._read_3131(file)
             else:
-                raise "version_not_supported"
+                raise ValueError("version_not_supported")
 
     def _read_3131(self, file):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_3131", file.tell())
 
-        tagID = b"*SUBSTRATE%%%%%"
-        if self.find_tag(file, tagID):
+        tag_id = b"*SUBSTRATE%%%%%"
+        if self.find_tag(file, tag_id):
             self._useSubstrate = self.read_int(file)
 
-            self._substrate = SampleObjectFactory.CreateObjectFromType(SampleObjectFactory.SHAPE_SUBSTRATE)
+            self._substrate = create_object_from_type(SHAPE_SUBSTRATE)
             self._substrate.read(file)
 
-        tagID = b"*SAMPLEOBJECTS%"
-        if self.find_tag(file, tagID):
+        tag_id = b"*SAMPLEOBJECTS%"
+        if self.find_tag(file, tag_id):
             self._count = self.read_int(file)
 
             for dummy in range(self._count):
-                type = self.read_int(file)
+                shape_type = self.read_int(file)
 
-                sampleObject = SampleObjectFactory.CreateObjectFromType(type)
+                sample_object = create_object_from_type(shape_type)
 
-                sampleObject.read(file)
+                sample_object.read(file)
 
                 if self._version >= 30200002:
-                    objectId = self.read_int(file)
-                    self.addSampleObjectWithId(sampleObject, objectId)
+                    object_id = self.read_int(file)
+                    self.add_sample_object_with_id(sample_object, object_id)
                 else:
-                    self.addSampleObject(sampleObject)
+                    self.add_sample_object(sample_object)
 
         if self._version < 30107001:
-            tagID = b"*MAC%%%%%%%%%%%"
-            if self.find_tag(file, tagID):
-                #float MAC[100][100][3]
-                #file.read((char*)&MAC,sizeof(MAC[0][0][0]*100*100*3));
-                numberElements = 100 * 100 * 3
-                self._mac = self.read_float_list(file, numberElements)
+            tag_id = b"*MAC%%%%%%%%%%%"
+            if self.find_tag(file, tag_id):
+                # float MAC[100][100][3]
+                # file.read((char*)&MAC,sizeof(MAC[0][0][0]*100*100*3));
+                number_elements = 100 * 100 * 3
+                self._mac = self.read_float_list(file, number_elements)
 
-        tagID = b"*SAMPLEDATA%%%%"
-        if self.find_tag(file, tagID):
+        tag_id = b"*SAMPLEDATA%%%%"
+        if self.find_tag(file, tag_id):
             self._maxSampleTreeLevel = self.read_int(file)
 
-        if self._version >= Version.SIM_OPTIONS_VERSION_3_1_8_2:
+        if self._version >= SIM_OPTIONS_VERSION_3_1_8_2:
             self._offsets[OFFSET_ROTATION_Y] = file.tell()
-            self._rotationAngleY_deg = self.read_double(file)
+            self._rotation_angle_y_deg = self.read_double(file)
             self._offsets[OFFSET_ROTATION_Z] = file.tell()
-            self._rotationAngleZ_deg = self.read_double(file)
+            self._rotation_angle_z_deg = self.read_double(file)
 
         self._presence = self.read_int(file)
         if self._presence:
-            self._sampleTree = SampleTree.SampleTree()
+            self._sampleTree = SampleTree()
             self._sampleTree.read(file)
 
-        tagID = b"*REGIONDATA%%%%"
-        if self.find_tag(file, tagID):
+        tag_id = b"*REGIONDATA%%%%"
+        if self.find_tag(file, tag_id):
             self._numberRegions = self.read_int(file)
 
-        #return
         for dummy in range(self._numberRegions):
-            regionInfo = Region.Region()
-            regionInfo.read(file)
+            region_info = Region()
+            region_info.read(file)
 
-            self.addRegion(regionInfo)
+            self.add_region(region_info)
 
         # TODO calculate regions for the sample's triangles.
 
-    def addSampleObject(self, sampleObject):
-        self._sampleObjects.append(sampleObject)
+    def add_sample_object(self, sample_object):
+        self._sample_objects.append(sample_object)
 
-    def addSampleObjectWithId(self, sampleObject, objectId):
-        self._sampleObjects.append(sampleObject)
+    def add_sample_object_with_id(self, sample_object, object_id):
+        self._sample_objects.append(sample_object)
 
-    def addRegion(self, region):
+    def add_region(self, region):
         self._regions.append(region)
 
-    def getRegions(self):
+    def get_regions(self):
         return self._regions
 
-    def getShapes(self):
-        return self._sampleObjects
+    def get_shapes(self):
+        return self._sample_objects
 
-    def getFirstSphereShape(self):
-        for shape in self._sampleObjects:
-            type = shape.getType()
-            if type == SampleObjectFactory.SHAPE_SPHERE:
+    def get_first_sphere_shape(self):
+        for shape in self._sample_objects:
+            shape_type = shape.get_type()
+            if shape_type == SHAPE_SPHERE:
                 return shape
 
         raise ShapeError("Shape not found.")
 
-    def getPlaneShapes(self):
+    def get_plane_shapes(self):
         shapes = []
-        for shape in self._sampleObjects:
-            type = shape.getType()
-            if type == SampleObjectFactory.SHAPE_PLANE:
+        for shape in self._sample_objects:
+            shape_type = shape.get_type()
+            if shape_type == SHAPE_PLANE:
                 shapes.append(shape)
 
         return shapes
 
-    def getVersion(self):
+    def get_version(self):
         return self._version
 
-    def getRotationY_deg(self):
-        return self._rotationAngleY_deg
+    def get_rotation_y_deg(self):
+        return self._rotation_angle_y_deg
 
-    def setRotationY_deg(self, rotationAngle_deg):
-        self._rotationAngleY_deg = rotationAngle_deg
+    def set_rotation_y_deg(self, rotation_angle_deg):
+        self._rotation_angle_y_deg = rotation_angle_deg
 
-    def modifyRotationY_deg(self, rotationAngle_deg):
+    def modify_rotation_y_deg(self, rotation_angle_deg):
         self._file.seek(self._offsets[OFFSET_ROTATION_Y])
-        self.write_double(self._file, rotationAngle_deg)
-        self._rotationAngleY_deg = rotationAngle_deg
+        self.write_double(self._file, rotation_angle_deg)
+        self._rotation_angle_y_deg = rotation_angle_deg
 
-    def getRotationZ_deg(self):
-        return self._rotationAngleZ_deg
+    def get_rotation_z_deg(self):
+        return self._rotation_angle_z_deg
 
-    def setRotationZ_deg(self, rotationAngle_deg):
-        self._rotationAngleZ_deg = rotationAngle_deg
+    def set_rotation_z_deg(self, rotation_angle_deg):
+        self._rotation_angle_z_deg = rotation_angle_deg
 
-    def modifyRotationZ_deg(self, rotationAngle_deg):
+    def modify_rotation_z_deg(self, rotation_angle_deg):
         self._file.seek(self._offsets[OFFSET_ROTATION_Z])
-        self.write_double(self._file, rotationAngle_deg)
-        self._rotationAngleZ_deg = rotationAngle_deg
+        self.write_double(self._file, rotation_angle_deg)
+        self._rotation_angle_z_deg = rotation_angle_deg
 
     def write(self, file):
         pass
 
     def export(self, export_file):
         # todo: implement the export method.
-        self._exportHeader(export_file)
-        self._exportVersion(export_file)
-        self._exportSubstrate(export_file)
-        self._exportSampleObjects(export_file)
-        self._exportSampleData(export_file)
-        self._exportRegionData(export_file)
+        self._export_header(export_file)
+        self._export_version(export_file)
+        self._export_substrate(export_file)
+        self._export_sample_objects(export_file)
+        self._export_sample_data(export_file)
+        self._export_region_data(export_file)
 
-    def _exportHeader(self, exportFile):
+    def _export_header(self, export_file):
         line = "-"*80
-        self.write_line(exportFile, line)
+        self.write_line(export_file, line)
 
-        line = "%s" % ("Sample")
-        self.write_line(exportFile, line)
+        line = "{}".format("Sample")
+        self.write_line(export_file, line)
 
         line = "-"*40
-        self.write_line(exportFile, line)
+        self.write_line(export_file, line)
 
-    def _exportVersion(self, exportFile):
-        version = self.getVersion()
-        versionString = self._extract_version_string(version)
-        line = "File version: %s (%i)" % (versionString, version)
-        self.write_line(exportFile, line)
+    def _export_version(self, export_file):
+        version = self.get_version()
+        version_string = self._extract_version_string(version)
+        line = "File version: %s (%i)" % (version_string, version)
+        self.write_line(export_file, line)
 
-    def _exportSubstrate(self, exportFile):
+    def _export_substrate(self, export_file):
         text = self._extract_boolean_string(self._useSubstrate)
-        line = "Use substract: %s" % (text)
-        self.write_line(exportFile, line)
+        line = "Use substrate: {}".format(text)
+        self.write_line(export_file, line)
 
-        self._substrate.export(exportFile)
+        self._substrate.export(export_file)
 
-    def _exportSampleObjects(self, exportFile):
-        line = "number of sample objects: %i" % (self._count)
-        self.write_line(exportFile, line)
+    def _export_sample_objects(self, export_file):
+        line = "number of sample objects: {:d}".format(self._count)
+        self.write_line(export_file, line)
 
-        sampleObjectID = 0
-        for sampleObject in self._sampleObjects:
-            sampleObjectID += 1
-            line = "Sample object: %i" % (sampleObjectID)
-            self.write_line(exportFile, line)
+        sample_object_id = 0
+        for sampleObject in self._sample_objects:
+            sample_object_id += 1
+            line = "Sample object: {:d}".format(sample_object_id)
+            self.write_line(export_file, line)
 
-            sampleObject.export(exportFile)
+            sampleObject.export(export_file)
 
-    def _exportSampleData(self, exportFile):
-        line = "Maximum sample tree level: %i" % (self._maxSampleTreeLevel)
-        self.write_line(exportFile, line)
+    def _export_sample_data(self, export_file):
+        line = "Maximum sample tree level: {:d}".format(self._maxSampleTreeLevel)
+        self.write_line(export_file, line)
 
-        line = "Sample rotation angle Y (deg): %g" % (self._rotationAngleY_deg)
-        self.write_line(exportFile, line)
+        line = "Sample rotation angle Y (deg): {:g}" % (self._rotation_angle_y_deg)
+        self.write_line(export_file, line)
 
-        line = "Sample rotation angle Z (deg): %g" % (self._rotationAngleZ_deg)
-        self.write_line(exportFile, line)
+        line = "Sample rotation angle z (deg): {:g}" % (self._rotation_angle_z_deg)
+        self.write_line(export_file, line)
 
         text = self._extract_boolean_string(self._presence)
-        line = "Presence: %s" % (text)
-        self.write_line(exportFile, line)
+        line = "Presence: {}".format(text)
+        self.write_line(export_file, line)
 
         if self._presence:
-            self._sampleTree.export(exportFile)
+            self._sampleTree.export(export_file)
 
-    def _exportRegionData(self, exportFile):
-        line = "number of regions: %i" % (self._numberRegions)
-        self.write_line(exportFile, line)
+    def _export_region_data(self, export_file):
+        line = "number of regions: {:d}".format(self._numberRegions)
+        self.write_line(export_file, line)
 
-        sampleRegionID = 0
+        sample_region_id = 0
         for region in self._regions:
-            sampleRegionID += 1
-            line = "Sample region: %i" % (sampleRegionID)
-            self.write_line(exportFile, line)
+            sample_region_id += 1
+            line = "Sample region: {:d}".format(sample_region_id)
+            self.write_line(export_file, line)
 
-            region.export(exportFile)
+            region.export(export_file)

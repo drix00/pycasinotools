@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: module_name
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the :py:mod:`module_name` module.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
@@ -14,75 +30,82 @@ __license__ = ""
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino3.scan_point_results as ScanPointResults
-import tests.file_format.test_file_reader_writer_tools as test_FileReaderWriterTools
-import casinotools.file_format.casino3.simulation_options as SimulationOptions
+
+# Project modules.
+from casinotools.file_format.casino3.scan_point_results import ScanPointResults
+from casinotools.file_format.casino3.simulation_options import SimulationOptions
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
-class TestScanPointResults(test_FileReaderWriterTools.TestFileReaderWriterTools):
 
-    def test_read(self):
-        if is_bad_file(self.filepathCas):
-            pytest.skip()
-        file = open(self.filepathCas, 'rb')
-        options = SimulationOptions.SimulationOptions()
-        options.read(file)
-        file.close()
-        del file
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-        results = ScanPointResults.ScanPointResults()
-        file = open(self.filepathCas, 'rb')
-        #file.seek(12648)
-        error = results.read(file, options)
 
-        self.assertEqual(None, error)
+def test_read(filepath_cas):
+    if is_bad_file(filepath_cas):
+        pytest.skip()
+    file = open(filepath_cas, 'rb')
+    options = SimulationOptions()
+    options.read(file)
+    file.close()
+    del file
 
-        self.assertEqual(30107002, results._version)
+    results = ScanPointResults()
+    file = open(filepath_cas, 'rb')
+    # file.seek(12648)
+    error = results.read(file, options)
 
-        self.assertAlmostEqual(0.8, results._initialEnergy_keV)
-        self.assertAlmostEqual(0.0, results._rkoMax)
-        self.assertAlmostEqual(24.04826155663, results._rkoMaxW)
+    assert error is None
 
-        self.assertEqual(1000000, results._numberSimulatedTrajectories)
-        self.assertEqual(2, results._beingProcessed)
+    assert results._version == 30107002
 
-        self.assertAlmostEqual(5.468900000000E-02, results._backscatteredCoefficient)
-        self.assertAlmostEqual(0.0, results._backscatteredDetectedCoefficient)
-        self.assertAlmostEqual(0.0, results._secondaryCoefficient)
-        self.assertAlmostEqual(0.0, results._transmittedCoefficient)
-        self.assertAlmostEqual(0.0, results._transmittedDetectedCoefficient)
-        self.assertEqual(54689, results._numberBackscatteredElectrons)
-        self.assertAlmostEqual(0.0, results._numberBackscatteredElectronsDetected)
-        self.assertEqual(0, results._numberSecondaryElectrons)
+    assert results._initial_energy_keV == pytest.approx(0.8)
+    assert results._rko_max == pytest.approx(0.0)
+    assert results._rko_max_w == pytest.approx(24.04826155663)
 
-        self.assertEqual(8, results._numberResults)
+    assert results._number_simulated_trajectories == 1000000
+    assert results._being_processed == 2
 
-        for i in range(1, 8 + 1):
-            self.assertEqual(i, results._regionIntensityInfos[i - 1]._regionID)
+    assert results._backscattered_coefficient == pytest.approx(5.468900000000E-02)
+    assert results._backscattered_detected_coefficient == pytest.approx(0.0)
+    assert results._secondary_coefficient == pytest.approx(0.0)
+    assert results._transmitted_coefficient == pytest.approx(0.0)
+    assert results._transmitted_detected_coefficient == pytest.approx(0.0)
+    assert results._number_backscattered_electrons == 54689
+    assert results._number_backscattered_electrons_detected == pytest.approx(0.0)
+    assert results._number_secondary_electrons == 0
 
-        # DZMax distribution results.
-        self.assertEqual(True, results._isDZMax)
-        self.assertEqual(30105020, results.dzMax._version)
+    assert results._number_results == 8
 
-        self.assertEqual(1000, results.dzMax._size)
-        self.assertAlmostEqual(0.0, results.dzMax._borneInf)
-        self.assertAlmostEqual(8.900000000000E+01, results.dzMax._borneSup)
-        self.assertEqual(0, results.dzMax._isLog)
-        self.assertEqual(0, results.dzMax._isUneven)
+    for i in range(1, 8 + 1):
+        assert results._region_intensity_infos[i - 1]._region_id == i
 
-        self.assertEqual("Z Max", results.dzMax._title)
-        self.assertEqual("Depth (nm)", results.dzMax._xTitle)
-        self.assertEqual("Hits (Normalized)", results.dzMax._yTitle)
+    # DZMax distribution results.
+    assert results._is_dz_max is True
+    assert results.dz_max._version == 30105020
 
-        values = results.dzMax.getValues()
-        self.assertAlmostEqual(1.0, values[0])
-        self.assertAlmostEqual(0.0, values[-1])
+    assert results.dz_max._size == 1000
+    assert results.dz_max._borneInf == pytest.approx(0.0)
+    assert results.dz_max._borneSup == pytest.approx(8.900000000000E+01)
+    assert results.dz_max._isLog == 0
+    assert results.dz_max._isUneven == 0
 
-        self.assertEqual(True, results._isDEnergy_Density)
-        self.assertAlmostEqual(1.518294795870E-01, results.DEnergy_Density_Max_Energy)
+    assert results.dz_max._title == "Z Max"
+    assert results.dz_max._xTitle == "Depth (nm)"
+    assert results.dz_max._yTitle == "Hits (Normalized)"
 
-        self.assertEqual(199, results.getNumberSavedTrajectories())
+    values = results.dz_max.get_values()
+    assert values[0] == pytest.approx(1.0)
+    assert values[-1] == pytest.approx(0.0)
 
-        #self.fail("Test if the testcase is working.")
+    assert results._isDEnergy_Density is True
+    assert results.DEnergy_Density_Max_Energy == pytest.approx(1.518294795870E-01)
+
+    assert results.get_number_saved_trajectories() == 199

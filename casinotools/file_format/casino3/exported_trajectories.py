@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.exported_trajectories
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
@@ -14,15 +30,18 @@ __license__ = ""
 
 # Local modules.
 
+# Project modules.
+
 # Globals and constants variables.
 X_nm = "X (nm)"
 Y_nm = "Y (nm)"
-Z_nm = "Z (nm)"
+Z_nm = "z (nm)"
 
 KEYWORD_TRAJECTORY = '"Trajectory"'
 KEYWORD_NUMBER_COLLISIONS = '"NbCollisions"'
 KEYWORD_SCAN_POINT_X = '"X"'
 KEYWORD_SCAN_POINT_Y = '"Y"'
+
 
 class ExportedTrajectories(object):
     def __init__(self, filepath):
@@ -30,9 +49,9 @@ class ExportedTrajectories(object):
 
         self._trajectories = None
 
-    def getPositionsAtZ_nm(self, z_nm):
+    def get_positions_at_z_nm(self, z_nm):
         if self._trajectories is None:
-            self._readDataFile()
+            self._read_data_file()
 
         positions = []
         for trajectory in self._trajectories:
@@ -43,22 +62,21 @@ class ExportedTrajectories(object):
 
         return positions
 
-    def getScanPointPosition_nm(self):
+    def get_scan_point_position_nm(self):
         if self._trajectories is None:
-            self._readDataFile()
+            self._read_data_file()
 
         return self._scanPointX, self._scanPointY
 
-    def _readDataFile(self):
+    def _read_data_file(self):
         lines = open(self._filepath, 'rb').readlines()
 
         trajectories = []
-        numberCollisions = None
+        number_collisions = None
         collisions = None
         for line in lines:
             if line.startswith(KEYWORD_TRAJECTORY):
-                items = line.split()
-                if numberCollisions is not None:
+                if number_collisions is not None:
                     trajectories.append(collisions)
             elif line.startswith(KEYWORD_SCAN_POINT_X):
                 items = line.split()
@@ -75,20 +93,21 @@ class ExportedTrajectories(object):
                     except ValueError:
                         pass
             elif line.startswith(KEYWORD_NUMBER_COLLISIONS):
-                if numberCollisions is not None:
-                    assert len(collisions) == numberCollisions
+                if number_collisions is not None:
+                    assert len(collisions) == number_collisions
                     trajectories.append(collisions)
 
                 items = line.split()
-                numberCollisions = int(items[1])
+                number_collisions = int(items[1])
                 collisions = []
-            elif self._isCollisionDataLine(line):
-                collision = self._readCollisionDataLine(line)
+            elif self._is_collision_data_line(line):
+                collision = self._read_collision_data_line(line)
                 collisions.append(collision)
 
         self._trajectories = trajectories
 
-    def _isCollisionDataLine(self, line):
+    @staticmethod
+    def _is_collision_data_line(line):
         items = line.split()
         if len(items) == 10:
             try:
@@ -97,12 +116,10 @@ class ExportedTrajectories(object):
             except ValueError:
                 return False
 
-    def _readCollisionDataLine(self, line):
+    @staticmethod
+    def _read_collision_data_line(line):
         items = line.split()
 
-        collision = {}
-        collision[X_nm] = float(items[0])
-        collision[Y_nm] = float(items[1])
-        collision[Z_nm] = float(items[2])
+        collision = {X_nm: float(items[0]), Y_nm: float(items[1]), Z_nm: float(items[2])}
 
         return collision

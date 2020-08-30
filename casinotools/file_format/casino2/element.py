@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino2.Element
+.. py:currentmodule:: casinotools.file_format.casino2.element
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
@@ -32,10 +32,13 @@ import math
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino2.composition as Composition
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino2.composition import Composition
 from casinotools.file_format.casino2.line import NUMBER_ATOM_LINES
 from casinotools.file_format.casino2.version import VERSION_2050100
+from casinotools.file_format.casino2.mean_ionization_potential import MeanIonizationPotential, MODEL_JOY
 
 # Globals and constants variables.
 LINE_K = 'K'
@@ -48,11 +51,11 @@ EMITTED = "Emitted"
 TAG_ELEMENT_DATA = b"*ELEMENTDATA%%%"
 
 
-class Element(FileReaderWriterTools.FileReaderWriterTools):
+class Element(FileReaderWriterTools):
     def __init__(self, number_xray_layers=500):
         self.Z = 0
         self.Nom = ""
-        self.Rho = 0.0
+        self.rho = 0.0
         self.A = 0.0
         self.J = 0.0
         self.K = 0.0
@@ -114,7 +117,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         self.Z = self.read_int(file)
         self.Nom = self.read_str_length(file, 3)
-        self.Rho = self.read_double(file)
+        self.rho = self.read_double(file)
         self.A = self.read_double(file)
         self.J = self.read_double(file)
         self.K = self.read_double(file)
@@ -122,7 +125,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         self.kf = self.read_double(file)
         self.ep = self.read_double(file)
 
-        self._composition = Composition.Composition()
+        self._composition = Composition()
         self._composition.read(file)
 
         # This is the intensities as displayed in the casino program.
@@ -169,7 +172,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         self.write_int(file, self.Z)
         self.write_str_length(file, self.Nom, 3)
-        self.write_double(file, self.Rho)
+        self.write_double(file, self.rho)
         self.write_double(file, self.A)
         self.write_double(file, self.J)
         self.write_double(file, self.K)
@@ -212,13 +215,13 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
             self.write_double_list(file, self.COUCHE_RADIAL_LIII_ABS, number_xray_layers)
             self.write_double_list(file, self.COUCHE_RADIAL_MV_ABS, number_xray_layers)
 
-    def getAtomicNumber(self):
+    def get_atomic_number(self):
         return self.Z
 
-    def getSymbol(self):
+    def get_symbol(self):
         return self.Nom
 
-    def getTotalXrayIntensities(self):
+    def get_total_xray_intensities(self):
         intensities = {}
 
         if self.Int_PRZ[0] > 0.0:
@@ -249,7 +252,7 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         return intensities
 
-    def getTotalXrayIntensityByLineType(self, line, type=EMITTED):
+    def get_total_xray_intensity_by_line_type(self, line, xray_type=EMITTED):
         if LINE_K.startswith(line[0]):
             line = LINE_K
         elif LINE_L.startswith(line[0]):
@@ -257,10 +260,10 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
         elif LINE_M.startswith(line[0]):
             line = LINE_M
 
-        intensities = self.getTotalXrayIntensities()
-        return intensities[line][type]
+        intensities = self.get_total_xray_intensities()
+        return intensities[line][xray_type]
 
-    def getRadialXrayDistribution(self):
+    def get_radial_xray_distribution(self):
         """
         Return the radial x-ray distributions.
 
@@ -286,15 +289,15 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         return distributions
 
-    def getDepthXrayDistributionLayer(self, z0_nm, z1_nm):
+    def get_depth_xray_distribution_layer(self, z0_nm, z1_nm):
         """
         Return the depth x-ray distributions.
 
         :note: Remove last value, because it is the accumulator for all out of range values.
 
         """
-        index0 = self._findDepthIndex(z0_nm)
-        index1 = self._findDepthIndex(z1_nm)
+        index0 = self._find_depth_index(z0_nm)
+        index1 = self._find_depth_index(z1_nm)
         distributions = {}
 
         if max(self.COUCHE_K) > 0.0:
@@ -314,18 +317,18 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         return distributions
 
-    def getDepthXrayDistributionLayerByLineType(self, z0_nm, z1_nm, line, line_type=EMITTED):
+    def get_depth_xray_distribution_layer_by_line_type(self, z0_nm, z1_nm, line, line_type=EMITTED):
         """
         Return the depth x-ray distributions.
 
         :note: Remove last value, because it is the accumulator for all out of range values.
 
         """
-        distributions = self._getDepthXrayDistributionLayer()
+        distributions = self.get_depth_xray_distribution_layer(z0_nm, z1_nm)
 
         return distributions[line][line_type]
 
-    def getDepthXrayDistribution(self):
+    def get_depth_xray_distribution(self):
         """
         Return the depth x-ray distributions.
 
@@ -351,72 +354,71 @@ class Element(FileReaderWriterTools.FileReaderWriterTools):
 
         return distributions
 
-    def getDepthXrayDistributionByLineType(self, line, line_type=EMITTED):
+    def get_depth_xray_distribution_by_line_type(self, line, line_type=EMITTED):
         """
         Return the depth x-ray distributions.
 
         :note: Remove last value, because it is the accumulator for all out of range values.
 
         """
-        distributions = self.getDepthXrayDistribution()
+        distributions = self.get_depth_xray_distribution()
 
         return distributions[line][line_type]
 
-    def setElement(self, symbol, weight_fraction=1.0, index=0):
-        dummy_fnuatom, rho, z, a, ef, kf, ep = NUATOM(symbol)
+    def set_element(self, symbol, weight_fraction=1.0, index=0):
+        dummy_fnuatom, rho, z, a, ef, kf, ep = get_atom(symbol)
 
         self.Z = z
         self.Nom = symbol
-        self.Rho = rho
+        self.rho = rho
         self.A = a
         self.ef = ef
         self.kf = kf
         self.ep = ep
 
-        self.J = _computeJ(self.Z)
-        self.K = _computeK(self.Z)
+        self.J = compute_j(self.Z)
+        self.K = compute_k(self.Z)
 
-        self._composition = Composition.Composition()
-        self._composition.setIndex(index)
-        self._composition.setWeightFraction(weight_fraction)
+        self._composition = Composition()
+        self._composition.set_index(index)
+        self._composition.set_weight_fraction(weight_fraction)
 
-    def getComposition(self):
+    def get_composition(self):
         return self._composition
 
-    def getWeightFraction(self):
+    def get_weight_fraction(self):
         return self._composition.FWt
 
-    def setWeightFraction(self, weight_fraction):
-        self._composition.setWeightFraction(weight_fraction)
+    def set_weight_fraction(self, weight_fraction):
+        self._composition.set_weight_fraction(weight_fraction)
 
-    def getAtomicFraction(self):
+    def get_atomic_fraction(self):
         return self._composition.FAt
 
-    def setAtomicFraction(self, atomic_fraction):
-        self._composition.setAtomicFraction(atomic_fraction)
+    def set_atomic_fraction(self, atomic_fraction):
+        self._composition.set_atomic_fraction(atomic_fraction)
 
-    def getMassDensity_g_cm3(self):
-        return self.Rho
+    def get_mass_density_g_cm3(self):
+        return self.rho
 
-    def getRepetition(self):
+    def get_repetition(self):
         return self._composition.Rep
 
-    def getAtomicWeight_g_mol(self):
+    def get_atomic_weight_g_mol(self):
         return self.A
 
 
-def _computeJ(atomicNumber):
-    import casinotools.file_format.casino2.mean_ionization_potential as MeanIonizationPotential
-    mean_ionization_potential = MeanIonizationPotential.MeanIonizationPotential(MeanIonizationPotential.MODEL_JOY)
-    return mean_ionization_potential.computeJ(atomicNumber)
+def compute_j(atomic_number):
+    mean_ionization_potential = MeanIonizationPotential(MODEL_JOY)
+    return mean_ionization_potential.compute_j(atomic_number)
 
 
-def _computeK(atomicNumber):
-    k = 0.734 * math.pow(atomicNumber, 0.037)
+def compute_k(atomic_number):
+    k = 0.734 * math.pow(atomic_number, 0.037)
     return k
 
 
-def NUATOM(symbol):
+def get_atom(symbol):
     """
     Transcription du symbole atomique.
     """
@@ -1286,7 +1288,7 @@ def NUATOM(symbol):
             ep = 12.5
         else:
             fnuatom = 0
-    elif symbol[0] == 'Z':
+    elif symbol[0] == 'z':
         if symbol[1] == 'n':
             z = 30
             rho = 7.14

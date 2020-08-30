@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.simulation_data
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -14,78 +30,80 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.casino3.sample as Sample
-import casinotools.file_format.casino3.simulation_options as SimulationOptions
-import casinotools.file_format.casino3.scan_point_positions as ScanPointPositions
-import casinotools.file_format.casino3.simulation_results as SimulationResults
 
-# TODO: Old Reader modules, refactor to use the data module directly.
+# Project modules.
+from casinotools.file_format.casino3.sample import Sample
+from casinotools.file_format.casino3.simulation_options import SimulationOptions
+from casinotools.file_format.casino3.scan_point_positions import ScanPointPositions
+from casinotools.file_format.casino3.simulation_results import SimulationResults
 
 # Globals and constants variables.
+# TODO: Old Reader modules, refactor to use the data module directly.
+
 
 class SimulationData(object):
     def __init__(self):
-        self._sample = Sample.Sample()
-        self._options = SimulationOptions.SimulationOptions()
-        self._scanPointPositions = ScanPointPositions.ScanPointPositions()
-        self._results = SimulationResults.SimulationResults()
+        self._sample = Sample()
+        self._options = SimulationOptions()
+        self._scan_point_positions = ScanPointPositions()
+        self._results = SimulationResults()
 
-    def setSample(self, sample):
+    def set_sample(self, sample):
         self._sample = sample
 
-    def setOptions(self, options):
+    def set_options(self, options):
         self._options = options
 
-    def setScanPointPositions(self, scanPointPositions):
-        self._scanPointPositions = scanPointPositions
+    def set_scan_point_positions(self, scan_point_positions):
+        self._scan_point_positions = scan_point_positions
 
-    def setResults(self, results):
+    def set_results(self, results):
         self._results = results
 
-    def readSample(self, file):
+    def read_sample(self, file):
         self._sample.read(file)
 
-    def readOptions(self, file):
+    def read_options(self, file):
         self._options.read(file)
 
-    def readScanPointPositions(self, file):
-        self._scanPointPositions.read(file)
+    def read_scan_point_positions(self, file):
+        self._scan_point_positions.read(file)
 
-    def readResults(self, file):
+    def read_results(self, file):
         self._results.read(file, self._options)
 
-    def writeSample(self, file):
-        logging.info("writeSample")
+    def write_sample(self, file):
+        logging.info("write_sample")
         self._sample.write(file)
 
-    def writeOptions(self, file):
-        logging.info("writeOptions")
+    def write_options(self, file):
+        logging.info("write_options")
         self._options.write(file)
 
-    def writeScanPointPositions(self, file):
-        logging.info("writeScanPointPositions")
-        self._scanPointPositions.write(file)
+    def write_scan_point_positions(self, file):
+        logging.info("write_scan_point_positions")
+        self._scan_point_positions.write(file)
 
-    def writeResults(self, file):
-        logging.info("writeResults")
+    def write_results(self, file):
+        logging.info("write_results")
         self._results.write(file)
 
-    def getScanPointPositions(self):
-        return self._scanPointPositions.getPositions()
+    def get_scan_point_positions(self):
+        return self._scan_point_positions.get_positions()
 
-    def getResultList(self):
+    def get_result_list(self):
         return self._results
 
-    def getFirstScanPointResults(self):
-        return self._results.getFirstScanPointResults()
+    def get_first_scan_point_results(self):
+        return self._results.get_first_scan_point_results()
 
-    def getOptions(self):
+    def get_options(self):
         return self._options
 
-    def getSample(self):
+    def get_sample(self):
         return self._sample
 
-    def export(self, exportFile):
-        self._sample.export(exportFile)
-        self._options.export(exportFile)
-        self._scanPointPositions.export(exportFile)
+    def export(self, export_file):
+        self._sample.export(export_file)
+        self._options.export(export_file)
+        self._scan_point_positions.export(export_file)

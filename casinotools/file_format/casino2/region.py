@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino2.Region
+.. py:currentmodule:: casinotools.file_format.casino2.region
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
@@ -32,8 +32,16 @@ import decimal
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino2.element as Element
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino2.element import Element
+
+# Globals and constants variables.
+
+# Third party modules.
+
+# Local modules.
 
 # Globals and constants variables.
 decimal.getcontext().prec = 28
@@ -44,7 +52,7 @@ NB_PAR_MAX = 4
 TAG_REGIONS_DATA = b"*REGIONSDATA%%%"
 
 
-class Region(FileReaderWriterTools.FileReaderWriterTools):
+class Region(FileReaderWriterTools):
     def __init__(self, number_xray_layers):
         self._number_xray_layers = number_xray_layers
 
@@ -99,7 +107,7 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
 
         self._elements = []
         for dummy in range(self.NbEl):
-            element = Element.Element()
+            element = Element()
             element.read(file, self._number_xray_layers, version)
             self._elements.append(element)
 
@@ -134,38 +142,38 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
             element = self._elements[index]
             element.write(file, self._number_xray_layers)
 
-    def getNumberElements(self):
+    def get_number_elements(self):
         assert len(self._elements) == self.NbEl
         return self.NbEl
 
-    def removeAllElements(self):
+    def remove_all_elements(self):
         self.NbEl = 0
         self._elements = []
         assert len(self._elements) == self.NbEl
 
-    def addElement(self, symbol, weight_fraction=1.0, number_xray_layers=500):
+    def add_element(self, symbol, weight_fraction=1.0, number_xray_layers=500):
         self.NbEl += 1
-        element = Element.Element(number_xray_layers)
-        element.setElement(symbol, weight_fraction)
+        element = Element(number_xray_layers)
+        element.set_element(symbol, weight_fraction)
         self._elements.append(element)
         assert len(self._elements) == self.NbEl
 
-    def getElement(self, index):
+    def get_element(self, index):
         return self._elements[index]
 
-    def getElements(self):
+    def get_elements(self):
         return self._elements
 
-    def setElement(self, element_symbol, weight_fraction=1.0, number_xray_layers=500, index_element=0):
-        element = Element.Element(number_xray_layers)
-        element.setElement(element_symbol, weight_fraction)
+    def set_element(self, element_symbol, weight_fraction=1.0, number_xray_layers=500, index_element=0):
+        element = Element(number_xray_layers)
+        element.set_element(element_symbol, weight_fraction)
         self._elements[index_element] = element
         assert len(self._elements) == self.NbEl
         self.update()
 
-    def getElementBySymbol(self, symbol):
+    def get_element_by_symbol(self, symbol):
         for element in self._elements:
-            if element.getSymbol() == symbol:
+            if element.get_symbol() == symbol:
                 return element
 
     def update(self):
@@ -184,8 +192,8 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
     def _compute_mean_mass_density_g_cm3(self):
         inverse_total = 0.0
         for element in self._elements:
-            weight_fraction = element.getWeightFraction()
-            mass_density_g_cm3 = element.getMassDensity_g_cm3()
+            weight_fraction = element.get_weight_fraction()
+            mass_density_g_cm3 = element.get_mass_density_g_cm3()
 
             inverse_total += weight_fraction / mass_density_g_cm3
 
@@ -197,9 +205,9 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
         total__elements = 0.0
 
         for element in self._elements:
-            repetition = element.getRepetition()
+            repetition = element.get_repetition()
             total__elements += repetition
-            total_z += element.getAtomicNumber() * repetition
+            total_z += element.get_atomic_number() * repetition
 
         mean_atomic_number = total_z / total__elements
         return mean_atomic_number
@@ -207,66 +215,65 @@ class Region(FileReaderWriterTools.FileReaderWriterTools):
     def _generate_name(self):
         name = ""
         for element in self._elements:
-            name += element.getSymbol().strip()
+            name += element.get_symbol().strip()
 
         return name
 
     def _compute_atomic_fraction_elements(self):
         total = 0.0
         for element in self._elements:
-            weight_fraction = element.getWeightFraction()
-            atomic_weight = element.getAtomicWeight_g_mol()
+            weight_fraction = element.get_weight_fraction()
+            atomic_weight = element.get_atomic_weight_g_mol()
 
             total += weight_fraction / atomic_weight
 
         for element in self._elements:
-            weight_fraction = element.getWeightFraction()
-            atomic_weight = element.getAtomicWeight_g_mol()
+            weight_fraction = element.get_weight_fraction()
+            atomic_weight = element.get_atomic_weight_g_mol()
 
             atomic_fraction = (weight_fraction / atomic_weight) / total
-            element.setAtomicFraction(atomic_fraction)
+            element.set_atomic_fraction(atomic_fraction)
 
     def _check_weight_fraction(self):
-        weight_fractions = [element.getWeightFraction() for element in self._elements]
+        weight_fractions = [element.get_weight_fraction() for element in self._elements]
         total = sum(weight_fractions)
         assert abs(total - 1.0) < EPSILON
 
         for element in self._elements:
-            new_weight_fraction = decimal.Decimal(str(element.getWeightFraction())) / decimal.Decimal(str(total))
-            element.setWeightFraction(float(new_weight_fraction))
+            new_weight_fraction = decimal.Decimal(str(element.get_weight_fraction())) / decimal.Decimal(str(total))
+            element.set_weight_fraction(float(new_weight_fraction))
 
-        weight_fractions = [element.getWeightFraction() for element in self._elements]
+        weight_fractions = [element.get_weight_fraction() for element in self._elements]
         total = sum(weight_fractions)
         assert abs(total - 1.0) < EPSILON * EPSILON
 
     def _check_atomic_fraction(self):
-        atomic_fractions = [element.getAtomicFraction() for element in self._elements]
+        atomic_fractions = [element.get_atomic_fraction() for element in self._elements]
         total = sum(atomic_fractions)
         assert abs(total - 1.0) < EPSILON
 
         for element in self._elements:
-            new_atomic_fraction = decimal.Decimal(str(element.getAtomicFraction())) / decimal.Decimal(str(total))
-            element.setAtomicFraction(float(new_atomic_fraction))
+            new_atomic_fraction = decimal.Decimal(str(element.get_atomic_fraction())) / decimal.Decimal(str(total))
+            element.set_atomic_fraction(float(new_atomic_fraction))
 
-        atomic_fractions = [element.getAtomicFraction() for element in self._elements]
+        atomic_fractions = [element.get_atomic_fraction() for element in self._elements]
         total = sum(atomic_fractions)
         assert abs(total - 1.0) < EPSILON * EPSILON
 
-    def getMeanMassDensity_g_cm3(self):
+    def get_mean_mass_density_g_cm3(self):
         return self.Rho
 
-    def getMeanAtomicNumber(self):
+    def get_mean_atomic_number(self):
         return self.Zmoy
 
-    def getName(self):
+    def get_name(self):
         return self.Name
 
-    def isUserMassDensity(self):
+    def is_user_mass_density(self):
         return bool(self.User_Density)
 
-    def getParameters(self):
+    def get_parameters(self):
         return self.Parametre
 
-    def setParameters(self, parameters):
+    def set_parameters(self, parameters):
         self.Parametre = parameters
-

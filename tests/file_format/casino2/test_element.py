@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino2.test_Element
+.. py:currentmodule:: tests.file_format.casino2.test_element
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`casinotools.file_format.casino2.Element`.
+Tests for the module :py:mod:`casinotools.file_format.casino2.element`.
 """
 
 ###############################################################################
@@ -26,127 +26,125 @@ Tests for the module :py:mod:`casinotools.file_format.casino2.Element`.
 ###############################################################################
 
 # Standard library modules.
-try:
-    from io import BytesIO
-except ImportError:  # Python 2
-    from StringIO import StringIO as BytesIO
+from io import BytesIO
 
 # Third party modules.
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino2.element as Element
-import tests.file_format.casino2.test_file as test_File
+
+# Project modules.
+from casinotools.file_format.casino2.element import Element, get_atom, compute_k
 from casinotools.utilities.path import is_bad_file
-from casinotools.file_format.casino2.line import ATOMLINE_KA1, ATOMLINE_KA2, ATOMLINE_KB1
-
-
+from casinotools.file_format.casino2.line import ATOM_LINE_KA1, ATOM_LINE_KA2, ATOM_LINE_KB1
+from casinotools.file_format.casino2.version import VERSION_2_45, VERSION_2_51
 # Globals and constants variables.
 
 
-class TestElement(test_File.TestFile):
+def test_is_discovered():
     """
-    TestCase class for the module `casinotools.file_format.casino2.Element`.
+    Test used to validate the file is included in the tests
+    by the test framework.
     """
+    # assert False
+    assert True
 
-    def test_read(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        with open(self.filepathSim, 'rb') as file:
-            self._read_tests(file, self.version_2_45)
 
-    def test_read_StringIO(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        f = open(self.filepathSim, 'rb')
-        file = BytesIO(f.read())
-        file.mode = 'rb'
-        f.close()
-        self._read_tests(file, self.version_2_45)
+def test_read(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
+    with open(filepath_sim_2_45, 'rb') as file:
+        _read_tests(file, VERSION_2_45)
 
-    def _read_tests(self, file, version):
+
+def test_read_string_io(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
+    f = open(filepath_sim_2_45, 'rb')
+    file = BytesIO(f.read())
+    f.close()
+    _read_tests(file, VERSION_2_45)
+
+
+def _read_tests(file, version):
+    file.seek(0)
+    element = Element()
+    element.read(file, 500, version)
+    assert file.tell() == 49953
+
+    assert element.Z == 5
+    assert element.Nom == 'B'
+    assert element.rho == pytest.approx(2.340000000000E+00)
+    assert element.A == pytest.approx(1.081000000000E+01)
+    assert element.J == pytest.approx(5.750000000000E-02)
+    assert element.K == pytest.approx(7.790367583747E-01)
+    assert element.ef == pytest.approx(1.0)
+    assert element.kf == pytest.approx(7.000000000000E+07)
+    assert element.ep == pytest.approx(2.270000000000E+01)
+
+
+def test_get_atom():
+    fnuatom, rho, z, a, ef, kf, ep = get_atom('Ag')
+    assert fnuatom == 1
+    assert rho == pytest.approx(10.50)
+    assert z == 47
+    assert a == 107.868
+    assert ef == pytest.approx(5.5)
+    assert kf * 1.0e-8 == pytest.approx(1.19)
+    assert ep == pytest.approx(15)
+
+    fnuatom, rho, z, a, ef, kf, ep = get_atom('ag')
+    assert fnuatom == 0
+    assert rho == pytest.approx(0.0)
+    assert z == 0
+    assert a == 0.0
+    assert ef == pytest.approx(0.0)
+    assert kf == pytest.approx(0.0)
+    assert ep == pytest.approx(0.0)
+
+    fnuatom, rho, z, a, ef, kf, ep = get_atom('V')
+    assert fnuatom == 1
+    assert rho == pytest.approx(5.8)
+    assert z == 23
+    assert a == 50.9415
+    assert ef == pytest.approx(1.0)
+    assert kf * 1.0e-7 == pytest.approx(7.0)
+    assert ep == pytest.approx(21.8)
+
+
+def test_compute_k():
+    k_ref = 7.790367583747E-01
+    k = compute_k(5)
+    assert k == pytest.approx(k_ref)
+
+    k_ref = 7.843098263659E-01
+    k = compute_k(6)
+    assert k == pytest.approx(k_ref)
+
+
+def test_get_total_xray_intensities_1_esr(filepath_cas_v251):
+    if is_bad_file(filepath_cas_v251):
+        pytest.skip()
+
+    with open(filepath_cas_v251, 'rb') as file:
         file.seek(0)
-        element = Element.Element()
-        element.read(file, 500, version)
-        self.assertEqual(49953, file.tell())
+        element = Element()
+        # read the empty simulation data structure.
+        element.read(file, 500, VERSION_2_51)
+        assert file.tell() == 50193
+        # read the first simulation data structure.
+        element.read(file, 500, VERSION_2_51)
+        assert file.tell() == 100638
 
-        self.assertEqual(5, element.Z)
-        self.assertEqual('B', element.Nom)
-        self.assertAlmostEqual(2.340000000000E+00, element.Rho)
-        self.assertAlmostEqual(1.081000000000E+01, element.A)
-        self.assertAlmostEqual(5.750000000000E-02, element.J)
-        self.assertAlmostEqual(7.790367583747E-01, element.K)
-        self.assertAlmostEqual(1.0, element.ef)
-        self.assertAlmostEqual(7.000000000000E+07, element.kf)
-        self.assertAlmostEqual(2.270000000000E+01, element.ep)
+        intensities_ref = {ATOM_LINE_KA1: 9.269059346795805e-07,
+                           ATOM_LINE_KA2: 4.662984097246555e-07,
+                           ATOM_LINE_KB1: 1.355707793206891e-08}
 
-    def test_NUATOM(self):
-        fnuatom, rho, z, a, ef, kf, ep = Element.NUATOM('Ag')
-        self.assertEqual(1, fnuatom)
-        self.assertAlmostEqual(10.50, rho)
-        self.assertEqual(47, z)
-        self.assertEqual(107.868, a)
-        self.assertAlmostEqual(5.5, ef)
-        self.assertAlmostEqual(1.19, kf * 1.0e-8)
-        self.assertAlmostEqual(15, ep)
+        intensities = element.get_total_xray_intensities_1_esr()
 
-        fnuatom, rho, z, a, ef, kf, ep = Element.NUATOM('ag')
-        self.assertEqual(0, fnuatom)
-        self.assertAlmostEqual(0.0, rho)
-        self.assertEqual(0, z)
-        self.assertEqual(0.0, a)
-        self.assertAlmostEqual(0.0, ef)
-        self.assertAlmostEqual(0.0, kf)
-        self.assertAlmostEqual(0.0, ep)
+        assert len(intensities) == len(intensities_ref)
 
-        fnuatom, rho, z, a, ef, kf, ep = Element.NUATOM('V')
-        self.assertEqual(1, fnuatom)
-        self.assertAlmostEqual(5.8, rho)
-        self.assertEqual(23, z)
-        self.assertEqual(50.9415, a)
-        self.assertAlmostEqual(1.0, ef)
-        self.assertAlmostEqual(7.0, kf * 1.0e-7)
-        self.assertAlmostEqual(21.8, ep)
-
-        # self.fail("Test if the testcase is working.")
-
-    def test__computeK(self):
-        k_ref = 7.790367583747E-01
-        k = Element._computeK(5)
-        self.assertAlmostEqual(k_ref, k)
-
-        k_ref = 7.843098263659E-01
-        k = Element._computeK(6)
-        self.assertAlmostEqual(k_ref, k)
-
-        # self.fail("Test if the testcase is working.")
-
-    def test_get_total_xray_intensities_1_esr(self):
-        if is_bad_file(self.filepath_cas_v251):
-            pytest.skip()
-
-        with open(self.filepath_cas_v251, 'rb') as file:
-            file.seek(0)
-            element = Element.Element()
-            # read the empty simulation data structure.
-            element.read(file, 500, self.version_2_51)
-            self.assertEqual(50193, file.tell())
-            # read the first simulation data structure.
-            element.read(file, 500, self.version_2_51)
-            self.assertEqual(100638, file.tell())
-
-            intensities_ref = {}
-
-            intensities_ref[ATOMLINE_KA1] = 9.269059346795805e-07
-            intensities_ref[ATOMLINE_KA2] = 4.662984097246555e-07
-            intensities_ref[ATOMLINE_KB1] = 1.355707793206891e-08
-
-            intensities = element.get_total_xray_intensities_1_esr()
-
-            self.assertEqual(len(intensities_ref), len(intensities))
-
-            for atomic_line in intensities:
-                with self.subTest(atomic_line=atomic_line):
-                    self.assertAlmostEqual(intensities_ref[atomic_line]*1.0e6, intensities[atomic_line]*1.0e6)
-
-        # self.fail("Test if the testcase is working.")
+        for atomic_line in intensities:
+            value_ref = intensities_ref[atomic_line]*1.0e6
+            value = intensities[atomic_line]*1.0e6
+            assert value == pytest.approx(value_ref)

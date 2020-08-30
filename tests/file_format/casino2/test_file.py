@@ -26,439 +26,374 @@ Tests for the module :py:mod:`casinotools.file_format.casino2.file`.
 ###############################################################################
 
 # Standard library modules.
-import unittest
-import os
 from io import BytesIO
 
 # Third party modules.
-from pkg_resources import resource_filename
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino2.file as File
-import casinotools.file_format.casino2.version as Version
+
+# Project modules.
+from casinotools.file_format.casino2.file import File
 from casinotools.file_format.casino2.element import LINE_K, GENERATED, EMITTED
 from casinotools.utilities.path import is_bad_file
 from casinotools.file_format.casino2.version import VERSION_2_45, VERSION_2_50, VERSION_2_51, VERSION_2_42, VERSION_2_46
 
-# Globals and constants variables.
+# if os.path.isfile(self.filepathWrite):
+#     os.remove(self.filepathWrite)
 
 
-class TestFile(unittest.TestCase):
+def test_read(filepath_sim_2_45, filepath_cas_2_45):
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
+    file = File()
+    file.read_from_filepath(filepath_sim_2_45)
+    assert file._filepath == filepath_sim_2_45
+    assert file._numberSimulations == 0
+
+    file = File()
+    file.read_from_filepath(filepath_cas_2_45)
+    assert file._filepath == filepath_cas_2_45
+    assert file._numberSimulations == 1
+
+    assert len(file._resultSimulationDataList) == 1
+
+
+def test_read_string_io(filepath_sim_2_45, filepath_cas_2_45):
+    # sim
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
+    f = open(filepath_sim_2_45, 'rb')
+    buf = BytesIO(f.read())
+    f.close()
+
+    file = File()
+    file.read_from_file_object(buf)
+    assert file._numberSimulations == 0
+
+    # cas
+    f = open(filepath_cas_2_45, 'rb')
+    buf = BytesIO(f.read())
+    f.close()
+
+    file = File()
+    file.read_from_file_object(buf)
+    assert file._numberSimulations == 1
+
+    assert len(file._resultSimulationDataList) == 1
+
+
+def test_is_simulation_filepath(filepath_sim_2_45, filepath_cas_2_45):
+    file = File()
+
+    assert file._is_simulation_filepath(filepath_sim_2_45) is True
+    assert file._is_simulation_filepath(filepath_cas_2_45) is False
+
+
+def test_write(filepath_std, filepath_write):
+    if is_bad_file(filepath_std):
+        pytest.skip()
+
+    file = File()
+    option_simulation_data = _get_option_simulation_data(filepath_std)
+    file.set_option_simulation_data(option_simulation_data)
+    file.write(filepath_write)
+
+    with open(filepath_std, 'rb') as fp:
+        data_ref = fp.read()
+    with open(filepath_write, 'rb') as fp:
+        data = fp.read()
+    index = 0
+    for charRef, char in zip(data_ref, data):
+        assert char == charRef, index
+        index += 1
+
+    assert len(data) == len(data_ref)
+
+    import filecmp
+    assert filecmp.cmp(filepath_std, filepath_write, shallow=True) is True
+
+
+def _get_option_simulation_data(filepath_std):
+    file = File()
+    file.read_from_filepath(filepath_std)
+
+    return file.get_option_simulation_data()
+
+
+def test_skip_reading_data(filepath_cas_2_45):
+    if is_bad_file(filepath_cas_2_45):
+        pytest.skip()
+
+    file = File()
+    file.read_from_filepath(filepath_cas_2_45, is_skip_reading_data=False)
+
+    trajectories_data = file.get_results_first_simulation().get_trajectories_data()
+    assert trajectories_data._number_trajectories == 221
+    assert trajectories_data._trajectories[0].NbElec == 89
+    assert len(trajectories_data._trajectories[0]._scatteringEvents) == 89
+
+    event = trajectories_data._trajectories[0]._scatteringEvents[0]
+    assert event.X == pytest.approx(-2.903983831406E+00)
+    assert event.Y == pytest.approx(-3.020418643951E+00)
+    assert event.z == pytest.approx(0.0)
+    assert event.E == pytest.approx(4.000000000000E+00)
+    assert event.Intersect == 0
+    assert event.id == 0
+
+    file = File()
+    file.read_from_filepath(filepath_cas_2_45, is_skip_reading_data=True)
+
+    trajectories_data = file.get_results_first_simulation().get_trajectories_data()
+    assert trajectories_data._number_trajectories == 221
+    assert trajectories_data._trajectories[0].NbElec == 89
+    assert len(trajectories_data._trajectories[0]._scatteringEvents) == 0
+
+    simulation_results = file.get_results_first_simulation().get_simulation_results()
+
+    assert simulation_results.BE_Intensity_Size == 1
+    assert simulation_results.BE_Intensity[0] == 3.950000000000E-02
+
+    element = simulation_results._elementIntensityList[0]
+    assert element.name == "B"
+    assert element.IntensityK[0] == pytest.approx(3.444919288026E+02)
+
+    element = simulation_results._elementIntensityList[1]
+    assert element.name == "C"
+    assert element.IntensityK[0] == pytest.approx(4.687551040349E+01)
+
+    assert simulation_results.NbPointDZMax == 1000
+    assert simulation_results.NbPointDENR == 500
+    assert simulation_results.NbPointDENT == 500
+    assert simulation_results.NbPointDRSR == 500
+    # assert simulationResults.NbPointDNCR == 0
+    assert simulation_results.NbPointDEpos_X == 50
+    assert simulation_results.NbPointDEpos_Y == 50
+    assert simulation_results.NbPointDEpos_Z == 50
+    assert simulation_results.DEpos_maxE == pytest.approx(1.608165461510E-02)
+    assert simulation_results.NbPointDBANG == 91
+    assert simulation_results.NbPointDAngleVSEnergie == 91
+
+
+def test_read_v242(filepath_sim_v242, filepath_cas_v242):
+    if is_bad_file(filepath_sim_v242):
+        pytest.skip()
+    if is_bad_file(filepath_cas_v242):
+        pytest.skip()
+
+    # .sim
+    file = File()
+    file.read_from_filepath(filepath_sim_v242)
+    assert file._filepath == filepath_sim_v242
+    assert file._numberSimulations == 0
+
+    option_simulation_data = file.get_option_simulation_data()
+    version = option_simulation_data.get_version()
+    assert version == VERSION_2_42
+
+    simulation_options = option_simulation_data.get_simulation_options()
+
+    number_electrons = simulation_options.get_number_electrons()
+    assert number_electrons == 10000
+
+    incident_energy_keV = simulation_options.get_incident_energy_keV()
+    assert incident_energy_keV == pytest.approx(3.0)
+
+    toa_deg = simulation_options.get_toa_deg()
+    assert toa_deg == pytest.approx(40.0)
+
+    number_xray_layers = simulation_options.get_number_x_ray_layers()
+    assert number_xray_layers == 500
+
+    # .cas
+    file = File()
+    file.read_from_filepath(filepath_cas_v242)
+    assert file._filepath == filepath_cas_v242
+    assert file._numberSimulations == 1
+
+    assert len(file._resultSimulationDataList) == 1
+
+    option_simulation_data = file.get_option_simulation_data()
+    version = option_simulation_data.get_version()
+    assert version == VERSION_2_42
+
+    simulation_options = option_simulation_data.get_simulation_options()
+
+    number_electrons = simulation_options.get_number_electrons()
+    assert number_electrons == 10000
+
+    incident_energy_keV = simulation_options.get_incident_energy_keV()
+    assert incident_energy_keV == pytest.approx(3.0)
+
+    toa_deg = simulation_options.get_toa_deg()
+    assert toa_deg == pytest.approx(40.0)
+
+    number_xray_layers = simulation_options.get_number_x_ray_layers()
+    assert number_xray_layers == 500
+
+    result_simulation_data = file.get_results_simulation(0)
+    region_options = result_simulation_data.get_region_options()
+    region = region_options.get_region(0)
+    element = region.get_element(0)
+    intensities = element.get_total_xray_intensities()
+
+    assert intensities[LINE_K][GENERATED] == pytest.approx(2164.75)
+    assert intensities[LINE_K][EMITTED] == pytest.approx(415.81, 2)
+
+    atomic_number = element.get_atomic_number()
+    assert atomic_number == 5
+
+
+def test_read_sim_v250(filepath_sim_v250):
+    if is_bad_file(filepath_sim_v250):
+        pytest.skip()
+
+    # .sim
+    file = File()
+    file.read_from_filepath(filepath_sim_v250)
+    assert file._filepath == filepath_sim_v250
+    assert file._numberSimulations == 0
+
+    option_simulation_data = file.get_option_simulation_data()
+    version = option_simulation_data.get_version()
+    assert version == VERSION_2_50
+
+    simulation_options = option_simulation_data.get_simulation_options()
+
+    number_electrons = simulation_options.get_number_electrons()
+    assert number_electrons == 10000
+
+    incident_energy_keV = simulation_options.get_incident_energy_keV()
+    assert incident_energy_keV == pytest.approx(2.0)
+
+    toa_deg = simulation_options.get_toa_deg()
+    assert toa_deg == pytest.approx(40.0)
+
+    number_xray_layers = simulation_options.get_number_x_ray_layers()
+    assert number_xray_layers == 500
+
+
+def test_read_cas_v250(filepath_cas_v250):
+    if is_bad_file(filepath_cas_v250):
+        pytest.skip()
+
+    # .cas
+    file = File()
+    file.read_from_filepath(filepath_cas_v250)
+    assert file._filepath == filepath_cas_v250
+    assert file._numberSimulations == 1
+
+    assert len(file._resultSimulationDataList) == 1
+
+    option_simulation_data = file.get_option_simulation_data()
+    version = option_simulation_data.get_version()
+    assert version == VERSION_2_50
+
+    simulation_options = option_simulation_data.get_simulation_options()
+
+    number_electrons = simulation_options.get_number_electrons()
+    assert number_electrons == 10000
+
+    incident_energy_keV = simulation_options.get_incident_energy_keV()
+    assert incident_energy_keV == pytest.approx(2.0)
+
+    toa_deg = simulation_options.get_toa_deg()
+    assert toa_deg == pytest.approx(40.0)
+
+    number_xray_layers = simulation_options.get_number_x_ray_layers()
+    assert number_xray_layers == 500
+
+    result_simulation_data = file.get_results_simulation(0)
+    region_options = result_simulation_data.get_region_options()
+    region = region_options.get_region(0)
+    element = region.get_element(0)
+    intensities = element.get_total_xray_intensities()
+
+    assert intensities[LINE_K][GENERATED] == pytest.approx(20.99961280822754)
+    assert intensities[LINE_K][EMITTED] == pytest.approx(20.968143463134766)
+
+    atomic_number = element.get_atomic_number()
+    assert atomic_number == 13
+
+
+def test_problem_sim_v250(filepath_problem_sim_v250, filepath_good_sim_v251):
+    if is_bad_file(filepath_problem_sim_v250):
+        pytest.skip()
+
+    # .sim
+    file = File()
+    file.read_from_filepath(filepath_problem_sim_v250)
+    assert file._filepath == filepath_problem_sim_v250
+    assert file._numberSimulations == 0
+
+    option_simulation_data = file.get_option_simulation_data()
+    version = option_simulation_data.get_version()
+    assert version == VERSION_2_50
+
+    simulation_options = option_simulation_data.get_simulation_options()
+
+    number_electrons = simulation_options.get_number_electrons()
+    assert number_electrons == 200
+
+    incident_energy_keV = simulation_options.get_incident_energy_keV()
+    assert incident_energy_keV == pytest.approx(1.0)
+
+    toa_deg = simulation_options.get_toa_deg()
+    assert toa_deg == pytest.approx(40.0)
+
+    number_xray_layers = simulation_options.get_number_x_ray_layers()
+    assert number_xray_layers == 500
+
+    if is_bad_file(filepath_good_sim_v251):
+        pytest.skip()
+
+    # .sim
+    file = File()
+    file.read_from_filepath(filepath_good_sim_v251)
+    assert file._filepath == filepath_good_sim_v251
+    assert file._numberSimulations == 0
+
+    option_simulation_data = file.get_option_simulation_data()
+    version = option_simulation_data.get_version()
+    assert version == VERSION_2_51
+
+    simulation_options = option_simulation_data.get_simulation_options()
+
+    number_electrons = simulation_options.get_number_electrons()
+    assert number_electrons == 200
+
+    incident_energy_keV = simulation_options.get_incident_energy_keV()
+    assert incident_energy_keV == pytest.approx(1.0)
+
+    toa_deg = simulation_options.get_toa_deg()
+    assert toa_deg == pytest.approx(40.0)
+
+    number_xray_layers = simulation_options.get_number_x_ray_layers()
+    assert number_xray_layers == 500
+
+
+def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_std, filepath_sim_v242, filepath_cas_v242,
+                         filepath_cas_nicr, filepath_sim_v250, filepath_cas_v250, filepath_problem_sim_v250,
+                         filepath_problem_pymontecarlo_sim_v250, filepath_good_sim_v251):
     """
-    TestCase class for the module `casinotools.file_format.casino2.File`.
+    Test extract_version method.
     """
-
-    def setUp(self):
-        """
-        Setup method.
-        """
-
-        unittest.TestCase.setUp(self)
-
-        self.filepathSim = resource_filename(__name__, "../../../test_data/wincasino2.45/id475_v2.46.sim")
-        self.filepathCas = resource_filename(__name__, "../../../test_data/wincasino2.45/id475_v2.46.cas")
-        self.version_2_45 = VERSION_2_45
-
-        self.filepathStd = resource_filename(__name__, "../../../test_data/casino2.x/std_B_04.0keV_40.0TOA_v2.42.sim")
-        self.filepathWrite = resource_filename(__name__, "../../../test_data/casino2.x/stdTest.sim")
-
-        self.filepathSim_v242 = resource_filename(__name__, "../../../test_data/casino2.x/std_B_3keV_v2.42.sim")
-        self.filepathCas_v242 = resource_filename(__name__, "../../../test_data/casino2.x/std_B_3keV_v2.42.cas")
-
-        self.filepathCas_nicr = resource_filename(__name__, "../../../test_data/casino2.x/nicr_v2.46.cas")
-
-        self.filepath_sim_v250 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.50.sim")
-        self.filepath_cas_v250 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.50.cas")
-        self.version_2_50 = VERSION_2_50
-
-        self.filepath_sim_v251 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.51.sim")
-        self.filepath_cas_v251 = resource_filename(__name__, "../../../test_data/casino2.x/Al_E2kV_10ke_v2.51.cas")
-        self.version_2_51 = VERSION_2_51
-
-        self.filepath_problem_sim_v250 = resource_filename(__name__, "../../../test_data/casino2.x/VerticalLayers3_v2.50.sim")
-        self.filepath_problem_pymontecarlo_sim_v250 = resource_filename(__name__, "../../../test_data/casino2.x/VerticalLayers3_pymontecarlo_v2.50.sim")
-        self.filepath_good_sim_v251 = resource_filename(__name__, "../../../test_data/casino2.x/VerticalLayers3_good_v2.51.sim")
-
-    def tearDown(self):
-        """
-        Teardown method.
-        """
-
-        unittest.TestCase.tearDown(self)
-
-        if os.path.isfile(self.filepathWrite):
-            os.remove(self.filepathWrite)
-
-    def testSkeleton(self):
-        """
-        First test to check if the testcase is working with the testing framework.
-        """
-
-        # self.fail("Test if the testcase is working.")
-        self.assertTrue(True)
-
-    def test_read(self):
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        file = File.File()
-        file.readFromFilepath(self.filepathSim)
-        self.assertEqual(self.filepathSim, file._filepath)
-        self.assertEqual(0, file._numberSimulations)
-
-        file = File.File()
-        file.readFromFilepath(self.filepathCas)
-        self.assertEqual(self.filepathCas, file._filepath)
-        self.assertEqual(1, file._numberSimulations)
-
-        self.assertEqual(1, len(file._resultSimulationDataList))
-
-        # self.fail("Test if the testcase is working.")
-
-    def test_read_StringIO(self):
-        # sim
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-        f = open(self.filepathSim, 'rb')
-        buf = BytesIO(f.read())
-        buf.mode = 'rb'
-        f.close()
-
-        file = File.File()
-        file.readFromFileObject(buf)
-        self.assertEqual(0, file._numberSimulations)
-
-        # cas
-        f = open(self.filepathCas, 'rb')
-        buf = BytesIO(f.read())
-        buf.mode = 'rb'
-        f.close()
-
-        file = File.File()
-        file.readFromFileObject(buf)
-        self.assertEqual(1, file._numberSimulations)
-
-        self.assertEqual(1, len(file._resultSimulationDataList))
-
-    def test_isSimulationFilepath(self):
-        file = File.File()
-
-        self.assertTrue(file._isSimulationFilepath(self.filepathSim))
-        self.assertFalse(file._isSimulationFilepath(self.filepathCas))
-
-        # self.fail("Test if the testcase is working.")
-
-    def test_write(self):
-        if is_bad_file(self.filepathStd):
-            pytest.skip()
-
-        file = File.File()
-        option_simulation_data = self._getOptionSimulationData()
-        file.setOptionSimulationData(option_simulation_data)
-        file.write(self.filepathWrite)
-
-        with open(self.filepathStd, 'rb') as fp:
-            data_ref = fp.read()
-        with open(self.filepathWrite, 'rb') as fp:
-            data = fp.read()
-        index = 0
-        for charRef, char in zip(data_ref, data):
-            self.assertEqual(charRef, char, index)
-            index += 1
-
-        self.assertEqual(len(data_ref), len(data))
-
-        import filecmp
-        self.assertTrue(filecmp.cmp(self.filepathStd, self.filepathWrite, shallow=True))
-
-        # self.fail("Test if the testcase is working.")
-
-    def _getOptionSimulationData(self):
-        file = File.File()
-        file.readFromFilepath(self.filepathStd)
-
-        return file.getOptionSimulationData()
-
-    def test_skipReadingData(self):
-        if is_bad_file(self.filepathCas):
-            pytest.skip()
-
-        file = File.File()
-        file.readFromFilepath(self.filepathCas, isSkipReadingData=False)
-
-        trajectories_data = file.getResultsFirstSimulation().getTrajectoriesData()
-        self.assertEqual(221, trajectories_data._numberTrajectories)
-        self.assertEqual(89, trajectories_data._trajectories[0].NbElec)
-        self.assertEqual(89, len(trajectories_data._trajectories[0]._scatteringEvents))
-
-        event = trajectories_data._trajectories[0]._scatteringEvents[0]
-        self.assertAlmostEqual(-2.903983831406E+00, event.X)
-        self.assertAlmostEqual(-3.020418643951E+00, event.Y)
-        self.assertAlmostEqual(0.0, event.Z)
-        self.assertAlmostEqual(4.000000000000E+00, event.E)
-        self.assertEqual(0, event.Intersect)
-        self.assertEqual(0, event.id)
-
-        file = File.File()
-        file.readFromFilepath(self.filepathCas, isSkipReadingData=True)
-
-        trajectories_data = file.getResultsFirstSimulation().getTrajectoriesData()
-        self.assertEqual(221, trajectories_data._numberTrajectories)
-        self.assertEqual(89, trajectories_data._trajectories[0].NbElec)
-        self.assertEqual(0, len(trajectories_data._trajectories[0]._scatteringEvents))
-
-        simulation_results = file.getResultsFirstSimulation().getSimulationResults()
-
-        self.assertEqual(1, simulation_results.BE_Intensity_Size)
-        self.assertEqual(3.950000000000E-02, simulation_results.BE_Intensity[0])
-
-        element = simulation_results._elementIntensityList[0]
-        self.assertEqual("B", element.Name)
-        self.assertAlmostEqual(3.444919288026E+02, element.IntensityK[0])
-
-        element = simulation_results._elementIntensityList[1]
-        self.assertEqual("C", element.Name)
-        self.assertAlmostEqual(4.687551040349E+01, element.IntensityK[0])
-
-        self.assertEqual(1000, simulation_results.NbPointDZMax)
-        self.assertEqual(500, simulation_results.NbPointDENR)
-        self.assertEqual(500, simulation_results.NbPointDENT)
-        self.assertEqual(500, simulation_results.NbPointDRSR)
-        # self.assertEqual(0, simulationResults.NbPointDNCR)
-        self.assertEqual(50, simulation_results.NbPointDEpos_X)
-        self.assertEqual(50, simulation_results.NbPointDEpos_Y)
-        self.assertEqual(50, simulation_results.NbPointDEpos_Z)
-        self.assertAlmostEqual(1.608165461510E-02, simulation_results.DEpos_maxE)
-        self.assertEqual(91, simulation_results.NbPointDBANG)
-        self.assertEqual(91, simulation_results.NbPointDAngleVSEnergie)
-
-        # self.fail("Test if the testcase is working.")
-
-    def test_read_v242(self):
-        if is_bad_file(self.filepathSim_v242):
-            pytest.skip()
-        if is_bad_file(self.filepathCas_v242):
-            pytest.skip()
-
-        # .sim
-        file = File.File()
-        file.readFromFilepath(self.filepathSim_v242)
-        self.assertEqual(self.filepathSim_v242, file._filepath)
-        self.assertEqual(0, file._numberSimulations)
-
-        option_simulation_data = file.getOptionSimulationData()
-        version = option_simulation_data.getVersion()
-        self.assertEqual(Version.VERSION_2_42, version)
-
-        simulation_options = option_simulation_data.getSimulationOptions()
-
-        number_electrons = simulation_options.getNumberElectrons()
-        self.assertEqual(10000, number_electrons)
-
-        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
-        self.assertAlmostEqual(3.0, incident_energy_keV)
-
-        toa_deg = simulation_options.getTOA_deg()
-        self.assertAlmostEqual(40.0, toa_deg)
-
-        number_xray_layers = simulation_options.getNumberXRayLayers()
-        self.assertEqual(500, number_xray_layers)
-
-        # .cas
-        file = File.File()
-        file.readFromFilepath(self.filepathCas_v242)
-        self.assertEqual(self.filepathCas_v242, file._filepath)
-        self.assertEqual(1, file._numberSimulations)
-
-        self.assertEqual(1, len(file._resultSimulationDataList))
-
-        option_simulation_data = file.getOptionSimulationData()
-        version = option_simulation_data.getVersion()
-        self.assertEqual(Version.VERSION_2_42, version)
-
-        simulation_options = option_simulation_data.getSimulationOptions()
-
-        number_electrons = simulation_options.getNumberElectrons()
-        self.assertEqual(10000, number_electrons)
-
-        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
-        self.assertAlmostEqual(3.0, incident_energy_keV)
-
-        toa_deg = simulation_options.getTOA_deg()
-        self.assertAlmostEqual(40.0, toa_deg)
-
-        number_xray_layers = simulation_options.getNumberXRayLayers()
-        self.assertEqual(500, number_xray_layers)
-
-        result_simulation_data = file.getResultsSimulation(0)
-        region_options = result_simulation_data.getRegionOptions()
-        region = region_options.getRegion(0)
-        element = region.getElement(0)
-        intensities = element.getTotalXrayIntensities()
-
-        self.assertAlmostEqual(2164.75, intensities[LINE_K][GENERATED], 2)
-        self.assertAlmostEqual(415.81, intensities[LINE_K][EMITTED], 2)
-
-        atomic_number = element.getAtomicNumber()
-        self.assertEqual(5, atomic_number)
-
-        # self.fail("Test if the testcase is working.")
-
-    def test_read_sim_v250(self):
-        if is_bad_file(self.filepath_sim_v250):
-            pytest.skip()
-
-        # .sim
-        file = File.File()
-        file.readFromFilepath(self.filepath_sim_v250)
-        self.assertEqual(self.filepath_sim_v250, file._filepath)
-        self.assertEqual(0, file._numberSimulations)
-
-        option_simulation_data = file.getOptionSimulationData()
-        version = option_simulation_data.getVersion()
-        self.assertEqual(Version.VERSION_2_50, version)
-
-        simulation_options = option_simulation_data.getSimulationOptions()
-
-        number_electrons = simulation_options.getNumberElectrons()
-        self.assertEqual(10000, number_electrons)
-
-        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
-        self.assertAlmostEqual(2.0, incident_energy_keV)
-
-        toa_deg = simulation_options.getTOA_deg()
-        self.assertAlmostEqual(40.0, toa_deg)
-
-        number_xray_layers = simulation_options.getNumberXRayLayers()
-        self.assertEqual(500, number_xray_layers)
-
-        # self.fail("Test if the testcase is working.")
-
-    def test_read_cas_v250(self):
-        if is_bad_file(self.filepath_cas_v250):
-            pytest.skip()
-
-        # .cas
-        file = File.File()
-        file.readFromFilepath(self.filepath_cas_v250)
-        self.assertEqual(self.filepath_cas_v250, file._filepath)
-        self.assertEqual(1, file._numberSimulations)
-
-        self.assertEqual(1, len(file._resultSimulationDataList))
-
-        option_simulation_data = file.getOptionSimulationData()
-        version = option_simulation_data.getVersion()
-        self.assertEqual(Version.VERSION_2_50, version)
-
-        simulation_options = option_simulation_data.getSimulationOptions()
-
-        number_electrons = simulation_options.getNumberElectrons()
-        self.assertEqual(10000, number_electrons)
-
-        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
-        self.assertAlmostEqual(2.0, incident_energy_keV)
-
-        toa_deg = simulation_options.getTOA_deg()
-        self.assertAlmostEqual(40.0, toa_deg)
-
-        number_xray_layers = simulation_options.getNumberXRayLayers()
-        self.assertEqual(500, number_xray_layers)
-
-        result_simulation_data = file.getResultsSimulation(0)
-        region_options = result_simulation_data.getRegionOptions()
-        region = region_options.getRegion(0)
-        element = region.getElement(0)
-        intensities = element.getTotalXrayIntensities()
-
-        self.assertAlmostEqual(20.99961280822754, intensities[LINE_K][GENERATED], 7)
-        self.assertAlmostEqual(20.968143463134766, intensities[LINE_K][EMITTED], 7)
-
-        atomic_number = element.getAtomicNumber()
-        self.assertEqual(13, atomic_number)
-
-        # self.fail("Test if the testcase is working.")
-
-
-    def test_problem_sim_v250(self):
-        if is_bad_file(self.filepath_problem_sim_v250):
-            pytest.skip()
-
-        # .sim
-        file = File.File()
-        file.readFromFilepath(self.filepath_problem_sim_v250)
-        self.assertEqual(self.filepath_problem_sim_v250, file._filepath)
-        self.assertEqual(0, file._numberSimulations)
-
-        option_simulation_data = file.getOptionSimulationData()
-        version = option_simulation_data.getVersion()
-        self.assertEqual(Version.VERSION_2_50, version)
-
-        simulation_options = option_simulation_data.getSimulationOptions()
-
-        number_electrons = simulation_options.getNumberElectrons()
-        self.assertEqual(200, number_electrons)
-
-        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
-        self.assertAlmostEqual(1.0, incident_energy_keV)
-
-        toa_deg = simulation_options.getTOA_deg()
-        self.assertAlmostEqual(40.0, toa_deg)
-
-        number_xray_layers = simulation_options.getNumberXRayLayers()
-        self.assertEqual(500, number_xray_layers)
-
-        if is_bad_file(self.filepath_good_sim_v251):
-            pytest.skip()
-
-        # .sim
-        file = File.File()
-        file.readFromFilepath(self.filepath_good_sim_v251)
-        self.assertEqual(self.filepath_good_sim_v251, file._filepath)
-        self.assertEqual(0, file._numberSimulations)
-
-        option_simulation_data = file.getOptionSimulationData()
-        version = option_simulation_data.getVersion()
-        self.assertEqual(Version.VERSION_2_51, version)
-
-        simulation_options = option_simulation_data.getSimulationOptions()
-
-        number_electrons = simulation_options.getNumberElectrons()
-        self.assertEqual(200, number_electrons)
-
-        incident_energy_keV = simulation_options.getIncidentEnergy_keV()
-        self.assertAlmostEqual(1.0, incident_energy_keV)
-
-        toa_deg = simulation_options.getTOA_deg()
-        self.assertAlmostEqual(40.0, toa_deg)
-
-        number_xray_layers = simulation_options.getNumberXRayLayers()
-        self.assertEqual(500, number_xray_layers)
-
-        # self.fail("Test if the testcase is working.")
-
-    def test_extract_version(self):
-        """
-        Test extract_version method.
-        """
-        if is_bad_file(self.filepathSim):
-            pytest.skip()
-
-        file_paths = []
-        file_paths.append((self.filepathSim, VERSION_2_45))
-        file_paths.append((self.filepathCas, VERSION_2_45))
-        file_paths.append((self.filepathStd, VERSION_2_50))
-        file_paths.append((self.filepathSim_v242, VERSION_2_42))
-        file_paths.append((self.filepathCas_v242, VERSION_2_42))
-        file_paths.append((self.filepathCas_nicr, VERSION_2_46))
-        file_paths.append((self.filepath_sim_v250, VERSION_2_50))
-        file_paths.append((self.filepath_cas_v250, VERSION_2_50))
-        file_paths.append((self.filepath_problem_sim_v250, VERSION_2_50))
-        file_paths.append((self.filepath_problem_pymontecarlo_sim_v250, VERSION_2_50))
-        file_paths.append((self.filepath_good_sim_v251, VERSION_2_51))
-
-        for file_path, version_ref in file_paths:
-            casino_file = File.File()
-            version = casino_file.extract_version(file_path)
-            self.assertEqual(version_ref, version, msg=file_path)
-
-        # self.fail("Test if the testcase is working.")
+    if is_bad_file(filepath_sim_2_45):
+        pytest.skip()
+
+    file_paths = [(filepath_sim_2_45, VERSION_2_45),
+                  (filepath_cas_2_45, VERSION_2_45),
+                  (filepath_std, VERSION_2_50),
+                  (filepath_sim_v242, VERSION_2_42),
+                  (filepath_cas_v242, VERSION_2_42),
+                  (filepath_cas_nicr, VERSION_2_46),
+                  (filepath_sim_v250, VERSION_2_50),
+                  (filepath_cas_v250, VERSION_2_50),
+                  (filepath_problem_sim_v250, VERSION_2_50),
+                  (filepath_problem_pymontecarlo_sim_v250, VERSION_2_50),
+                  (filepath_good_sim_v251, VERSION_2_51)]
+
+    for file_path, version_ref in file_paths:
+        casino_file = File()
+        version = casino_file.extract_version(file_path)
+        assert version == version_ref, file_path

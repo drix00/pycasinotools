@@ -1,193 +1,166 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
-.. py:currentmodule:: FileFormat.casino3.test_PointSpreadFunctionMatrix
+.. py:currentmodule:: tests.file_format.casino3.test_point_spread_function_matrix
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the PointSpreadFunctionMatrix module.
+Tests for the :py:mod:`casinotools.file_format.casino3.point_spread_function_matrix` module.
 """
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2011 Hendrix Demers"
-__license__ = ""
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
-import unittest
 
 # Third party modules.
-from pkg_resources import resource_filename #@UnresolvedImport
+from pkg_resources import resource_filename  # @UnresolvedImport
 import pytest
 
 # Local modules.
 
-# Project modules
-import casinotools.file_format.casino3.point_spread_function_matrix as PointSpreadFunctionMatrix
-import casinotools.file_format.casino3.file as File
-import casinotools.file_format.casino3.version as Version
+# Project modules.
+from casinotools.file_format.casino3.point_spread_function_matrix import PointSpreadFunctionMatrix
+from casinotools.file_format.casino3.file import File
+from casinotools.file_format.casino3.version import SIM_OPTIONS_VERSION_3_3_0_0
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
-class TestPointSpreadFunctionMatrix(unittest.TestCase):
+
+def test_is_discovered():
     """
-    TestCase class for the module `moduleName`.
+    Test used to validate the file is included in the tests
+    by the test framework.
     """
+    # assert False
+    assert True
 
-    def setUp(self):
-        """
-        Setup method.
-        """
 
-        unittest.TestCase.setUp(self)
+def test_sim_no_psfs():
+    filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
+    if is_bad_file(filepath):
+        pytest.skip(filepath)
 
-    def tearDown(self):
-        """
-        Teardown method.
-        """
+    casino_file = File(filepath)
 
-        unittest.TestCase.tearDown(self)
+    version_ref = SIM_OPTIONS_VERSION_3_3_0_0
+    version_str_ref = "3.3.0.0"
 
-    def testSkeleton(self):
-        """
-        First test to check if the testcase is working with the testing framework.
-        """
+    version = casino_file.get_version()
+    assert version == version_ref
 
-        #self.fail("Test if the testcase is working.")
-        self.assertTrue(True)
+    version_str = casino_file._extract_version_string(version)
+    assert version_str == version_str_ref
 
-    def test_SimNoPsfs(self):
-        """
-        Tests for method `SimNoPsfs`.
-        """
+    options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
 
-        filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
-        if is_bad_file(filepath):
-            pytest.skip(filepath)
+    assert options_advanced_psfs_settings.is_generating_psfs() is False
 
-        casinoFile = File.File(filepath)
 
-        versionRef = Version.SIM_OPTIONS_VERSION_3_3_0_0
-        versionStrRef = "3.3.0.0"
-
-        version = casinoFile.getVersion()
-        self.assertEqual(versionRef, version)
-
-        versionStr = casinoFile._extract_version_string(version)
-        self.assertEqual(versionStrRef, versionStr)
-
-        optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
-
-        self.assertEqual(False, optionsAdvancedPsfsSettings.isGeneratingPSFs())
-
-        #self.fail("Test if the testcase is working.")
-
-    def test_SimPsfs(self):
-        """
-        Tests for method `SimPsfs`.
-        """
-        filenames = ["SiN_wPSFs_bG_T200nm.sim", "SiN_wPSFs_wConserveData_bG_T200nm.sim"]
-        for filename in filenames:
-            filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
-            if is_bad_file(filepath):
-                pytest.skip(filepath)
-
-            casinoFile = File.File(filepath)
-
-            versionRef = Version.SIM_OPTIONS_VERSION_3_3_0_0
-            versionStrRef = "3.3.0.0"
-
-            version = casinoFile.getVersion()
-            self.assertEqual(versionRef, version)
-
-            versionStr = casinoFile._extract_version_string(version)
-            self.assertEqual(versionStrRef, versionStr)
-
-            optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
-
-            self.assertEqual(True, optionsAdvancedPsfsSettings.isGeneratingPSFs())
-
-        #self.fail("Test if the testcase is working.")
-
-    def test_CasNoPsfs(self):
-        """
-        Tests for method `CasNoPsfs`.
-        """
-
-        filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
-        if is_bad_file(filepath):
-            pytest.skip(filepath)
-
-        casinoFile = File.File(filepath)
-
-        versionRef = Version.SIM_OPTIONS_VERSION_3_3_0_0
-        versionStrRef = "3.3.0.0"
-
-        version = casinoFile.getVersion()
-        self.assertEqual(versionRef, version)
-
-        versionStr = casinoFile._extract_version_string(version)
-        self.assertEqual(versionStrRef, versionStr)
-
-        optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
-        self.assertEqual(False, optionsAdvancedPsfsSettings.isGeneratingPSFs())
-
-        scanPointResults = casinoFile.getScanPointResults()
-        self.assertEqual(False, scanPointResults[0].isPsfs())
-        self.assertEqual(None, scanPointResults[0].getPointSpreadFunctionMatrix())
-
-        #self.fail("Test if the testcase is working.")
-
-    def test_CasPsfs(self):
-        """
-        Tests for method `CasPsfs`.
-        """
-
-        filename = "SiN_wPSFs_bG_T200nm.cas"
+def test_sim_psfs():
+    filenames = ["SiN_wPSFs_bG_T200nm.sim", "SiN_wPSFs_wConserveData_bG_T200nm.sim"]
+    for filename in filenames:
         filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
         if is_bad_file(filepath):
             pytest.skip(filepath)
 
-        casinoFile = File.File(filepath)
+        casino_file = File(filepath)
 
-        versionRef = Version.SIM_OPTIONS_VERSION_3_3_0_0
-        versionStrRef = "3.3.0.0"
+        version_ref = SIM_OPTIONS_VERSION_3_3_0_0
+        version_str_ref = "3.3.0.0"
 
-        version = casinoFile.getVersion()
-        self.assertEqual(versionRef, version)
+        version = casino_file.get_version()
+        assert version == version_ref
 
-        versionStr = casinoFile._extract_version_string(version)
-        self.assertEqual(versionStrRef, versionStr)
+        version_str = casino_file._extract_version_string(version)
+        assert version_str == version_str_ref
 
-        optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
+        options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
 
-        self.assertEqual(True, optionsAdvancedPsfsSettings.isGeneratingPSFs())
+        assert options_advanced_psfs_settings.is_generating_psfs() is True
 
-        scanPointResults = casinoFile.getScanPointResults()
-        self.assertEqual(False, scanPointResults[0].isPsfs())
-        self.assertEqual(None, scanPointResults[0].getPointSpreadFunctionMatrix())
 
-        filename = "SiN_wPSFs_wConserveData_bG_T200nm.cas"
-        filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
+def test_cas_no_psfs():
+    filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
+    if is_bad_file(filepath):
+        pytest.skip(filepath)
 
-        casinoFile = File.File(filepath)
+    casino_file = File(filepath)
 
-        versionRef = Version.SIM_OPTIONS_VERSION_3_3_0_0
-        versionStrRef = "3.3.0.0"
+    version_ref = SIM_OPTIONS_VERSION_3_3_0_0
+    version_str_ref = "3.3.0.0"
 
-        version = casinoFile.getVersion()
-        self.assertEqual(versionRef, version)
+    version = casino_file.get_version()
+    assert version == version_ref
 
-        versionStr = casinoFile._extract_version_string(version)
-        self.assertEqual(versionStrRef, versionStr)
+    version_str = casino_file._extract_version_string(version)
+    assert version_str == version_str_ref
 
-        optionsAdvancedPsfsSettings = casinoFile.getOptions().getOptionsAdvancedPsfsSettings()
+    options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
+    assert options_advanced_psfs_settings.is_generating_psfs() is False
 
-        self.assertEqual(True, optionsAdvancedPsfsSettings.isGeneratingPSFs())
+    scan_point_results = casino_file.get_scan_point_results()
+    assert scan_point_results[0].is_psfs() is False
+    assert scan_point_results[0].get_point_spread_function_matrix() is None
 
-        scanPointResults = casinoFile.getScanPointResults()
-        self.assertEqual(True, scanPointResults[0].isPsfs())
-        self.assertIsInstance(scanPointResults[0].getPointSpreadFunctionMatrix(), PointSpreadFunctionMatrix.PointSpreadFunctionMatrix)
 
-        #self.fail("Test if the testcase is working.")
+def test_cas_psfs():
+    filename = "SiN_wPSFs_bG_T200nm.cas"
+    filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
+    if is_bad_file(filepath):
+        pytest.skip(filepath)
+
+    casino_file = File(filepath)
+
+    version_ref = SIM_OPTIONS_VERSION_3_3_0_0
+    version_str_ref = "3.3.0.0"
+
+    version = casino_file.get_version()
+    assert version == version_ref
+
+    version_str = casino_file._extract_version_string(version)
+    assert version_str == version_str_ref
+
+    options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
+
+    assert options_advanced_psfs_settings.is_generating_psfs() is True
+
+    scan_point_results = casino_file.get_scan_point_results()
+    assert scan_point_results[0].is_psfs() is False
+    assert scan_point_results[0].get_point_spread_function_matrix() is None
+
+    filename = "SiN_wPSFs_wConserveData_bG_T200nm.cas"
+    filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
+
+    casino_file = File(filepath)
+
+    version_ref = SIM_OPTIONS_VERSION_3_3_0_0
+    version_str_ref = "3.3.0.0"
+
+    version = casino_file.get_version()
+    assert version == version_ref
+
+    version_str = casino_file._extract_version_string(version)
+    assert version_str == version_str_ref
+
+    options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
+
+    assert options_advanced_psfs_settings.is_generating_psfs() is True
+
+    scan_point_results = casino_file.get_scan_point_results()
+    assert scan_point_results[0].is_psfs() is True
+    assert isinstance(scan_point_results[0].get_point_spread_function_matrix(), PointSpreadFunctionMatrix)

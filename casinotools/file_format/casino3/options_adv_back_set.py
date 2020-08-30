@@ -1,87 +1,105 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.options_adv_back_set
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
-
-##-----------------------------------------------------------------------------
-##/ Minimum angle for energy filter
-##-----------------------------------------------------------------------------
+# Minimum angle for energy filter
 #    double BEMin_Angle
-##-----------------------------------------------------------------------------
-##/ Maximum angle for Energy filter
-##-----------------------------------------------------------------------------
+
+# Maximum angle for Energy filter
 #    double BEMax_Angle
-##-----------------------------------------------------------------------------
-##/ Maximum value of energy filter
-##-----------------------------------------------------------------------------
+
+# Maximum value of energy filter
 #    double EFilterMax
-##-----------------------------------------------------------------------------
-##/ Minimum value of energy filter
-##-----------------------------------------------------------------------------
+
+# Minimum value of energy filter
 #    double EFilterMin
-##-----------------------------------------------------------------------------
-##/ Middle values of energy filter
-##-----------------------------------------------------------------------------
+
+# Middle values of energy filter
 #    double EFilterVal[101]
-##-----------------------------------------------------------------------------
-##/ flag for doing filtration by energy(added to filter by position)
-##-----------------------------------------------------------------------------
+
+# flag for doing filtration by energy(added to filter by position)
 #    int FEFilter
-##-----------------------------------------------------------------------------
-#
-##-------------------------------------------
-## Setting of Backscattered electron detector
-## Permit the setting of the sensibility of the backscattered electron detector
-##-------------------------------------------
-#
-##-----------------------------------------------------------------------------
-##/ Determine if using the advanced backscattered electron sensor settings :
-##/ -true : Use them
-##/ -false : Do not use them.
-##-----------------------------------------------------------------------------
+
+# Setting of Backscattered electron detector
+# Permit the setting of the sensibility of the backscattered electron detector
+
+# Determine if using the advanced backscattered electron sensor settings :
+# -true : Use them
+# -false : Do not use them.
 #    bool UseEnBack
-##-----------------------------------------------------------------------------
-##/ Backscattered electron sensor matrix setting
-##-----------------------------------------------------------------------------
+
+# Backscattered electron sensor matrix setting
 # TODO: implement the MatrixDetect variable and read data from file.
 #    Matrix2d<double> MatrixDetect
-##-----------------------------------------------------------------------------
-##/ Working distance of the backscattered electron sensor.
-##-----------------------------------------------------------------------------
+
+# Working distance of the backscattered electron sensor.
 #    double WorkDist
-##-----------------------------------------------------------------------------
-##/ Scale in X of one division of the sensor, in nm.
-##-----------------------------------------------------------------------------
+
+# Scale in X of one division of the sensor, in nm.
 #    double DetectScaleX
-##-----------------------------------------------------------------------------
-##/ Scale in Y of one division of the sensor, in nm
-##-----------------------------------------------------------------------------
+
+# Scale in Y of one division of the sensor, in nm
 #    double DetectScaleY
-##-----------------------------------------------------------------------------
-##/ Determine if the backscattered sensor matrix (MatrixDetect) is valid
-##-----------------------------------------------------------------------------
+
+# Determine if the backscattered sensor matrix (MatrixDetect) is valid
 #    bool ValidMatrix
-##-----------------------------------------------------------------------------
-##/ Name of the matrix file (and the path).
-##-----------------------------------------------------------------------------
+
+# name of the matrix file (and the path).
 #    std::string pathToMatrix
-##-----------------------------------------------------------------------------
-class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
+
+
+class OptionsAdvBackSet(FileReaderWriterTools):
     def __init__(self):
+        self.BEMin_Angle = 0.0
+        self.BEMax_Angle = 0.0
+        self.EFilterMax = 0.0
+        self.EFilterMin = 0.0
+
+        self.EFilterVal = []
+        for dummy in range(101):
+            self.EFilterVal.append(1.0)
+        self.FEFilter = 0
+        self.UseEnBack = False
+        self.MatrixDetect = None
+        self.WorkDist = 10.0
+        self.DetectScaleX = 1.0
+        self.DetectScaleY = 1.0
+        self.ValidMatrix = False
+
+        self._version = 0
+
         self.reset()
 
     def write(self, file):
@@ -91,11 +109,11 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
 #    Tags::AddTag(file,"*MATRX_SET_BEG", 15)
 #    OptionsGroup::writeVersion(file)
 #
-#    safewrite<bool>(file, UseEnBack)
-#    safewrite<double>(file, WorkDist)
-#    safewrite<double>(file, DetectScaleX)
-#    safewrite<double>(file, DetectScaleY)
-#    safewrite<bool>(file, ValidMatrix)
+#    safe_write<bool>(file, UseEnBack)
+#    safe_write<double>(file, WorkDist)
+#    safe_write<double>(file, DetectScaleX)
+#    safe_write<double>(file, DetectScaleY)
+#    safe_write<bool>(file, ValidMatrix)
 #
 #    if(ValidMatrix == true)
 #
@@ -103,27 +121,27 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
 #
 #            for(int j = 0 j < 101 j++)
 #
-#                safewrite<double>(file, MatrixDetect.get(i, j))
+#                safe_write<double>(file, MatrixDetect.get(i, j))
 #
 #
 #
 #
-#    safewrite<double>(file, BEMin_Angle)
-#    safewrite<double>(file, BEMax_Angle)
-#    safewrite<double>(file, EFilterMax)
-#    safewrite<double>(file, EFilterMin)
+#    safe_write<double>(file, BEMin_Angle)
+#    safe_write<double>(file, BEMax_Angle)
+#    safe_write<double>(file, EFilterMax)
+#    safe_write<double>(file, EFilterMin)
 #
 #    for(int i = 0 i < 101 i++)
 #
-#        safewrite<double>(file, EFilterVal[i])
+#        safe_write<double>(file, EFilterVal[i])
 #
-#    safewrite<int>(file, FEFilter)
+#    safe_write<int>(file, FEFilter)
 #
 #    Tags::AddTag(file,"*MATRX_SET_END", 15)
 
     def read(self, file):
-        tagID = b"*MATRX_SET_BEG"
-        self.find_tag(file, tagID)
+        tag_id = b"*MATRX_SET_BEG"
+        self.find_tag(file, tag_id)
 
         self._version = self.read_int(file)
 
@@ -151,8 +169,8 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
 
         self.FEFilter = self.read_int(file)
 
-        tagID = b"*MATRX_SET_END"
-        self.find_tag(file, tagID)
+        tag_id = b"*MATRX_SET_END"
+        self.find_tag(file, tag_id)
 
     def reset(self):
         self.BEMin_Angle = 0.0
@@ -162,7 +180,7 @@ class OptionsAdvBackSet(FileReaderWriterTools.FileReaderWriterTools):
 
         self.EFilterVal = []
         for dummy in range(101):
-                self.EFilterVal.append(1.0)
+            self.EFilterVal.append(1.0)
         self.FEFilter = 0
         self.UseEnBack = False
         self.MatrixDetect = None

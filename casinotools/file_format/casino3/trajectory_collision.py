@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.trajectory_collision
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Structure for the trajectory collision data.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import struct
@@ -15,7 +31,9 @@ import math
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
 COLLISION_TYPE_ATOM = 0
@@ -26,80 +44,82 @@ COLLISION_TYPE_RECALC = 3
 COLLISION_TYPE_LABELS = {COLLISION_TYPE_ATOM: "Atom",
                          COLLISION_TYPE_REGION: "Region",
                          COLLISION_TYPE_NODE: "Node",
-                         COLLISION_TYPE_RECALC:"Recalc"}
+                         COLLISION_TYPE_RECALC: "Recalc"}
 
-def getSizeScatteringEvent():
+
+def get_size_scattering_event():
     size = struct.calcsize("5d2i")
     return size
 
-class TrajectoryCollision(FileReaderWriterTools.FileReaderWriterTools):
+
+class TrajectoryCollision(FileReaderWriterTools):
     def __init__(self, items=None):
         if items is not None:
-            self._positionX = items[0]
-            self._positionY = items[1]
-            self._positionZ = items[2]
+            self._position_x = items[0]
+            self._position_y = items[1]
+            self._position_z = items[2]
             self._energy = items[3]
-            self._segmentLength = items[4]
-            self._collisionType = items[5]
-            self._regionID = items[6]
+            self._segment_length = items[4]
+            self._collision_type = items[5]
+            self._region_id = items[6]
 
     def read(self, file):
-        self._readOptimized(file)
+        self._read_optimized(file)
 
-    def _readOriginal(self, file):
+    def _read_original(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        self._positionX = self.read_double(file)
-        self._positionY = self.read_double(file)
-        self._positionZ = self.read_double(file)
+        self._position_x = self.read_double(file)
+        self._position_y = self.read_double(file)
+        self._position_z = self.read_double(file)
         self._energy = self.read_double(file)
-        self._segmentLength = self.read_double(file)
-        self._collisionType = self.read_int(file)
+        self._segment_length = self.read_double(file)
+        self._collision_type = self.read_int(file)
 
-        self._regionID = self.read_int(file)
+        self._region_id = self.read_int(file)
 
-    def _readOptimized(self, file):
+    def _read_optimized(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        format = "5d2i"
-        items = self.read_multiple_values(file, format)
+        values_format = "5d2i"
+        items = self.read_multiple_values(file, values_format)
 
-        self.setValues(items)
+        self.set_values(items)
 
-    def setValues(self, items):
-        self._positionX = items[0]
-        self._positionY = items[1]
-        self._positionZ = items[2]
+    def set_values(self, items):
+        self._position_x = items[0]
+        self._position_y = items[1]
+        self._position_z = items[2]
         self._energy = items[3]
-        self._segmentLength = items[4]
-        self._collisionType = items[5]
-        self._regionID = items[6]
+        self._segment_length = items[4]
+        self._collision_type = items[5]
+        self._region_id = items[6]
 
-    def getCollisionType(self):
-        return self._collisionType
+    def get_collision_type(self):
+        return self._collision_type
 
-    def getCollisionTypeName(self):
-        return COLLISION_TYPE_LABELS[self._collisionType]
+    def get_collision_type_name(self):
+        return COLLISION_TYPE_LABELS[self._collision_type]
 
-    def getX_nm(self):
-        return self._positionX
+    def get_x_nm(self):
+        return self._position_x
 
-    def getY_nm(self):
-        return self._positionY
+    def get_y_nm(self):
+        return self._position_y
 
-    def getZ_nm(self):
-        return self._positionZ
+    def get_z_nm(self):
+        return self._position_z
 
-    def getPosition_nm(self):
-        position_nm = (self._positionX, self._positionY, self._positionZ)
+    def get_position_nm(self):
+        position_nm = (self._position_x, self._position_y, self._position_z)
 
         return position_nm
 
-    def getRadiusXY_nm(self):
-        return math.sqrt(self._positionX ** 2 + self._positionY ** 2)
+    def get_radius_xy_nm(self):
+        return math.sqrt(self._position_x ** 2 + self._position_y ** 2)
 
-    def getEnergy_keV(self):
+    def get_energy_keV(self):
         return self._energy
 
-    def getRegionID(self):
-        return self._regionID
+    def get_region_id(self):
+        return self._region_id

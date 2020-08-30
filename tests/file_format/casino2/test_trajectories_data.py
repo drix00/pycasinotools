@@ -1,52 +1,75 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests.file_format.casino2.test_trajectories_data
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Tests for the :py:mod:`casinotools.file_format.casino2.trajectories_data` module.
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
-try:
-    from io import BytesIO
-except ImportError: # Python 2
-    from StringIO import StringIO as BytesIO
+from io import BytesIO
 
 # Third party modules.
 import pytest
 
 # Local modules.
-import casinotools.file_format.casino2.trajectories_data as TrajectoriesData
-import tests.file_format.casino2.test_file as test_File
+
+# Project modules.
+from casinotools.file_format.casino2.trajectories_data import TrajectoriesData
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
-class TestTrajectoriesData(test_File.TestFile):
 
-    def test_read(self):
-        if is_bad_file(self.filepathCas):
-            pytest.skip()
-        with open(self.filepathCas, 'rb') as file:
-            self._read_tests(file)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-    def test_read_StringIO(self):
-        if is_bad_file(self.filepathCas):
-            pytest.skip()
-        f = open(self.filepathCas, 'rb')
-        file = BytesIO(f.read())
-        file.mode = 'rb'
-        f.close()
-        self._read_tests(file)
 
-    def _read_tests(self, file):
-        file.seek(0)
-        trajectoriesData = TrajectoriesData.TrajectoriesData()
-        trajectoriesData.read(file)
+def test_read(filepath_cas_2_45):
+    if is_bad_file(filepath_cas_2_45):
+        pytest.skip()
+    with open(filepath_cas_2_45, 'rb') as file:
+        _read_tests(file)
 
-        file.seek(98348)
-        trajectoriesData = TrajectoriesData.TrajectoriesData()
-        trajectoriesData.read(file)
-        self.assertEqual(221, trajectoriesData._numberTrajectories)
+
+def test_read_string_io(filepath_cas_2_45):
+    if is_bad_file(filepath_cas_2_45):
+        pytest.skip()
+    f = open(filepath_cas_2_45, 'rb')
+    file = BytesIO(f.read())
+    f.close()
+    _read_tests(file)
+
+
+def _read_tests(file):
+    file.seek(0)
+    trajectories_data = TrajectoriesData()
+    trajectories_data.read(file)
+
+    file.seek(98348)
+    trajectories_data = TrajectoriesData()
+    trajectories_data.read(file)
+    assert trajectories_data._number_trajectories == 221

@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.graph_data
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import math
@@ -16,16 +32,61 @@ import os
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
-class GraphData(FileReaderWriterTools.FileReaderWriterTools):
+
+# Third party modules.
+
+# Local modules.
+
+# Globals and constants variables.
+
+
+def index2pos(x_sup, x_inf, number_points, position_index, is_log):
+    assert(x_sup >= x_inf)
+    assert(number_points > 0)
+
+    if number_points == 1:
+        return x_inf
+
+    if position_index <= 0:
+        return x_inf
+
+    if is_log:
+        assert(x_sup > 0)
+        assert(x_inf > 0)
+
+        point = (float(position_index) / float(number_points - 1))
+        exp = point * (math.log10(x_sup) - math.log10(x_inf)) + math.log10(x_inf)
+        point = pow(10.0, exp)
+        return point
+    else:
+        point = (float(position_index) / float(number_points - 1))
+        point = point * (x_sup - x_inf) + x_inf
+        return point
+
+
+class GraphData(FileReaderWriterTools):
     def __init__(self, file):
         self._file = None
         self._startPosition = 0
         self._endPosition = 0
         self._filePathname = ""
         self._fileDescriptor = 0
+
+        self._version = 0
+        self._size = 0
+        self._borneInf = 0.0
+        self._borneSup = 0.0
+        self._isLog = 0
+        self._isUneven = 0
+
+        self._title = ""
+        self._xTitle = ""
+        self._yTitle = ""
 
         self._values = None
         self._positions = None
@@ -52,22 +113,22 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
         self._yTitle = self.read_str(file)
 
         self._startPosition = file.tell()
-        skipOffset = self.get_size_of_double_list(self._size)
+        skip_offset = self.get_size_of_double_list(self._size)
         if self._isUneven:
-            skipOffset *= 2
+            skip_offset *= 2
 
-        file.seek(skipOffset, os.SEEK_CUR)
+        file.seek(skip_offset, os.SEEK_CUR)
 
         self._endPosition = file.tell()
         logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._endPosition)
 
-    def getValues(self):
+    def get_values(self):
         if self._values is None:
-            self._readValues()
+            self._read_values()
 
         return self._values
 
-    def _readValues(self):
+    def _read_values(self):
         self._file.seek(self._startPosition)
         self._values = []
         self._positions = []
@@ -81,30 +142,7 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
 
         if not self._isUneven:
             for i in range(self._size):
-                position = self.index2pos(self._borneSup, self._borneInf, self._size, i, self._isLog)
+                position = index2pos(self._borneSup, self._borneInf, self._size, i, self._isLog)
                 self._positions.append(position)
 
         assert len(self._values) == len(self._positions)
-
-    def index2pos(self, XSup, XInf, nbPoints, Index, FLog):
-        assert(XSup >= XInf)
-        assert(nbPoints > 0)
-
-        if nbPoints == 1:
-            return XInf
-
-        if Index <= 0:
-            return XInf
-
-        if FLog:
-            assert(XSup > 0)
-            assert(XInf > 0)
-
-            Point = (float(Index) / float(nbPoints - 1))
-            exp = Point * (math.log10(XSup) - math.log10(XInf)) + math.log10(XInf)
-            Point = pow(10.0, exp)
-            return Point
-        else:
-            Point = (float(Index) / float(nbPoints - 1))
-            Point = Point * (XSup - XInf) + XInf
-            return Point

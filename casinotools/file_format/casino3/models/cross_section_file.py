@@ -1,15 +1,30 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.models.cross_section_file
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
-import os
 import logging
 import math
 
@@ -17,52 +32,51 @@ import math
 import numpy as np
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-from casinotools.utilities.path import create_path
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
 VERSION_30107002 = 30107002
 VERSION_LASTEST = VERSION_30107002
 
-def generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totals_nm2,
-                                                     polarAnglesGrid_deg, partialsList_nm2_sr):
-    path = os.path.dirname(filepath)
-    path = create_path(path)
 
+def generate_raw_binary_files(filepath, atomic_number, energies_grid_eV, totals_nm2,
+                              polar_angles_grid_deg, partials_list_nm2_sr):
     logging.info(filepath)
 
     file = open(filepath, 'wb')
 
-    binaryWriter = FileReaderWriterTools.FileReaderWriterTools()
+    binary_writer = FileReaderWriterTools()
 
-    for energy_eV, total_nm2 in zip(energiesGrid_eV, totals_nm2):
-        binaryWriter.write_int(file, VERSION_LASTEST)
-        binaryWriter.write_double(file, atomicNumber)
+    for energy_eV, total_nm2 in zip(energies_grid_eV, totals_nm2):
+        binary_writer.write_int(file, VERSION_LASTEST)
+        binary_writer.write_double(file, atomic_number)
         energy_keV = energy_eV / 1000.0
-        binaryWriter.write_double(file, energy_keV)
-        binaryWriter.write_double(file, total_nm2)
+        binary_writer.write_double(file, energy_keV)
+        binary_writer.write_double(file, total_nm2)
 
-        size = len(polarAnglesGrid_deg)
-        binaryWriter.write_long(file, size)
+        size = len(polar_angles_grid_deg)
+        binary_writer.write_long(file, size)
 
-        partials_nm2_sr = partialsList_nm2_sr[energy_eV]
-        partialSinThetas_nm2_sr = []
-        polarAngleGrid_rad = []
-        for angle_deg, partial_nm2_sr in zip(polarAnglesGrid_deg, partials_nm2_sr):
+        partials_nm2_sr = partials_list_nm2_sr[energy_eV]
+        partial_sin_thetas_nm2_sr = []
+        polar_angle_grid_rad = []
+        for angle_deg, partial_nm2_sr in zip(polar_angles_grid_deg, partials_nm2_sr):
             angle_rad = math.radians(angle_deg)
-            polarAngleGrid_rad.append(angle_rad)
-            partialSinThetas_nm2_sr.append(partial_nm2_sr * math.sin(angle_rad) * 2.0 * math.pi)
+            polar_angle_grid_rad.append(angle_rad)
+            partial_sin_thetas_nm2_sr.append(partial_nm2_sr * math.sin(angle_rad) * 2.0 * math.pi)
 
-        ratioList = []
-        computedTotal_nm2 = np.trapz(partialSinThetas_nm2_sr, polarAngleGrid_rad)
-        for index in range(1, len(partialSinThetas_nm2_sr) + 1):
-            x = polarAngleGrid_rad[:index]
-            y = partialSinThetas_nm2_sr[:index]
-            ratio = np.trapz(y, x) / computedTotal_nm2
-            ratioList.append(ratio)
+        ratio_list = []
+        computed_total_nm2 = np.trapz(partial_sin_thetas_nm2_sr, polar_angle_grid_rad)
+        for index in range(1, len(partial_sin_thetas_nm2_sr) + 1):
+            x = polar_angle_grid_rad[:index]
+            y = partial_sin_thetas_nm2_sr[:index]
+            ratio = np.trapz(y, x) / computed_total_nm2
+            ratio_list.append(ratio)
 
-        for ratio, angle_rad in zip(ratioList, polarAngleGrid_rad):
-            binaryWriter.write_double(file, ratio)
-            binaryWriter.write_double(file, angle_rad)
+        for ratio, angle_rad in zip(ratio_list, polar_angle_grid_rad):
+            binary_writer.write_double(file, ratio)
+            binary_writer.write_double(file, angle_rad)
 
     file.close()

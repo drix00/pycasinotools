@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino2.graph_data
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import math
@@ -14,25 +30,28 @@ import math
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
-class GraphData(FileReaderWriterTools.FileReaderWriterTools):
-    def __init__(self, size=0, borneInf=0.0, borneSup=0.0,
-                     isLog=False, isUneven=False,
-                     title="", xTitle="",
-                     yTitle="", file=None):
-        if file != None:
+
+
+class GraphData(FileReaderWriterTools):
+    def __init__(self, size=0, borne_inf=0.0, borne_sup=0.0, is_log=False, is_uneven=False, title="", x_title="",
+                 y_title="", file=None):
+        if file is not None:
             self.read(file)
         else:
+            self._version = 0
             self._size = size
-            self._borneInf = borneInf
-            self._borneSup = borneSup
-            self._isLog = isLog
-            self._isUneven = isUneven
+            self._borneInf = borne_inf
+            self._borneSup = borne_sup
+            self._isLog = is_log
+            self._isUneven = is_uneven
             self._title = title
-            self._xTitle = xTitle
-            self._yTitle = yTitle
+            self._xTitle = x_title
+            self._yTitle = y_title
             self._values = []
             self._positions = None
 
@@ -70,39 +89,39 @@ class GraphData(FileReaderWriterTools.FileReaderWriterTools):
 
             assert len(self._values) == len(self._positions)
 
-    def index2pos(self, Index):
-        XSup = self._borneSup
-        XInf = self._borneInf
-        nbPoints = self._size
-        FLog = self._isLog
+    def index2pos(self, index):
+        x_sup = self._borneSup
+        x_inf = self._borneInf
+        number_points = self._size
+        is_log = self._isLog
 
-        assert(XSup >= XInf)
-        assert(nbPoints > 0)
+        assert(x_sup >= x_inf)
+        assert(number_points > 0)
 
-        if nbPoints == 1:
-            return XInf
+        if number_points == 1:
+            return x_inf
 
-        if Index <= 0:
-            return XInf
+        if index <= 0:
+            return x_inf
 
-        if FLog:
-            assert(XSup > 0)
-            assert(XInf > 0)
+        if is_log:
+            assert(x_sup > 0)
+            assert(x_inf > 0)
 
-            Point = (float(Index) / float(nbPoints - 1))
-            exp = Point * (math.log10(XSup) - math.log10(XInf)) + math.log10(XInf)
-            Point = pow(10.0, exp)
-            return Point
+            point = (float(index) / float(number_points - 1))
+            exp = point * (math.log10(x_sup) - math.log10(x_inf)) + math.log10(x_inf)
+            point = pow(10.0, exp)
+            return point
         else:
-            Point = (float(Index) / float(nbPoints - 1))
-            Point = Point * (XSup - XInf) + XInf
-            return Point
+            point = (float(index) / float(number_points - 1))
+            point = point * (x_sup - x_inf) + x_inf
+            return point
 
-    def getPositions(self):
+    def get_positions(self):
         if self._positions is None:
             self._positions = [self.index2pos(i) for i in range(self._size)]
 
         return self._positions
 
-    def getValues(self):
+    def get_values(self):
         return self._values

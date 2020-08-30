@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.region
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -15,8 +31,10 @@ import decimal
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino3.element as Element
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino3.element import Element
 
 # Globals and constants variables.
 decimal.getcontext().prec = 28
@@ -27,251 +45,287 @@ NB_PAR_MAX = 4
 TAG_REGIONS_DATA = b"*regionSDATA%%%"
 
 
-class Region(FileReaderWriterTools.FileReaderWriterTools):
+class Region(FileReaderWriterTools):
     def __init__(self):
-        pass
+        self._file = None
+        self._start_position = 0
+        self._file_pathname = ""
+        self._file_descriptor = 0
+
+        self._version = 0
+        self._carrier_diffusion_length = 0.0
+        self.id_ed = 0
+
+        self._number_elements = 0
+        self.rho = 0.0
+
+        self.zmoy = 0.0
+
+        self._work_function = 0.0
+        self._average_plasmon_energy = 0.0
+        self.id = 0
+        self.substrate = 0
+        self.user_density = 0
+        self.user_composition = 0
+        self._checked = 0
+
+        self._energy_intensity = 0.0
+
+        self.name = ""
+
+        self._number_sample_objects = 0
+
+        self._sample_object_ids = {}
+
+        self._moller_init = 0.0
+        self._triangle_color_x = 0.0
+        self._triangle_color_y = 0.0
+        self._triangle_color_z = 0.0
+
+        self._elements = []
+        self._chemical_name = ""
 
     def read(self, file):
         self._file = file
-        self._startPosition = file.tell()
-        self._filePathname = file.name
-        self._fileDescriptor = file.fileno()
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
+        self._start_position = file.tell()
+        self._file_pathname = file.name
+        self._file_descriptor = file.fileno()
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
         self._version = self.read_int(file)
 
-        tagID = TAG_REGIONS_DATA
-        self.find_tag(file, tagID)
+        tag_id = TAG_REGIONS_DATA
+        self.find_tag(file, tag_id)
 
         if self._version > 30104072:
-            self._carrierDiffusionLength = self.read_double(file)
+            self._carrier_diffusion_length = self.read_double(file)
 
         if self._version < 30105005:
-            self.IDed = self.read_int(file)
+            self.id_ed = self.read_int(file)
 
-        self._numberElements = self.read_int(file)
-        self.Rho = self.read_double(file)
+        self._number_elements = self.read_int(file)
+        self.rho = self.read_double(file)
 
         if self._version < 30105001:
-            self.Zmoy = self.read_double(file)
+            self.zmoy = self.read_double(file)
 
-        self._workFunction = self.read_double(file)
-        self._averagePlasmonEnergy = self.read_double(file)
-        self.ID = self.read_int(file)
-        self.Substrate = self.read_int(file)
-        self.User_Density = self.read_int(file)
-        self.User_Composition = self.read_int(file)
+        self._work_function = self.read_double(file)
+        self._average_plasmon_energy = self.read_double(file)
+        self.id = self.read_int(file)
+        self.substrate = self.read_int(file)
+        self.user_density = self.read_int(file)
+        self.user_composition = self.read_int(file)
         self._checked = self.read_int(file)
 
         if self._version < 30105022:
-            self._energyIntensity = self.read_double(file)
+            self._energy_intensity = self.read_double(file)
 
-        self.Name = self.read_str(file)
+        self.name = self.read_str(file)
 
-        self._numberSampleObjects = self.read_int(file)
+        self._number_sample_objects = self.read_int(file)
 
-        self._sampleObjectIDs = {}
-        for dummy in range(self._numberSampleObjects):
-            id = self.read_int(file)
-            insideOrOutside = self.read_int(file)
+        self._sample_object_ids = {}
+        for dummy in range(self._number_sample_objects):
+            object_id = self.read_int(file)
+            inside_or_outside = self.read_int(file)
 
-            self._sampleObjectIDs[id] = insideOrOutside
+            self._sample_object_ids[object_id] = inside_or_outside
 
-        self._mollerInit = self.read_double(file)
-        self._triangleColor_X = self.read_double(file)
-        self._triangleColor_Y = self.read_double(file)
-        self._triangleColor_Z = self.read_double(file)
+        self._moller_init = self.read_double(file)
+        self._triangle_color_x = self.read_double(file)
+        self._triangle_color_y = self.read_double(file)
+        self._triangle_color_z = self.read_double(file)
 
         self._elements = []
-        for dummy in range(self._numberElements):
-            element = Element.Element()
+        for dummy in range(self._number_elements):
+            element = Element()
             element.read(file)
             self._elements.append(element)
 
-        self._chemicalName = self.read_str(file)
+        self._chemical_name = self.read_str(file)
 
     def _modify(self, file):
         assert file.mode == 'r+b'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_write", file.tell())
 
-        tagID = TAG_REGIONS_DATA
-        if self.find_tag(file, tagID):
+        tag_id = TAG_REGIONS_DATA
+        if self.find_tag(file, tag_id):
             self.write_int(file, self._version)
 
-            self.write_double(file, self._carrierDiffusionLength)
+            self.write_double(file, self._carrier_diffusion_length)
 
-            self.write_int(file, self._numberElements)
-            self.write_double(file, self.Rho)
+            self.write_int(file, self._number_elements)
+            self.write_double(file, self.rho)
 
-            self.write_double(file, self._workFunction)
-            self.write_double(file, self._averagePlasmonEnergy)
-            self.write_int(file, self.ID)
-            self.write_int(file, self.Substrate)
-            self.write_int(file, self.User_Density)
-            self.write_int(file, self.User_Composition)
+            self.write_double(file, self._work_function)
+            self.write_double(file, self._average_plasmon_energy)
+            self.write_int(file, self.id)
+            self.write_int(file, self.substrate)
+            self.write_int(file, self.user_density)
+            self.write_int(file, self.user_composition)
             self.write_int(file, self._checked)
 
-            self.write_str(file, self.Name)
+            self.write_str(file, self.name)
 
-            self.write_int(file, self._numberSampleObjects)
+            self.write_int(file, self._number_sample_objects)
 
-            for objectID in sorted(self._sampleObjectIDs.keys()):
+            for objectID in sorted(self._sample_object_ids.keys()):
                 self.write_int(file, objectID)
-                self.write_int(file, self._sampleObjectIDs[objectID])
+                self.write_int(file, self._sample_object_ids[objectID])
 
-            self.write_double(file, self._mollerInit)
-            self.write_double(file, self._triangleColor_X)
-            self.write_double(file, self._triangleColor_Y)
-            self.write_double(file, self._triangleColor_Z)
+            self.write_double(file, self._moller_init)
+            self.write_double(file, self._triangle_color_x)
+            self.write_double(file, self._triangle_color_y)
+            self.write_double(file, self._triangle_color_z)
 
             for element in self._elements:
                 element._modify(file)
 
-            self.write_str(file, self._chemicalName)
+            self.write_str(file, self._chemical_name)
 
     def write(self, file):
         raise NotImplementedError
 
-    def modifyName(self, name):
-        self.Name = name
+    def modify_name(self, name):
+        self.name = name
         if not self._file.closed:
-            currentPosition = self._file.tell()
+            current_position = self._file.tell()
             self._file.close()
         else:
-            currentPosition = 0
+            current_position = 0
 
-        self._file = open(self._filePathname, 'r+b')
+        self._file = open(self._file_pathname, 'r+b')
 
-        self._file.seek(self._startPosition)
+        self._file.seek(self._start_position)
 
         self._modify(self._file)
 
         self._file.close()
-        self._file = open(self._filePathname, 'rb')
-        self._file.seek(currentPosition)
+        self._file = open(self._file_pathname, 'rb')
+        self._file.seek(current_position)
 
-    def getNumberElements(self):
-        assert len(self._elements) == self._numberElements
-        return self._numberElements
+    def get_number_elements(self):
+        assert len(self._elements) == self._number_elements
+        return self._number_elements
 
-    def removeAllElements(self):
-        self._numberElements = 0
+    def remove_all_elements(self):
+        self._number_elements = 0
         self._elements = []
-        assert len(self._elements) == self._numberElements
+        assert len(self._elements) == self._number_elements
 
-    def addElement(self, symbol, weightFraction=1.0, numberXRayLayers=500):
-        self._numberElements += 1
-        element = Element.Element(numberXRayLayers)
-        element.setElement(symbol, weightFraction)
+    def add_element(self, symbol, weight_fraction=1.0, number_x_ray_layers=500):
+        self._number_elements += 1
+        element = Element()
+        element.set_element(symbol, weight_fraction)
         self._elements.append(element)
-        assert len(self._elements) == self._numberElements
+        assert len(self._elements) == self._number_elements
 
-    def getElement(self, index):
+    def get_element(self, index):
         return self._elements[index]
 
-    def getElementBySymbol(self, symbol):
+    def get_element_by_symbol(self, symbol):
         for element in self._elements:
-            if element.getSymbol() == symbol:
+            if element.get_symbol() == symbol:
                 return element
 
     def update(self):
-        self._numberElements = self._computeNumberElements()
-        self.Rho = self._computeMeanMassDensity_g_cm3()
-        self.Zmoy = self._computeMeanAtomicNumber()
-        self.Name = self._generateName()
+        self._number_elements = self._compute_number_elements()
+        self.rho = self._compute_mean_mass_density_g_cm3()
+        self.zmoy = self._compute_mean_atomic_number()
+        self.name = self._generate_name()
 
-        self._computeAtomicFractionElements()
-        self._checkWeightFraction()
-        self._checkAtomicFraction()
+        self._compute_atomic_fraction_elements()
+        self._check_weight_fraction()
+        self._check_atomic_fraction()
 
-    def _computeNumberElements(self):
+    def _compute_number_elements(self):
         return len(self._elements)
 
-    def _computeMeanMassDensity_g_cm3(self):
-        inverseTotal = 0.0
+    def _compute_mean_mass_density_g_cm3(self):
+        inverse_total = 0.0
         for element in self._elements:
-            weightFraction = element.getWeightFraction()
-            massDensity_g_cm3 = element.getMassDensity_g_cm3()
+            weight_fraction = element.get_weight_fraction()
+            mass_density_g_cm3 = element.get_mass_density_g_cm3()
 
-            inverseTotal += weightFraction / massDensity_g_cm3
+            inverse_total += weight_fraction / mass_density_g_cm3
 
-        meanMassDensity = 1.0 / inverseTotal
-        return meanMassDensity
+        mean_mass_density = 1.0 / inverse_total
+        return mean_mass_density
 
-    def _computeMeanAtomicNumber(self):
-        Total_Z = 0.0
-        Total_Elements = 0.0
+    def _compute_mean_atomic_number(self):
+        total_z = 0.0
+        total_elements = 0.0
 
         for element in self._elements:
-            repetition = element.getRepetition()
-            Total_Elements += repetition
-            Total_Z += element.getAtomicNumber() * repetition
+            repetition = element.get_repetition()
+            total_elements += repetition
+            total_z += element.get_atomic_number() * repetition
 
-        meanAtomicNumber = Total_Z / Total_Elements
-        return meanAtomicNumber
+        mean_atomic_number = total_z / total_elements
+        return mean_atomic_number
 
-    def _generateName(self):
+    def _generate_name(self):
         name = ""
         for element in self._elements:
-            name += element.getSymbol().strip()
+            name += element.get_symbol().strip()
 
         return name
 
-    def _computeAtomicFractionElements(self):
+    def _compute_atomic_fraction_elements(self):
         total = 0.0
         for element in self._elements:
-            weightFraction = element.getWeightFraction()
-            atomicWeight = element.getAtomicWeight_g_mol()
+            weight_fraction = element.get_weight_fraction()
+            atomic_weight = element.get_atomic_weight_g_mol()
 
-            total += weightFraction / atomicWeight
+            total += weight_fraction / atomic_weight
 
         for element in self._elements:
-            weightFraction = element.getWeightFraction()
-            atomicWeight = element.getAtomicWeight_g_mol()
+            weight_fraction = element.get_weight_fraction()
+            atomic_weight = element.get_atomic_weight_g_mol()
 
-            atomicFraction = (weightFraction / atomicWeight) / total
-            element.setAtomicFraction(atomicFraction)
+            atomic_fraction = (weight_fraction / atomic_weight) / total
+            element.set_atomic_fraction(atomic_fraction)
 
-    def _checkWeightFraction(self):
-        weightFractions = [element.getWeightFraction() for element in self._elements]
-        total = sum(weightFractions)
+    def _check_weight_fraction(self):
+        weight_fractions = [element.get_weight_fraction() for element in self._elements]
+        total = sum(weight_fractions)
         assert abs(total - 1.0) < EPSILON
 
         for element in self._elements:
-            newWeightFraction = decimal.Decimal(str(element.getWeightFraction())) / decimal.Decimal(str(total))
-            element.setWeightFraction(float(newWeightFraction))
+            new_weight_fraction = decimal.Decimal(str(element.get_weight_fraction())) / decimal.Decimal(str(total))
+            element.set_weight_fraction(float(new_weight_fraction))
 
-        weightFractions = [element.getWeightFraction() for element in self._elements]
-        total = sum(weightFractions)
+        weight_fractions = [element.get_weight_fraction() for element in self._elements]
+        total = sum(weight_fractions)
         assert abs(total - 1.0) < EPSILON * EPSILON
 
-    def _checkAtomicFraction(self):
-        atomicFractions = [element.getAtomicFraction() for element in self._elements]
-        total = sum(atomicFractions)
+    def _check_atomic_fraction(self):
+        atomic_fractions = [element.get_atomic_fraction() for element in self._elements]
+        total = sum(atomic_fractions)
         assert abs(total - 1.0) < EPSILON
 
         for element in self._elements:
-            newAtomicFraction = decimal.Decimal(str(element.getAtomicFraction())) / decimal.Decimal(str(total))
-            element.setAtomicFraction(float(newAtomicFraction))
+            new_atomic_fraction = decimal.Decimal(str(element.get_atomic_fraction())) / decimal.Decimal(str(total))
+            element.set_atomic_fraction(float(new_atomic_fraction))
 
-        atomicFractions = [element.getAtomicFraction() for element in self._elements]
-        total = sum(atomicFractions)
+        atomic_fractions = [element.get_atomic_fraction() for element in self._elements]
+        total = sum(atomic_fractions)
         assert abs(total - 1.0) < EPSILON * EPSILON
 
-    def getMeanMassDensity_g_cm3(self):
-        return self.Rho
+    def get_mean_mass_density_g_cm3(self):
+        return self.rho
 
-    def getMeanAtomicNumber(self):
-        return self.Zmoy
+    def get_mean_atomic_number(self):
+        return self.zmoy
 
-    def getName(self):
-        return self.Name
+    def get_name(self):
+        return self.name
 
-    def getComposition(self):
-        return self._chemicalName
+    def get_composition(self):
+        return self._chemical_name
 
-    def getId(self):
-        return self.ID
+    def get_id(self):
+        return self.id
 
     def export(self, export_file):
         # todo: implement the export method.

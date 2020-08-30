@@ -1,44 +1,54 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.options_physic
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 
 # Globals and constants variables.
-#-----------------------------------------------------------------------------
-#/ Filename to store the defaults settings
-#-----------------------------------------
-OPTIONS_PHYSIC_DEF_FILENAME = "PhysicModel_Settings_Defaults.dat"
-#-----------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------
-#/ Random number generator choice const declaration
-#-----------------------------------------------------------------------------
+
+# Filename to store the defaults settings
+OPTIONS_PHYSIC_DEF_FILENAME = "PhysicModel_Settings_Defaults.dat"
+
+# Random number generator choice const declaration
 RAND_PRESS = 0
 RAND_MTOLD = 1
 RAND_MT19937 = 2
 RAND_LF607 = 3
-#-----------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------
-#/ dEdS consts
-#-----------------------------------------------------------------------------
+# dEdS consts
 DEDS_JOYK_GAUVIN = 0
 DEDS_JOYLUO_MONSEL = 1
 DEDS_BETHERELATIVISTE = 2
-#-----------------------------------------------------------------------------
-
 
 # Electron elastic cross section.
 CS_MOTT_FICHIER = 0
@@ -48,174 +58,158 @@ CS_RUTHE = 3
 CS_REIMER = 4
 CS_ELSEPA = 5
 
-def getElectronElasticCrossSectionModelLabel(csModel):
-        csModel = int(csModel)
-        if csModel == CS_MOTT_FICHIER:
-                return "Mott Interpolation"
-        elif csModel == CS_MOTT_EQ:
-                return "Mott eq. Drouin"
-        elif csModel == CS_MOTT_BROWNING:
-                return "Mott eq. Browning"
-        elif csModel == CS_RUTHE:
-                return "Rutherford"
-        elif csModel == CS_REIMER:
-                return "Rutherford Reimer"
-        elif csModel == CS_ELSEPA:
-                return "Mott Salvat"
-        else:
-                raise ValueError
 
-#-----------------------------------------------------------------------------
-#/ partial cross section consts
-#-----------------------------------------------------------------------------
+def get_electron_elastic_cross_section_model_label(cs_model):
+    cs_model = int(cs_model)
+    if cs_model == CS_MOTT_FICHIER:
+        return "Mott Interpolation"
+    elif cs_model == CS_MOTT_EQ:
+        return "Mott eq. Drouin"
+    elif cs_model == CS_MOTT_BROWNING:
+        return "Mott eq. Browning"
+    elif cs_model == CS_RUTHE:
+        return "Rutherford"
+    elif cs_model == CS_REIMER:
+        return "Rutherford Reimer"
+    elif cs_model == CS_ELSEPA:
+        return "Mott Salvat"
+    else:
+        raise ValueError
+
+
+# partial cross section consts
 PCS_MOTT_FICHIER = 0
 PCS_MOTT_EQ = 1
 PCS_MOTT_BROWNING = 2
 PCS_RUTHE = 3
 PCS_REIMER = 4
 PCS_ELSEPA = 5
-#-----------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------
-#/ total cross section consts
-#-----------------------------------------------------------------------------
+# total cross section consts
 TCS_MOTT_FICHIER = 0
 TCS_MOTT_EQ = 1
 TCS_MOTT_BROWNING = 2
 TCS_RUTHE = 3
 TCS_REIMER = 4
 TCS_ELSEPA = 5
-#-----------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------
-#/ inionisation potential
-#-----------------------------------------------------------------------------
+# inionisation potential
 ION_POT_JOY = 0
 ION_POT_BERGER = 1
 ION_POT_PH = 2
-#-----------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------
-#/ Directing Cosine
-#-----------------------------------------------------------------------------
+# Directing Cosine
 COS_DIRECT_SOUM = 0
 COS_DIRECT_MONSEL = 1
 COS_DIRECT_DROUIN = 2
-#-----------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------
-#/ Effective Ionisation Section
-#-----------------------------------------------------------------------------
+# Effective Ionisation Section
 SEC_ION_GAUVIN = 0
 SEC_ION_POUCHOU = 1
 SEC_ION_BROWN_POWELL = 2
 SEC_ION_CASNATI = 3
 SEC_ION_GRYZINSKI = 4
 SEC_ION_JAKOBY = 5
-#-----------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------
-#/ Default value for some options
-#-----------------------------------------------------------------------------
+# Default value for some options
 MIN_ENERGY_NOSEC_DEFAULT = 0.05
-#-----------------------------------------------------------------------------
 
-class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
-##-----------------------------------------------------------------------------
-##/ Residual energy loss used in the Monsel algorithm of De/Ds calculation.
-##/ The goal is to account for energy loss not included in the original
-##/ continual energy loss equation (Bethe algorithm in Monsel). This value
-##/ should change depending on the sample elements and has a dramatic effect
-##/ on secondary electron yield.
-##-----------------------------------------------------------------------------
-#    double Residual_Energy_Loss
-##-----------------------------------------------------------------------------
-##/ Minimum energy of the electron in keV.
-##/ Used to determine when to stop using the electron. Not used in Monsel (secondary electron)
-##/ simulation : different calculation permit us to use a lower value :
-##/ (Trajectory_Collision::Region_Info::ect).
-##-----------------------------------------------------------------------------
-#    double Min_Energy_Nosec
-##-----------------------------------------------------------------------------
-##/ Minimum energy of an electron.
-##/ Will usually be set to the working function of a region, but it can
-##/ be overided by the user. To use the working function value, leave it
-##/ to <= 0. Derived from Monsel code.
-##/ @date 23 October 2003
-##/ @author Dany Joly
-##-----------------------------------------------------------------------------
-#    double Min_Energy_With_Sec
-##-----------------------------------------------------------------------------
-##/ Minimum energy for a newly generated secondary electron.
-##/ Will usually be set to the working function of a region, but it can
-##/ be overided by the user. To use the working function value, leave it
-##/ to <= 0. Derived from Monsel code
-##/ @date 23 October 2003
-##/ @author Dany Joly
-##-----------------------------------------------------------------------------
-#    double Min_Gen_Secondary_Energy
-##-----------------------------------------------------------------------------
-#
-#
-##/--------------------------------------
-## Physical models flags
-##/--------------------------------------
-#
-##-----------------------------------------------------------------------------
-##/ choix du generateur de nombre aleatoires.
-##/ appelle ran3 (numerical recipes) si =0, appelle mersenne twister si =1
-##-----------------------------------------------------------------------------
-#    int FRan
-##-----------------------------------------------------------------------------
-##/ Flag for the energy lost equation :
-##/ - 0 JoyKCst de Gauvin
-##/ - 1 Bethe Relativiste
-##-----------------------------------------------------------------------------
-#    int FDeds
-##-----------------------------------------------------------------------------
-##/ Flag for the total cross section :
-##/ - 0 Mott par interpolation (fichiers, rapide)
-##/ - 1 Mott equations de Drouin et Gauvin
-##/ - 2 Mott equations de Browning
-##/ - 3 Rutherford par Murata
-##-----------------------------------------------------------------------------
-#    int FTotalCross
-##-----------------------------------------------------------------------------
-##/ Flag for the partial cross section :
-##/ - 0 Mott par interpolation (fichiers, rapide)
-##/ - 1 Mott equations de Drouin et Gauvin
-##/ - 2 Mott equations de Browning
-##/ - 3 Rutherford par Murata
-##-----------------------------------------------------------------------------
-#    int FPartialCross
-##-----------------------------------------------------------------------------
-##/ Flag for directing cosin
-##-----------------------------------------------------------------------------
-#    int FCosDirect
-##-----------------------------------------------------------------------------
-##/ Flag for ionisation section
-##-----------------------------------------------------------------------------
-#    int FSecIon
-##-----------------------------------------------------------------------------
-##/Flag for Average Potential
-##-----------------------------------------------------------------------------
-#    int FPotMoy
-##-----------------------------------------------------------------------------
-#
-##--------------------------------------
-## Physical models options
-##--------------------------------------
-#
-##-----------------------------------------------------------------------------
-##/ Nombre maximal de niveau d'electrons secondaires pouvant etre crees.
-##/ Niveaux
-##/ - 1 : Primaires
-##/ - 2 : Secondaires
-##/ - 3 : Tertiaires
-##-----------------------------------------------------------------------------
-#    int max_secondary_order
-##-----------------------------------------------------------------------------
+
+class OptionsPhysic(FileReaderWriterTools):
+    # Residual energy loss used in the Monsel algorithm of De/Ds calculation.
+    # The goal is to account for energy loss not included in the original
+    # continual energy loss equation (Bethe algorithm in Monsel). This value
+    # should change depending on the sample elements and has a dramatic effect
+    # on secondary electron yield.
+
+    #    double Residual_Energy_Loss
+
+    # Minimum energy of the electron in keV.
+    # Used to determine when to stop using the electron. Not used in Monsel (secondary electron)
+    # simulation : different calculation permit us to use a lower value :
+    # (Trajectory_Collision::Region_Info::ect).
+
+    #    double Min_Energy_Nosec
+
+    # Minimum energy of an electron.
+    # Will usually be set to the working function of a region, but it can
+    # be overided by the user. To use the working function value, leave it
+    # to <= 0. Derived from Monsel code.
+    # @date 23 October 2003
+    # @author Dany Joly
+
+    #    double Min_Energy_With_Sec
+
+    # Minimum energy for a newly generated secondary electron.
+    # Will usually be set to the working function of a region, but it can
+    # be overided by the user. To use the working function value, leave it
+    # to <= 0. Derived from Monsel code
+    # @date 23 October 2003
+    # @author Dany Joly
+
+    #    double Min_Gen_Secondary_Energy
+
+    # Physical models flags
+
+    # choix du generateur de nombre aleatoires.
+    # appelle ran3 (numerical recipes) si =0, appelle mersenne twister si =1
+
+    #    int FRan
+
+    # Flag for the energy lost equation :
+    # - 0 JoyKCst de Gauvin
+    # - 1 Bethe Relativiste
+
+    #    int FDeds
+
+    # Flag for the total cross section :
+    # - 0 Mott par interpolation (fichiers, rapide)
+    # - 1 Mott equations de Drouin et Gauvin
+    # - 2 Mott equations de Browning
+    # - 3 Rutherford par Murata
+    #    int FTotalCross
+
+    # Flag for the partial cross section :
+    # - 0 Mott par interpolation (fichiers, rapide)
+    # - 1 Mott equations de Drouin et Gauvin
+    # - 2 Mott equations de Browning
+    # - 3 Rutherford par Murata
+    #    int FPartialCross
+
+    # Flag for directing cosin
+    #    int FCosDirect
+
+    # Flag for ionisation section
+    #    int FSecIon
+
+    # Flag for Average Potential
+    #    int FPotMoy
+
+    # Physical models options
+
+    # Nombre maximal de niveau d'electrons secondaires pouvant etre crees.
+    # Niveaux
+    # - 1 : Primaires
+    # - 2 : Secondaires
+    # - 3 : Tertiaires
+    #    int max_secondary_order
     def __init__(self):
+        self.FRan = 0
+        self.FDeds = DEDS_JOYK_GAUVIN
+        self.FTotalCross = TCS_MOTT_FICHIER
+        self.FPartialCross = PCS_MOTT_FICHIER
+        self.FCosDirect = COS_DIRECT_MONSEL
+        self.FSecIon = SEC_ION_CASNATI
+        self.FPotMoy = ION_POT_JOY
+
+        self.max_secondary_order = 10
+        self.Min_Energy_Nosec = MIN_ENERGY_NOSEC_DEFAULT
+        self.Residual_Energy_Loss = 0.0004
+        self.Min_Energy_With_Sec = -1.0
+        self.Min_Gen_Secondary_Energy = -1.0
+
+        self._version = 0
+
         self.reset()
 
     def write(self, file):
@@ -241,8 +235,8 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
 #        Tags::AddTag(file, "*PHYS_MOD_END", 15)
 
     def read(self, file):
-        tagID = b"*PHYS_MOD_BEG"
-        self.find_tag(file, tagID)
+        tag_id = b"*PHYS_MOD_BEG"
+        self.find_tag(file, tag_id)
 
         self._version = self.read_int(file)
 
@@ -261,8 +255,8 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
         self.Min_Energy_With_Sec = self.read_double(file)
         self.Min_Gen_Secondary_Energy = self.read_double(file)
 
-        tagID = b"*PHYS_MOD_END"
-        self.find_tag(file, tagID)
+        tag_id = b"*PHYS_MOD_END"
+        self.find_tag(file, tag_id)
 
     def reset(self):
         self.FRan = 0
@@ -279,15 +273,18 @@ class OptionsPhysic(FileReaderWriterTools.FileReaderWriterTools):
         self.Min_Energy_With_Sec = -1.0
         self.Min_Gen_Secondary_Energy = -1.0
 
-    def IsMonselSettings(self):
-        return self.FCosDirect == COS_DIRECT_MONSEL and self.FDeds == DEDS_JOYLUO_MONSEL and self.FPartialCross == PCS_MOTT_BROWNING and self.FTotalCross == TCS_MOTT_BROWNING and self.FPotMoy == ION_POT_JOY
+    def is_monsel_settings(self):
+        return self.FCosDirect == COS_DIRECT_MONSEL and self.FDeds == DEDS_JOYLUO_MONSEL and \
+               self.FPartialCross == PCS_MOTT_BROWNING and self.FTotalCross == TCS_MOTT_BROWNING and \
+               self.FPotMoy == ION_POT_JOY
 
-    def SetToMonselSettings(self):
+    def set_to_monsel_settings(self):
         self.FCosDirect = COS_DIRECT_MONSEL
         self.FDeds = DEDS_JOYLUO_MONSEL
         self.FPartialCross = PCS_MOTT_BROWNING
         self.FTotalCross = TCS_MOTT_BROWNING
         self.FPotMoy = ION_POT_JOY
 
-    def isInterpolation(self):
-        return self.FTotalCross == TCS_MOTT_FICHIER or self.FTotalCross == TCS_ELSEPA or self.FPartialCross == PCS_MOTT_FICHIER or self.FPartialCross == PCS_ELSEPA
+    def is_interpolation(self):
+        return self.FTotalCross == TCS_MOTT_FICHIER or self.FTotalCross == TCS_ELSEPA or \
+               self.FPartialCross == PCS_MOTT_FICHIER or self.FPartialCross == PCS_ELSEPA

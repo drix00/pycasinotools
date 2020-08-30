@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino2.SimulationData
+.. py:currentmodule:: casinotools.file_format.casino2.simulation_data
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
@@ -31,18 +31,12 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino2.simulation_options as SimulationOptions
-import casinotools.file_format.casino2.region_options as RegionOptions
-import casinotools.file_format.casino2.trajectories_data as TrajectoriesData
-import casinotools.file_format.casino2.simulation_results as SimulationResults
-
-from casinotools.file_format.casino2.element import \
-    LINE_K, LINE_L, LINE_M, GENERATED, EMITTED  # @UnusedImport
-
-from casinotools.file_format.casino2.line import ATOMLINE_KA1, ATOMLINE_KA2, ATOMLINE_KB1, ATOMLINE_KB2, ATOMLINE_LA, \
-    ATOMLINE_LB1, ATOMLINE_LB2, ATOMLINE_LG, ATOMLINE_MA
-
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino2.simulation_options import SimulationOptions
+from casinotools.file_format.casino2.region_options import RegionOptions
+from casinotools.file_format.casino2.trajectories_data import TrajectoriesData
+from casinotools.file_format.casino2.simulation_results import SimulationResults
+from casinotools.file_format.casino2.element import GENERATED, EMITTED
 from casinotools.file_format.casino2.version import CURRENT_VERSION
 
 # Globals and constants variables.
@@ -52,7 +46,7 @@ TAG_STATUS = b"*STATUS%%%%%%%%"
 TAG_SAVE_SETUP = b"*SAVESETUP%%%%%"
 
 
-class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
+class SimulationData(FileReaderWriterTools):
     def __init__(self, is_skip_reading_data=False):
         self._is_skip_reading_data = is_skip_reading_data
 
@@ -103,23 +97,23 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
             self._read_simulation_results(file)
 
     def _read_simulation_options(self, file):
-        self._simulation_options = SimulationOptions.SimulationOptions()
+        self._simulation_options = SimulationOptions()
         self._simulation_options.read(file, self._version)
 
     def _read_region_options(self, file):
         if self._simulation_options.FEmissionRX:
-            self._region_options = RegionOptions.RegionOptions(self._simulation_options.NbreCoucheRX)
+            self._region_options = RegionOptions(self._simulation_options.NbreCoucheRX)
         else:
-            self._region_options = RegionOptions.RegionOptions(0)
+            self._region_options = RegionOptions(0)
 
         self._region_options.read(file, self._version)
 
     def _read_trajectories(self, file):
-        self._trajectoriesData = TrajectoriesData.TrajectoriesData(self._is_skip_reading_data)
+        self._trajectoriesData = TrajectoriesData(self._is_skip_reading_data)
         self._trajectoriesData.read(file)
 
     def _read_simulation_results(self, file):
-        self._simulationResults = SimulationResults.SimulationResults(self._is_skip_reading_data)
+        self._simulationResults = SimulationResults(self._is_skip_reading_data)
         self._simulationResults.read(file, self._simulation_options, self._version)
 
     def write(self, file):
@@ -167,28 +161,28 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
     def _write_simulation_results(self, file):
         raise NotImplementedError
 
-    def getVersion(self):
+    def get_version(self):
         return self._version
 
-    def getSimulationOptions(self):
+    def get_simulation_options(self):
         return self._simulation_options
 
-    def setSimulationOptions(self, simulation_options):
+    def set_simulation_options(self, simulation_options):
         self._simulation_options = simulation_options
 
-    def getRegionOptions(self):
+    def get_region_options(self):
         return self._region_options
 
-    def setRegionsOptions(self, region_options):
+    def set_regions_options(self, region_options):
         self._region_options = region_options
 
-    def getSimulationResults(self):
+    def get_simulation_results(self):
         return self._simulationResults
 
-    def getTrajectoriesData(self):
+    def get_trajectories_data(self):
         return self._trajectoriesData
 
-    def getTotalXrayIntensities(self):
+    def get_total_xray_intensities(self):
         """
         Returns a :class:`dict` with the intensities (generated and emitted) of
         all the lines and elements in the simulation.
@@ -200,10 +194,10 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
         """
         intensities = {}
 
-        for region in self.getRegionOptions().getRegions():
-            for element in region.getElements():
-                z = element.getAtomicNumber()
-                delta = element.getTotalXrayIntensities()
+        for region in self.get_region_options().get_regions():
+            for element in region.get_elements():
+                z = element.get_atomic_number()
+                delta = element.get_total_xray_intensities()
 
                 intensities.setdefault(z, {})
 
@@ -221,19 +215,19 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
     def get_total_xray_intensities_1_esr(self):
         """
         Returns a :class:`dict` with the intensities (emitted) of
-        all the lines and elements in the simulation in photon / (electron * steradian).
+        all the lines and elements in the simulation in photon / (electron * steradians).
         The dictionary is structured as followed: atomic number, line.
-        The lines can either be :const:`ATOMLINE_KA1`, :const:`ATOMLINE_KA2`, :const:`ATOMLINE_KB1`,
-        :const:`ATOMLINE_KB2`, :const:`ATOMLINE_LA`, :const:`ATOMLINE_LB1`, :const:`ATOMLINE_LB2`,
-        :const:`ATOMLINE_LG`, :const:`ATOMLINE_MA`.
+        The lines can either be :const:`ATOM_LINE_KA1`, :const:`ATOM_LINE_KA2`, :const:`ATOM_LINE_KB1`,
+        :const:`ATOM_LINE_KB2`, :const:`ATOM_LINE_LA`, :const:`ATOM_LINE_LB1`, :const:`ATOM_LINE_LB2`,
+        :const:`ATOM_LINE_LG`, :const:`ATOM_LINE_MA`.
 
         :rtype: class:`dict`
         """
         intensities = {}
 
-        for region in self.getRegionOptions().getRegions():
-            for element in region.getElements():
-                z = element.getAtomicNumber()
+        for region in self.get_region_options().get_regions():
+            for element in region.get_elements():
+                z = element.get_atomic_number()
                 delta = element.get_total_xray_intensities_1_esr()
 
                 intensities.setdefault(z, {})
@@ -245,4 +239,3 @@ class SimulationData(FileReaderWriterTools.FileReaderWriterTools):
                         intensities[z][line] = delta[line]
 
         return intensities
-

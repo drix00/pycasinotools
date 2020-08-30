@@ -1,17 +1,28 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
-.. py:currentmodule:: FileFormat.casino3.OptionsAdvancedPsfsSettings
+.. py:currentmodule:: casinotools.file_format.casino3.options_advanced_psfs_settings
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-OptionsAdvancedPsfsSettings module for CASINO v3.3
+Description
 """
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2011 Hendrix Demers"
-__license__ = ""
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License")
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 
@@ -19,79 +30,94 @@ __license__ = ""
 
 # Local modules.
 
-# Project modules
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino3.version as Version
-import casinotools.file_format.casino3.vector as Vector
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino3.version import SIM_OPTIONS_VERSION_3_3_0_0
+from casinotools.file_format.casino3.vector import Vector
 
 # Globals and constants variables.
 
-class OptionsAdvancedPsfsSettings(FileReaderWriterTools.FileReaderWriterTools):
+
+class OptionsAdvancedPsfsSettings(FileReaderWriterTools):
     def __init__(self):
+        self._generatePsf = True
+        self._useScanPointForCenter = True
+
+        self._autoExportPsfData = True
+        self._exportTiff = True
+        self._exportCsv = True
+        self._exportStackedTiff = True
+
+        self._psfSize_nm = Vector(128.0 * 1.0, 128.0 * 1.0, 128.0 * 5.0)
+        self._psfNumberSteps = Vector(128, 128, 128)
+        self._psfCenter_nm = Vector(0.0, 0.0, 500.0)
+
+        self._version = 0
+
         self.reset()
 
-    def write(self, outputFile):
+    def write(self, output_file):
         pass
 
-    def read(self, inputFile):
-        assert inputFile.mode == 'rb'
+    def read(self, input_file):
+        assert input_file.mode == 'rb'
 
-        tagID = b"*PSF_SET_BEG"
-        self.find_tag(inputFile, tagID)
+        tag_id = b"*PSF_SET_BEG"
+        self.find_tag(input_file, tag_id)
 
-        self._version = self.read_int(inputFile)
-        assert self._version >= Version.SIM_OPTIONS_VERSION_3_3_0_0
+        self._version = self.read_int(input_file)
+        assert self._version >= SIM_OPTIONS_VERSION_3_3_0_0
 
-        self._generatePsf = self.read_bool(inputFile)
-        self._useScanPointForCenter = self.read_bool(inputFile)
+        self._generatePsf = self.read_bool(input_file)
+        self._useScanPointForCenter = self.read_bool(input_file)
 
-        self._autoExportPsfData = self.read_bool(inputFile)
-        self._exportTiff = self.read_bool(inputFile)
-        self._exportCsv = self.read_bool(inputFile)
-        self._exportStackedTiff = self.read_bool(inputFile)
+        self._autoExportPsfData = self.read_bool(input_file)
+        self._exportTiff = self.read_bool(input_file)
+        self._exportCsv = self.read_bool(input_file)
+        self._exportStackedTiff = self.read_bool(input_file)
 
-        self._psfSize_nm.x = self.read_double(inputFile)
-        self._psfSize_nm.y = self.read_double(inputFile)
-        self._psfSize_nm.z = self.read_double(inputFile)
+        self._psfSize_nm.x = self.read_double(input_file)
+        self._psfSize_nm.y = self.read_double(input_file)
+        self._psfSize_nm.z = self.read_double(input_file)
 
-        self._psfNumberSteps.x = self.read_int(inputFile)
-        self._psfNumberSteps.y = self.read_int(inputFile)
-        self._psfNumberSteps.z = self.read_int(inputFile)
+        self._psfNumberSteps.x = self.read_int(input_file)
+        self._psfNumberSteps.y = self.read_int(input_file)
+        self._psfNumberSteps.z = self.read_int(input_file)
 
-        self._psfCenter_nm.x = self.read_double(inputFile)
-        self._psfCenter_nm.y = self.read_double(inputFile)
-        self._psfCenter_nm.z = self.read_double(inputFile)
+        self._psfCenter_nm.x = self.read_double(input_file)
+        self._psfCenter_nm.y = self.read_double(input_file)
+        self._psfCenter_nm.z = self.read_double(input_file)
 
-        tagID = b"*PSF_SET_END"
-        self.find_tag(inputFile, tagID)
+        tag_id = b"*PSF_SET_END"
+        self.find_tag(input_file, tag_id)
 
     def reset(self):
-        self._generatePsf = True;
-        self._useScanPointForCenter = True;
+        self._generatePsf = True
+        self._useScanPointForCenter = True
 
-        self._autoExportPsfData = True;
-        self._exportTiff = True;
-        self._exportCsv = True;
-        self._exportStackedTiff = True;
+        self._autoExportPsfData = True
+        self._exportTiff = True
+        self._exportCsv = True
+        self._exportStackedTiff = True
 
-        self._psfSize_nm = Vector.Vector(128.0 * 1.0, 128.0 * 1.0, 128.0 * 5.0);
-        self._psfNumberSteps = Vector.Vector(128, 128, 128);
-        self._psfCenter_nm = Vector.Vector(0.0, 0.0, 500.0);
+        self._psfSize_nm = Vector(128.0 * 1.0, 128.0 * 1.0, 128.0 * 5.0)
+        self._psfNumberSteps = Vector(128, 128, 128)
+        self._psfCenter_nm = Vector(0.0, 0.0, 500.0)
 
-    def isGeneratingPSFs(self):
+    def is_generating_psfs(self):
         return self._generatePsf
 
-    def getUseScanPointForCenter(self):
+    def get_use_scan_point_for_center(self):
         return self._useScanPointForCenter
 
-    def getPsfCenter_nm(self):
+    def get_psf_center_nm(self):
         return self._psfCenter_nm
 
-    def getNumberStepsX(self):
+    def get_number_steps_x(self):
         return self._psfNumberSteps.x
 
-    def getNumberStepsY(self):
+    def get_number_steps_y(self):
         return self._psfNumberSteps.y
 
-    def getNumberStepsZ(self):
+    def get_number_steps_z(self):
         return self._psfNumberSteps.z

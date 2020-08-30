@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino2.File
+.. py:currentmodule:: casinotools.file_format.casino2.file
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
@@ -34,38 +34,39 @@ import os.path
 # Local modules.
 
 # Project modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino2.simulation_data as SimulationData
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino2.simulation_data import SimulationData, TAG_VERSION
 from casinotools.file_format.casino2.version import UNKNOWN_VERSION
 
 # Globals and constants variables.
 
 
-class File(FileReaderWriterTools.FileReaderWriterTools):
+class File(FileReaderWriterTools):
     def __init__(self):
         self._filepath = None
         self._optionSimulationData = None
         self._numberSimulations = 0
         self._resultSimulationDataList = []
 
-    def readFromFilepath(self, filepath, isSkipReadingData=False):
+    def read_from_filepath(self, filepath, is_skip_reading_data=False):
         """
         Read the casino either .sim or .cas file.
 
         :param filepath: complete filepath to read.
+        :param is_skip_reading_data:
         """
         self._filepath = filepath
 
         file = open(self._filepath, 'rb')
-        self.readFromFileObject(file, isSkipReadingData)
+        self.read_from_file_object(file, is_skip_reading_data)
 
-    def readFromFileObject(self, file, isSkipReadingData=False):
+    def read_from_file_object(self, file, is_skip_reading_data=False):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
         file.seek(0)
         # Read the first part of the file corresponding to the option of the simulation.
         # Common to the .sim and .cas files.
-        self._optionSimulationData = SimulationData.SimulationData(isSkipReadingData)
+        self._optionSimulationData = SimulationData(is_skip_reading_data)
         self._optionSimulationData.read(file)
 
         logging.debug("File position after reading option: %i", file.tell())
@@ -75,17 +76,17 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
             self._numberSimulations = self.read_int(file)
 
             for dummy in range(self._numberSimulations):
-                simulationData = SimulationData.SimulationData(isSkipReadingData)
-                simulationData.read(file)
-                self._resultSimulationDataList.append(simulationData)
+                simulation_data = SimulationData(is_skip_reading_data)
+                simulation_data.read(file)
+                self._resultSimulationDataList.append(simulation_data)
 
         file.close()
 
     def write(self, filepath):
-        if self._optionSimulationData != None:
+        if self._optionSimulationData is not None:
             self._filepath = filepath
 
-            if self._isSimulationFilepath(self._filepath):
+            if self._is_simulation_filepath(self._filepath):
                 logging.info("Create CASINO file: %s", self._filepath)
 
                 file = open(self._filepath, 'wb')
@@ -96,24 +97,25 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         else:
             raise AttributeError("No option simulation data specified.")
 
-    def _isSimulationFilepath(self, filepath):
+    @staticmethod
+    def _is_simulation_filepath(filepath):
         extension = os.path.splitext(filepath)[1]
 
-        return (extension.lower() == '.sim')
+        return extension.lower() == '.sim'
 
-    def setOptionSimulationData(self, optionSimulationData):
-        self._optionSimulationData = optionSimulationData
+    def set_option_simulation_data(self, option_simulation_data):
+        self._optionSimulationData = option_simulation_data
 
-    def getOptionSimulationData(self):
+    def get_option_simulation_data(self):
         return self._optionSimulationData
 
-    def getNumberSimulations(self):
+    def get_number_simulations(self):
         return len(self._resultSimulationDataList)
 
-    def getResultsFirstSimulation(self):
+    def get_results_first_simulation(self):
         return self._resultSimulationDataList[0]
 
-    def getResultsSimulation(self, index):
+    def get_results_simulation(self, index):
         return self._resultSimulationDataList[index]
 
     def extract_version(self, file_path):
@@ -122,7 +124,7 @@ class File(FileReaderWriterTools.FileReaderWriterTools):
         with open(file_path, 'rb') as casino_file:
             casino_file.seek(0)
 
-            tag_id = SimulationData.TAG_VERSION
+            tag_id = TAG_VERSION
             if self.find_tag(casino_file, tag_id):
                 logging.debug("File pos: %i", casino_file.tell())
                 version = self.read_int(casino_file)
@@ -134,7 +136,7 @@ def _run():
     from pkg_resources import resource_filename  # @UnresolvedImport
     file_path_cas = resource_filename(__file__, "../../test_data/wincasino2.45/id475_v2.46.cas")
     file = File()
-    file.readFromFilepath(file_path_cas, isSkipReadingData=True)
+    file.read_from_filepath(file_path_cas, is_skip_reading_data=True)
 
 
 def run_profile():

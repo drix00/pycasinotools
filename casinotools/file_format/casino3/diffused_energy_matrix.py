@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.diffused_energy_matrix
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -15,42 +31,50 @@ import os
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.casino3.energy_matrix as EnergyMatrix
+
+# Project modules.
+from casinotools.file_format.casino3.energy_matrix import EnergyMatrix
 
 # Globals and constants variables.
 DIFFUSED_TAG = b"Diffused%Energy"
 DIFFUSED_END_TAG = b"Diffused%%End%%"
 DIFFUSE_VERSION = 30107000
 
-class DiffusedEnergyMatrix(EnergyMatrix.EnergyMatrix):
+
+class DiffusedEnergyMatrix(EnergyMatrix):
     """
     Energy matrix date from casino simulation results file.
 
     :note: Need to implement the transformation from x, y, z to index of the _values array.
 
     """
+    def __init__(self, options, point):
+        super().__init__(options, point)
+
+        self._version = 0
+        self._number_elements = 0
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
-        self._startPosition = file.tell()
-        self._filePathname = file.name
-        self._fileDescriptor = file.fileno()
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
+        self._start_position = file.tell()
+        self._file_pathname = file.name
+        self._file_descriptor = file.fileno()
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
-        tagID = DIFFUSED_TAG
-        if self.find_tag(file, tagID):
+        tag_id = DIFFUSED_TAG
+        if self.find_tag(file, tag_id):
             self._version = self.read_int(file)
 
-            self._numberElements = self._nbPtsX * self._nbPtsY * self._nbPtsZ
-            self._startPosition = file.tell()
-            #self._values = self.read_double_list(file, self._numberElements)
-            skipOffset = self.get_size_of_double_list(self._numberElements)
-            file.seek(skipOffset, os.SEEK_CUR)
+            self._number_elements = self._number_points_x * self._number_points_y * self._number_points_z
+            self._start_position = file.tell()
+            # self._values = self.read_double_list(file, self._number_elements)
+            skip_offset = self.get_size_of_double_list(self._number_elements)
+            file.seek(skip_offset, os.SEEK_CUR)
 
             logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", file.tell())
-            tagID = DIFFUSED_END_TAG
-            if not self.find_tag(file, tagID):
+            tag_id = DIFFUSED_END_TAG
+            if not self.find_tag(file, tag_id):
                 raise IOError
 
-        self._endPosition = file.tell()
-        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._endPosition)
+        self._end_position = file.tell()
+        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._end_position)

@@ -25,11 +25,8 @@ Tests for the :py:mod:``casinotools.file_format.file_reader_writer_tools` module
 ###############################################################################
 
 # Standard library modules.
-import unittest
-import shutil
 
 # Third party modules.
-from pkg_resources import resource_filename
 import pytest
 
 # Local modules.
@@ -37,28 +34,9 @@ import pytest
 # Project modules.
 from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
 import casinotools.file_format.casino3.file as File
-from casinotools.utilities.path import create_path, get_current_module_path
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
-
-
-@pytest.fixture()
-def filepath_sim():
-    file_path = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
-    return file_path
-
-
-@pytest.fixture()
-def filepath_sim_3202():
-    file_path = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
-    return file_path
-
-
-@pytest.fixture()
-def filepath_cas():
-    file_path = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
-    return file_path
 
 
 def test_is_discovered():
@@ -68,24 +46,6 @@ def test_is_discovered():
     """
     # assert False
     assert True
-
-
-class TestFileReaderWriterTools(unittest.TestCase):
-
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-
-        self.filepathSim = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
-        self.filepathSim_3202 = resource_filename(__name__,
-                                                  "../../test_data/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
-        self.filepathCas = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
-
-        path = get_current_module_path(__file__, "../../test_data/temp")
-        self.temporaryDir = create_path(path)
-
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
-        shutil.rmtree(self.temporaryDir, ignore_errors=True)
 
 
 def test_check_and_correct_value_size():

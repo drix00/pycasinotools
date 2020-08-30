@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino3.energy_matrix
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -16,12 +32,22 @@ import os
 import numpy as np
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino3.options_dist as OptionsDist
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino3.options_dist import DIST_DEPOS_TYPE_CARTESIAN, DIST_DEPOS_TYPE_CYLINDRIC
+from casinotools.file_format.casino3.options_dist import DIST_DEPOS_TYPE_SPHERIC
 
 # Globals and constants variables.
 
-class EnergyMatrix(FileReaderWriterTools.FileReaderWriterTools):
+# Third party modules.
+
+# Local modules.
+
+# Globals and constants variables.
+
+
+class EnergyMatrix(FileReaderWriterTools):
     """
     Energy matrix date from casino simulation results file.
 
@@ -31,62 +57,62 @@ class EnergyMatrix(FileReaderWriterTools.FileReaderWriterTools):
     def __init__(self, options, point):
         self._point = point
 
-        if options._optionsDist.DEpos_Type == OptionsDist.DIST_DEPOS_TYPE_CARTESIAN:
-            self._nbPtsX = options._optionsDist.NbPointDEpos_X
-            self._nbPtsY = options._optionsDist.NbPointDEpos_Y
-            self._nbPtsZ = options._optionsDist.NbPointDEpos_Z
-        elif options._optionsDist.DEpos_Type == OptionsDist.DIST_DEPOS_TYPE_CYLINDRIC:
-            self._nbPtsX = 1
-            self._nbPtsY = options._optionsDist.DEposCyl_Rad_Div
-            self._nbPtsZ = options._optionsDist.DEposCyl_Z_Div
-        elif options._optionsDist.DEpos_Type == OptionsDist.DIST_DEPOS_TYPE_SPHERIC:
-            self._nbPtsX = 1
-            self._nbPtsY = 1
-            self._nbPtsZ = options._optionsDist.DEposSpheric_Rad_Div
+        if options._options_dist.DEpos_Type == DIST_DEPOS_TYPE_CARTESIAN:
+            self._number_points_x = options._options_dist.NbPointDEpos_X
+            self._number_points_y = options._options_dist.NbPointDEpos_Y
+            self._number_points_z = options._options_dist.NbPointDEpos_Z
+        elif options._options_dist.DEpos_Type == DIST_DEPOS_TYPE_CYLINDRIC:
+            self._number_points_x = 1
+            self._number_points_y = options._options_dist.DEposCyl_Rad_Div
+            self._number_points_z = options._options_dist.DEposCyl_Z_Div
+        elif options._options_dist.DEpos_Type == DIST_DEPOS_TYPE_SPHERIC:
+            self._number_points_x = 1
+            self._number_points_y = 1
+            self._number_points_z = options._options_dist.DEposSpheric_Rad_Div
 
-        self._numberElements = 0
-        self._values = None
+        self._number_elements = 0
+        self._values = []
         self._data = None
 
         self._file = None
-        self._startPosition = 0
-        self._endPosition = 0
-        self._filePathname = ""
-        self._fileDescriptor = 0
+        self._start_position = 0
+        self._end_position = 0
+        self._file_pathname = ""
+        self._file_descriptor = 0
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
-        self._startPosition = file.tell()
-        self._filePathname = file.name
-        self._fileDescriptor = file.fileno()
-        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
+        self._start_position = file.tell()
+        self._file_pathname = file.name
+        self._file_descriptor = file.fileno()
+        logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
-        self._numberElements = self._nbPtsX * self._nbPtsY * self._nbPtsZ
-        self._startPosition = file.tell()
-        #self._values = self.read_double_list(file, self._numberElements)
-        skipOffset = self.get_size_of_double_list(self._numberElements)
-        file.seek(skipOffset, os.SEEK_CUR)
+        self._number_elements = self._number_points_x * self._number_points_y * self._number_points_z
+        self._start_position = file.tell()
+        # self._values = self.read_double_list(file, self._number_elements)
+        skip_offset = self.get_size_of_double_list(self._number_elements)
+        file.seek(skip_offset, os.SEEK_CUR)
 
-        self._endPosition = file.tell()
-        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._endPosition)
+        self._end_position = file.tell()
+        logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", self._end_position)
 
-    def _readValues(self):
+    def _read_values(self):
         if self._file is None:
-            self._file = open(self._filePathname, 'rb')
+            self._file = open(self._file_pathname, 'rb')
 
-        self._file.seek(self._startPosition)
-        self._values = self.read_double_list(self._file, self._numberElements)
+        self._file.seek(self._start_position)
+        self._values = self.read_double_list(self._file, self._number_elements)
 
-    def getData(self):
+    def get_data(self):
         if self._data is None:
             if self._values is None:
-                self._readValues()
+                self._read_values()
                 index = 0
-                shape = (self._nbPtsX, self._nbPtsY, self._nbPtsZ)
+                shape = (self._number_points_x, self._number_points_y, self._number_points_z)
                 self._data = np.zeros(shape)
-                for x in range(self._nbPtsX):
-                    for y in range(self._nbPtsY):
-                        for z in range(self._nbPtsZ):
+                for x in range(self._number_points_x):
+                    for y in range(self._number_points_y):
+                        for z in range(self._number_points_z):
                             self._data[x, y, z] = self._values[index]
                             index += 1
                 del self._values
@@ -94,14 +120,14 @@ class EnergyMatrix(FileReaderWriterTools.FileReaderWriterTools):
 
         return self._data
 
-    def getNumberPointsEnergyAbsorbed(self):
-        return self._nbPtsX * self._nbPtsY * self._nbPtsZ
+    def get_number_points_energy_absorbed(self):
+        return self._number_points_x * self._number_points_y * self._number_points_z
 
-    def getNumberPointsEnergyAbsorbedX(self):
-        return self._nbPtsX
+    def get_number_points_energy_absorbed_x(self):
+        return self._number_points_x
 
-    def getNumberPointsEnergyAbsorbedY(self):
-        return self._nbPtsY
+    def get_number_points_energy_absorbed_y(self):
+        return self._number_points_y
 
-    def getNumberPointsEnergyAbsorbedZ(self):
-        return self._nbPtsZ
+    def get_number_points_energy_absorbed_z(self):
+        return self._number_points_z

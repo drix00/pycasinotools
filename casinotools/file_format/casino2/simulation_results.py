@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2009 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: casinotools.file_format.casino2.simulation_results
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Description
+"""
+
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import logging
@@ -16,15 +32,19 @@ import os
 # Third party modules.
 
 # Local modules.
-import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
-import casinotools.file_format.casino2.element_intensity as ElementIntensity
-import casinotools.file_format.casino2.graph_data as GraphData
+
+# Project modules.
+from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.casino2.element_intensity import ElementIntensity
+from casinotools.file_format.casino2.graph_data import GraphData
+
 
 # Globals and constants variables.
 
-class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
-    def __init__(self, isSkipReadingData=False):
-        self._isSkipReadingData = isSkipReadingData
+
+class SimulationResults(FileReaderWriterTools):
+    def __init__(self, is_skip_reading_data=False):
+        self._is_skip_reading_data = is_skip_reading_data
         self.DENR = None
         self.DZMaxRetro = None
 
@@ -32,37 +52,37 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
         assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
-        tagID = b"*DISTDATA%%%%%%"
-        self.find_tag(file, tagID)
+        tag_id = b"*DISTDATA%%%%%%"
+        self.find_tag(file, tag_id)
 
-        self._readBseIntensity(file, options, version)
+        self._read_bse_intensity(file, options, version)
 
-        tagID = b"*REGULARDIST%%%"
-        self.find_tag(file, tagID)
+        tag_id = b"*REGULARDIST%%%"
+        self.find_tag(file, tag_id)
 
-        self._readMaximumDepth(file, options, version)
+        self._read_maximum_depth(file, options, version)
 
-        self._readBackscatteredEnergy(file, options, version)
+        self._read_backscattered_energy(file, options, version)
 
-        self._readBackscatteredEnergyT(file, options, version)
+        self._read_backscattered_energy_t(file, options, version)
 
-        self._readSurfaceRadiusBse(file, options, version)
+        self._read_surface_radius_bse(file, options, version)
 
-        self._readDncr(file, options)
+        self._read_dncr(file, options)
 
         if version >= 22:
-            self._readDepositedEnergy(file, options)
+            self._read_deposited_energy(file, options)
 
         if version >= 25:
-            self._readBackscatteredAngle(file, options, version)
+            self._read_backscattered_angle(file, options, version)
 
         if version >= 26:
-            self._readBseAngleEnergie(file, options, version)
+            self._read_bse_angle_energie(file, options, version)
 
-    def _readBseIntensity(self, file, options, version):
+    def _read_bse_intensity(self, file, options, version):
         # Intensity distributions
-        tagID = b"*INTENSITYDIST%"
-        self.find_tag(file, tagID)
+        tag_id = b"*INTENSITYDIST%"
+        self.find_tag(file, tag_id)
         self.BE_Intensity_Size = self.read_int(file)
         self.BE_Intensity = self.read_double_list(file, self.BE_Intensity_Size)
         if version >= 25 and options.UseEnBack:
@@ -70,165 +90,159 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
         self.eT = self.read_long(file)
         self._elementIntensityList = []
         for dummy in range(self.eT):
-            element = ElementIntensity.ElementIntensity()
+            element = ElementIntensity()
             element.read(file)
             self._elementIntensityList.append(element)
 
-    def _readMaximumDepth(self, file, options, version):
-        tagID = b"*DZMAX%%%%%%%%%"
-        self.find_tag(file, tagID)
+    def _read_maximum_depth(self, file, options, version):
+        tag_id = b"*DZMAX%%%%%%%%%"
+        self.find_tag(file, tag_id)
         if options.FDZmax:
             if version >= 2040601:
                 flag = self.read_int(file)
                 if flag == 1:
-                    self.DZMax = GraphData.GraphData(file=file)
-                    self.DZMaxRetro = GraphData.GraphData(file=file)
+                    self.DZMax = GraphData(file=file)
+                    self.DZMaxRetro = GraphData(file=file)
             else:
-                numberPoints = self.read_long(file)
-                self.NbPointDZMax = numberPoints
-                if numberPoints > 0:
-                    self.DZMax = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                        0, 0, "Z Max", "Depth (nm)",
-                        "Hits (Normalized)")
-                    self.DZMaxRetro = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                        0, 0, "Z Max", "Depth (nm)",
-                        "Hits (Normalized)")
-                    for dummy in range(numberPoints):
+                number_points = self.read_long(file)
+                self.NbPointDZMax = number_points
+                if number_points > 0:
+                    self.DZMax = GraphData(number_points, 0.0, options.RkoMax, 0, 0, "z Max", "Depth (nm)",
+                                           "Hits (Normalized)")
+                    self.DZMaxRetro = GraphData(number_points, 0.0, options.RkoMax, 0, 0, "z Max", "Depth (nm)",
+                                                "Hits (Normalized)")
+                    for dummy in range(number_points):
                         value = self.read_double(file)
                         self.DZMax.add(value)
 
-                    for dummy in range(numberPoints):
+                    for dummy in range(number_points):
                         value = self.read_double(file)
                         self.DZMaxRetro.add(value)
 
                 else:
-                    numberPoints *= -1
+                    number_points *= -1
 
-    def isBackscatteredMaximumDepthDistribution(self):
-        return not self.DZMaxRetro is None
+    def is_backscattered_maximum_depth_distribution(self):
+        return self.DZMaxRetro is not None
 
-    def getBackscatteredMaximumDepthDistribution(self):
+    def get_backscattered_maximum_depth_distribution(self):
         return self.DZMaxRetro
 
-    def getBackscatteredMaximumDepthRange(self, fractionLimit=0.999):
-        range_nm = _computeDepthRange(self.getBackscatteredMaximumDepthDistribution(), fractionLimit)
+    def get_backscattered_maximum_depth_range(self, fraction_limit=0.999):
+        range_nm = _compute_depth_range(self.get_backscattered_maximum_depth_distribution(), fraction_limit)
         return range_nm
 
-    def _readBackscatteredEnergy(self, file, options, version):
-        tagID = b"*DENR%%%%%%%%%%"
-        self.find_tag(file, tagID)
+    def _read_backscattered_energy(self, file, options, version):
+        tag_id = b"*DENR%%%%%%%%%%"
+        self.find_tag(file, tag_id)
         if options.FDenr:
             values = None
             if version >= 2040601:
                 flag = self.read_int(file)
                 if flag == 1:
-                    values = GraphData.GraphData(file=file)
+                    values = GraphData(file=file)
             else:
-                numberPoints = self.read_long(file)
-                self.NbPointDENR = numberPoints
-                if numberPoints > 0:
-                    values = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                        0, 0, "Backscattered Energy", "Energy (KeV)",
-                        "Hits (Normalized)")
-                    for dummy in range(numberPoints):
+                number_points = self.read_long(file)
+                self.NbPointDENR = number_points
+                if number_points > 0:
+                    values = GraphData(number_points, 0.0, options.RkoMax, 0, 0, "Backscattered Energy", "Energy (KeV)",
+                                       "Hits (Normalized)")
+                    for dummy in range(number_points):
                         value = self.read_double(file)
                         values.add(value)
 
                 else:
-                    numberPoints *= -1
+                    number_points *= -1
             self.DENR = values
 
-    def isBackscatteredEnergyDistribution(self):
-        return not self.DENR is None
+    def is_backscattered_energy_distribution(self):
+        return self.DENR is not None
 
-    def getBackscatteredEnergyDistribution(self):
+    def get_backscattered_energy_distribution(self):
         return self.DENR
 
-    def _readBackscatteredEnergyT(self, file, options, version):
-        tagID = b"*DENT%%%%%%%%%%"
-        self.find_tag(file, tagID)
+    def _read_backscattered_energy_t(self, file, options, version):
+        tag_id = b"*DENT%%%%%%%%%%"
+        self.find_tag(file, tag_id)
         if options.FDent:
             values = None
             if version >= 2040601:
                 flag = self.read_int(file)
                 if flag == 1:
-                    values = GraphData.GraphData(file=file)
+                    values = GraphData(file=file)
             else:
-                numberPoints = self.read_long(file)
-                self.NbPointDENT = numberPoints
-                if numberPoints > 0:
-                    values = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                        0, 0, "Backscattered Energy", "Energy (KeV)",
-                        "Hits (Normalized)")
-                    for dummy in range(numberPoints):
+                number_points = self.read_long(file)
+                self.NbPointDENT = number_points
+                if number_points > 0:
+                    values = GraphData(number_points, 0.0, options.RkoMax, 0, 0, "Backscattered Energy", "Energy (KeV)",
+                                       "Hits (Normalized)")
+                    for dummy in range(number_points):
                         value = self.read_double(file)
                         values.add(value)
 
                 else:
-                    numberPoints *= -1
+                    number_points *= -1
             self.DENT = values
 
-    def isTransmittedEnergyDistribution(self):
-        return not self.DENT is None
+    def is_transmitted_energy_distribution(self):
+        return self.DENT is not None
 
-    def getTransmittedEnergyDistribution(self):
+    def get_transmitted_energy_distribution(self):
         return self.DENT
 
-    def _readSurfaceRadiusBse(self, file, options, version):
-        tagID = b"*DRSR%%%%%%%%%%"
-        self.find_tag(file, tagID)
+    def _read_surface_radius_bse(self, file, options, version):
+        tag_id = b"*DRSR%%%%%%%%%%"
+        self.find_tag(file, tag_id)
         if options.FDrsr:
             if version >= 2040601:
                 flag = self.read_int(file)
                 if flag == 1:
-                    self.DrasRetro = GraphData.GraphData(file=file)
-                    self.DrasRetroEnr = GraphData.GraphData(file=file)
+                    self.DrasRetro = GraphData(file=file)
+                    self.DrasRetroEnr = GraphData(file=file)
             else:
-                numberPoints = self.read_long(file)
-                self.NbPointDRSR = numberPoints
-                if numberPoints > 0:
-                    self.DrasRetro = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                        0, 0, "Surface Radius of BE", "Radius (nm)",
-                        "Hits (Normalized) / nm")
-                    self.DrasRetroEnr = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                        0, 0, "Energy of Surface Radius of BE", "Radius (nm)",
-                        "KeV / nm")
-                    for dummy in range(numberPoints):
+                number_points = self.read_long(file)
+                self.NbPointDRSR = number_points
+                if number_points > 0:
+                    self.DrasRetro = GraphData(number_points, 0.0, options.RkoMax, 0, 0, "Surface Radius of BE",
+                                               "Radius (nm)", "Hits (Normalized) / nm")
+                    self.DrasRetroEnr = GraphData(number_points, 0.0, options.RkoMax, 0, 0,
+                                                  "Energy of Surface Radius of BE", "Radius (nm)", "KeV / nm")
+                    for dummy in range(number_points):
                         value = self.read_double(file)
                         self.DrasRetro.add(value)
 
-                    for dummy in range(numberPoints):
+                    for dummy in range(number_points):
                         value = self.read_double(file)
                         self.DrasRetroEnr.add(value)
 
                 else:
-                    numberPoints *= -1
+                    number_points *= -1
 
-    def isSurfaceRadiusBseDistribution(self):
-        return not self.DrasRetro is None
+    def is_surface_radius_bse_distribution(self):
+        return self.DrasRetro is not None
 
-    def getSurfaceRadiusBseDistribution(self):
+    def get_surface_radius_bse_distribution(self):
         return self.DrasRetro
 
-    def _readDncr(self, file, options):
-        tagID = b"*DNCR%%%%%%%%%%"
-        self.find_tag(file, tagID)
+    def _read_dncr(self, file, options):
+        tag_id = b"*DNCR%%%%%%%%%%"
+        self.find_tag(file, tag_id)
         if options.FDncr:
-            numberPoints = self.read_long(file)
-            if numberPoints > 0:
-                values = []
-                for dummy in range(numberPoints):
+            number_points = self.read_long(file)
+            values = []
+            if number_points > 0:
+                for dummy in range(number_points):
                     value = self.read_double(file)
                     values.append(value)
 
             else:
-                numberPoints *= -1
-            self.NbPointDNCR = numberPoints
+                number_points *= -1
+            self.NbPointDNCR = number_points
             self.DNCR = values
 
-    def _readDepositedEnergy(self, file, options):
-        tagID = b"*DEPOS%%%%%%%%%"
-        self.find_tag(file, tagID)
+    def _read_deposited_energy(self, file, options):
+        tag_id = b"*DEPOS%%%%%%%%%"
+        self.find_tag(file, tag_id)
         if options.FDEpos:
             self.NbPointDEpos_X = self.read_long(file)
             self.NbPointDEpos_Y = self.read_long(file)
@@ -236,15 +250,15 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
             self.DEpos_maxE = self.read_double(file)
             if self.NbPointDEpos_X > 0:
                 values = []
-                numberPoints = self.NbPointDEpos_X * self.NbPointDEpos_Y * self.NbPointDEpos_Z
+                number_points = self.NbPointDEpos_X * self.NbPointDEpos_Y * self.NbPointDEpos_Z
 
-                if not self._isSkipReadingData:
-                    values = self.read_double_list(file, numberPoints)
-#                    for dummy in range(numberPoints):
-#                        value = self.read_double(file)
-#                        values.append(value)
+                if not self._is_skip_reading_data:
+                    values = self.read_double_list(file, number_points)
+                #                    for dummy in range(number_points):
+                #                        value = self.read_double(file)
+                #                        values.append(value)
                 else:
-                    offset = struct.calcsize("d") * numberPoints
+                    offset = struct.calcsize("d") * number_points
                     file.seek(offset, os.SEEK_CUR)
 
                 self.DEpos = values
@@ -253,112 +267,112 @@ class SimulationResults(FileReaderWriterTools.FileReaderWriterTools):
                 self.NbPointDEpos_Y *= -1
                 self.NbPointDEpos_Z *= -1
 
-    def getNumberPointsEnergyAbsorbed(self):
+    def get_number_points_energy_absorbed(self):
         return self.NbPointDEpos_X * self.NbPointDEpos_Y * self.NbPointDEpos_Z
 
-    def getNumberPointsEnergyAbsorbedX(self):
+    def get_number_points_energy_absorbed_x(self):
         return self.NbPointDEpos_X
 
-    def getNumberPointsEnergyAbsorbedY(self):
+    def get_number_points_energy_absorbed_y(self):
         return self.NbPointDEpos_Y
 
-    def getNumberPointsEnergyAbsorbedZ(self):
+    def get_number_points_energy_absorbed_z(self):
         return self.NbPointDEpos_Z
 
-    def getMaximumEnergyAbsorbed_keV(self):
+    def get_maximum_energy_absorbed_keV(self):
         return self.DEpos_maxE
 
-    def getEnergyAbsorbed_keV(self):
+    def get_energy_absorbed_keV(self):
         return self.DEpos
 
-    def _readBackscatteredAngle(self, file, options, version):
-        tagID = b"*DBANG%%%%%%%%%"
-        self.find_tag(file, tagID)
+    def _read_backscattered_angle(self, file, options, version):
+        tag_id = b"*DBANG%%%%%%%%%"
+        self.find_tag(file, tag_id)
         if options.FDbang:
             if version >= 2040601:
                 flag = self.read_int(file)
                 if flag == 1:
-                    self.Dbang = GraphData.GraphData(file=file)
+                    self.Dbang = GraphData(file=file)
                     if options.UseEnBack:
                         flag = self.read_int(file)
                         if flag == 1:
-                            self.DEnBang = GraphData.GraphData(file=file)
+                            self.DEnBang = GraphData(file=file)
             else:
-                numberPoints = self.read_long(file)
-                if numberPoints > 0:
-                    self.Dbang = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                        0, 0, "Backscattered Angle", "Angle (degree)",
-                        "Hits (Normalized)")
-                    for dummy in range(numberPoints):
+                number_points = self.read_long(file)
+                if number_points > 0:
+                    self.Dbang = GraphData(number_points, 0.0, options.RkoMax, 0, 0, "Backscattered Angle",
+                                           "Angle (degree)", "Hits (Normalized)")
+                    for dummy in range(number_points):
                         value = self.read_double(file)
                         self.Dbang.add(value)
 
                     if options.UseEnBack:
-                        self.DEnBang = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                            0, 0, "Detected Backscattered Angle", "Angle (degree)",
-                            "Hits (Normalized)")
-                        for dummy in range(numberPoints):
+                        self.DEnBang = GraphData(number_points, 0.0, options.RkoMax, 0, 0,
+                                                 "Detected Backscattered Angle", "Angle (degree)", "Hits (Normalized)")
+                        for dummy in range(number_points):
                             value = self.read_double(file)
                             self.DEnBang.add(value)
 
                 else:
-                    numberPoints *= -1
-                self.NbPointDBANG = numberPoints
+                    number_points *= -1
+                self.NbPointDBANG = number_points
 
-    def isBackscatteredAngleDistribution(self):
-        return not self.Dbang is None
+    def is_backscattered_angle_distribution(self):
+        return self.Dbang is not None
 
-    def getBackscatteredAngleDistribution(self):
+    def get_backscattered_angle_distribution(self):
         return self.Dbang
 
-    def _readBseAngleEnergie(self, file, options, version):
-        tagID = b"*DANGLEENERGY%%"
-        self.find_tag(file, tagID)
+    def _read_bse_angle_energie(self, file, options, version):
+        tag_id = b"*DANGLEENERGY%%"
+        self.find_tag(file, tag_id)
         if options.FDAngleVSEnergie:
             if version >= 2040601:
                 flag = self.read_int(file)
                 if flag == 1:
-                    self.DAngleVSEnergie = GraphData.GraphData(file=file)
+                    self.DAngleVSEnergie = GraphData(file=file)
                     if options.UseEnBack:
                         flag = self.read_int(file)
                         if flag == 1:
-                            self.DEnAngleVSEnergie = GraphData.GraphData(file=file)
+                            self.DEnAngleVSEnergie = GraphData(file=file)
             else:
-                numberPoints = self.read_long(file)
-                if numberPoints > 0:
-                    self.DAngleVSEnergie = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                        0, 0, "Backscattered Angle", "Angle (degree)",
-                        "Hits (Normalized)")
-                    for dummy in range(numberPoints):
+                number_points = self.read_long(file)
+                if number_points > 0:
+                    self.DAngleVSEnergie = GraphData(number_points, 0.0, options.RkoMax, 0, 0, "Backscattered Angle",
+                                                     "Angle (degree)", "Hits (Normalized)")
+                    for dummy in range(number_points):
                         value = self.read_double(file)
                         self.DAngleVSEnergie.add(value)
 
                     if options.UseEnBack:
-                        self.DEnAngleVSEnergie = GraphData.GraphData(numberPoints, 0.0, options.RkoMax,
-                            0, 0, "Detected Backscattered Angle", "Angle (degree)",
-                            "Hits (Normalized)")
-                        for dummy in range(numberPoints):
+                        self.DEnAngleVSEnergie = GraphData(number_points, 0.0, options.RkoMax, 0, 0,
+                                                           "Detected Backscattered Angle", "Angle (degree)",
+                                                           "Hits (Normalized)")
+                        for dummy in range(number_points):
                             value = self.read_double(file)
                             self.DEnAngleVSEnergie.add(value)
 
                 else:
-                    numberPoints *= -1
-                self.NbPointDAngleVSEnergie = numberPoints
+                    number_points *= -1
+                self.NbPointDAngleVSEnergie = number_points
 
-def _computeDepthRange(distribution, fractionLimit):
-    positions = distribution.getPositions()
-    values = distribution.getValues()
+
+def _compute_depth_range(distribution, fraction_limit):
+    positions = distribution.get_positions()
+    values = distribution.get_values()
 
     total = sum(values)
 
-    partialTotal = 0.0
+    partial_total = 0.0
+    fraction = 0.0
     for position, value in zip(positions, values):
-        partialTotal += value
-        fraction = partialTotal / total
-        if fraction >= fractionLimit:
+        partial_total += value
+        fraction = partial_total / total
+        if fraction >= fraction_limit:
             return position
 
     depth = positions[-1]
-    message = "Depth range not found, fraction smaller (%.f) than fraction limit (%.f), return last depth (%.f)" % (fraction, fractionLimit, depth)
+    message = "Depth range not found, fraction smaller (%.f) than fraction limit (%.f), " \
+              "return last depth (%.f)" % (fraction, fraction_limit, depth)
     logging.warning(message)
     return depth

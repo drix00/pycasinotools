@@ -37,7 +37,7 @@ from casinotools.file_format.tags import search_tag, TAG_LENGTH, add_tag_old, ad
 # Globals and constants variables.
 
 
-class FileReaderWriterTools(object):
+class FileReaderWriterTools:
     @staticmethod
     def find_tag(file, tag_id):
         return search_tag(file, tag_id, TAG_LENGTH)
