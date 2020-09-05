@@ -31,7 +31,8 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double
+from casinotools.file_format.tags import find_tag
 
 # Globals and constants variables.
 
@@ -115,7 +116,7 @@ SEC_ION_JAKOBY = 5
 MIN_ENERGY_NOSEC_DEFAULT = 0.05
 
 
-class OptionsPhysic(FileReaderWriterTools):
+class OptionsPhysic:
     # Residual energy loss used in the Monsel algorithm of De/Ds calculation.
     # The goal is to account for energy loss not included in the original
     # continual energy loss equation (Bethe algorithm in Monsel). This value
@@ -236,27 +237,27 @@ class OptionsPhysic(FileReaderWriterTools):
 
     def read(self, file):
         tag_id = b"*PHYS_MOD_BEG"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
-        self._version = self.read_int(file)
+        self._version = read_int(file)
 
-        self.FRan = self.read_int(file)
-        self.FDeds = self.read_int(file)
-        self.FTotalCross = self.read_int(file)
-        self.FPartialCross = self.read_int(file)
-        self.FCosDirect = self.read_int(file)
+        self.FRan = read_int(file)
+        self.FDeds = read_int(file)
+        self.FTotalCross = read_int(file)
+        self.FPartialCross = read_int(file)
+        self.FCosDirect = read_int(file)
 #        FCosDirect = COS_DIRECT_MONSEL #Other Cos Direct are flawed for now
-        self.FSecIon = self.read_int(file)
-        self.FPotMoy = self.read_int(file)
+        self.FSecIon = read_int(file)
+        self.FPotMoy = read_int(file)
 
-        self.max_secondary_order = self.read_int(file)
-        self.Min_Energy_Nosec = self.read_double(file)
-        self.Residual_Energy_Loss = self.read_double(file)
-        self.Min_Energy_With_Sec = self.read_double(file)
-        self.Min_Gen_Secondary_Energy = self.read_double(file)
+        self.max_secondary_order = read_int(file)
+        self.Min_Energy_Nosec = read_double(file)
+        self.Residual_Energy_Loss = read_double(file)
+        self.Min_Energy_With_Sec = read_double(file)
+        self.Min_Gen_Secondary_Energy = read_double(file)
 
         tag_id = b"*PHYS_MOD_END"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
     def reset(self):
         self.FRan = 0

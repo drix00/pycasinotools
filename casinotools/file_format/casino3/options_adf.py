@@ -31,14 +31,15 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double
+from casinotools.file_format.tags import find_tag
 
 # Globals and constants variables.
 # Filename to store the defaults settings
 OPTIONS_ADF_DEF_FILENAME = "ADF_Settings_Defaults.dat"
 
 
-class OptionsADF(FileReaderWriterTools):
+class OptionsADF:
     def __init__(self):
         # max semi-angle of the detector
         self.MinAngle = 0.200
@@ -69,20 +70,20 @@ class OptionsADF(FileReaderWriterTools):
 
     def read(self, file):
         tag_id = b"*ADF_SET_BEG"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
-        self._version = self.read_int(file)
+        self._version = read_int(file)
 
-        self.DQE = self.read_double(file)
+        self.DQE = read_double(file)
 
-        self.Enabled = self.read_int(file)
-        self.keepData = self.read_int(file)
-        self.MaxAngle = self.read_double(file)
-        self.MinAngle = self.read_double(file)
-        self.MaxPoints = self.read_int(file)
+        self.Enabled = read_int(file)
+        self.keepData = read_int(file)
+        self.MaxAngle = read_double(file)
+        self.MinAngle = read_double(file)
+        self.MaxPoints = read_int(file)
 
         tag_id = b"*ADF_SET_END"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
     def reset(self):
         # max semi-angle of the detector

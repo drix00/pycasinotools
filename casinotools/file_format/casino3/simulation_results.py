@@ -32,7 +32,8 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double, read_bool
+from casinotools.file_format.tags import find_tag
 from casinotools.file_format.casino3.scan_point_results import ScanPointResults
 from casinotools.file_format.casino3.energy_matrix import EnergyMatrix
 from casinotools.file_format.casino3.diffused_energy_matrix import DiffusedEnergyMatrix
@@ -40,7 +41,7 @@ from casinotools.file_format.casino3.diffused_energy_matrix import DiffusedEnerg
 # Globals and constants variables.
 
 
-class SimulationResults(FileReaderWriterTools):
+class SimulationResults:
     def __init__(self):
         self._start_position = 0
         self._end_position = 0
@@ -56,7 +57,7 @@ class SimulationResults(FileReaderWriterTools):
         self._file_descriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
-        self._number_simulations = self.read_int(file)
+        self._number_simulations = read_int(file)
 
         for dummy in range(self._number_simulations):
             self._read_runtime_state(file)
@@ -69,31 +70,31 @@ class SimulationResults(FileReaderWriterTools):
 
     def _read_runtime_state(self, file):
         tag_id = b"*RUNTIMESTATE%%"
-        if self.find_tag(file, tag_id):
-            self._version = self.read_int(file)
+        if find_tag(file, tag_id):
+            self._version = read_int(file)
 
             if self._version == 20031202:
                 self._read_simulation_state(file)
 
     def _read_simulation_state(self, file):
         tag_id = b"*SIMSTATE%%%%%%"
-        if self.find_tag(file, tag_id):
-            self._initial_energy_keV = self.read_double(file)
-            self._rko_max = self.read_double(file)
+        if find_tag(file, tag_id):
+            self._initial_energy_keV = read_double(file)
+            self._rko_max = read_double(file)
 
     def _read_simulation_results(self, file, options):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_read_simulation_results",
                       file.tell())
         tag_id = b"*SIMRESULTS%%%%"
-        if self.find_tag(file, tag_id):
-            self._version_simulation_results = self.read_int(file)
+        if find_tag(file, tag_id):
+            self._version_simulation_results = read_int(file)
 
-            self._is_total_energy_density_saved = self.read_bool(file)
+            self._is_total_energy_density_saved = read_bool(file)
             if self._is_total_energy_density_saved:
                 self._deposited_energy_density = EnergyMatrix(options, options._options_dist.DEpos_Center)
                 self._deposited_energy_density.read(file)
 
-            self._is_diffused_total_energy_density_saved = self.read_bool(file)
+            self._is_diffused_total_energy_density_saved = read_bool(file)
             if self._is_diffused_total_energy_density_saved:
                 self._diffused_energy_density = DiffusedEnergyMatrix(options, options._options_dist.DEpos_Center)
                 self._diffused_energy_density.read(file)
@@ -101,11 +102,11 @@ class SimulationResults(FileReaderWriterTools):
         logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_read_simulation_results",
                       file.tell())
         tag_id = b"*SIMRESULTSEND"
-        if not self.find_tag(file, tag_id):
+        if not find_tag(file, tag_id):
             raise IOError
 
     def _read_scan_points(self, file, options):
-        self._number_scan_points = self.read_int(file)
+        self._number_scan_points = read_int(file)
 
         self._scan_points = []
         for dummy in range(self._number_scan_points):

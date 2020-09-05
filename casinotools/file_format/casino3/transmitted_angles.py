@@ -34,7 +34,8 @@ import numpy as np
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, get_size_of_double_list, get_size_of_int_list, \
+    read_double_list, read_int_list
 
 # Globals and constants variables.
 
@@ -46,7 +47,7 @@ from casinotools.file_format.file_reader_writer_tools import FileReaderWriterToo
 # Globals and constants variables.
 
 
-class TransmittedAngles(FileReaderWriterTools):
+class TransmittedAngles:
     def __init__(self):
         self._file = None
         self._start_position = 0
@@ -71,16 +72,16 @@ class TransmittedAngles(FileReaderWriterTools):
         self._file_descriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
-        self._number_transmitted_electrons = self.read_int(file)
-        self._number_transmitted_detected_electrons = self.read_int(file)
+        self._number_transmitted_electrons = read_int(file)
+        self._number_transmitted_detected_electrons = read_int(file)
 
-        self._number_angles = self.read_int(file)
+        self._number_angles = read_int(file)
         self._start_position = file.tell()
-        skip_offset = self.get_size_of_double_list(self._number_angles)
+        skip_offset = get_size_of_double_list(self._number_angles)
         file.seek(skip_offset, os.SEEK_CUR)
 
-        self._number_binned_angles = self.read_int(file)
-        skip_offset = self.get_size_of_int_list(self._number_binned_angles)
+        self._number_binned_angles = read_int(file)
+        skip_offset = get_size_of_int_list(self._number_binned_angles)
         file.seek(skip_offset, os.SEEK_CUR)
 
         self._end_position = file.tell()
@@ -88,10 +89,10 @@ class TransmittedAngles(FileReaderWriterTools):
 
     def _read_angle_values(self):
         self._file.seek(self._start_position)
-        self._angles = self.read_double_list(self._file, self._number_angles)
+        self._angles = read_double_list(self._file, self._number_angles)
 
-        self._number_binned_angles = self.read_int(self._file)
-        self._binned_angles = self.read_int_list(self._file, self._number_binned_angles)
+        self._number_binned_angles = read_int(self._file)
+        self._binned_angles = read_int_list(self._file, self._number_binned_angles)
 
     def get_angles(self):
         if self._angles is None:

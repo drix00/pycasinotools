@@ -32,12 +32,12 @@ import math
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_double, read_long, read_int, read_str
 
 # Globals and constants variables.
 
 
-class GraphData(FileReaderWriterTools):
+class GraphData:
     def __init__(self, size=0, borne_inf=0.0, borne_sup=0.0, is_log=False, is_uneven=False, title="", x_title="",
                  y_title="", file=None):
         if file is not None:
@@ -60,26 +60,26 @@ class GraphData(FileReaderWriterTools):
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
-        self._version = self.read_long(file)
+        self._version = read_long(file)
         if self._version >= 2040601:
-            self._size = self.read_long(file)
-            self._borneInf = self.read_double(file)
-            self._borneSup = self.read_double(file)
-            self._isLog = self.read_int(file)
-            self._isUneven = self.read_int(file)
+            self._size = read_long(file)
+            self._borneInf = read_double(file)
+            self._borneSup = read_double(file)
+            self._isLog = read_int(file)
+            self._isUneven = read_int(file)
 
-            self._title = self.read_str(file)
-            self._xTitle = self.read_str(file)
-            self._yTitle = self.read_str(file)
+            self._title = read_str(file)
+            self._xTitle = read_str(file)
+            self._yTitle = read_str(file)
 
             self._values = []
             self._positions = []
             for dummy in range(self._size):
-                value = self.read_double(file)
+                value = read_double(file)
                 self._values.append(value)
 
                 if self._isUneven:
-                    position = self.read_double(file)
+                    position = read_double(file)
                     self._positions.append(position)
 
             if not self._isUneven:

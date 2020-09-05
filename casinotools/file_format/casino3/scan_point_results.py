@@ -32,7 +32,8 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double, read_bool
+from casinotools.file_format.tags import find_tag
 from casinotools.file_format.casino3.transmitted_angles import TransmittedAngles
 from casinotools.file_format.casino3.region_intensity_info import RegionIntensityInfo
 from casinotools.file_format.casino3.trajectory import Trajectory
@@ -45,7 +46,7 @@ from casinotools.file_format.casino3.point_spread_function_matrix import PointSp
 # Globals and constants variables.
 
 
-class ScanPointResults(FileReaderWriterTools):
+class ScanPointResults:
     def __init__(self):
         self._version = 0
 
@@ -116,84 +117,84 @@ class ScanPointResults(FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tag_id = b"*SCANPTRUNTIME%"
-        if self.find_tag(file, tag_id):
-            self._version = self.read_int(file)
+        if find_tag(file, tag_id):
+            self._version = read_int(file)
 
-            self._x = self.read_double(file)
-            self._y = self.read_double(file)
-            self._z = self.read_double(file)
+            self._x = read_double(file)
+            self._y = read_double(file)
+            self._z = read_double(file)
 
-            self._initial_energy_keV = self.read_double(file)
-            self._rko_max = self.read_double(file)
-            self._rko_max_w = self.read_double(file)
+            self._initial_energy_keV = read_double(file)
+            self._rko_max = read_double(file)
+            self._rko_max_w = read_double(file)
 
-            self._number_simulated_trajectories = self.read_int(file)
-            self._being_processed = self.read_int(file)
+            self._number_simulated_trajectories = read_int(file)
+            self._being_processed = read_int(file)
 
-            self._backscattered_coefficient = self.read_double(file)
-            self._backscattered_detected_coefficient = self.read_double(file)
-            self._secondary_coefficient = self.read_double(file)
-            self._transmitted_coefficient = self.read_double(file)
-            self._transmitted_detected_coefficient = self.read_double(file)
-            self._number_backscattered_electrons = self.read_int(file)
-            self._number_backscattered_electrons_detected = self.read_double(file)
-            self._number_secondary_electrons = self.read_int(file)
+            self._backscattered_coefficient = read_double(file)
+            self._backscattered_detected_coefficient = read_double(file)
+            self._secondary_coefficient = read_double(file)
+            self._transmitted_coefficient = read_double(file)
+            self._transmitted_detected_coefficient = read_double(file)
+            self._number_backscattered_electrons = read_int(file)
+            self._number_backscattered_electrons_detected = read_double(file)
+            self._number_secondary_electrons = read_int(file)
 
             self._transmitted_angles = TransmittedAngles()
             self._transmitted_angles.read(file)
 
-            self._number_results = self.read_int(file)
+            self._number_results = read_int(file)
             self._region_intensity_infos = []
             for dummy in range(self._number_results):
                 region_intensity_info = RegionIntensityInfo()
                 region_intensity_info.read(file)
                 self._region_intensity_infos.append(region_intensity_info)
 
-            self._is_dz_max = self.read_bool(file)
+            self._is_dz_max = read_bool(file)
             if self._is_dz_max:
                 self.dz_max = GraphData(file)
 
-            self._isDZMaxRetro = self.read_bool(file)
+            self._isDZMaxRetro = read_bool(file)
             if self._isDZMaxRetro:
                 self.dzMaxRetro = GraphData(file)
 
-            self._isDENR = self.read_bool(file)
+            self._isDENR = read_bool(file)
             if self._isDENR:
                 self.DENR = GraphData(file)
 
-            self._isDENT = self.read_bool(file)
+            self._isDENT = read_bool(file)
             if self._isDENT:
                 self.DENT = GraphData(file)
 
-            self._isDrasRetro = self.read_bool(file)
+            self._isDrasRetro = read_bool(file)
             if self._isDrasRetro:
                 self.DrasRetro = GraphData(file)
 
-            self._isDrasRetroEnr = self.read_bool(file)
+            self._isDrasRetroEnr = read_bool(file)
             if self._isDrasRetroEnr:
                 self.DrasRetroEnr = GraphData(file)
 
-            self._isDEnergy_Density = self.read_bool(file)
+            self._isDEnergy_Density = read_bool(file)
             if self._isDEnergy_Density:
-                self.DEnergy_Density_Max_Energy = self.read_double(file)
+                self.DEnergy_Density_Max_Energy = read_double(file)
                 self._DEnergy_Density = EnergyMatrix(options, self.get_position())
                 self._DEnergy_Density.read(file)
 
-            self._isDDiffusedEnergy_Density = self.read_bool(file)
+            self._isDDiffusedEnergy_Density = read_bool(file)
             if self._isDDiffusedEnergy_Density:
                 self._DDiffusedEnergy_Density = DiffusedEnergyMatrix(options, self.get_position())
                 self._DDiffusedEnergy_Density.read(file)
 
-            self._isDbang = self.read_bool(file)
+            self._isDbang = read_bool(file)
             if self._isDbang:
                 self.Dbang = GraphData(file)
 
-            self._isDEnBang = self.read_bool(file)
+            self._isDEnBang = read_bool(file)
             if self._isDEnBang:
                 self.DEnBang = GraphData(file)
 
             if SIM_OPTIONS_VERSION_3_3_0_0 <= self._version < SIM_OPTIONS_VERSION_3_3_0_4:
-                self._isPsf = self.read_bool(file)
+                self._isPsf = read_bool(file)
                 if self._isPsf:
                     self._pointSpreadFunctionMatrix = PointSpreadFunctionMatrix(options, self.get_position())
                     self._pointSpreadFunctionMatrix.read(file)
@@ -202,7 +203,7 @@ class ScanPointResults(FileReaderWriterTools):
             else:
                 self._isPsf = False
 
-            self._numberTrajectories = self.read_int(file)
+            self._numberTrajectories = read_int(file)
             self._trajectories = []
             for dummy in range(self._numberTrajectories):
                 trajectory = Trajectory()

@@ -31,7 +31,8 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double, read_float
+from casinotools.file_format.tags import find_tag
 
 # Globals and constants variables.
 # Filename to store the defaults settings
@@ -155,7 +156,7 @@ BEAM_CONEALGO_DEFAULT = CONE_FOCUS_NONE
 #    float scan_point_distribution
 
 
-class OptionsMicro(FileReaderWriterTools):
+class OptionsMicro:
     def __init__(self):
         self.beam_angle = 0.0
         self.trajectories_number = 1000
@@ -230,38 +231,38 @@ class OptionsMicro(FileReaderWriterTools):
 
     def read(self, file):
         tag_id = b"*MICRO_SET_BEG"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
-        self._version = self.read_int(file)
+        self._version = read_int(file)
 
-        self.scanning_mode = self.read_int(file)
-        self.x_plane_position = self.read_double(file)
-        self.y_plane_position = self.read_double(file)
+        self.scanning_mode = read_int(file)
+        self.x_plane_position = read_double(file)
+        self.y_plane_position = read_double(file)
 
-        self.noise_type = self.read_int(file)
-        self.noise_enabled = self.read_int(file)
-        self.noise_percentage = self.read_double(file)
+        self.noise_type = read_int(file)
+        self.noise_enabled = read_int(file)
+        self.noise_percentage = read_double(file)
 
-        self.beam_angle = self.read_double(file)
-        self.beam_radius = self.read_double(file)
-        self.beam_aperture_width = self.read_double(file)
-        self.z_plane_position = self.read_double(file)
-        self.beam_dist_variance = self.read_double(file)
-        self.beam_distribution = self.read_int(file)
-        self.beam_adv_set = self.read_int(file)
+        self.beam_angle = read_double(file)
+        self.beam_radius = read_double(file)
+        self.beam_aperture_width = read_double(file)
+        self.z_plane_position = read_double(file)
+        self.beam_dist_variance = read_double(file)
+        self.beam_distribution = read_int(file)
+        self.beam_adv_set = read_int(file)
 
-        self.trajectories_number = self.read_int(file)
-        self.KEV_End = self.read_double(file)
-        self.KEV_Start = self.read_double(file)
-        self.KEV_Step = self.read_double(file)
-        self.multiple_scan_energy = self.read_int(file)
-        self.generate_secondary = self.read_int(file)
-        self.generate_x_rays = self.read_int(file)
-        self.scan_point_distribution = self.read_float(file)
-        self.keep_simulation_data = self.read_int(file)
+        self.trajectories_number = read_int(file)
+        self.KEV_End = read_double(file)
+        self.KEV_Start = read_double(file)
+        self.KEV_Step = read_double(file)
+        self.multiple_scan_energy = read_int(file)
+        self.generate_secondary = read_int(file)
+        self.generate_x_rays = read_int(file)
+        self.scan_point_distribution = read_float(file)
+        self.keep_simulation_data = read_int(file)
 
         tag_id = b"*MICRO_SET_END"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
     def reset(self):
         self.beam_angle = 0.0

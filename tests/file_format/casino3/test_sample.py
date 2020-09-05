@@ -71,10 +71,10 @@ def test_read(filepath_sim):
     assert box_shape._version == 30105004
     assert box_shape._name == "Box_0"
     assert box_shape._region_name == "Undefined"
-    assert box_shape._translation == (0.0, 0.0, 5000.0)
-    assert box_shape._rotation == (0.0, 0.0, 0.0)
-    assert box_shape._scale == (10000.0, 10000.0, 10000.0)
-    assert box_shape._color == (0.984375, 0.0, 0.0)
+    assert box_shape._translation == [0.0, 0.0, 5000.0]
+    assert box_shape._rotation == [0.0, 0.0, 0.0]
+    assert box_shape._scale == [10000.0, 10000.0, 10000.0]
+    assert box_shape._color == [0.984375, 0.0, 0.0]
 
     assert sample._maxSampleTreeLevel == 20
 
@@ -98,10 +98,10 @@ def test_read3202(filepath_sim_3202):
     assert box_shape._version == 30105004
     assert box_shape._name == "Box_0"
     assert box_shape._region_name == "Undefined"
-    assert box_shape._translation == (0.0, 0.0, 5000.0)
-    assert box_shape._rotation == (0.0, 0.0, 0.0)
-    assert box_shape._scale == (10000.0, 10000.0, 10000.0)
-    assert box_shape._color == (0.984375, 0.0, 0.0)
+    assert box_shape._translation == [0.0, 0.0, 5000.0]
+    assert box_shape._rotation == [0.0, 0.0, 0.0]
+    assert box_shape._scale == [10000.0, 10000.0, 10000.0]
+    assert box_shape._color == [0.984375, 0.0, 0.0]
 
     assert sample._maxSampleTreeLevel == 20
 

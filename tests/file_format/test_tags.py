@@ -25,6 +25,7 @@ Tests for the :py:mod:`casinotools.file_format.tags` module.
 ###############################################################################
 
 # Standard library modules.
+import struct
 
 # Third party modules.
 from pkg_resources import resource_filename
@@ -33,7 +34,8 @@ import pytest
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.tags import create_tag_with_filler, limited_search_tag, search_tag
+from casinotools.file_format.tags import _create_tag_with_filler, limited_search_tag, find_tag, add_tag, add_tag_old, \
+    _stream_search_slow, _stream_search_fast
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
@@ -42,7 +44,7 @@ from casinotools.utilities.path import is_bad_file
 @pytest.fixture()
 def sim_file():
     filepath = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
-    if is_bad_file(filepath):
+    if is_bad_file(filepath):  # pragma: no cover
         pytest.skip("Bad file for test")
 
     file = open(filepath, 'rb')
@@ -58,47 +60,105 @@ def test_is_discovered():
     assert True
 
 
-def test_create_tag_with_filler():
-    tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
-
+@pytest.mark.parametrize("tag_id, tag_ref",
+                         [(b"V3.1.3.4", b"V3.1.3.4%%%%%%%"),
+                          (b"V3.1.3.7",  b"V3.1.3.7%%%%%%%"),
+                          (b"%SAVE_HEADER%",  b"%SAVE_HEADER%%%"),
+                          ])
+def test_create_tag_with_filler_length15(tag_id, tag_ref):
     tag_length = 15
     filler = b'%'
 
-    tag_refs = [b"V3.1.3.4%%%%%%%", b"V3.1.3.7%%%%%%%", b"%SAVE_HEADER%%%"]
+    tag = _create_tag_with_filler(tag_id, tag_length, filler)
+    assert tag == tag_ref
 
-    for tag_id, tag_ref in zip(tag_ids, tag_refs):
-        tag = create_tag_with_filler(tag_id, tag_length, filler)
 
-        assert tag == tag_ref
-
+@pytest.mark.parametrize("tag_id, tag_ref",
+                         [(b"V3.1.3.4", b"V3.1.3.4%%"),
+                          (b"V3.1.3.7",  b"V3.1.3.7%%"),
+                          (b"%SAVE_HEADER%",  b"%SAVE_HEADER%"),
+                          ])
+def test_create_tag_with_filler_length10(tag_id, tag_ref):
     tag_length = 10
-    tag_refs = [b"V3.1.3.4%%", b"V3.1.3.7%%", b"%SAVE_HEADER%"]
+    filler = b'%'
 
-    for tag_id, tag_ref in zip(tag_ids, tag_refs):
-        tag = create_tag_with_filler(tag_id, tag_length, filler)
-
-        assert tag == tag_ref
+    tag = _create_tag_with_filler(tag_id, tag_length, filler)
+    assert tag == tag_ref
 
 
-def test_limited_search_tag(sim_file):
+@pytest.mark.parametrize("tag_id, is_tag_found_ref",
+                         [(b"V3.1.3.4", False),
+                          (b"V3.1.3.7", False),
+                          (b"%SAVE_HEADER%", True),
+                          ])
+def test_limited_search_tag(sim_file, tag_id, is_tag_found_ref):
     search_length = 1024
-
-    tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
-
-    is_tag_founds = [False, False, True]
-
-    for tag_id, is_tag_found_ref in zip(tag_ids, is_tag_founds):
-        is_tag_found = limited_search_tag(sim_file, tag_id, search_length)
-
-        assert is_tag_found == is_tag_found_ref
+    is_tag_found = limited_search_tag(sim_file, tag_id, search_length)
+    assert is_tag_found == is_tag_found_ref
 
 
-def test_search_tag(sim_file):
-    tag_ids = [b"V3.1.3.4", b"V3.1.3.7", b"%SAVE_HEADER%"]
+@pytest.mark.parametrize("tag_id, is_tag_found_ref",
+                         [(b"V3.1.3.4", False),
+                          (b"V3.1.3.7", False),
+                          (b"%SAVE_HEADER%", True),
+                          ])
+def test_find_tag(sim_file, tag_id, is_tag_found_ref):
+    is_tag_found = find_tag(sim_file, tag_id)
+    assert is_tag_found == is_tag_found_ref
 
-    is_tag_founds = [False, False, True]
 
-    for tag_id, is_tag_found_ref in zip(tag_ids, is_tag_founds):
-        is_tag_found = search_tag(sim_file, tag_id)
+@pytest.mark.parametrize("tag_id, is_tag_found_ref",
+                         [(b"V3.1.3.4", False),
+                          (b"V3.1.3.7", False),
+                          (b"%SAVE_HEADER%", True),
+                          ])
+def test_stream_search_slow(sim_file, tag_id, is_tag_found_ref):
+    is_tag_found = _stream_search_slow(sim_file, tag_id)
+    assert is_tag_found == is_tag_found_ref
 
-        assert is_tag_found == is_tag_found_ref
+
+@pytest.mark.parametrize("tag_id, is_tag_found_ref",
+                         [(b"V3.1.3.4", False),
+                          (b"V3.1.3.7", False),
+                          (b"%SAVE_HEADER%", True),
+                          ])
+def test_stream_search_fast(sim_file, tag_id, is_tag_found_ref):
+    is_tag_found = _stream_search_fast(sim_file, tag_id)
+    assert is_tag_found == is_tag_found_ref
+
+
+@pytest.mark.parametrize("tag_id, tag_ref",
+                         [(b"V3.1.3.4", b"V3.1.3.4%%"),
+                          (b"V3.1.3.7",  b"V3.1.3.7%%"),
+                          (b"%SAVE_HEADER%",  b"%SAVE_HEADER%"),
+                          ])
+def test_add_tag(tmpdir, tag_id, tag_ref):
+    tag_length = 15
+    size_int = struct.calcsize("i")
+    file_path = tmpdir / "test_add_tag.sim"
+    with open(file_path, 'wb') as fp:
+        start_pos = fp.tell()
+        add_tag(fp, tag_id, tag_length)
+        assert fp.tell() == start_pos + size_int + tag_length + 1
+
+    with open(file_path, 'rb') as fp:
+        assert find_tag(fp, tag_id) is True
+        assert find_tag(fp, tag_ref) is False
+
+
+@pytest.mark.parametrize("tag_id, tag_ref",
+                         [(b"V3.1.3.4", b"V3.1.3.4%%"),
+                          (b"V3.1.3.7",  b"V3.1.3.7%%"),
+                          (b"%SAVE_HEADER%",  b"%SAVE_HEADER%"),
+                          ])
+def test_add_tag_old(tmpdir, tag_id, tag_ref):
+    tag_length = 15
+    file_path = tmpdir / "test_add_tag.sim"
+    with open(file_path, 'wb') as fp:
+        start_pos = fp.tell()
+        add_tag_old(fp, tag_id, tag_length)
+        assert fp.tell() == start_pos + tag_length + 1
+
+    with open(file_path, 'rb') as fp:
+        assert find_tag(fp, tag_id) is True
+        assert find_tag(fp, tag_ref) is False

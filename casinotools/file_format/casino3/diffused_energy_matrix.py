@@ -34,6 +34,8 @@ import os
 
 # Project modules.
 from casinotools.file_format.casino3.energy_matrix import EnergyMatrix
+from casinotools.file_format.file_reader_writer_tools import read_int, get_size_of_double_list
+from casinotools.file_format.tags import find_tag
 
 # Globals and constants variables.
 DIFFUSED_TAG = b"Diffused%Energy"
@@ -62,18 +64,18 @@ class DiffusedEnergyMatrix(EnergyMatrix):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
         tag_id = DIFFUSED_TAG
-        if self.find_tag(file, tag_id):
-            self._version = self.read_int(file)
+        if find_tag(file, tag_id):
+            self._version = read_int(file)
 
             self._number_elements = self._number_points_x * self._number_points_y * self._number_points_z
             self._start_position = file.tell()
-            # self._values = self.read_double_list(file, self._number_elements)
-            skip_offset = self.get_size_of_double_list(self._number_elements)
+            # self._values = read_double_list(file, self._number_elements)
+            skip_offset = get_size_of_double_list(self._number_elements)
             file.seek(skip_offset, os.SEEK_CUR)
 
             logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "read", file.tell())
             tag_id = DIFFUSED_END_TAG
-            if not self.find_tag(file, tag_id):
+            if not find_tag(file, tag_id):
                 raise IOError
 
         self._end_position = file.tell()

@@ -34,9 +34,10 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.tags import limited_search_tag, TAG_LENGTH
+from casinotools.file_format.tags import limited_search_tag, TAG_LENGTH, add_tag
 from casinotools.file_format.casino3.simulation_data import SimulationData
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, _write_str_length, write_int, \
+    _extract_version_string, write_line
 
 # Globals and constants variables.
 SIMULATION_CONFIGURATIONS = "sim"
@@ -50,7 +51,7 @@ V30104060 = 30104060
 V30107002 = 30107002
 
 
-class SaveContent(object):
+class SaveContent:
     def __init__(self):
         self.sample = False
         self.options = False
@@ -59,7 +60,7 @@ class SaveContent(object):
         self.runtime = False
 
 
-class File(FileReaderWriterTools):
+class File:
     def __init__(self, filepath, is_modifiable=False):
         self._filepath = filepath
         self._is_modifiable = is_modifiable
@@ -167,7 +168,7 @@ class File(FileReaderWriterTools):
 
         self._numberSimulations = 1
         if self._version >= 30107002:
-            self._numberSimulations = self.read_int(file)
+            self._numberSimulations = read_int(file)
 
         self._simulation_list = []
         for i in range(self._numberSimulations):
@@ -225,7 +226,7 @@ class File(FileReaderWriterTools):
 
         tag_id = b"%SAVE_HEADER%"
         if limited_search_tag(file, tag_id, SAVEFILE_HEADER_MAXCHAR, TAG_LENGTH):
-            version = self.read_int(file)
+            version = read_int(file)
 
         return version
 
@@ -252,25 +253,25 @@ class File(FileReaderWriterTools):
             self._write_one_simulation(file, simulationData)
 
     def _write_extension(self, file, extension):
-        self.add_tag(file, "ext=")
+        add_tag(file, "ext=")
         size = len(extension)
-        self.write_str_length(file, extension, size)
+        _write_str_length(file, extension, size)
 
     def _write_version(self, file, version):
-        self.add_tag(file, "%SAVE_HEADER%")
-        self.write_int(file, version)
+        add_tag(file, "%SAVE_HEADER%")
+        write_int(file, version)
 
     def _write_number_simulations(self, file):
         assert self._numberSimulations == 1
         assert self._numberSimulations == len(self._simulation_list)
 
-        self.write_int(file, self._numberSimulations)
+        write_int(file, self._numberSimulations)
 
     def _write_one_simulation(self, file, simulation_data):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_write_one_simulation",
                       file.tell())
 
-        self.write_int(file, V30107002)
+        write_int(file, V30107002)
 
         if self._save_content.sample:
             simulation_data.write_sample(file)
@@ -338,41 +339,41 @@ class File(FileReaderWriterTools):
     def _export_filename(self, export_file):
         filename = os.path.basename(self._filepath)
         line = "Filename: {}".format(filename)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
         line = "Filepath: {}".format(self._filepath)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
     def _export_file_type(self, export_file):
         line = "File shape_type: {}".format(self._type)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
     def _export_file_version(self, export_file):
         version = self.get_version()
-        version_string = self._extract_version_string(version)
+        version_string = _extract_version_string(version)
         line = "File version: {} ({:d})".format(version_string, version)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
     def _export_header(self, export_file):
         line = "-"*80
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
         line = "{}".format("Simulations")
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
         line = "-"*40
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
     def _export_number_simulations(self, export_file):
         line = "Number of simulations: {}".format(self._numberSimulations)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
     def _export_simulations(self, export_file):
         simulation_id = 0
         for simulation in self._simulation_list:
             simulation_id += 1
             line = "Simulation: {:d}".format(simulation_id)
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
             simulation.export(export_file)
 

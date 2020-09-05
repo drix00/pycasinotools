@@ -34,14 +34,15 @@ import os.path
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int
+from casinotools.file_format.tags import find_tag
 from casinotools.file_format.casino2.simulation_data import SimulationData, TAG_VERSION
 from casinotools.file_format.casino2.version import UNKNOWN_VERSION
 
 # Globals and constants variables.
 
 
-class File(FileReaderWriterTools):
+class File:
     def __init__(self):
         self._filepath = None
         self._optionSimulationData = None
@@ -73,7 +74,7 @@ class File(FileReaderWriterTools):
 
         # Read the results for each simulations if the file is a .cas.
         if self._optionSimulationData._save_trajectories:
-            self._numberSimulations = self.read_int(file)
+            self._numberSimulations = read_int(file)
 
             for dummy in range(self._numberSimulations):
                 simulation_data = SimulationData(is_skip_reading_data)
@@ -125,9 +126,9 @@ class File(FileReaderWriterTools):
             casino_file.seek(0)
 
             tag_id = TAG_VERSION
-            if self.find_tag(casino_file, tag_id):
+            if find_tag(casino_file, tag_id):
                 logging.debug("File pos: %i", casino_file.tell())
-                version = self.read_int(casino_file)
+                version = read_int(casino_file)
 
         return version
 

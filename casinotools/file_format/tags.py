@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: module_name
+.. py:currentmodule:: casinotools.file_format.tags
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Description
@@ -40,14 +40,14 @@ BUFFER_LENGTH = 500
 
 
 def limited_search_tag(file, tag_id, search_length, tag_length=0, filler=b'%'):
-    tag = create_tag_with_filler(tag_id, tag_length, filler)
+    tag = _create_tag_with_filler(tag_id, tag_length, filler)
 
-    is_tag_found = limited_stream_search(file, tag, search_length)
+    is_tag_found = _limited_stream_search(file, tag, search_length)
 
     return is_tag_found
 
 
-def create_tag_with_filler(tag_id, tag_length, filler):
+def _create_tag_with_filler(tag_id, tag_length, filler):
     assert isinstance(tag_id, bytes)
     assert isinstance(filler, bytes)
 
@@ -60,7 +60,7 @@ def create_tag_with_filler(tag_id, tag_length, filler):
     return tag
 
 
-def limited_stream_search(file, tag, search_length):
+def _limited_stream_search(file, tag, search_length):
     """
     Search a stream for a tag with a limited length search.
 
@@ -87,29 +87,33 @@ def limited_stream_search(file, tag, search_length):
         return True
 
 
-def search_tag(file, tag_id, tag_length=0, filler=b'%'):
-    tag = create_tag_with_filler(tag_id, tag_length, filler)
+def find_tag(file, tag_id):
+    return _search_tag(file, tag_id, TAG_LENGTH)
+
+
+def _search_tag(file, tag_id, tag_length=0, filler=b'%'):
+    tag = _create_tag_with_filler(tag_id, tag_length, filler)
 
     is_tag_found = _stream_search_fast(file, tag)
 
     return is_tag_found
 
 
-def add_tag(file, tag_id, tag_length=0, filler=b'%'):
+def add_tag(file, tag_id, tag_length=TAG_LENGTH, filler=b'%'):
     start_pos = file.tell()
-    tag = create_tag_with_filler(tag_id, tag_length, filler)
-    tag += "\0"
+    tag = _create_tag_with_filler(tag_id, tag_length, filler)
+    tag += b"\0"
     size = len(tag)
     buffer = struct.pack("i", size)
     file.write(buffer)
     file.write(tag)
-    size = struct.calcsize("i")
-    assert file.tell() == start_pos + size + tag_length + 1
+    size_int = struct.calcsize("i")
+    assert file.tell() == start_pos + size_int + tag_length + 1
 
 
-def add_tag_old(file, tag_id, tag_length=0, filler=b'%'):
+def add_tag_old(file, tag_id, tag_length=TAG_LENGTH, filler=b'%'):
     start_pos = file.tell()
-    tag = create_tag_with_filler(tag_id, tag_length, filler)
+    tag = _create_tag_with_filler(tag_id, tag_length, filler)
     tag += b"\0"
     file.write(tag)
     assert file.tell() == start_pos + tag_length + 1

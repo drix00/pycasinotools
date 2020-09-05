@@ -31,7 +31,8 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double
+from casinotools.file_format.tags import find_tag
 
 # Globals and constants variables.
 # Filename to store the defaults settings
@@ -68,7 +69,7 @@ DEPOS_DIFFUSION_MINIMUM_ENERGY_DEFAULT = 1e-14
 
 # normalize or not the energy with the volume of the indexes
 #    int normalize
-class OptionsEnergyByPos(FileReaderWriterTools):
+class OptionsEnergyByPos:
     def __init__(self):
         self.diffuse = 0
         self.depos_summation = 1
@@ -105,27 +106,27 @@ class OptionsEnergyByPos(FileReaderWriterTools):
 
     def read(self, file):
         tag_id = b"*EN_POS_SET_BEG"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
-        self._version = self.read_int(file)
+        self._version = read_int(file)
 
-        self.diffuse = self.read_int(file)
+        self.diffuse = read_int(file)
 
-        self.depos_summation = self.read_int(file)
-        self.x_zor_xy = self.read_int(file)
-        self.y_plane = self.read_int(file)
-        self.z_plane = self.read_int(file)
-        self.depos_iso_level = self.read_double(file)
+        self.depos_summation = read_int(file)
+        self.x_zor_xy = read_int(file)
+        self.y_plane = read_int(file)
+        self.z_plane = read_int(file)
+        self.depos_iso_level = read_double(file)
 
-        self.carrier_surface_recombination = self.read_double(file)
+        self.carrier_surface_recombination = read_double(file)
 
-        self.normalize = self.read_int(file)
+        self.normalize = read_int(file)
 
         # obsolete minimumDiffusionEnergy =
-        self.read_double(file)
+        read_double(file)
 
         tag_id = b"*EN_POS_SET_END"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
     def reset(self):
         self.diffuse = 0

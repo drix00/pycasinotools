@@ -153,7 +153,7 @@ def flatten(d, parent_key='', sep='.'):
     return dict(items)
 
 
-def deflatten(d, parent_key='', sep='.'):
+def deflatten(d, sep='.'):
     new_dict = {}
     for k, v in d.items():
         keys = k.split(sep)

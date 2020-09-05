@@ -34,7 +34,7 @@ import numpy as np
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import get_size_of_double_list, read_double_list
 from casinotools.file_format.casino3.options_dist import DIST_DEPOS_TYPE_CARTESIAN, DIST_DEPOS_TYPE_CYLINDRIC
 from casinotools.file_format.casino3.options_dist import DIST_DEPOS_TYPE_SPHERIC
 
@@ -47,7 +47,7 @@ from casinotools.file_format.casino3.options_dist import DIST_DEPOS_TYPE_SPHERIC
 # Globals and constants variables.
 
 
-class EnergyMatrix(FileReaderWriterTools):
+class EnergyMatrix:
     """
     Energy matrix date from casino simulation results file.
 
@@ -89,8 +89,8 @@ class EnergyMatrix(FileReaderWriterTools):
 
         self._number_elements = self._number_points_x * self._number_points_y * self._number_points_z
         self._start_position = file.tell()
-        # self._values = self.read_double_list(file, self._number_elements)
-        skip_offset = self.get_size_of_double_list(self._number_elements)
+        # self._values = read_double_list(file, self._number_elements)
+        skip_offset = get_size_of_double_list(self._number_elements)
         file.seek(skip_offset, os.SEEK_CUR)
 
         self._end_position = file.tell()
@@ -101,7 +101,7 @@ class EnergyMatrix(FileReaderWriterTools):
             self._file = open(self._file_pathname, 'rb')
 
         self._file.seek(self._start_position)
-        self._values = self.read_double_list(self._file, self._number_elements)
+        self._values = read_double_list(self._file, self._number_elements)
 
     def get_data(self):
         if self._data is None:

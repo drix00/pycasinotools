@@ -38,6 +38,7 @@ from casinotools.file_format.casino3.sample_object import SampleObject
 from casinotools.file_format.casino3.sample_shape.shape_type import \
     (SHAPE_PLANE, SHAPE_BOX, SHAPE_SPHERE, SHAPE_CONE, SHAPE_CYLINDRE,
      SHAPE_ROUNDREC, SHAPE_TRUNC_PYRAMID, SHAPE_MESHOBJECT, SHAPE_SUBSTRATE)
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double, read_double_list
 
 # Globals and constants variables.
 
@@ -111,8 +112,8 @@ class CylindreShape(SampleObject):
 
         super(CylindreShape, self).read(file)
 
-        self._radius = self.read_double(file)
-        self._div_theta = self.read_int(file)
+        self._radius = read_double(file)
+        self._div_theta = read_int(file)
 
 
 class RoundedRectangleShape(SampleObject):
@@ -157,15 +158,15 @@ class TruncatedPyramidShape(SampleObject):
 
         if self._version < 30105004:
             for dummyIndex in range(8):
-                _dummy_corner = self.read_double_list(file, 3)
+                _dummy_corner = read_double_list(file, 3)
 
-        self._x = self.read_double(file)
-        self._y = self.read_double(file)
-        self._z = self.read_double(file)
-        self._angle_a_deg = self.read_double(file)
-        self._angle_b_deg = self.read_double(file)
-        self._angle_c_deg = self.read_double(file)
-        self._angle_d_deg = self.read_double(file)
+        self._x = read_double(file)
+        self._y = read_double(file)
+        self._z = read_double(file)
+        self._angle_a_deg = read_double(file)
+        self._angle_b_deg = read_double(file)
+        self._angle_c_deg = read_double(file)
+        self._angle_d_deg = read_double(file)
 
 
 class MeshObject(SampleObject):

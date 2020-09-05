@@ -33,7 +33,9 @@ import math
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double, _read_str_length, \
+    write_int, write_double, _write_str_length
+from casinotools.file_format.tags import find_tag
 
 # Globals and constants variables.
 LINE_K = 'K'
@@ -46,7 +48,7 @@ EMITTED = "Emitted"
 TAG_ELEMENT_DATA = b"*ELEMENTDATA_XX"
 
 
-class Element(FileReaderWriterTools):
+class Element:
     def __init__(self):
         self._version = None
         self._element_id = 0
@@ -77,36 +79,36 @@ class Element(FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tag_id = TAG_ELEMENT_DATA
-        self.find_tag(file, tag_id)
-        self._version = self.read_int(file)
+        find_tag(file, tag_id)
+        self._version = read_int(file)
 
-        self._element_id = self.read_int(file)
-        self._weight_fraction = self.read_double(file)
-        self._atomic_fraction = self.read_double(file)
-        self._sigma_total_elastic = self.read_double(file)
-        self._repetition = self.read_int(file)
-        self.z = self.read_double(file)
-        self._virtual_element_integer = self.read_int(file)
+        self._element_id = read_int(file)
+        self._weight_fraction = read_double(file)
+        self._atomic_fraction = read_double(file)
+        self._sigma_total_elastic = read_double(file)
+        self._repetition = read_int(file)
+        self.z = read_double(file)
+        self._virtual_element_integer = read_int(file)
 
-        self.name = self.read_str_length(file, 3)
-        self.rho = self.read_double(file)
-        self.A = self.read_double(file)
-        self.J = self.read_double(file)
-        self.K_Gauvin = self.read_double(file)
-        self.K_Monsel = self.read_double(file)
-        self.ef = self.read_double(file)
-        self.kf = self.read_double(file)
-        self.ep = self.read_double(file)
+        self.name = _read_str_length(file, 3)
+        self.rho = read_double(file)
+        self.A = read_double(file)
+        self.J = read_double(file)
+        self.K_Gauvin = read_double(file)
+        self.K_Monsel = read_double(file)
+        self.ef = read_double(file)
+        self.kf = read_double(file)
+        self.ep = read_double(file)
 
         # This is the intensities as displayed in the casino program.
         self.Int_PRZ = []
         for dummy in range(3):
-            value = self.read_double(file)
+            value = read_double(file)
             self.Int_PRZ.append(value)
 
         self.Int_PRZ_ABS = []
         for dummy in range(3):
-            value = self.read_double(file)
+            value = read_double(file)
             self.Int_PRZ_ABS.append(value)
 
     def write(self, file):
@@ -118,38 +120,38 @@ class Element(FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tagID = TAG_ELEMENT_DATA
-        self.find_tag(file, tagID)
+        find_tag(file, tagID)
 
-        self.write_int(file, self._version)
+        write_int(file, self._version)
 
-        self.write_int(file, self._element_id)
-        self.write_double(file, self._weight_fraction)
-        self.write_double(file, self._atomic_fraction)
-        self.write_double(file, self._sigma_total_elastic)
-        self.write_int(file, self._repetition)
-        self.write_double(file, self.z)
-        self.write_int(file, self._virtual_element_integer)
+        write_int(file, self._element_id)
+        write_double(file, self._weight_fraction)
+        write_double(file, self._atomic_fraction)
+        write_double(file, self._sigma_total_elastic)
+        write_int(file, self._repetition)
+        write_double(file, self.z)
+        write_int(file, self._virtual_element_integer)
 
-        self.write_str_length(file, self.name, 3)
-        self.write_double(file, self.rho)
-        self.write_double(file, self.A)
-        self.write_double(file, self.J)
-        self.write_double(file, self.K_Gauvin)
-        self.write_double(file, self.K_Monsel)
-        self.write_double(file, self.ef)
-        self.write_double(file, self.kf)
-        self.write_double(file, self.ep)
+        _write_str_length(file, self.name, 3)
+        write_double(file, self.rho)
+        write_double(file, self.A)
+        write_double(file, self.J)
+        write_double(file, self.K_Gauvin)
+        write_double(file, self.K_Monsel)
+        write_double(file, self.ef)
+        write_double(file, self.kf)
+        write_double(file, self.ep)
 
         # This is the intensities as displayed in the casino program.
         assert len(self.Int_PRZ) == 3
         for index in range(3):
             value = self.Int_PRZ[index]
-            self.write_double(file, value)
+            write_double(file, value)
 
         assert len(self.Int_PRZ_ABS) == 3
         for index in range(3):
             value = self.Int_PRZ_ABS[index]
-            self.write_double(file, value)
+            write_double(file, value)
 
     def get_atomic_number(self):
         return self.z

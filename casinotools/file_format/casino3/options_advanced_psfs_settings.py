@@ -31,14 +31,15 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_bool, read_double
+from casinotools.file_format.tags import find_tag
 from casinotools.file_format.casino3.version import SIM_OPTIONS_VERSION_3_3_0_0
 from casinotools.file_format.casino3.vector import Vector
 
 # Globals and constants variables.
 
 
-class OptionsAdvancedPsfsSettings(FileReaderWriterTools):
+class OptionsAdvancedPsfsSettings:
     def __init__(self):
         self._generatePsf = True
         self._useScanPointForCenter = True
@@ -63,33 +64,33 @@ class OptionsAdvancedPsfsSettings(FileReaderWriterTools):
         assert input_file.mode == 'rb'
 
         tag_id = b"*PSF_SET_BEG"
-        self.find_tag(input_file, tag_id)
+        find_tag(input_file, tag_id)
 
-        self._version = self.read_int(input_file)
+        self._version = read_int(input_file)
         assert self._version >= SIM_OPTIONS_VERSION_3_3_0_0
 
-        self._generatePsf = self.read_bool(input_file)
-        self._useScanPointForCenter = self.read_bool(input_file)
+        self._generatePsf = read_bool(input_file)
+        self._useScanPointForCenter = read_bool(input_file)
 
-        self._autoExportPsfData = self.read_bool(input_file)
-        self._exportTiff = self.read_bool(input_file)
-        self._exportCsv = self.read_bool(input_file)
-        self._exportStackedTiff = self.read_bool(input_file)
+        self._autoExportPsfData = read_bool(input_file)
+        self._exportTiff = read_bool(input_file)
+        self._exportCsv = read_bool(input_file)
+        self._exportStackedTiff = read_bool(input_file)
 
-        self._psfSize_nm.x = self.read_double(input_file)
-        self._psfSize_nm.y = self.read_double(input_file)
-        self._psfSize_nm.z = self.read_double(input_file)
+        self._psfSize_nm.x = read_double(input_file)
+        self._psfSize_nm.y = read_double(input_file)
+        self._psfSize_nm.z = read_double(input_file)
 
-        self._psfNumberSteps.x = self.read_int(input_file)
-        self._psfNumberSteps.y = self.read_int(input_file)
-        self._psfNumberSteps.z = self.read_int(input_file)
+        self._psfNumberSteps.x = read_int(input_file)
+        self._psfNumberSteps.y = read_int(input_file)
+        self._psfNumberSteps.z = read_int(input_file)
 
-        self._psfCenter_nm.x = self.read_double(input_file)
-        self._psfCenter_nm.y = self.read_double(input_file)
-        self._psfCenter_nm.z = self.read_double(input_file)
+        self._psfCenter_nm.x = read_double(input_file)
+        self._psfCenter_nm.y = read_double(input_file)
+        self._psfCenter_nm.z = read_double(input_file)
 
         tag_id = b"*PSF_SET_END"
-        self.find_tag(input_file, tag_id)
+        find_tag(input_file, tag_id)
 
     def reset(self):
         self._generatePsf = True

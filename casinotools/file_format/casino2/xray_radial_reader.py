@@ -31,7 +31,7 @@ Description
 # Local modules.
 
 # Project modules.
-import casinotools.file_format.casino2.xray_radial as XrayRadial
+from casinotools.file_format.casino2.xray_radial import XrayRadial, DISTANCE_nm, INTENSITY_ABSORBED
 
 # Globals and constants variables.
 K = 'K'
@@ -41,7 +41,7 @@ HEADER_ELEMENT_LINE = "Radial XRay Distribution"
 HEADER_ELEMENT = "Radial Distribution of"
 HEADER_ALL = "XRay Radial of"
 
-class XrayRadialReader(object):
+class XrayRadialReader:
     def __init__(self):
         self._data = {}
         self._labels = []
@@ -90,7 +90,7 @@ class XrayRadialReader(object):
         self._currentElementSymbol = symbol.strip()
 
     def _isDataLabelLine(self, line):
-        return line.startswith(XrayRadial.DISTANCE_nm[:-5])
+        return line.startswith(DISTANCE_nm[:-5])
 
     def _extractDataLabelLineDataElementLine(self, line):
         items = line.split('\t')
@@ -104,12 +104,12 @@ class XrayRadialReader(object):
 
         self._labels = []
         if items[0] == "Distance(nm)":
-            self._labels.append(XrayRadial.DISTANCE_nm)
+            self._labels.append(DISTANCE_nm)
 
         for item in items[1:]:
             label, xrayline = item.split(':')
             if xrayline.strip().endswith('ABS'):
-                label = XrayRadial.INTENSITY_ABSORBED
+                label = INTENSITY_ABSORBED
                 xrayline = xrayline[0]
 
             self._labels.append((xrayline, label))
@@ -133,7 +133,7 @@ class XrayRadialReader(object):
                 xrayLine = self._currentLine
 
             self._data.setdefault(symbol, {})
-            self._data[symbol].setdefault(xrayLine, XrayRadial.XrayRadial())
+            self._data[symbol].setdefault(xrayLine, XrayRadial())
             xrayRadialData = self._data[symbol][xrayLine]
             xrayRadialData.set_line(xrayLine)
             xrayRadialData.set_element_symbol(symbol)

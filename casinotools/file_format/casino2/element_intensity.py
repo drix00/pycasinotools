@@ -31,12 +31,12 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import _read_str_length, read_double_list, read_long
 
 # Globals and constants variables.
 
 
-class ElementIntensity(FileReaderWriterTools):
+class ElementIntensity:
     def __init__(self):
         self.name = ""
         self.Size = 0
@@ -47,11 +47,11 @@ class ElementIntensity(FileReaderWriterTools):
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
-        self.name = self.read_str_length(file, 3)
+        self.name = _read_str_length(file, 3)
 
-        self.Size = self.read_long(file)
+        self.Size = read_long(file)
 
         if self.Size != 0:
-            self.IntensityK = self.read_double_list(file, self.Size)
-            self.IntensityL = self.read_double_list(file, self.Size)
-            self.IntensityM = self.read_double_list(file, self.Size)
+            self.IntensityK = read_double_list(file, self.Size)
+            self.IntensityL = read_double_list(file, self.Size)
+            self.IntensityM = read_double_list(file, self.Size)

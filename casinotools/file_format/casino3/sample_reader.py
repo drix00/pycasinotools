@@ -33,7 +33,7 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.tags import search_tag, TAG_LENGTH
+from casinotools.file_format.tags import find_tag
 
 # Globals and constants variables.
 
@@ -49,7 +49,7 @@ class SampleReader(object):
 
         tag_id = b"*CASINOSAMPLE%%"
 
-        if search_tag(file, tag_id, TAG_LENGTH):
+        if find_tag(file, tag_id):
             value_format = "i"
             size = struct.calcsize(value_format)
             buffer = file.read(size)

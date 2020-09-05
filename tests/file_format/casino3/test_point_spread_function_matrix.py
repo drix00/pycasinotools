@@ -37,6 +37,7 @@ from casinotools.file_format.casino3.point_spread_function_matrix import PointSp
 from casinotools.file_format.casino3.file import File
 from casinotools.file_format.casino3.version import SIM_OPTIONS_VERSION_3_3_0_0
 from casinotools.utilities.path import is_bad_file
+from casinotools.file_format.file_reader_writer_tools import _extract_version_string
 
 # Globals and constants variables.
 
@@ -63,7 +64,7 @@ def test_sim_no_psfs():
     version = casino_file.get_version()
     assert version == version_ref
 
-    version_str = casino_file._extract_version_string(version)
+    version_str = _extract_version_string(version)
     assert version_str == version_str_ref
 
     options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
@@ -86,7 +87,7 @@ def test_sim_psfs():
         version = casino_file.get_version()
         assert version == version_ref
 
-        version_str = casino_file._extract_version_string(version)
+        version_str = _extract_version_string(version)
         assert version_str == version_str_ref
 
         options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
@@ -107,7 +108,7 @@ def test_cas_no_psfs():
     version = casino_file.get_version()
     assert version == version_ref
 
-    version_str = casino_file._extract_version_string(version)
+    version_str = _extract_version_string(version)
     assert version_str == version_str_ref
 
     options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
@@ -132,7 +133,7 @@ def test_cas_psfs():
     version = casino_file.get_version()
     assert version == version_ref
 
-    version_str = casino_file._extract_version_string(version)
+    version_str = _extract_version_string(version)
     assert version_str == version_str_ref
 
     options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()
@@ -154,7 +155,7 @@ def test_cas_psfs():
     version = casino_file.get_version()
     assert version == version_ref
 
-    version_str = casino_file._extract_version_string(version)
+    version_str = _extract_version_string(version)
     assert version_str == version_str_ref
 
     options_advanced_psfs_settings = casino_file.get_options().get_options_advanced_psfs_settings()

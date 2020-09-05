@@ -32,13 +32,13 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_double, read_int, read_double_list
 from casinotools.file_format.casino3.triangle import Triangle
 
 # Globals and constants variables.
 
 
-class SampleTree(FileReaderWriterTools):
+class SampleTree:
     def __init__(self):
         self._file = None
         self._start_position = 0
@@ -60,12 +60,12 @@ class SampleTree(FileReaderWriterTools):
         self._file_descriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
-        self._max_size = self.read_double(file)
-        self._max_level = self.read_int(file)
-        self._maximum = self.read_double_list(file, 3)
-        self._minimum = self.read_double_list(file, 3)
+        self._max_size = read_double(file)
+        self._max_level = read_int(file)
+        self._maximum = read_double_list(file, 3)
+        self._minimum = read_double_list(file, 3)
 
-        self._number_triangles = self.read_int(file)
+        self._number_triangles = read_int(file)
         self._triangles = []
         for dummy in range(self._number_triangles):
             triangle = Triangle()
@@ -74,34 +74,34 @@ class SampleTree(FileReaderWriterTools):
 
     def export(self, export_file):
         line = "Maximum size: {:f}".format(self._max_size)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
         line = "Maximum level: {:d}".format(self._max_level)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
         line = "Maximum:"
-        self.write_line(export_file, line)
+        write_line(export_file, line)
         for label, value in zip(["X", 'Y', 'z'], self._maximum):
             line = "\t%s: %g" % (label, value)
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
         line = "Minimum:"
-        self.write_line(export_file, line)
+        write_line(export_file, line)
         for label, value in zip(["X", 'Y', 'z'], self._minimum):
             line = "\t%s: %g" % (label, value)
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
         line = "Number triangles: {:d}".format(self._number_triangles)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
         triangle_id = 0
         for triangle in self._triangles:
             triangle_id += 1
 
             line = "*"*15
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
             line = "Triangle: {:d}".format(triangle_id)
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
             triangle.export(export_file)

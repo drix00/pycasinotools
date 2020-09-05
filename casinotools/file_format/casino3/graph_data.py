@@ -34,7 +34,8 @@ import os
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_long, read_double, read_str, \
+    get_size_of_double_list
 
 # Globals and constants variables.
 
@@ -69,7 +70,7 @@ def index2pos(x_sup, x_inf, number_points, position_index, is_log):
         return point
 
 
-class GraphData(FileReaderWriterTools):
+class GraphData:
     def __init__(self, file):
         self._file = None
         self._startPosition = 0
@@ -101,19 +102,19 @@ class GraphData(FileReaderWriterTools):
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        self._version = self.read_int(file)
-        self._size = self.read_long(file)
-        self._borneInf = self.read_double(file)
-        self._borneSup = self.read_double(file)
-        self._isLog = self.read_int(file)
-        self._isUneven = self.read_int(file)
+        self._version = read_int(file)
+        self._size = read_long(file)
+        self._borneInf = read_double(file)
+        self._borneSup = read_double(file)
+        self._isLog = read_int(file)
+        self._isUneven = read_int(file)
 
-        self._title = self.read_str(file)
-        self._xTitle = self.read_str(file)
-        self._yTitle = self.read_str(file)
+        self._title = read_str(file)
+        self._xTitle = read_str(file)
+        self._yTitle = read_str(file)
 
         self._startPosition = file.tell()
-        skip_offset = self.get_size_of_double_list(self._size)
+        skip_offset = get_size_of_double_list(self._size)
         if self._isUneven:
             skip_offset *= 2
 
@@ -133,11 +134,11 @@ class GraphData(FileReaderWriterTools):
         self._values = []
         self._positions = []
         for dummy in range(self._size):
-            value = self.read_double(self._file)
+            value = read_double(self._file)
             self._values.append(value)
 
             if self._isUneven:
-                position = self.read_double(self._file)
+                position = read_double(self._file)
                 self._positions.append(position)
 
         if not self._isUneven:

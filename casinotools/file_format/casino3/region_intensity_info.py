@@ -31,12 +31,12 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double
 
 # Globals and constants variables.
 
 
-class RegionIntensityInfo(FileReaderWriterTools):
+class RegionIntensityInfo:
     def __init__(self):
         self._version = 0
         self._energy_intensity = 0.0
@@ -46,10 +46,10 @@ class RegionIntensityInfo(FileReaderWriterTools):
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        self._version = self.read_int(file)
-        self._energy_intensity = self.read_double(file)
-        self._region_id = self.read_int(file)
-        self._normalized_energy_intensity = self.read_double(file)
+        self._version = read_int(file)
+        self._energy_intensity = read_double(file)
+        self._region_id = read_int(file)
+        self._normalized_energy_intensity = read_double(file)
 
     def get_energy_intensity(self):
         return self._energy_intensity

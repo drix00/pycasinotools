@@ -33,7 +33,7 @@ import math
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_double, read_int, read_multiple_values
 
 # Globals and constants variables.
 COLLISION_TYPE_ATOM = 0
@@ -52,7 +52,7 @@ def get_size_scattering_event():
     return size
 
 
-class TrajectoryCollision(FileReaderWriterTools):
+class TrajectoryCollision:
     def __init__(self, items=None):
         if items is not None:
             self._position_x = items[0]
@@ -69,20 +69,20 @@ class TrajectoryCollision(FileReaderWriterTools):
     def _read_original(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        self._position_x = self.read_double(file)
-        self._position_y = self.read_double(file)
-        self._position_z = self.read_double(file)
-        self._energy = self.read_double(file)
-        self._segment_length = self.read_double(file)
-        self._collision_type = self.read_int(file)
+        self._position_x = read_double(file)
+        self._position_y = read_double(file)
+        self._position_z = read_double(file)
+        self._energy = read_double(file)
+        self._segment_length = read_double(file)
+        self._collision_type = read_int(file)
 
-        self._region_id = self.read_int(file)
+        self._region_id = read_int(file)
 
     def _read_optimized(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
         values_format = "5d2i"
-        items = self.read_multiple_values(file, values_format)
+        items = read_multiple_values(file, values_format)
 
         self.set_values(items)
 

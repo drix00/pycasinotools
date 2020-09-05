@@ -33,6 +33,7 @@ import logging
 
 # Project modules.
 from casinotools.file_format.casino3.sample_object import SampleObject
+from casinotools.file_format.file_reader_writer_tools import read_int
 
 # Globals and constants variables.
 
@@ -64,7 +65,7 @@ class SampleSubstrate(SampleObject):
 
         super(SampleSubstrate, self).read(file)
 
-        self._numberEdges = self.read_int(file)
+        self._numberEdges = read_int(file)
 
         self._edges = []
         for dummyIndex in range(self._numberEdges):

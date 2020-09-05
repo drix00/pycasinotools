@@ -38,7 +38,7 @@ INTENSITY = "Intensity"
 INTENSITY_ABSORBED = "Intensity Absorbed"
 
 
-class XrayRadial(object):
+class XrayRadial:
     def __init__(self):
         self._line = None
         self._element_symbol = None

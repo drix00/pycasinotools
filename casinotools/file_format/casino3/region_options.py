@@ -32,14 +32,15 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, write_int
+from casinotools.file_format.tags import add_tag, find_tag
 from casinotools.file_format.casino3.region import Region
 
 # Globals and constants variables.
 TAG_REGION_DATA = b"*REGIONDATA%%%%"
 
 
-class RegionOptions(FileReaderWriterTools):
+class RegionOptions:
     def __init__(self):
         self._numberRegions = 0
         self._regions = []
@@ -49,9 +50,9 @@ class RegionOptions(FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tag_id = TAG_REGION_DATA
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
-        self._numberRegions = self.read_int(file)
+        self._numberRegions = read_int(file)
 
         for dummy in range(self._numberRegions):
             region = Region()
@@ -63,9 +64,9 @@ class RegionOptions(FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tag_id = TAG_REGION_DATA
-        self.add_tag(file, tag_id)
+        add_tag(file, tag_id)
 
-        self.write_int(file, self._numberRegions)
+        write_int(file, self._numberRegions)
 
         assert len(self._regions) == self._numberRegions
         for index in range(self._numberRegions):

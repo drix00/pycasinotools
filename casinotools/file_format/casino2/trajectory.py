@@ -32,13 +32,13 @@ import os
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_long, read_double
 from casinotools.file_format.casino2.scattering_event import ScatteringEvent
 
 # Globals and constants variables.
 
 
-class Trajectory(FileReaderWriterTools):
+class Trajectory:
     def __init__(self, is_skip_reading_data=False):
         self._is_skip_reading_data = is_skip_reading_data
 
@@ -63,21 +63,21 @@ class Trajectory(FileReaderWriterTools):
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        self.FRetro = self.read_int(file)
-        self.FTrans = self.read_int(file)
-        self.FDetec = self.read_int(file)
-        self.NbColl = self.read_long(file)
-        self.Zmax = self.read_double(file)
-        self.LPM = self.read_double(file)
-        self.DedsM = self.read_double(file)
-        self.PhiM = self.read_double(file)
-        self.ThetaM = self.read_double(file)
-        self.MoyenX = self.read_double(file)
-        self.MoyenY = self.read_double(file)
-        self.MoyenZ = self.read_double(file)
-        self.Display = self.read_int(file)
+        self.FRetro = read_int(file)
+        self.FTrans = read_int(file)
+        self.FDetec = read_int(file)
+        self.NbColl = read_long(file)
+        self.Zmax = read_double(file)
+        self.LPM = read_double(file)
+        self.DedsM = read_double(file)
+        self.PhiM = read_double(file)
+        self.ThetaM = read_double(file)
+        self.MoyenX = read_double(file)
+        self.MoyenY = read_double(file)
+        self.MoyenZ = read_double(file)
+        self.Display = read_int(file)
 
-        self.NbElec = self.read_long(file)
+        self.NbElec = read_long(file)
 
         self._scatteringEvents = []
         if not self._is_skip_reading_data:

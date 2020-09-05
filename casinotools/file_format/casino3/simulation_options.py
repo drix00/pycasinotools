@@ -32,7 +32,8 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int
+from casinotools.file_format.tags import find_tag
 
 from casinotools.file_format.casino3.options_physic import OptionsPhysic
 from casinotools.file_format.casino3.options_dist import OptionsDist
@@ -47,7 +48,7 @@ from casinotools.file_format.casino3.version import SIM_OPTIONS_VERSION_3_3_0_0,
 # Globals and constants variables.
 
 
-class SimulationOptions(FileReaderWriterTools):
+class SimulationOptions:
     def __init__(self):
         self._options_physic = OptionsPhysic()
         self._options_dist = OptionsDist()
@@ -74,8 +75,8 @@ class SimulationOptions(FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
         tag_id = b"*SIMULATIONOPT%"
-        if self.find_tag(file, tag_id):
-            self._version = self.read_int(file)
+        if find_tag(file, tag_id):
+            self._version = read_int(file)
 
             self._options_adf.read(file)
             self._options_adv_back_set.read(file)
@@ -91,7 +92,7 @@ class SimulationOptions(FileReaderWriterTools):
             self._options_xray.read(file)
 
             tag_id = b"*SIM_OPT_END%"
-            if not self.find_tag(file, tag_id):
+            if not find_tag(file, tag_id):
                 return "Wrong version."
 
         self._end_position = file.tell()

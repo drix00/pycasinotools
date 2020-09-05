@@ -33,7 +33,9 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double
+from casinotools.file_format.tags import find_tag
+
 
 # Globals and constants variables.
 
@@ -44,7 +46,7 @@ from casinotools.file_format.file_reader_writer_tools import FileReaderWriterToo
 # Globals and constants variables.
 
 
-class ScanPointPositions(FileReaderWriterTools):
+class ScanPointPositions:
     def __init__(self):
         self.reset()
 
@@ -77,7 +79,7 @@ class ScanPointPositions(FileReaderWriterTools):
             file.seek(-16, os.SEEK_CUR)
 
         tag_id = b"*SIM_OPT_END%"
-        if self.find_tag(file, tag_id):
+        if find_tag(file, tag_id):
             self.reset()
 
             self._start_position = file.tell()
@@ -85,12 +87,12 @@ class ScanPointPositions(FileReaderWriterTools):
             self._file_descriptor = file.fileno()
             logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read",
                           self._start_position)
-            number_points = self.read_int(file)
+            number_points = read_int(file)
 
             for dummy in range(number_points):
-                x = self.read_double(file)
-                y = self.read_double(file)
-                z = self.read_double(file)
+                x = read_double(file)
+                y = read_double(file)
+                z = read_double(file)
 
                 points = (x, y, z)
 

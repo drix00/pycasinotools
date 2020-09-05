@@ -31,7 +31,9 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_bool, read_double
+from casinotools.file_format.tags import find_tag
+
 
 # Globals and constants variables.
 # Minimum angle for energy filter
@@ -80,7 +82,7 @@ from casinotools.file_format.file_reader_writer_tools import FileReaderWriterToo
 #    std::string pathToMatrix
 
 
-class OptionsAdvBackSet(FileReaderWriterTools):
+class OptionsAdvBackSet:
     def __init__(self):
         self.BEMin_Angle = 0.0
         self.BEMax_Angle = 0.0
@@ -141,36 +143,36 @@ class OptionsAdvBackSet(FileReaderWriterTools):
 
     def read(self, file):
         tag_id = b"*MATRX_SET_BEG"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
-        self._version = self.read_int(file)
+        self._version = read_int(file)
 
-        self.UseEnBack = self.read_bool(file)
-        self.WorkDist = self.read_double(file)
-        self.DetectScaleX = self.read_double(file)
-        self.DetectScaleY = self.read_double(file)
-        self.ValidMatrix = self.read_bool(file)
+        self.UseEnBack = read_bool(file)
+        self.WorkDist = read_double(file)
+        self.DetectScaleX = read_double(file)
+        self.DetectScaleY = read_double(file)
+        self.ValidMatrix = read_bool(file)
 
         if self.ValidMatrix:
             raise NotImplementedError
 #        for(int i = 0 i < 101 i++)
 #            for(int j = 0 j < 101 j++)
 #                double value
-#                saferead<double>(file, value = self.read_double(file)
+#                saferead<double>(file, value = read_double(file)
 #                MatrixDetect.set(i, j, value)
 
-        self.BEMin_Angle = self.read_double(file)
-        self.BEMax_Angle = self.read_double(file)
-        self.EFilterMax = self.read_double(file)
-        self.EFilterMin = self.read_double(file)
+        self.BEMin_Angle = read_double(file)
+        self.BEMax_Angle = read_double(file)
+        self.EFilterMax = read_double(file)
+        self.EFilterMin = read_double(file)
 
         for i in range(101):
-            self.EFilterVal[i] = self.read_double(file)
+            self.EFilterVal[i] = read_double(file)
 
-        self.FEFilter = self.read_int(file)
+        self.FEFilter = read_int(file)
 
         tag_id = b"*MATRX_SET_END"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
     def reset(self):
         self.BEMin_Angle = 0.0

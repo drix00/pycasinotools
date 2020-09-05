@@ -34,7 +34,9 @@ import decimal
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double, read_long, read_str, \
+    write_int, write_double, write_long, write_str
+from casinotools.file_format.tags import add_tag_old, find_tag
 from casinotools.file_format.casino2.element import Element
 
 # Globals and constants variables.
@@ -52,7 +54,7 @@ NB_PAR_MAX = 4
 TAG_REGIONS_DATA = b"*REGIONSDATA%%%"
 
 
-class Region(FileReaderWriterTools):
+class Region:
     def __init__(self, number_xray_layers):
         self._number_xray_layers = number_xray_layers
 
@@ -83,27 +85,27 @@ class Region(FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
 
         tag_id = TAG_REGIONS_DATA
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
-        self.ID = self.read_int(file)
-        self.IDed = self.read_int(file)
-        self.NbEl = self.read_int(file)
-        self.Rho = self.read_double(file)
-        self.Zmoy = self.read_double(file)
+        self.ID = read_int(file)
+        self.IDed = read_int(file)
+        self.NbEl = read_int(file)
+        self.Rho = read_double(file)
+        self.Zmoy = read_double(file)
 
         self.Parametre = []
         for dummy in range(NB_PAR_MAX):
-            value = self.read_double(file)
+            value = read_double(file)
             self.Parametre.append(value)
 
-        self.Forme = self.read_int(file)
-        self.Substrate = self.read_int(file)
-        self.color = self.read_long(file)
-        self.cindex = self.read_int(file)
-        self.User_Density = self.read_int(file)
-        self.User_Composition = self.read_int(file)
+        self.Forme = read_int(file)
+        self.Substrate = read_int(file)
+        self.color = read_long(file)
+        self.cindex = read_int(file)
+        self.User_Density = read_int(file)
+        self.User_Composition = read_int(file)
 
-        self.Name = self.read_str(file)
+        self.Name = read_str(file)
 
         self._elements = []
         for dummy in range(self.NbEl):
@@ -116,26 +118,26 @@ class Region(FileReaderWriterTools):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
         tag_id = TAG_REGIONS_DATA
-        self.add_tag_old(file, tag_id)
-        self.write_int(file, self.ID)
-        self.write_int(file, self.IDed)
-        self.write_int(file, self.NbEl)
-        self.write_double(file, self.Rho)
-        self.write_double(file, self.Zmoy)
+        add_tag_old(file, tag_id)
+        write_int(file, self.ID)
+        write_int(file, self.IDed)
+        write_int(file, self.NbEl)
+        write_double(file, self.Rho)
+        write_double(file, self.Zmoy)
 
         assert len(self.Parametre) == NB_PAR_MAX
         for index in range(NB_PAR_MAX):
             value = self.Parametre[index]
-            self.write_double(file, value)
+            write_double(file, value)
 
-        self.write_int(file, self.Forme)
-        self.write_int(file, self.Substrate)
-        self.write_long(file, self.color)
-        self.write_int(file, self.cindex)
-        self.write_int(file, self.User_Density)
-        self.write_int(file, self.User_Composition)
+        write_int(file, self.Forme)
+        write_int(file, self.Substrate)
+        write_long(file, self.color)
+        write_int(file, self.cindex)
+        write_int(file, self.User_Density)
+        write_int(file, self.User_Composition)
 
-        self.write_str(file, self.Name)
+        write_str(file, self.Name)
 
         assert len(self._elements) == self.NbEl
         for index in range(self.NbEl):

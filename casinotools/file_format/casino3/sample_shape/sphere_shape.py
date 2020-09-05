@@ -34,6 +34,7 @@ import logging
 # Project modules.
 from casinotools.file_format.casino3.sample_object import SampleObject
 from casinotools.file_format.casino3.sample_shape.shape_type import SHAPE_SPHERE
+from casinotools.file_format.file_reader_writer_tools import read_double, read_int
 
 # Globals and constants variables.
 
@@ -58,9 +59,9 @@ class SphereShape(SampleObject):
 
         super(SphereShape, self).read(file)
 
-        self._radius_nm = self.read_double(file)
-        self._division_phi = self.read_int(file)
-        self._division_theta = self.read_int(file)
+        self._radius_nm = read_double(file)
+        self._division_phi = read_int(file)
+        self._division_theta = read_int(file)
 
     def set_radius_nm(self, radius_nm):
         self._radius_nm = radius_nm

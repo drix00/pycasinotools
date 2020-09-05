@@ -31,7 +31,8 @@ Description
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double, read_float
+from casinotools.file_format.tags import find_tag
 
 # Globals and constants variables.
 
@@ -44,7 +45,7 @@ OPTIONS_XRAY_DEF_FILENAME = "XRay_Settings_Defaults.dat"
 #    double toa
 # /// Polar angle of the X-Ray detector
 #    float phi_rx
-class OptionsXray(FileReaderWriterTools):
+class OptionsXray:
     def __init__(self):
         self._version = 0
         self.toa = 0.0
@@ -66,15 +67,15 @@ class OptionsXray(FileReaderWriterTools):
 
     def read(self, file):
         tag_id = b"*XRAY_OPT_BEG"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
-        self._version = self.read_int(file)
+        self._version = read_int(file)
 
-        self.toa = self.read_double(file)
-        self.phi_rx = self.read_float(file)
+        self.toa = read_double(file)
+        self.phi_rx = read_float(file)
 
         tag_id = b"*XRAY_OPT_END"
-        self.find_tag(file, tag_id)
+        find_tag(file, tag_id)
 
     def reset(self):
         self.toa = 40.0

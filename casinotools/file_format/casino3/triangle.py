@@ -31,12 +31,12 @@ Triangle used by CASINO for the sample geometry.
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double_list, read_float
 
 # Globals and constants variables.
 
 
-class Triangle(FileReaderWriterTools):
+class Triangle:
     def __init__(self):
         self._point0 = None
         self._point1 = None
@@ -49,49 +49,49 @@ class Triangle(FileReaderWriterTools):
         self._outside_id = None
 
     def read(self, file):
-        self._id = self.read_int(file)
-        self._point0 = self.read_double_list(file, 3)
-        self._point1 = self.read_double_list(file, 3)
-        self._point2 = self.read_double_list(file, 3)
+        self._id = read_int(file)
+        self._point0 = read_double_list(file, 3)
+        self._point1 = read_double_list(file, 3)
+        self._point2 = read_double_list(file, 3)
 
-        self._normal = self.read_double_list(file, 3)
+        self._normal = read_double_list(file, 3)
 
         # Obsolete.
-        self.read_float(file)
+        read_float(file)
 
-        self._inside_id = self.read_int(file)
-        self._outside_id = self.read_int(file)
+        self._inside_id = read_int(file)
+        self._outside_id = read_int(file)
 
     def export(self, export_file):
         line = "id: {:d}".format(self._id)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
         line = "Point 0:"
-        self.write_line(export_file, line)
+        write_line(export_file, line)
         for label, value in zip(["X", 'Y', 'z'], self._point0):
             line = "\t%s: %g" % (label, value)
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
         line = "Point 1:"
-        self.write_line(export_file, line)
+        write_line(export_file, line)
         for label, value in zip(["X", 'Y', 'z'], self._point1):
             line = "\t%s: %g" % (label, value)
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
         line = "Point 2:"
-        self.write_line(export_file, line)
+        write_line(export_file, line)
         for label, value in zip(["X", 'Y', 'z'], self._point2):
             line = "\t%s: %g" % (label, value)
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
         line = "Normal:"
-        self.write_line(export_file, line)
+        write_line(export_file, line)
         for label, value in zip(["X", 'Y', 'z'], self._normal):
             line = "\t%s: %g" % (label, value)
-            self.write_line(export_file, line)
+            write_line(export_file, line)
 
         line = "inside id: {:d}".format(self._inside_id)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
 
         line = "outside id: {:d}".format(self._outside_id)
-        self.write_line(export_file, line)
+        write_line(export_file, line)
