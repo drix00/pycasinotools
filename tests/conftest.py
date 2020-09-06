@@ -44,13 +44,25 @@ def pytest_collection_modifyitems(config, items):  # pragma no cover
 # Test files.
 @pytest.fixture()
 def filepath_sim_2_45():
-    file_path = resource_filename(__name__, "../test_data/wincasino2.45/id475_v2.46.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/id475_v2.46.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas_2_45():
-    file_path = resource_filename(__name__, "../test_data/wincasino2.45/id475_v2.46.cas")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/id475_v2.46.cas")
+    return file_path
+
+
+@pytest.fixture()
+def filepath_sim_26():
+    file_path = resource_filename(__name__, "../test_data/casino2.x/id475_v26.sim")
+    return file_path
+
+
+@pytest.fixture()
+def filepath_cas_26():
+    file_path = resource_filename(__name__, "../test_data/casino2.x/id475_v26.cas")
     return file_path
 
 
@@ -145,6 +157,18 @@ def filepath_sim_3202():
 @pytest.fixture()
 def filepath_cas():
     file_path = resource_filename(__name__, "../test_data/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
+    return file_path
+
+
+@pytest.fixture()
+def filepath_sim_2_5_1_0():
+    file_path = resource_filename(__name__, "../test_data/casino2.x/C_15kV_2_5_1_0.sim")
+    return file_path
+
+
+@pytest.fixture()
+def filepath_cas_2_5_1_0():
+    file_path = resource_filename(__name__, "../test_data/casino2.x/C_15kV_2_5_1_0.cas")
     return file_path
 
 

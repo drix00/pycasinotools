@@ -99,6 +99,13 @@ def _search_tag(file, tag_id, tag_length=0, filler=b'%'):
     return is_tag_found
 
 
+def find_tag_position(file, tag_id):
+    filler = b'%'
+    tag = _create_tag_with_filler(tag_id, TAG_LENGTH, filler)
+    position = _stream_search_position_fast(file, tag)
+    return position
+
+
 def add_tag(file, tag_id, tag_length=TAG_LENGTH, filler=b'%'):
     start_pos = file.tell()
     tag = _create_tag_with_filler(tag_id, tag_length, filler)
@@ -177,3 +184,36 @@ def _stream_search_fast(file, tag):
         file.seek(start_pos)
         logging.error("streamSearch did not find tag %s at %i", tag, file.tell())
         return False
+
+
+def _stream_search_position_fast(file, tag):
+    logging.debug("streamSearch looking for tag: %s", tag)
+    """
+    Search a stream for a tag with a limited length search.
+
+    :param file: Already opened file object.
+    :param tag: Text tag to search in the file.
+    :rtype: bool
+    :return: True if the tag is found and the file is at the position after the tag.
+    :return: The file position is reset to the origin position if tag is not found.
+    """
+
+    start_pos = file.tell()
+    buffer = b""
+    temp_buffer = file.read(BUFFER_LENGTH)
+    while temp_buffer != b'':
+        # logging.debug("File position in streamSearch: %i", file.tell())
+        buffer += temp_buffer
+        tag_pos = buffer.find(tag)
+
+        if tag_pos != -1:
+            # Add one for the null character used in the tag.
+            file_position = start_pos + tag_pos + len(tag) + 1
+            file.seek(file_position)
+            logging.debug("streamSearch find tag %s at %i", tag, file.tell())
+            return file_position
+        temp_buffer = file.read(BUFFER_LENGTH)
+    else:
+        file.seek(start_pos)
+        logging.error("streamSearch did not find tag %s at %i", tag, file.tell())
+        return 0

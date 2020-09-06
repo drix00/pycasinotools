@@ -33,6 +33,8 @@ import pytest
 
 # Project modules.
 from casinotools.file_format.casino2.graph_data import GraphData
+from casinotools.file_format.tags import find_tag
+from casinotools.file_format.casino2.version import VERSION_2040601, VERSION_2050000
 
 # Globals and constants variables.
 
@@ -46,7 +48,7 @@ def test_is_discovered():
     assert True
 
 
-@pytest.mark.skip(reason="this test does not work")
+# @pytest.mark.skip(reason="this test does not work")
 def test_read(filepath_cas_2_45):
     """
     .. todo:: Make this test work.
@@ -55,20 +57,60 @@ def test_read(filepath_cas_2_45):
     :return:
     """
     with open(filepath_cas_2_45, 'rb') as file:
-        file.seek(2013179)
+        file.seek(689238+4)
 
-        results = GraphData(file=file)
-        assert results._version == 30105020
+        results = GraphData(file=file, version=VERSION_2040601)
+        assert results._version == VERSION_2040601
 
         assert results._size == 1000
         assert results._borneInf == pytest.approx(0.0)
-        assert results._borneSup == pytest.approx(8.900000000000E+01)
+        assert results._borneSup == pytest.approx(326.3202528416611)
         assert results._isLog == 0
         assert results._isUneven == 0
 
-        assert results._title == "z Max"
+        assert results._title == "Z Max"
         assert results._xTitle == "Depth (nm)"
         assert results._yTitle == "Hits (Normalized)"
 
-        assert results._values[0] == pytest.approx(1.0)
+        assert results._values[0] == pytest.approx(0.0)
         assert results._values[-1] == pytest.approx(0.0)
+
+
+def test_find_tag(filepath_cas_2_45):
+    tag = b"*DZMAX%%%%%%%%%"
+    with open(filepath_cas_2_45, 'rb') as file:
+        assert find_tag(file, tag)
+
+
+# @pytest.mark.skip(reason="this test does not work")
+def test_read_cas_251(filepath_cas_2_5_1_0):
+    """
+    .. todo:: Make this test work.
+
+    :param filepath_cas_2_45:
+    :return:
+    """
+    with open(filepath_cas_2_5_1_0, 'rb') as file:
+        file.seek(1371743+4)
+
+        results = GraphData(file=file, version=VERSION_2050000)
+        assert results._version == VERSION_2050000
+
+        assert results._size == 1000
+        assert results._borneInf == pytest.approx(0.0)
+        assert results._borneSup == pytest.approx(2785.3606213435764)
+        assert results._isLog == 0
+        assert results._isUneven == 0
+
+        assert results._title == "Z Max"
+        assert results._xTitle == "Depth (nm)"
+        assert results._yTitle == "Hits (Normalized)"
+
+        assert results._values[0] == pytest.approx(0.0)
+        assert results._values[-1] == pytest.approx(0.0)
+
+
+def test_find_tag_cas_251(filepath_cas_2_5_1_0):
+    tag = b"*DZMAX%%%%%%%%%"
+    with open(filepath_cas_2_5_1_0, 'rb') as file:
+        assert find_tag(file, tag)

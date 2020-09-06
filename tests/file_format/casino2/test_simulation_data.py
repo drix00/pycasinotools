@@ -51,17 +51,17 @@ def test_is_discovered():
     assert True
 
 
-def test_read(filepath_sim_2_45):
-    if is_bad_file(filepath_sim_2_45):
+def test_read(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):
         pytest.skip()
-    with open(filepath_sim_2_45, 'rb') as file:
+    with open(filepath_cas_26, 'rb') as file:
         _read_tests(file)
 
 
-def test_read_string_io(filepath_sim_2_45):
-    if is_bad_file(filepath_sim_2_45):
+def test_read_string_io(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):
         pytest.skip()
-    f = open(filepath_sim_2_45, 'rb')
+    f = open(filepath_cas_26, 'rb')
     file = BytesIO(f.read())
     f.close()
     _read_tests(file)
@@ -74,18 +74,18 @@ def _read_tests(file):
 
     assert simulation_data._header == "WinCasino Simulation File"
     assert simulation_data._version == 26
-    assert simulation_data._status == 'n'
+    assert simulation_data._status == 'f'
     assert simulation_data._save_simulations == 1
     assert simulation_data._save_regions == 1
-    assert simulation_data._save_trajectories == 0
-    assert simulation_data._save_distributions == 0
+    assert simulation_data._save_trajectories == 1
+    assert simulation_data._save_distributions == 1
 
 
-def test_get_total_xray_intensities(filepath_cas_2_45, filepath_cas_nicr):
-    if is_bad_file(filepath_cas_2_45):
+def test_get_total_xray_intensities(filepath_cas_26, filepath_cas_nicr):
+    if is_bad_file(filepath_cas_26):
         pytest.skip()
     # Single region
-    f = open(filepath_cas_2_45, 'rb')
+    f = open(filepath_cas_26, 'rb')
     f.seek(98348)
     simulation_data = SimulationData()
     simulation_data.read(f)
@@ -127,27 +127,30 @@ def test_get_total_xray_intensities(filepath_cas_2_45, filepath_cas_nicr):
     assert intensities[14][LINE_K][EMITTED] == pytest.approx(1.22, 2)
 
 
-def test_get_total_xray_intensities_1_esr(filepath_cas_v251):
-    if is_bad_file(filepath_cas_v251):
+def test_get_total_xray_intensities_1_esr(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):
         pytest.skip()
-    with open(filepath_cas_v251, 'rb') as file:
+    with open(filepath_cas_26, 'rb') as file:
         # Single region
         file.seek(50193)
         simulation_data = SimulationData()
         simulation_data.read(file)
         file.close()
 
-        intensities_ref = {13: {}}
-        intensities_ref[13][ATOM_LINE_KA1] = 9.269059346795805e-07
-        intensities_ref[13][ATOM_LINE_KA2] = 4.662984097246555e-07
-        intensities_ref[13][ATOM_LINE_KB1] = 1.355707793206891e-08
+        intensities_ref = {5: {}, 6: {}}
+        # intensities_ref[5][ATOM_LINE_KA1] = 9.269059346795805e-07
+        # intensities_ref[5][ATOM_LINE_KA2] = 4.662984097246555e-07
+        # intensities_ref[5][ATOM_LINE_KB1] = 1.355707793206891e-08
+        # intensities_ref[6][ATOM_LINE_KA1] = 9.269059346795805e-07
+        # intensities_ref[6][ATOM_LINE_KA2] = 4.662984097246555e-07
+        # intensities_ref[6][ATOM_LINE_KB1] = 1.355707793206891e-08
 
         intensities = simulation_data.get_total_xray_intensities_1_esr()
 
         assert len(intensities) == len(intensities_ref)
-        assert len(intensities[13]) == len(intensities_ref[13])
+        assert len(intensities[5]) == len(intensities_ref[5])
 
-        for atomic_line in intensities[13]:
-            value_ref = intensities_ref[13][atomic_line]*1.0e6
-            value = intensities[13][atomic_line]*1.0e6
+        for atomic_line in intensities[5]:
+            value_ref = intensities_ref[5][atomic_line]*1.0e6
+            value = intensities[5][atomic_line]*1.0e6
             assert value == pytest.approx(value_ref)

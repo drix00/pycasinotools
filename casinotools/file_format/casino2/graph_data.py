@@ -33,17 +33,21 @@ import math
 
 # Project modules.
 from casinotools.file_format.file_reader_writer_tools import read_double, read_long, read_int, read_str
-
+from casinotools.file_format.casino2.version import VERSION_2040601
 # Globals and constants variables.
 
 
 class GraphData:
     def __init__(self, size=0, borne_inf=0.0, borne_sup=0.0, is_log=False, is_uneven=False, title="", x_title="",
-                 y_title="", file=None):
+                 y_title="", file=None, version=None):
+        if version is not None:
+            self._version = version
+        else:
+            self._version = 0
+
         if file is not None:
             self.read(file)
         else:
-            self._version = 0
             self._size = size
             self._borneInf = borne_inf
             self._borneSup = borne_sup
@@ -60,8 +64,10 @@ class GraphData:
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
-        self._version = read_long(file)
-        if self._version >= 2040601:
+
+        if self._version >= VERSION_2040601:
+            self._version = read_long(file)
+
             self._size = read_long(file)
             self._borneInf = read_double(file)
             self._borneSup = read_double(file)

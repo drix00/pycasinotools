@@ -35,7 +35,7 @@ import pytest
 
 # Project modules.
 from casinotools.file_format.tags import _create_tag_with_filler, limited_search_tag, find_tag, add_tag, add_tag_old, \
-    _stream_search_slow, _stream_search_fast
+    _stream_search_slow, _stream_search_fast, find_tag_position
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
@@ -162,3 +162,24 @@ def test_add_tag_old(tmpdir, tag_id, tag_ref):
     with open(file_path, 'rb') as fp:
         assert find_tag(fp, tag_id) is True
         assert find_tag(fp, tag_ref) is False
+
+
+def test_find_tag_position(filepath_cas_2_45):
+    tag = b"*DZMAX%%%%%%%%%"
+    with open(filepath_cas_2_45, 'rb') as file:
+        assert find_tag_position(file, tag) == 98356
+        assert find_tag_position(file, tag) == 689238
+
+
+def test_find_tag_position_cas(filepath_cas_2_5_1_0):
+    tag = b"*DZMAX%%%%%%%%%"
+    with open(filepath_cas_2_5_1_0, 'rb') as file:
+        assert find_tag_position(file, tag) == 50284
+        assert find_tag_position(file, tag) == 1371743
+        assert find_tag_position(file, tag) == 0
+
+
+def test_find_tag_position_sim(filepath_sim_2_5_1_0):
+    tag = b"*DZMAX%%%%%%%%%"
+    with open(filepath_sim_2_5_1_0, 'rb') as file:
+        assert find_tag_position(file, tag) == 0

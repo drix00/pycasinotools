@@ -37,13 +37,14 @@ import pytest
 from casinotools.file_format.casino2.file import File
 from casinotools.file_format.casino2.element import LINE_K, GENERATED, EMITTED
 from casinotools.utilities.path import is_bad_file
-from casinotools.file_format.casino2.version import VERSION_2_45, VERSION_2_50, VERSION_2_51, VERSION_2_42, VERSION_2_46
+from casinotools.file_format.casino2.version import VERSION_2_45, VERSION_2_50, VERSION_2_51, VERSION_2_42, \
+    VERSION_2_46, VERSION_26
 
 # if os.path.isfile(self.filepathWrite):
 #     os.remove(self.filepathWrite)
 
 
-def test_read(filepath_sim_2_45, filepath_cas_2_45):
+def test_read(filepath_sim_2_45, filepath_cas_26):
     if is_bad_file(filepath_sim_2_45):
         pytest.skip()
     file = File()
@@ -52,14 +53,14 @@ def test_read(filepath_sim_2_45, filepath_cas_2_45):
     assert file._numberSimulations == 0
 
     file = File()
-    file.read_from_filepath(filepath_cas_2_45)
-    assert file._filepath == filepath_cas_2_45
+    file.read_from_filepath(filepath_cas_26)
+    assert file._filepath == filepath_cas_26
     assert file._numberSimulations == 1
 
     assert len(file._resultSimulationDataList) == 1
 
 
-def test_read_string_io(filepath_sim_2_45, filepath_cas_2_45):
+def test_read_string_io(filepath_sim_2_45, filepath_cas_26):
     # sim
     if is_bad_file(filepath_sim_2_45):
         pytest.skip()
@@ -72,7 +73,7 @@ def test_read_string_io(filepath_sim_2_45, filepath_cas_2_45):
     assert file._numberSimulations == 0
 
     # cas
-    f = open(filepath_cas_2_45, 'rb')
+    f = open(filepath_cas_26, 'rb')
     buf = BytesIO(f.read())
     f.close()
 
@@ -121,12 +122,12 @@ def _get_option_simulation_data(filepath_std):
     return file.get_option_simulation_data()
 
 
-def test_skip_reading_data(filepath_cas_2_45):
-    if is_bad_file(filepath_cas_2_45):
+def test_skip_reading_data(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):
         pytest.skip()
 
     file = File()
-    file.read_from_filepath(filepath_cas_2_45, is_skip_reading_data=False)
+    file.read_from_filepath(filepath_cas_26, is_skip_reading_data=False)
 
     trajectories_data = file.get_results_first_simulation().get_trajectories_data()
     assert trajectories_data._number_trajectories == 221
@@ -142,7 +143,7 @@ def test_skip_reading_data(filepath_cas_2_45):
     assert event.id == 0
 
     file = File()
-    file.read_from_filepath(filepath_cas_2_45, is_skip_reading_data=True)
+    file.read_from_filepath(filepath_cas_26, is_skip_reading_data=True)
 
     trajectories_data = file.get_results_first_simulation().get_trajectories_data()
     assert trajectories_data._number_trajectories == 221
@@ -273,21 +274,21 @@ def test_read_sim_v250(filepath_sim_v250):
     assert number_xray_layers == 500
 
 
-def test_read_cas_v250(filepath_cas_v250):
-    if is_bad_file(filepath_cas_v250):
+def test_read_cas_v26(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):
         pytest.skip()
 
     # .cas
     file = File()
-    file.read_from_filepath(filepath_cas_v250)
-    assert file._filepath == filepath_cas_v250
+    file.read_from_filepath(filepath_cas_26)
+    assert file._filepath == filepath_cas_26
     assert file._numberSimulations == 1
 
     assert len(file._resultSimulationDataList) == 1
 
     option_simulation_data = file.get_option_simulation_data()
     version = option_simulation_data.get_version()
-    assert version == VERSION_2_50
+    assert version == VERSION_26
 
     simulation_options = option_simulation_data.get_simulation_options()
 
@@ -295,7 +296,7 @@ def test_read_cas_v250(filepath_cas_v250):
     assert number_electrons == 10000
 
     incident_energy_keV = simulation_options.get_incident_energy_keV()
-    assert incident_energy_keV == pytest.approx(2.0)
+    assert incident_energy_keV == pytest.approx(4.0)
 
     toa_deg = simulation_options.get_toa_deg()
     assert toa_deg == pytest.approx(40.0)
@@ -309,11 +310,11 @@ def test_read_cas_v250(filepath_cas_v250):
     element = region.get_element(0)
     intensities = element.get_total_xray_intensities()
 
-    assert intensities[LINE_K][GENERATED] == pytest.approx(20.99961280822754)
-    assert intensities[LINE_K][EMITTED] == pytest.approx(20.968143463134766)
+    assert intensities[LINE_K][GENERATED] == pytest.approx(2538.630615234375)
+    assert intensities[LINE_K][EMITTED] == pytest.approx(344.491943359375)
 
     atomic_number = element.get_atomic_number()
-    assert atomic_number == 13
+    assert atomic_number == 5
 
 
 def test_problem_sim_v250(filepath_problem_sim_v250, filepath_good_sim_v251):
@@ -372,7 +373,7 @@ def test_problem_sim_v250(filepath_problem_sim_v250, filepath_good_sim_v251):
     assert number_xray_layers == 500
 
 
-def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_std, filepath_sim_v242, filepath_cas_v242,
+def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_sim_26, filepath_cas_26, filepath_std, filepath_sim_v242, filepath_cas_v242,
                          filepath_cas_nicr, filepath_sim_v250, filepath_cas_v250, filepath_problem_sim_v250,
                          filepath_problem_pymontecarlo_sim_v250, filepath_good_sim_v251):
     """
@@ -381,8 +382,10 @@ def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_std, fil
     if is_bad_file(filepath_sim_2_45):
         pytest.skip()
 
-    file_paths = [(filepath_sim_2_45, VERSION_2_45),
-                  (filepath_cas_2_45, VERSION_2_45),
+    file_paths = [(filepath_sim_2_45, VERSION_2_46),
+                  (filepath_cas_2_45, VERSION_2_46),
+                  (filepath_sim_26, VERSION_26),
+                  (filepath_cas_26, VERSION_26),
                   (filepath_std, VERSION_2_50),
                   (filepath_sim_v242, VERSION_2_42),
                   (filepath_cas_v242, VERSION_2_42),
