@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.file_format.casino3.exported_trajectories
+.. py:currentmodule:: casinotools.file_format.casino3.exported.trajectories
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Description

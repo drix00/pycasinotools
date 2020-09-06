@@ -52,7 +52,7 @@ DIST_DEPOS_TYPE_CARTESIAN = 0  # cartesian
 DIST_DEPOS_TYPE_CYLINDRIC = 1  # cylindric
 DIST_DEPOS_TYPE_SPHERIC = 2  # spheric
 
-# possible value for the position of the center
+# possible value for the position of the center_nm
 DIST_DEPOS_POSITION_ABSOLUTE = 0
 DIST_DEPOS_POSITION_RELATIVE = 1
 
