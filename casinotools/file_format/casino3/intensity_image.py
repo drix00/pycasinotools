@@ -189,7 +189,7 @@ class IntensityImage(object):
 def run():
     from pkg_resources import resource_filename  # @UnresolvedImport
 
-    results_path = resource_filename(__name__, "../../test_data/casino3.x/createImage")
+    results_path = resource_filename(__name__, "../../test_data/casino3.x/create_image")
     cas_binned_filepath = os.path.join(results_path, "Au_C_thin_1nm_Inside_100ke_binned.cas")
 
     image_binned = IntensityImage(cas_binned_filepath)

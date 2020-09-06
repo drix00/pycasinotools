@@ -109,7 +109,7 @@ def test_read3202(filepath_sim_3202):
 def test_get_rotation_yz_deg():
     test_data_path = get_current_module_path(__file__, "../../../test_data")
 
-    filepath_sim = os.path.join(test_data_path, "casino3.x/NoRotationY.sim")
+    filepath_sim = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/NoRotationY.sim")
     if is_bad_file(filepath_sim):
         pytest.skip()
 
@@ -123,7 +123,7 @@ def test_get_rotation_yz_deg():
     rotation_z_deg = sample.get_rotation_z_deg()
     assert rotation_z_deg == pytest.approx(0.0)
 
-    filepath_sim = os.path.join(test_data_path, "casino3.x/RotationY10.sim")
+    filepath_sim = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/RotationY10.sim")
     if is_bad_file(filepath_sim):
         pytest.skip()
 
@@ -137,7 +137,7 @@ def test_get_rotation_yz_deg():
     rotation_z_deg = sample.get_rotation_z_deg()
     assert rotation_z_deg == pytest.approx(0.0)
 
-    filepath_sim = os.path.join(test_data_path, "casino3.x/RotationZ15.sim")
+    filepath_sim = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/RotationZ15.sim")
     if is_bad_file(filepath_sim):
         pytest.skip()
 
@@ -151,7 +151,7 @@ def test_get_rotation_yz_deg():
     rotation_z_deg = sample.get_rotation_z_deg()
     assert rotation_z_deg == pytest.approx(15.0)
 
-    filepath_sim = os.path.join(test_data_path, "casino3.x/RotationY20Z35.sim")
+    filepath_sim = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/RotationY20Z35.sim")
     if is_bad_file(filepath_sim):
         pytest.skip()
 
@@ -168,7 +168,7 @@ def test_get_rotation_yz_deg():
 
 def test_modify_rotation_yz_deg(tmpdir):
     test_data_path = get_current_module_path(__file__, "../../../test_data")
-    source_filepath = os.path.join(test_data_path, "casino3.x/NoRotationY.sim")
+    source_filepath = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/NoRotationY.sim")
     if is_bad_file(source_filepath):
         pytest.skip()
 

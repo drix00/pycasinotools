@@ -43,7 +43,7 @@ from casinotools.utilities.path import is_bad_file
 
 @pytest.fixture()
 def sim_file():
-    filepath = resource_filename(__name__, "../../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
+    filepath = resource_filename(__name__, "../../test_data/casino3.x/v3.1/v3.1.7.2/SiSubstrateThreeLines_Points.sim")
     if is_bad_file(filepath):  # pragma: no cover
         pytest.skip("Bad file for test")
 

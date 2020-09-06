@@ -56,7 +56,7 @@ def test_is_discovered():
 
 @pytest.fixture()
 def file_path_cas_binned():
-    results_path = resource_filename(__name__, "../../../test_data/casino3.x/createImage")
+    results_path = resource_filename(__name__, "../../../test_data/casino3.x/create_image")
     file_path = os.path.join(results_path, "Au_C_thin_1nm_Inside_100ke_binned.cas")
     return file_path
 
@@ -69,7 +69,7 @@ def image_binned(file_path_cas_binned):
 
 @pytest.fixture()
 def file_path_cas_all():
-    results_path = resource_filename(__name__, "../../../test_data/casino3.x/createImage")
+    results_path = resource_filename(__name__, "../../../test_data/casino3.x/create_image")
     file_path = os.path.join(results_path, "Au_C_thin_1nm_Inside_100ke_all.cas")
     return file_path
 

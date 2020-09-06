@@ -59,7 +59,7 @@ def test_is_discovered():
 
 @pytest.fixture
 def base_path():
-    base_path = resource_filename(__name__, "../../../test_data/casino2.x/exportedData")
+    base_path = resource_filename(__name__, "../../../test_data/casino2.x/exported_data")
     return base_path
 
 

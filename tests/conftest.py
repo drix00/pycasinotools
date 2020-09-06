@@ -44,31 +44,31 @@ def pytest_collection_modifyitems(config, items):  # pragma no cover
 # Test files.
 @pytest.fixture()
 def filepath_sim_2_45():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/id475_v2.46.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.4.6.1/id475_v2.46.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas_2_45():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/id475_v2.46.cas")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.4.6.1/id475_v2.46.cas")
     return file_path
 
 
 @pytest.fixture()
 def filepath_sim_26():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/id475_v26.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v26/id475_v26.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas_26():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/id475_v26.cas")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v26/id475_v26.cas")
     return file_path
 
 
 @pytest.fixture()
 def filepath_std():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/std_B_04.0keV_40.0TOA_v2.42.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.0.0/std_B_04.0keV_40.0TOA_v2.42.sim")
     return file_path
 
 
@@ -84,91 +84,91 @@ def filepath_write():
 
 @pytest.fixture()
 def filepath_sim_v242():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/std_B_3keV_v2.42.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v23/std_B_3keV_v2.42.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas_v242():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/std_B_3keV_v2.42.cas")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v23/std_B_3keV_v2.42.cas")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas_nicr():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/nicr_v2.46.cas")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.4.6.1/nicr_v2.46.cas")
     return file_path
 
 
 @pytest.fixture()
 def filepath_sim_v250():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/Al_E2kV_10ke_v2.50.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.0.0/Al_E2kV_10ke_v2.50.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas_v250():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/Al_E2kV_10ke_v2.50.cas")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.0.0/Al_E2kV_10ke_v2.50.cas")
     return file_path
 
 
 @pytest.fixture()
 def filepath_sim_v251():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/Al_E2kV_10ke_v2.51.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.1.0/Al_E2kV_10ke_v2.51.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas_v251():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/Al_E2kV_10ke_v2.51.cas")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.1.0/Al_E2kV_10ke_v2.51.cas")
     return file_path
 
 
 @pytest.fixture()
 def filepath_problem_sim_v250():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/VerticalLayers3_v2.50.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.0.0/VerticalLayers3_v2.50.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_problem_pymontecarlo_sim_v250():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/VerticalLayers3_pymontecarlo_v2.50.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.0.0/VerticalLayers3_pymontecarlo_v2.50.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_good_sim_v251():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/VerticalLayers3_good_v2.51.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.1.0/VerticalLayers3_good_v2.51.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_sim():
-    file_path = resource_filename(__name__, "../test_data/casino3.x/SiSubstrateThreeLines_Points.sim")
+    file_path = resource_filename(__name__, "../test_data/casino3.x/v3.1/v3.1.7.2/SiSubstrateThreeLines_Points.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_sim_3202():
-    file_path = resource_filename(__name__, "../test_data/casino3.x/SiSubstrateThreeLines_Points_3202.sim")
+    file_path = resource_filename(__name__, "../test_data/casino3.x/v3.2/v3.2.0.2/SiSubstrateThreeLines_Points_3202.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas():
-    file_path = resource_filename(__name__, "../test_data/casino3.x/SiSubstrateThreeLines_Points_1Me.cas")
+    file_path = resource_filename(__name__, "../test_data/casino3.x/v3.1/v3.1.7.2/SiSubstrateThreeLines_Points_1Me.cas")
     return file_path
 
 
 @pytest.fixture()
 def filepath_sim_2_5_1_0():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/C_15kV_2_5_1_0.sim")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.1.0/C_15kV_2_5_1_0.sim")
     return file_path
 
 
 @pytest.fixture()
 def filepath_cas_2_5_1_0():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/C_15kV_2_5_1_0.cas")
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.1.0/C_15kV_2_5_1_0.cas")
     return file_path
 
 

@@ -135,7 +135,7 @@ class File:
 
 def _run():
     from pkg_resources import resource_filename  # @UnresolvedImport
-    file_path_cas = resource_filename(__file__, "../../test_data/wincasino2.45/id475_v2.46.cas")
+    file_path_cas = resource_filename(__file__, "../../test_data/wincasino2.45/v2.4.6.1/id475_v2.46.cas")
     file = File()
     file.read_from_filepath(file_path_cas, is_skip_reading_data=True)
 

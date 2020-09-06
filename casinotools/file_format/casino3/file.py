@@ -38,6 +38,7 @@ from casinotools.file_format.tags import limited_search_tag, TAG_LENGTH, add_tag
 from casinotools.file_format.casino3.simulation_data import SimulationData
 from casinotools.file_format.file_reader_writer_tools import read_int, _write_str_length, write_int, \
     _extract_version_string, write_line
+from casinotools import get_current_module_path
 
 # Globals and constants variables.
 SIMULATION_CONFIGURATIONS = "sim"
@@ -380,12 +381,7 @@ class File:
 
 def _run():
     from pkg_resources import resource_filename  # @UnresolvedImport
-    # filepath_cas  = Files.getCurrentModulePath(__file__, "../../test_data/casino3.x/WaterAuTop_wSE.cas")
-    filepath_cas = resource_filename(__file__, "/Volumes/drix01/resultsUdeS/Simulations/Microfluidic/SecondaryElectrons/WaterAuTop_wSE_100e_CS5.cas")
-    # filepath_cas  = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_1Me.cas")
-    # filepath_cas  = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_100ke.cas")
-    # filepath_cas  = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/articles/3dStem/shotNoise/Au_C_thin_10ke.cas")
-    # filepath_cas  = Files.getCurrentModulePath(__file__, "/Volumes/drix01/resultsUdeS/Simulations/ResistLines/SiSubstrateThreeLines_PointsEdep.cas")
+    filepath_cas = get_current_module_path(__file__, "../../test_data/casino3.x/v3.1/v3.1.7.2/WaterAuTop_wSE.cas")
 
     file = File(filepath_cas)
     print("File name: {}".format(file._file.name))
