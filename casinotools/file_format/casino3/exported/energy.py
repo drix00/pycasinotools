@@ -128,7 +128,7 @@ class EnergyCartesian:
                (self.xs_nm == other.xs_nm) and \
                (self.ys_nm == other.ys_nm) and \
                (self.zs_nm == other.zs_nm) and \
-               (self.energies_keV == other.energies_keV)
+               np.all(self.energies_keV == other.energies_keV)
 
     @property
     def total_energy_keV(self):
@@ -170,6 +170,8 @@ class EnergyCylindrical:
                     self.zs_nm.append(z_nm)
                     self.energies_keV.append(energies)
 
+        self.energies_keV = np.array(self.energies_keV)
+
     def __eq__(self, other):
         return (self.maximum_density_keV == other.maximum_density_keV) and \
                (self.radius_size_nm == other.radius_size_nm) and \
@@ -180,7 +182,7 @@ class EnergyCylindrical:
                (self.range_z_nm == other.range_z_nm) and \
                (self.radiuses_nm == other.radiuses_nm) and \
                (self.zs_nm == other.zs_nm) and \
-               (self.energies_keV == other.energies_keV)
+               np.all(self.energies_keV == other.energies_keV)
 
     @property
     def total_energy_keV(self):
@@ -212,13 +214,15 @@ class EnergySpherical:
                     self.radiuses_nm.append(radius)
                     self.energies_keV.append(energy)
 
+        self.energies_keV = np.array(self.energies_keV)
+
     def __eq__(self, other):
         return (self.maximum_density_keV == other.maximum_density_keV) and \
                (self.radius_size_nm == other.radius_size_nm) and \
                (self.radius_number_divisions == other.radius_number_divisions) and \
                (self.center_nm == other.center_nm) and \
                (self.radiuses_nm == other.radiuses_nm) and \
-               (self.energies_keV == other.energies_keV)
+               np.all(self.energies_keV == other.energies_keV)
 
     @property
     def total_energy_keV(self):

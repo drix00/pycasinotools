@@ -49,8 +49,8 @@ RANGE_FIXED = 3
 # possible values for the Energy by Position (DEpos) Distribution Type
 # combo box
 DIST_DEPOS_TYPE_CARTESIAN = 0  # cartesian
-DIST_DEPOS_TYPE_CYLINDRIC = 1  # cylindric
-DIST_DEPOS_TYPE_SPHERIC = 2  # spheric
+DIST_DEPOS_TYPE_CYLINDRIC = 1  # cylindrical
+DIST_DEPOS_TYPE_SPHERIC = 2  # spherical
 
 # possible value for the position of the center_nm
 DIST_DEPOS_POSITION_ABSOLUTE = 0

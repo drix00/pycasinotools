@@ -88,12 +88,12 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options._options_adv_back_set.FEFilter == 0
 
         # Dist
-        assert simulation_options._options_dist._version == 30107002
-        assert simulation_options._options_dist.DenrMax / autoFlag == pytest.approx(1.0)
+        assert simulation_options.options_dist._version == 30107002
+        assert simulation_options.options_dist.DenrMax / autoFlag == pytest.approx(1.0)
 
-        assert simulation_options._options_dist.DEposCyl_Z == pytest.approx(1000.0)
-        assert simulation_options._options_dist.DEposCyl_Z_Log == 0
-        assert simulation_options._options_dist.DEpos_Position == DIST_DEPOS_POSITION_ABSOLUTE
+        assert simulation_options.options_dist.DEposCyl_Z == pytest.approx(1000.0)
+        assert simulation_options.options_dist.DEposCyl_Z_Log == 0
+        assert simulation_options.options_dist.DEpos_Position == DIST_DEPOS_POSITION_ABSOLUTE
 
         # EnergyByPos
         assert simulation_options._options_energy_by_pos._version == 30107002

@@ -57,21 +57,22 @@ class EnergyMatrix:
     def __init__(self, options, point):
         self._point = point
 
-        if options._options_dist.DEpos_Type == DIST_DEPOS_TYPE_CARTESIAN:
-            self._number_points_x = options._options_dist.NbPointDEpos_X
-            self._number_points_y = options._options_dist.NbPointDEpos_Y
-            self._number_points_z = options._options_dist.NbPointDEpos_Z
-        elif options._options_dist.DEpos_Type == DIST_DEPOS_TYPE_CYLINDRIC:
+        self.type = options.options_dist.DEpos_Type
+        if self.type == DIST_DEPOS_TYPE_CARTESIAN:
+            self._number_points_x = options.options_dist.NbPointDEpos_X
+            self._number_points_y = options.options_dist.NbPointDEpos_Y
+            self._number_points_z = options.options_dist.NbPointDEpos_Z
+        elif self.type == DIST_DEPOS_TYPE_CYLINDRIC:
             self._number_points_x = 1
-            self._number_points_y = options._options_dist.DEposCyl_Rad_Div
-            self._number_points_z = options._options_dist.DEposCyl_Z_Div
-        elif options._options_dist.DEpos_Type == DIST_DEPOS_TYPE_SPHERIC:
+            self._number_points_y = options.options_dist.DEposCyl_Rad_Div
+            self._number_points_z = options.options_dist.DEposCyl_Z_Div
+        elif self.type == DIST_DEPOS_TYPE_SPHERIC:
             self._number_points_x = 1
             self._number_points_y = 1
-            self._number_points_z = options._options_dist.DEposSpheric_Rad_Div
+            self._number_points_z = options.options_dist.DEposSpheric_Rad_Div
 
         self._number_elements = 0
-        self._values = []
+        self._values = None
         self._data = None
 
         self._file = None
@@ -105,20 +106,53 @@ class EnergyMatrix:
 
     def get_data(self):
         if self._data is None:
-            if self._values is None:
-                self._read_values()
-                index = 0
-                shape = (self._number_points_x, self._number_points_y, self._number_points_z)
-                self._data = np.zeros(shape)
-                for x in range(self._number_points_x):
-                    for y in range(self._number_points_y):
-                        for z in range(self._number_points_z):
-                            self._data[x, y, z] = self._values[index]
-                            index += 1
-                del self._values
-                self._values = None
+            if self.type == DIST_DEPOS_TYPE_CARTESIAN:
+                self.compute_data_cartesian()
+            elif self.type == DIST_DEPOS_TYPE_CYLINDRIC:
+                self.compute_data_cylindrical()
+            elif self.type == DIST_DEPOS_TYPE_SPHERIC:
+                self.compute_data_spherical()
 
         return self._data
+
+    def compute_data_cartesian(self):
+        if self._values is None:
+            self._read_values()
+            index = 0
+            shape = (self._number_points_x, self._number_points_y, self._number_points_z)
+            self._data = np.zeros(shape)
+            for x in range(self._number_points_x):
+                for y in range(self._number_points_y):
+                    for z in range(self._number_points_z):
+                        self._data[x, y, z] = self._values[index]
+                        index += 1
+            del self._values
+            self._values = None
+
+    def compute_data_cylindrical(self):
+        if self._values is None:
+            self._read_values()
+            index = 0
+            shape = (self._number_points_y, self._number_points_z)
+            self._data = np.zeros(shape)
+            for y in range(self._number_points_y):
+                for z in range(self._number_points_z):
+                    self._data[y, z] = self._values[index]
+                    index += 1
+            del self._values
+            self._values = None
+
+    def compute_data_spherical(self):
+        if self._values is None:
+            self._read_values()
+            index = 0
+            shape = (self._number_points_z)
+            self._data = np.zeros(shape)
+            for z in range(self._number_points_z):
+                self._data[z] = self._values[index]
+                index += 1
+            del self._values
+            self._values = None
 
     def get_number_points_energy_absorbed(self):
         return self._number_points_x * self._number_points_y * self._number_points_z

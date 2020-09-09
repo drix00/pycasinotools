@@ -55,7 +55,7 @@ def test_is_discovered():
 
 def test_read(filepath_cas):
     options = SimulationOptions()
-    options._options_dist.DEpos_Type = DIST_DEPOS_TYPE_CARTESIAN
+    options.options_dist.DEpos_Type = DIST_DEPOS_TYPE_CARTESIAN
     results = DiffusedEnergyMatrix(options, None)
     if is_bad_file(filepath_cas):
         pytest.skip()

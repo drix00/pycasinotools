@@ -26,10 +26,10 @@ Tests for the :py:mod:`casinotools.file_format.casino3.exported.energy` module.
 # Standard library modules.
 import os.path
 
+import numpy as np
 # Third party modules.
 import pytest
 from pkg_resources import resource_filename
-import numpy as np
 
 # Project modules.
 from casinotools.file_format.casino3.exported.energy import EnergyCartesian, EnergyCylindrical, EnergySpherical
@@ -80,17 +80,6 @@ def energy_cartesian_data():
     energy_cartesian.range_x_nm = [-250.0, 250.0]
     energy_cartesian.range_y_nm = [-250.0, 250.0]
     energy_cartesian.range_z_nm = [0.0, 500.0]
-
-    # self.xs_nm = [-250.         -239.79591837 -229.59183673 -219.3877551  -209.18367347, -198.97959184 -188.7755102  -178.57142857 -168.36734694 -158.16326531, -147.95918367 -137.75510204 -127.55102041 -117.34693878 -107.14285714,  -96.93877551  -86.73469388  -76.53061224  -66.32653061  -56.12244898,  -45.91836735  -35.71428571  -25.51020408  -15.30612245   -5.10204082,    5.10204082   15.30612245   25.51020408   35.71428571   45.91836735,   56.12244898   66.32653061   76.53061224   86.73469388   96.93877551,  107.14285714  117.34693878  127.55102041  137.75510204  147.95918367,  158.16326531  168.36734694  178.57142857  188.7755102   198.97959184,  209.18367347  219.3877551   229.59183673  239.79591837  250.        ]
-    # self.ys_nm = [-250.         -239.79591837 -229.59183673 -219.3877551  -209.18367347, -198.97959184 -188.7755102  -178.57142857 -168.36734694 -158.16326531, -147.95918367 -137.75510204 -127.55102041 -117.34693878 -107.14285714,  -96.93877551  -86.73469388  -76.53061224  -66.32653061  -56.12244898,  -45.91836735  -35.71428571  -25.51020408  -15.30612245   -5.10204082,    5.10204082   15.30612245   25.51020408   35.71428571   45.91836735,   56.12244898   66.32653061   76.53061224   86.73469388   96.93877551,  107.14285714  117.34693878  127.55102041  137.75510204  147.95918367,  158.16326531  168.36734694  178.57142857  188.7755102   198.97959184,  209.18367347  219.3877551   229.59183673  239.79591837  250.        ]
-    # self.zs_nm = [  0.          10.20408163  20.40816327  30.6122449   40.81632653,  51.02040816  61.2244898   71.42857143  81.63265306  91.83673469, 102.04081633 112.24489796 122.44897959 132.65306122 142.85714286, 153.06122449 163.26530612 173.46938776 183.67346939 193.87755102, 204.08163265 214.28571429 224.48979592 234.69387755 244.89795918, 255.10204082 265.30612245 275.51020408 285.71428571 295.91836735, 306.12244898 316.32653061 326.53061224 336.73469388 346.93877551, 357.14285714 367.34693878 377.55102041 387.75510204 397.95918367, 408.16326531 418.36734694 428.57142857 438.7755102  448.97959184, 459.18367347 469.3877551  479.59183673 489.79591837 500.        ]
-
-    # energy_cartesian.energies_keV = [1559.79, 10966.5, 29838.1, 57438.2, 93917.4, 138602.0, 190006.0, 247896.0,
-    #                                  310546.0, 378282.0, 446494.0, 514452.0, 577613.0, 633285.0, 675042.0, 699366.0,
-    #                                  701430.0, 678552.0, 522830.0, 442499.0, 392844.0, 348752.0, 310639.0, 272963.0,
-    #                                  238278.0, 175451.0, 146569.0, 121735.0, 100570.0, 82505.4, 66767.5, 54159.5,
-    #                                  43297.3, 34490.0, 27846.7, 22097.0, 17687.5, 14237.3, 11486.8, 9268.19, 7732.89,
-    #                                  6549.81, 5758.73, 5051.5, 4510.56, 4085.29, 3815.15, 3530.35, 3350.9, 3151.28]
 
     return energy_cartesian
 
@@ -373,7 +362,7 @@ def energy_spherical_data_empty():
 @pytest.fixture()
 def energy_spherical_data():
     energy_spherical = EnergySpherical()
-    energy_spherical.maximum_density_keV = 701430.0
+    energy_spherical.maximum_density_keV = 702652.0
     energy_spherical.radius_size_nm = 10.0
     energy_spherical.radius_number_divisions = 50
     energy_spherical.center_nm = [0.0, 0.0, 250.0]
@@ -382,12 +371,13 @@ def energy_spherical_data():
                                     140.0, 150.0, 160.0, 170.0, 180.0, 190.0, 200.0, 210.0, 220.0, 230.0, 240.0, 250.0,
                                     260.0, 270.0, 280.0, 290.0, 300.0, 310.0, 320.0, 330.0, 340.0, 350.0, 360.0, 370.0,
                                     380.0, 390.0, 400.0, 410.0, 420.0, 430.0, 440.0, 450.0, 460.0, 470.0, 480.0, 490.0]
-    energy_spherical.energies_keV = [1559.79, 10966.5, 29838.1, 57438.2, 93917.4, 138602.0, 190006.0, 247896.0,
-                                     310546.0, 378282.0, 446494.0, 514452.0, 577613.0, 633285.0, 675042.0, 699366.0,
-                                     701430.0, 678552.0, 522830.0, 442499.0, 392844.0, 348752.0, 310639.0, 272963.0,
-                                     238278.0, 175451.0, 146569.0, 121735.0, 100570.0, 82505.4, 66767.5, 54159.5,
-                                     43297.3, 34490.0, 27846.7, 22097.0, 17687.5, 14237.3, 11486.8, 9268.19, 7732.89,
-                                     6549.81, 5758.73, 5051.5, 4510.56, 4085.29, 3815.15, 3530.35, 3350.9, 3151.28]
+    energy_spherical.energies_keV = [1582.23, 10979., 29810.1, 57855.6, 93962.1, 138744., 190499., 249002., 312669.,
+                                     379212., 448227., 515587., 579202., 634425., 676555., 700452., 702652., 679098.,
+                                     523367., 442580., 392801., 349182., 310822., 272462., 237544., 174057., 145571.,
+                                     121136., 99562.8, 81527.8, 66372.3, 53417.8, 42997.7, 34341.9, 27902., 22168.8,
+                                     17571.8, 14059.9, 11302.2, 9332.66, 7792.92, 6611.9, 5827.17, 5098.45, 4484.84,
+                                     4131.61, 3740.15, 3486.66, 3339.01, 3119.02]
+    energy_spherical.energies_keV = np.array(energy_spherical.energies_keV)
 
     return energy_spherical
 
@@ -448,6 +438,12 @@ def test_read_cartesian(file_path_energy_cartesian_dat, energy_cartesian_data_em
     # assert energy_cartesian == energy_cartesian_data
     assert np.all(energy_cartesian.energies_keV == energy_cartesian.energies2_keV)
 
+    assert energy_cartesian.energies_keV[0, 0, 0] == 1.56884
+    assert energy_cartesian.energies_keV[1, 1, 1] == 2.27235
+    assert energy_cartesian.energies_keV[24, 24, 24] == 411.404
+    assert energy_cartesian.energies_keV[-2, -2, -2] == 0.0
+    assert energy_cartesian.energies_keV[-1, -1, -1] == 0.0
+
 
 def test_cartesian_total_energy(file_path_energy_cartesian_dat):
     energy_cartesian = EnergyCartesian()
@@ -462,6 +458,12 @@ def test_read_cylindrical(file_path_energy_cylindrical_dat, energy_cylindrical_d
 
     energy_cylindrical.read(file_path_energy_cylindrical_dat)
     assert energy_cylindrical == energy_cylindrical_data
+
+    assert energy_cylindrical.energies_keV[0, 0] == 32161.7
+    assert energy_cylindrical.energies_keV[1, 1] == 690.734
+    assert energy_cylindrical.energies_keV[24, 24] == 4149.63
+    assert energy_cylindrical.energies_keV[-2, -2] == 0.0
+    assert energy_cylindrical.energies_keV[-1, -1] == 0.0
 
 
 def test_cylindrical_total_energy(file_path_energy_cylindrical_dat):
@@ -478,9 +480,15 @@ def test_read_spherical(file_path_energy_spherical_dat, energy_spherical_data_em
     energy_spherical.read(file_path_energy_spherical_dat)
     assert energy_spherical == energy_spherical_data
 
+    assert energy_spherical.energies_keV[0] == 1582.23
+    assert energy_spherical.energies_keV[1] == 10979.0
+    assert energy_spherical.energies_keV[24] == 237544.0
+    assert energy_spherical.energies_keV[-2] == 3339.01
+    assert energy_spherical.energies_keV[-1] == 3119.02
+
 
 def test_spherical_total_energy(file_path_energy_spherical_dat):
     energy_spherical = EnergySpherical()
     energy_spherical.read(file_path_energy_spherical_dat)
 
-    assert energy_spherical.total_energy_keV == 9889795.64
+    assert energy_spherical.total_energy_keV == 9898224.42

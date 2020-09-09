@@ -51,7 +51,7 @@ from casinotools.file_format.casino3.version import SIM_OPTIONS_VERSION_3_3_0_0,
 class SimulationOptions:
     def __init__(self):
         self._options_physic = OptionsPhysic()
-        self._options_dist = OptionsDist()
+        self.options_dist = OptionsDist()
         self._options_micro = OptionsMicro()
         self._options_adv_back_set = OptionsAdvBackSet()
         self._options_xray = OptionsXray()
@@ -84,7 +84,7 @@ class SimulationOptions:
             if SIM_OPTIONS_VERSION_3_3_0_0 <= self._version < SIM_OPTIONS_VERSION_3_3_0_4:
                 self._options_advanced_psfs_settings.read(file)
 
-            self._options_dist.read(file)
+            self.options_dist.read(file)
             self._options_energy_by_pos.read(file)
             self._options_micro.read(file)
             self._options_physic.read(file)
@@ -106,7 +106,7 @@ class SimulationOptions:
         pass
 
     def get_options_distributions(self):
-        return self._options_dist
+        return self.options_dist
 
     def get_options_advanced_psfs_settings(self):
         return self._options_advanced_psfs_settings

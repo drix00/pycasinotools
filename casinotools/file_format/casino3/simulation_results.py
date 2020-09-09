@@ -91,12 +91,12 @@ class SimulationResults:
 
             self._is_total_energy_density_saved = read_bool(file)
             if self._is_total_energy_density_saved:
-                self._deposited_energy_density = EnergyMatrix(options, options._options_dist.DEpos_Center)
+                self._deposited_energy_density = EnergyMatrix(options, options.options_dist.DEpos_Center)
                 self._deposited_energy_density.read(file)
 
             self._is_diffused_total_energy_density_saved = read_bool(file)
             if self._is_diffused_total_energy_density_saved:
-                self._diffused_energy_density = DiffusedEnergyMatrix(options, options._options_dist.DEpos_Center)
+                self._diffused_energy_density = DiffusedEnergyMatrix(options, options.options_dist.DEpos_Center)
                 self._diffused_energy_density.read(file)
 
         logging.debug("File position at the end of %s.%s: %i", self.__class__.__name__, "_read_simulation_results",
