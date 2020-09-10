@@ -369,18 +369,6 @@ def test_is_discovered():
     assert True
 
 
-def test_file_path_energy_cartesian_dat(file_path_energy_cartesian_dat):
-    assert os.path.isfile(file_path_energy_cartesian_dat)
-
-
-def test_file_path_energy_cylindrical_dat(file_path_energy_cylindrical_dat):
-    assert os.path.isfile(file_path_energy_cylindrical_dat)
-
-
-def test_file_path_energy_spherical_dat(file_path_energy_spherical_dat):
-    assert os.path.isfile(file_path_energy_spherical_dat)
-
-
 def test_read_cartesian(file_path_energy_cartesian_dat, energy_cartesian_data_empty, energy_cartesian_data):
     energy_cartesian = EnergyCartesian()
     assert energy_cartesian == energy_cartesian_data_empty

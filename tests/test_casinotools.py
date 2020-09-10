@@ -24,6 +24,7 @@ Tests for the :py:mod:`casinotools` package.
 # limitations under the License.
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
 
@@ -41,3 +42,55 @@ def test_structure():
 
     # assert False
     assert True
+
+
+def test_file_path_energy_cartesian_cas(file_path_energy_cartesian_cas):
+    assert os.path.isfile(file_path_energy_cartesian_cas)
+
+
+def test_file_path_energy_cylindrical_cas(file_path_energy_cylindrical_cas):
+    assert os.path.isfile(file_path_energy_cylindrical_cas)
+
+
+def test_file_path_energy_spherical_cas(file_path_energy_spherical_cas):
+    assert os.path.isfile(file_path_energy_spherical_cas)
+
+
+def test_file_path_no_deposited_energy_cas(file_path_no_deposited_energy_cas):
+    assert os.path.isfile(file_path_no_deposited_energy_cas)
+
+
+def test_file_path_energy_cartesian_dat(file_path_energy_cartesian_dat):
+    assert os.path.isfile(file_path_energy_cartesian_dat)
+
+
+def test_file_path_energy_cylindrical_dat(file_path_energy_cylindrical_dat):
+    assert os.path.isfile(file_path_energy_cylindrical_dat)
+
+
+def test_file_path_energy_spherical_dat(file_path_energy_spherical_dat):
+    assert os.path.isfile(file_path_energy_spherical_dat)
+
+
+def test_file_path_energy_cartesian_log_cas(file_path_energy_cartesian_cas):
+    assert os.path.isfile(file_path_energy_cartesian_cas)
+
+
+def test_file_path_energy_cylindrical_log_cas(file_path_energy_cylindrical_cas):
+    assert os.path.isfile(file_path_energy_cylindrical_cas)
+
+
+def test_file_path_energy_spherical_log_cas(file_path_energy_spherical_cas):
+    assert os.path.isfile(file_path_energy_spherical_cas)
+
+
+def test_file_path_energy_cartesian_log_dat(file_path_energy_cartesian_dat):
+    assert os.path.isfile(file_path_energy_cartesian_dat)
+
+
+def test_file_path_energy_cylindrical_log_dat(file_path_energy_cylindrical_dat):
+    assert os.path.isfile(file_path_energy_cylindrical_dat)
+
+
+def test_file_path_energy_spherical_log_dat(file_path_energy_spherical_dat):
+    assert os.path.isfile(file_path_energy_spherical_dat)

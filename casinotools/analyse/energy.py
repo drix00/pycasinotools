@@ -8,7 +8,12 @@
 Helper to extract and use deposited energy from CASINO.
 
 .. todo:: Add same helper for CASINO 2.
-.. todo:: Implement log scale range and tests.
+
+.. note::
+
+  For energy deposition distribution, the log options are not used in the calculation.
+  The Cartesian (X, Y, Z) log flags are not saved in .sim and .cas files.
+
 """
 
 # Copyright 2020 Hendrix Demers

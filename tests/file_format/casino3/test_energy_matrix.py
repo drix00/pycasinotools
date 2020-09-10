@@ -52,18 +52,6 @@ def test_is_discovered():
     assert True
 
 
-def test_file_path_energy_cartesian_cas(file_path_energy_cartesian_cas):
-    assert os.path.isfile(file_path_energy_cartesian_cas)
-
-
-def test_file_path_energy_cylindrical_cas(file_path_energy_cylindrical_cas):
-    assert os.path.isfile(file_path_energy_cylindrical_cas)
-
-
-def test_file_path_energy_spherical_cas(file_path_energy_spherical_cas):
-    assert os.path.isfile(file_path_energy_spherical_cas)
-
-
 def test_read(filepath_cas):
     options = SimulationOptions()
     options.options_dist.DEpos_Type = DIST_DEPOS_TYPE_CARTESIAN

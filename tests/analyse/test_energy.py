@@ -75,6 +75,12 @@ def test_read_cartesian_cas(file_path_energy_cartesian_cas):
     assert energy_data.energies_keV[-1, -1, -1] == 0.0
 
 
+def test_cartesian_total_energy_cas(file_path_energy_cartesian_cas):
+    energy_data = read_energy_data(file_path_energy_cartesian_cas)
+
+    assert energy_data.total_energy_keV == 9536354.738660647
+
+
 def test_read_cartesian_dat(file_path_energy_cartesian_dat):
     energy_data = read_energy_data(file_path_energy_cartesian_dat)
 
@@ -110,6 +116,12 @@ def test_read_cylindrical_cas(file_path_energy_cylindrical_cas):
     assert energy_data.energies_keV[-1, -1] == 0.0
 
 
+def test_cylindrical_total_energy_cas(file_path_energy_cylindrical_cas):
+    energy_data = read_energy_data(file_path_energy_cylindrical_cas)
+
+    assert energy_data.total_energy_keV == 9899161.88358982
+
+
 def test_read_cylindrical_dat(file_path_energy_cylindrical_dat):
     energy_data = read_energy_data(file_path_energy_cylindrical_dat)
 
@@ -143,6 +155,12 @@ def test_read_spherical_cas(file_path_energy_spherical_cas):
     assert energy_data.energies_keV[-1] == 3119.0176437913647
 
 
+def test_spherical_total_energy_cas(file_path_energy_spherical_cas):
+    energy_data = read_energy_data(file_path_energy_spherical_cas)
+
+    assert energy_data.total_energy_keV == 9898225.278373864
+
+
 def test_read_spherical_dat(file_path_energy_spherical_dat):
     energy_data = read_energy_data(file_path_energy_spherical_dat)
 
@@ -161,6 +179,128 @@ def test_spherical_total_energy_dat(file_path_energy_spherical_dat):
     energy_data = read_energy_data(file_path_energy_spherical_dat)
 
     assert energy_data.total_energy_keV == 9898224.42
+
+
+def test_read_cartesian_log_cas(file_path_energy_cartesian_log_cas):
+    energy_data = read_energy_data(file_path_energy_cartesian_log_cas)
+
+    assert energy_data.number_elements == 50 * 50 * 50
+
+    compare_log_xs_nm(energy_data)
+    compare_log_ys_nm(energy_data)
+    compare_log_zs_nm(energy_data)
+
+    assert energy_data.energies_keV[0, 0, 0] == 2.0876775811210173
+    assert energy_data.energies_keV[1, 1, 1] == 1.7060901002452047
+    assert energy_data.energies_keV[24, 24, 24] == 404.20891939843676
+    assert energy_data.energies_keV[-2, -2, -2] == 0.0
+    assert energy_data.energies_keV[-1, -1, -1] == 0.0
+
+
+def test_cartesian_total_energy_log_cas(file_path_energy_cartesian_log_cas):
+    energy_data = read_energy_data(file_path_energy_cartesian_log_cas)
+
+    assert energy_data.total_energy_keV == 9522341.342891479
+
+
+def test_read_cartesian_log_dat(file_path_energy_cartesian_log_dat):
+    energy_data = read_energy_data(file_path_energy_cartesian_log_dat)
+
+    compare_log_xs_nm(energy_data)
+    compare_log_ys_nm(energy_data)
+    compare_log_zs_nm(energy_data)
+
+    assert energy_data.energies_keV[0, 0, 0] == 2.08768
+    assert energy_data.energies_keV[1, 1, 1] == 1.70609
+    assert energy_data.energies_keV[24, 24, 24] == 404.209
+    assert energy_data.energies_keV[-2, -2, -2] == 0.0
+    assert energy_data.energies_keV[-1, -1, -1] == 0.0
+
+
+def test_cartesian_total_energy_log_dat(file_path_energy_cartesian_log_dat):
+    energy_data = read_energy_data(file_path_energy_cartesian_log_dat)
+
+    assert energy_data.total_energy_keV == 9522341.177130042
+
+
+def test_read_cylindrical_log_cas(file_path_energy_cylindrical_log_cas):
+    energy_data = read_energy_data(file_path_energy_cylindrical_log_cas)
+
+    assert energy_data.number_elements == 50 * 50
+
+    compare_log_zs_nm(energy_data)
+    compare_log_radiuses_nm(energy_data)
+
+    assert energy_data.energies_keV[0, 0] == 32163.283594180775
+    assert energy_data.energies_keV[1, 1] == 679.9492457467027
+    assert energy_data.energies_keV[24, 24] == 4026.5526508481285
+    assert energy_data.energies_keV[-2, -2] == 0.0
+    assert energy_data.energies_keV[-1, -1] == 0.0
+
+
+def test_cylindrical_total_energy_log_cas(file_path_energy_cylindrical_log_cas):
+    energy_data = read_energy_data(file_path_energy_cylindrical_log_cas)
+
+    assert energy_data.total_energy_keV == 9911381.408432323
+
+
+def test_read_cylindrical_log_dat(file_path_energy_cylindrical_log_dat):
+    energy_data = read_energy_data(file_path_energy_cylindrical_log_dat)
+
+    compare_log_zs_nm(energy_data)
+    compare_log_radiuses_nm(energy_data)
+
+    assert energy_data.energies_keV[0, 0] == 32163.3
+    assert energy_data.energies_keV[1, 1] == 679.949
+    assert energy_data.energies_keV[24, 24] == 4026.55
+    assert energy_data.energies_keV[-2, -2] == 0.0
+    assert energy_data.energies_keV[-1, -1] == 0.0
+
+
+def test_cylindrical_total_energy_log_dat(file_path_energy_cylindrical_log_dat):
+    energy_data = read_energy_data(file_path_energy_cylindrical_log_dat)
+
+    assert energy_data.total_energy_keV == 9911381.701784529
+
+
+def test_read_spherical_log_cas(file_path_energy_spherical_log_cas):
+    energy_data = read_energy_data(file_path_energy_spherical_log_cas)
+
+    assert energy_data.number_elements == 50
+
+    compare_log_radiuses_nm(energy_data)
+
+    assert energy_data.energies_keV[0] == 1561.262589166787
+    assert energy_data.energies_keV[1] == 10938.12819789883
+    assert energy_data.energies_keV[24] == 238640.1759343048
+    assert energy_data.energies_keV[-2] == 3358.121421067252
+    assert energy_data.energies_keV[-1] == 3182.2921562739857
+
+
+def test_spherical_total_energy_log_cas(file_path_energy_spherical_log_cas):
+    energy_data = read_energy_data(file_path_energy_spherical_log_cas)
+
+    assert energy_data.total_energy_keV == 9897975.042269977
+
+
+def test_read_spherical_log_dat(file_path_energy_spherical_log_dat):
+    energy_data = read_energy_data(file_path_energy_spherical_log_dat)
+
+    assert energy_data.number_elements == 50
+
+    compare_log_radiuses_nm(energy_data)
+
+    assert energy_data.energies_keV[0] == 1561.26
+    assert energy_data.energies_keV[1] == 10938.1
+    assert energy_data.energies_keV[24] == 238640.0
+    assert energy_data.energies_keV[-2] == 3358.12
+    assert energy_data.energies_keV[-1] == 3182.29
+
+
+def test_spherical_total_energy_log_dat(file_path_energy_spherical_log_dat):
+    energy_data = read_energy_data(file_path_energy_spherical_log_dat)
+
+    assert energy_data.total_energy_keV == 9897971.179999998
 
 
 def test_read_bad_file(filepath_sim_3202):
@@ -209,6 +349,35 @@ def compare_zs_nm(energy_data):
 
 
 def compare_radiuses_nm(energy_data):
+    assert energy_data.radiuses_nm[0] == 0.0
+    assert energy_data.radiuses_nm[1] == 10.0
+    assert energy_data.radiuses_nm[24] == 240.0
+    assert energy_data.radiuses_nm[-2] == 480.0
+    assert energy_data.radiuses_nm[-1] == 490.0
+
+
+def compare_log_xs_nm(energy_data):
+    assert energy_data.xs_nm[0] == -250.0
+    assert energy_data.xs_nm[1] == -240.0
+    assert energy_data.xs_nm[-2] == 230.0
+    assert energy_data.xs_nm[-1] == 240.0
+
+
+def compare_log_ys_nm(energy_data):
+    assert energy_data.ys_nm[0] == -250.0
+    assert energy_data.ys_nm[1] == -240.0
+    assert energy_data.ys_nm[-2] == 230.0
+    assert energy_data.ys_nm[-1] == 240.0
+
+
+def compare_log_zs_nm(energy_data):
+    assert energy_data.zs_nm[0] == 0.0
+    assert energy_data.zs_nm[1] == 10.0
+    assert energy_data.zs_nm[-2] == 480.0
+    assert energy_data.zs_nm[-1] == 490.0
+
+
+def compare_log_radiuses_nm(energy_data):
     assert energy_data.radiuses_nm[0] == 0.0
     assert energy_data.radiuses_nm[1] == 10.0
     assert energy_data.radiuses_nm[24] == 240.0

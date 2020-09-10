@@ -237,4 +237,58 @@ def file_path_energy_spherical_dat():
     return file_path
 
 
+@pytest.fixture()
+def file_path_energy_cartesian_log_cas():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_log_v3.3.0.4.cas"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_cylindrical_log_cas():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_log_v3.3.0.4.cas"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_spherical_log_cas():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_log_v3.3.0.4.cas"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_cartesian_log_dat():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_log_v3.3.0.4_Energy_by_position.dat"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_cylindrical_log_dat():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_log_v3.3.0.4_Energy_by_position.dat"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_spherical_log_dat():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_log_v3.3.0.4_Energy_by_position.dat"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
 # Test data.
