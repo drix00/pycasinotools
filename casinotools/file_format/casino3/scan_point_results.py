@@ -93,9 +93,9 @@ class ScanPointResults:
         self._isDrasRetroEnr = False
         self.DrasRetroEnr = None
 
-        self._isDEnergy_Density = False
+        self.is_deposited_energy = False
         self.DEnergy_Density_Max_Energy = 0.0
-        self._DEnergy_Density = None
+        self.deposited_energy = None
 
         self._isDDiffusedEnergy_Density = False
         self._DDiffusedEnergy_Density = None
@@ -174,11 +174,11 @@ class ScanPointResults:
             if self._isDrasRetroEnr:
                 self.DrasRetroEnr = GraphData(file)
 
-            self._isDEnergy_Density = read_bool(file)
-            if self._isDEnergy_Density:
+            self.is_deposited_energy = read_bool(file)
+            if self.is_deposited_energy:
                 self.DEnergy_Density_Max_Energy = read_double(file)
-                self._DEnergy_Density = EnergyMatrix(options, self.get_position())
-                self._DEnergy_Density.read(file)
+                self.deposited_energy = EnergyMatrix(options, self.get_position())
+                self.deposited_energy.read(file)
 
             self._isDDiffusedEnergy_Density = read_bool(file)
             if self._isDDiffusedEnergy_Density:
@@ -275,7 +275,7 @@ class ScanPointResults:
         return self.DEnergy_Density_Max_Energy
 
     def get_energy_absorbed_keV(self):
-        return self._DEnergy_Density
+        return self.deposited_energy
 
     def is_psfs(self):
         return self._isPsf

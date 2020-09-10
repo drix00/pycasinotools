@@ -41,27 +41,6 @@ from casinotools.file_format.casino3.exported.energy import EnergyCartesian, Ene
 
 
 @pytest.fixture()
-def file_path_energy_cartesian_dat():
-    name = "../../../../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_v3.3.0.4_Energy_by_position.dat"
-    file_path = resource_filename(__name__, name)
-    return file_path
-
-
-@pytest.fixture()
-def file_path_energy_cylindrical_dat():
-    name = "../../../../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_v3.3.0.4_Energy_by_position.dat"
-    file_path = resource_filename(__name__, name)
-    return file_path
-
-
-@pytest.fixture()
-def file_path_energy_spherical_dat():
-    name = "../../../../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_v3.3.0.4_Energy_by_position.dat"
-    file_path = resource_filename(__name__, name)
-    return file_path
-
-
-@pytest.fixture()
 def energy_cartesian_data_empty():
     energy_cartesian = EnergyCartesian()
     return energy_cartesian
@@ -82,7 +61,6 @@ def energy_cartesian_data():
     energy_cartesian.range_z_nm = [0.0, 500.0]
 
     return energy_cartesian
-
 
 
 @pytest.fixture()

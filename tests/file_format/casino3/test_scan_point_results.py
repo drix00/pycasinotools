@@ -105,7 +105,7 @@ def test_read(filepath_cas):
     assert values[0] == pytest.approx(1.0)
     assert values[-1] == pytest.approx(0.0)
 
-    assert results._isDEnergy_Density is True
+    assert results.is_deposited_energy is True
     assert results.DEnergy_Density_Max_Energy == pytest.approx(1.518294795870E-01)
 
     assert results.get_number_saved_trajectories() == 199

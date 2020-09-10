@@ -43,33 +43,6 @@ from casinotools.file_format.casino3.file import File
 # Globals and constants variables.
 
 
-@pytest.fixture()
-def file_path_energy_cartesian_cas():
-    name = "../../../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_v3.3.0.4.cas"
-    file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
-        pytest.skip()
-    return file_path
-
-
-@pytest.fixture()
-def file_path_energy_cylindrical_cas():
-    name = "../../../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_v3.3.0.4.cas"
-    file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
-        pytest.skip()
-    return file_path
-
-
-@pytest.fixture()
-def file_path_energy_spherical_cas():
-    name = "../../../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_v3.3.0.4.cas"
-    file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
-        pytest.skip()
-    return file_path
-
-
 def test_is_discovered():
     """
     Test used to validate the file is included in the tests
@@ -112,10 +85,10 @@ def test_read_cartesian(file_path_energy_cartesian_cas):
 
     scan_point_results = casino_file.get_scan_point_results()[0]
 
-    assert scan_point_results._isDEnergy_Density is True
+    assert scan_point_results.is_deposited_energy is True
     # assert scan_point_results.DEnergy_Density_Max_Energy == 29050.4
 
-    energy_matrix = scan_point_results._DEnergy_Density
+    energy_matrix = scan_point_results.deposited_energy
     assert energy_matrix._number_elements == 50 * 50 * 50
 
     data = energy_matrix.get_data()
@@ -131,10 +104,10 @@ def test_read_cylindrical(file_path_energy_cylindrical_cas):
 
     scan_point_results = casino_file.get_scan_point_results()[0]
 
-    assert scan_point_results._isDEnergy_Density is True
+    assert scan_point_results.is_deposited_energy is True
     # assert scan_point_results.DEnergy_Density_Max_Energy == 29050.4
 
-    energy_matrix = scan_point_results._DEnergy_Density
+    energy_matrix = scan_point_results.deposited_energy
     assert energy_matrix._number_elements == 50 * 50
 
     data = energy_matrix.get_data()
@@ -150,10 +123,10 @@ def test_read_spherical(file_path_energy_spherical_cas):
 
     scan_point_results = casino_file.get_scan_point_results()[0]
 
-    assert scan_point_results._isDEnergy_Density is True
+    assert scan_point_results.is_deposited_energy is True
     # assert scan_point_results.DEnergy_Density_Max_Energy == 29050.4
 
-    energy_matrix = scan_point_results._DEnergy_Density
+    energy_matrix = scan_point_results.deposited_energy
     assert energy_matrix._number_elements == 50
 
     data = energy_matrix.get_data()

@@ -18,6 +18,7 @@ from pkg_resources import resource_filename
 # Local modules.
 
 # Project modules.
+from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
 
@@ -150,7 +151,8 @@ def filepath_sim():
 
 @pytest.fixture()
 def filepath_sim_3202():
-    file_path = resource_filename(__name__, "../test_data/casino3.x/v3.2/v3.2.0.2/SiSubstrateThreeLines_Points_3202.sim")
+    name = "../test_data/casino3.x/v3.2/v3.2.0.2/SiSubstrateThreeLines_Points_3202.sim"
+    file_path = resource_filename(__name__, name)
     return file_path
 
 
@@ -169,6 +171,69 @@ def filepath_sim_2_5_1_0():
 @pytest.fixture()
 def filepath_cas_2_5_1_0():
     file_path = resource_filename(__name__, "../test_data/casino2.x/v2.5.1.0/C_15kV_2_5_1_0.cas")
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_cartesian_cas():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_v3.3.0.4.cas"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_cylindrical_cas():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_v3.3.0.4.cas"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_spherical_cas():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_v3.3.0.4.cas"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_no_deposited_energy_cas():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/no_energy_deposition_v3.3.0.4.cas"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_cartesian_dat():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_v3.3.0.4_Energy_by_position.dat"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_cylindrical_dat():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_v3.3.0.4_Energy_by_position.dat"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
+    return file_path
+
+
+@pytest.fixture()
+def file_path_energy_spherical_dat():
+    name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_v3.3.0.4_Energy_by_position.dat"
+    file_path = resource_filename(__name__, name)
+    if is_bad_file(file_path):
+        pytest.skip()
     return file_path
 
 
