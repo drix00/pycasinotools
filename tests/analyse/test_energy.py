@@ -75,10 +75,42 @@ def test_read_cartesian_cas(file_path_energy_cartesian_cas):
     assert energy_data.energies_keV[-1, -1, -1] == 0.0
 
 
+def test_cartesian_energies_keV_e_cas(file_path_energy_cartesian_cas):
+    energy_data = read_energy_data(file_path_energy_cartesian_cas)
+
+    assert energy_data.number_electrons == 1000000
+
+    assert energy_data.energies_keV_e[0, 0, 0] == 1.5688423948687005 * 1.0e-6
+    assert energy_data.energies_keV_e[1, 1, 1] == 2.272354614047501 * 1.0e-6
+    assert energy_data.energies_keV_e[24, 24, 24] == 411.4040703345004 * 1.0e-6
+    assert energy_data.energies_keV_e[-2, -2, -2] == 0.0
+    assert energy_data.energies_keV_e[-1, -1, -1] == 0.0
+
+
 def test_cartesian_total_energy_cas(file_path_energy_cartesian_cas):
     energy_data = read_energy_data(file_path_energy_cartesian_cas)
 
     assert energy_data.total_energy_keV == 9536354.738660647
+
+
+def test_cartesian_region_energy_cas(file_path_energy_cartesian_cas):
+    energy_data = read_energy_data(file_path_energy_cartesian_cas)
+
+    assert len(energy_data.regions_keV) == 6
+    assert energy_data.regions_keV[0] == 70496.22496831052
+    assert energy_data.regions_keV[1] == 0
+    assert energy_data.regions_keV[2] == 465069.32524816366
+    assert energy_data.regions_keV[3] == 0
+    assert energy_data.regions_keV[4] == 9419760.151760759
+    assert energy_data.regions_keV[5] == 0
+
+    assert len(energy_data.regions_keV_e) == 6
+    assert energy_data.regions_keV_e[0] == pytest.approx(70496.22496831052 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[1] == 0
+    assert energy_data.regions_keV_e[2] == pytest.approx(465069.32524816366 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[3] == 0
+    assert energy_data.regions_keV_e[4] == pytest.approx(9419760.151760759 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[5] == 0
 
 
 def test_read_cartesian_dat(file_path_energy_cartesian_dat):
@@ -95,10 +127,26 @@ def test_read_cartesian_dat(file_path_energy_cartesian_dat):
     assert energy_data.energies_keV[-1, -1, -1] == 0.0
 
 
+def test_cartesian_energies_keV_e_dat(file_path_energy_cartesian_dat):
+    energy_data = read_energy_data(file_path_energy_cartesian_dat)
+
+    assert energy_data.number_electrons is None
+
+    with pytest.raises(AttributeError):
+        assert energy_data.energies_keV_e[0, 0, 0] == 1.5688423948687005 * 1.0e-6
+
+
 def test_cartesian_total_energy_dat(file_path_energy_cartesian_dat):
     energy_data = read_energy_data(file_path_energy_cartesian_dat)
 
     assert energy_data.total_energy_keV == 9536354.883729976
+
+
+def test_cartesian_region_energy_dat(file_path_energy_cartesian_dat):
+    energy_data = read_energy_data(file_path_energy_cartesian_dat)
+
+    assert len(energy_data.regions_keV) == 0
+    assert len(energy_data.regions_keV_e) == 0
 
 
 def test_read_cylindrical_cas(file_path_energy_cylindrical_cas):
@@ -116,10 +164,42 @@ def test_read_cylindrical_cas(file_path_energy_cylindrical_cas):
     assert energy_data.energies_keV[-1, -1] == 0.0
 
 
+def test_cylindrical_energies_keV_e_cas(file_path_energy_cylindrical_cas):
+    energy_data = read_energy_data(file_path_energy_cylindrical_cas)
+
+    assert energy_data.number_electrons == 1000000
+
+    assert energy_data.energies_keV_e[0, 0] == 32161.668619632866 * 1.0e-6
+    assert energy_data.energies_keV_e[1, 1] == 690.7337287232823 * 1.0e-6
+    assert energy_data.energies_keV_e[24, 24] == 4149.629987349835 * 1.0e-6
+    assert energy_data.energies_keV_e[-2, -2] == 0.0
+    assert energy_data.energies_keV_e[-1, -1] == 0.0
+
+
 def test_cylindrical_total_energy_cas(file_path_energy_cylindrical_cas):
     energy_data = read_energy_data(file_path_energy_cylindrical_cas)
 
     assert energy_data.total_energy_keV == 9899161.88358982
+
+
+def test_cylindrical_region_energy_cas(file_path_energy_cylindrical_cas):
+    energy_data = read_energy_data(file_path_energy_cylindrical_cas)
+
+    assert len(energy_data.regions_keV) == 6
+    assert energy_data.regions_keV[0] == 70449.16458856294
+    assert energy_data.regions_keV[1] == 0
+    assert energy_data.regions_keV[2] == 464514.8447485271
+    assert energy_data.regions_keV[3] == 0
+    assert energy_data.regions_keV[4] == 9416317.211490775
+    assert energy_data.regions_keV[5] == 0
+
+    assert len(energy_data.regions_keV_e) == 6
+    assert energy_data.regions_keV_e[0] == pytest.approx(70449.16458856294 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[1] == 0
+    assert energy_data.regions_keV_e[2] == pytest.approx(464514.8447485271 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[3] == 0
+    assert energy_data.regions_keV_e[4] == pytest.approx(9416317.211490775 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[5] == 0
 
 
 def test_read_cylindrical_dat(file_path_energy_cylindrical_dat):
@@ -135,10 +215,26 @@ def test_read_cylindrical_dat(file_path_energy_cylindrical_dat):
     assert energy_data.energies_keV[-1, -1] == 0.0
 
 
+def test_cylindrical_energies_keV_e_dat(file_path_energy_cylindrical_dat):
+    energy_data = read_energy_data(file_path_energy_cylindrical_dat)
+
+    assert energy_data.number_electrons is None
+
+    with pytest.raises(AttributeError):
+        assert energy_data.energies_keV_e[0, 0, 0] == 1.5688423948687005 * 1.0e-6
+
+
 def test_cylindrical_total_energy_dat(file_path_energy_cylindrical_dat):
     energy_data = read_energy_data(file_path_energy_cylindrical_dat)
 
     assert energy_data.total_energy_keV == 9899162.6705698
+
+
+def test_cylindrical_region_energy_dat(file_path_energy_cylindrical_dat):
+    energy_data = read_energy_data(file_path_energy_cylindrical_dat)
+
+    assert len(energy_data.regions_keV) == 0
+    assert len(energy_data.regions_keV_e) == 0
 
 
 def test_read_spherical_cas(file_path_energy_spherical_cas):
@@ -155,10 +251,42 @@ def test_read_spherical_cas(file_path_energy_spherical_cas):
     assert energy_data.energies_keV[-1] == 3119.0176437913647
 
 
+def test_spherical_energies_keV_e_cas(file_path_energy_spherical_cas):
+    energy_data = read_energy_data(file_path_energy_spherical_cas)
+
+    assert energy_data.number_electrons == 1000000
+
+    assert energy_data.energies_keV_e[0] == 1582.2293494223532 * 1.0e-6
+    assert energy_data.energies_keV_e[1] == 10978.987229982285 * 1.0e-6
+    assert energy_data.energies_keV_e[24] == 237544.09574357865 * 1.0e-6
+    assert energy_data.energies_keV_e[-2] == 3339.0087554269408 * 1.0e-6
+    assert energy_data.energies_keV_e[-1] == 3119.017643791365 * 1.0e-6
+
+
 def test_spherical_total_energy_cas(file_path_energy_spherical_cas):
     energy_data = read_energy_data(file_path_energy_spherical_cas)
 
     assert energy_data.total_energy_keV == 9898225.278373864
+
+
+def test_spherical_region_energy_cas(file_path_energy_spherical_cas):
+    energy_data = read_energy_data(file_path_energy_spherical_cas)
+
+    assert len(energy_data.regions_keV) == 6
+    assert energy_data.regions_keV[0] == 70378.35032948921
+    assert energy_data.regions_keV[1] == 0
+    assert energy_data.regions_keV[2] == 463863.2550332439
+    assert energy_data.regions_keV[3] == 0
+    assert energy_data.regions_keV[4] == 9422198.587173153
+    assert energy_data.regions_keV[5] == 0
+
+    assert len(energy_data.regions_keV_e) == 6
+    assert energy_data.regions_keV_e[0] == pytest.approx(70378.35032948921 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[1] == 0
+    assert energy_data.regions_keV_e[2] == pytest.approx(463863.2550332439 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[3] == 0
+    assert energy_data.regions_keV_e[4] == pytest.approx(9422198.587173153 * 1.0e-6, 12)
+    assert energy_data.regions_keV_e[5] == 0
 
 
 def test_read_spherical_dat(file_path_energy_spherical_dat):
@@ -175,10 +303,26 @@ def test_read_spherical_dat(file_path_energy_spherical_dat):
     assert energy_data.energies_keV[-1] == 3119.02
 
 
+def test_spherical_energies_keV_e_dat(file_path_energy_spherical_dat):
+    energy_data = read_energy_data(file_path_energy_spherical_dat)
+
+    assert energy_data.number_electrons is None
+
+    with pytest.raises(AttributeError):
+        assert energy_data.energies_keV_e[0, 0, 0] == 1.5688423948687005 * 1.0e-6
+
+
 def test_spherical_total_energy_dat(file_path_energy_spherical_dat):
     energy_data = read_energy_data(file_path_energy_spherical_dat)
 
     assert energy_data.total_energy_keV == 9898224.42
+
+
+def test_spherical_region_energy_dat(file_path_energy_spherical_dat):
+    energy_data = read_energy_data(file_path_energy_spherical_dat)
+
+    assert len(energy_data.regions_keV) == 0
+    assert len(energy_data.regions_keV_e) == 0
 
 
 def test_read_cartesian_log_cas(file_path_energy_cartesian_log_cas):

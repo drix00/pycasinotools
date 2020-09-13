@@ -73,7 +73,7 @@ class ScanPointResults:
         self._transmitted_angles = TransmittedAngles()
 
         self._number_results = 0
-        self._region_intensity_infos = []
+        self.region_intensity_infos = []
 
         self._is_dz_max = False
         self.dz_max = None
@@ -144,11 +144,11 @@ class ScanPointResults:
             self._transmitted_angles.read(file)
 
             self._number_results = read_int(file)
-            self._region_intensity_infos = []
+            self.region_intensity_infos = []
             for dummy in range(self._number_results):
                 region_intensity_info = RegionIntensityInfo()
                 region_intensity_info.read(file)
-                self._region_intensity_infos.append(region_intensity_info)
+                self.region_intensity_infos.append(region_intensity_info)
 
             self._is_dz_max = read_bool(file)
             if self._is_dz_max:
@@ -256,7 +256,7 @@ class ScanPointResults:
 
     def get_deposited_energies_keV(self, region_info_index):
         try:
-            region_intensity_info = self._region_intensity_infos[region_info_index]
+            region_intensity_info = self.region_intensity_infos[region_info_index]
             return region_intensity_info.get_energy_intensity()
         except IndexError as message:
             logging.debug(message)

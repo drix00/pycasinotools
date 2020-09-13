@@ -94,3 +94,48 @@ GitHub
 
 .. image:: https://img.shields.io/github/stars/drix00/pycasinotools.svg
    :target: https://github.com/drix00/pycasinotools/stargazers
+
+Development
+===========
+
+In the *casinotools folder*, run to install the project in develop mode
+
+.. code:: shell
+
+   pip install -e .
+
+Build the documentation:
+
+.. code-block:: console
+
+    $ cd docs
+    $ make html
+
+Add or modify the API documentation:
+
+.. code-block:: console
+
+    $ cd docs
+    $ sphinx-apidoc -o api -e -f -P ../casinotools
+    $ make html
+
+Before commiting your modification.
+
+In the *casinotools folder*, run the tests:
+
+.. code-block:: console
+
+    $ pytest -v
+
+check the code style:
+
+.. code-block:: console
+
+    $ pycodestyle .
+    $ pyflakes .
+
+
+To do
+-----
+
+.. todolist::

@@ -108,6 +108,11 @@ def get_energy_type_cas(file_path, scan_point_id):
         energy_type_values_cas = {0: EnergyCartesian(), 1: EnergyCylindrical(), 2: EnergySpherical()}
         energy = energy_type_values_cas[options_distributions.DEpos_Type]
         energy.from_cas(options_distributions, data)
+        energy.number_electrons = options.options_microscope.trajectories_number
+        region_intensity_infos = scan_point_results.region_intensity_infos
+        energy.regions_keV = [data.energy_intensity for data in region_intensity_infos]
+        energy.regions_keV_e = [data.normalized_energy_intensity for data in region_intensity_infos]
+
         return energy
     else:
         return Energy()
@@ -116,6 +121,9 @@ def get_energy_type_cas(file_path, scan_point_id):
 class Energy:
     def __init__(self):
         self.energies_keV = None
+        self.number_electrons = None
+        self.regions_keV = []
+        self.regions_keV_e = []
 
     @property
     def total_energy_keV(self):
@@ -126,6 +134,14 @@ class Energy:
     def number_elements(self):
         size = self.energies_keV.size
         return size
+
+    @property
+    def energies_keV_e(self):
+        if self.number_electrons is None:
+            raise AttributeError("Number of electrons not set")
+
+        energies_keV_e = self.energies_keV / self.number_electrons
+        return energies_keV_e
 
 
 class EnergyCartesian(Energy):

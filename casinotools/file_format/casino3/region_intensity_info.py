@@ -39,20 +39,20 @@ from casinotools.file_format.file_reader_writer_tools import read_int, read_doub
 class RegionIntensityInfo:
     def __init__(self):
         self._version = 0
-        self._energy_intensity = 0.0
+        self.energy_intensity = 0.0
         self._region_id = 0
-        self._normalized_energy_intensity = 0.0
+        self.normalized_energy_intensity = 0.0
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
         self._version = read_int(file)
-        self._energy_intensity = read_double(file)
+        self.energy_intensity = read_double(file)
         self._region_id = read_int(file)
-        self._normalized_energy_intensity = read_double(file)
+        self.normalized_energy_intensity = read_double(file)
 
     def get_energy_intensity(self):
-        return self._energy_intensity
+        return self.energy_intensity
 
     def get_normalized_energy_intensity(self):
-        return self._normalized_energy_intensity
+        return self.normalized_energy_intensity

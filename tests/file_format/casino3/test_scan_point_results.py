@@ -85,7 +85,7 @@ def test_read(filepath_cas):
     assert results._number_results == 8
 
     for i in range(1, 8 + 1):
-        assert results._region_intensity_infos[i - 1]._region_id == i
+        assert results.region_intensity_infos[i - 1]._region_id == i
 
     # DZMax distribution results.
     assert results._is_dz_max is True

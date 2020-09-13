@@ -104,12 +104,12 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options._options_energy_by_pos.normalize == 1
 
         # Micro
-        assert simulation_options._options_micro._version == 30107002
-        assert simulation_options._options_micro.scanning_mode == 0
-        assert simulation_options._options_micro.x_plane_position == pytest.approx(0.0)
+        assert simulation_options.options_microscope._version == 30107002
+        assert simulation_options.options_microscope.scanning_mode == 0
+        assert simulation_options.options_microscope.x_plane_position == pytest.approx(0.0)
 
-        assert simulation_options._options_micro.scan_point_distribution == pytest.approx(1.0)
-        assert simulation_options._options_micro.keep_simulation_data == 1
+        assert simulation_options.options_microscope.scan_point_distribution == pytest.approx(1.0)
+        assert simulation_options.options_microscope.keep_simulation_data == 1
 
         # Physic
         assert simulation_options._options_physic._version == 30107002
