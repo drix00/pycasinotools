@@ -131,6 +131,11 @@ class Energy:
         return total
 
     @property
+    def total_energy_keV_e(self):
+        total = np.sum(self.energies_keV_e)
+        return total
+
+    @property
     def number_elements(self):
         size = self.energies_keV.size
         return size
@@ -163,6 +168,8 @@ class EnergyCartesian(Energy):
         x_min = center_nm.x - x_size_nm / 2.0
         x_max = center_nm.x + x_size_nm / 2.0
         x_step_size_nm = (x_max - x_min) / x_number_divisions
+        x_min += x_step_size_nm/2.0
+        x_max += x_step_size_nm/2.0
         self.xs_nm = np.linspace(x_min, x_max - x_step_size_nm, x_number_divisions)
 
         y_number_divisions = options_distributions.NbPointDEpos_Y
@@ -173,6 +180,8 @@ class EnergyCartesian(Energy):
         y_min = center_nm.y - y_size_nm / 2.0
         y_max = center_nm.y + y_size_nm / 2.0
         y_step_size_nm = (y_max - y_min) / y_number_divisions
+        y_min += y_step_size_nm/2.0
+        y_max += y_step_size_nm/2.0
         self.ys_nm = np.linspace(y_min, y_max - y_step_size_nm, y_number_divisions)
 
         z_number_divisions = options_distributions.NbPointDEpos_Z
@@ -183,6 +192,8 @@ class EnergyCartesian(Energy):
         z_min = center_nm.z - z_size_nm / 2.0
         z_max = center_nm.z + z_size_nm / 2.0
         z_step_size_nm = (z_max - z_min) / z_number_divisions
+        z_min += z_step_size_nm/2.0
+        z_max += z_step_size_nm/2.0
         self.zs_nm = np.linspace(z_min, z_max - z_step_size_nm, z_number_divisions)
 
         self.energies_keV = data
