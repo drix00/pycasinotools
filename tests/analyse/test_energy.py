@@ -116,9 +116,9 @@ def test_cartesian_region_energy_cas(file_path_energy_cartesian_cas):
 def test_read_cartesian_dat(file_path_energy_cartesian_dat):
     energy_data = read_energy_data(file_path_energy_cartesian_dat)
 
-    compare_xs_nm(energy_data)
-    compare_ys_nm(energy_data)
-    compare_zs_nm(energy_data)
+    compare_dat_xs_nm(energy_data)
+    compare_dat_ys_nm(energy_data)
+    compare_dat_zs_nm(energy_data)
 
     assert energy_data.energies_keV[0, 0, 0] == 1.56884
     assert energy_data.energies_keV[1, 1, 1] == 2.27235
@@ -330,9 +330,9 @@ def test_read_cartesian_log_cas(file_path_energy_cartesian_log_cas):
 
     assert energy_data.number_elements == 50 * 50 * 50
 
-    compare_log_xs_nm(energy_data)
-    compare_log_ys_nm(energy_data)
-    compare_log_zs_nm(energy_data)
+    compare_xs_nm(energy_data)
+    compare_ys_nm(energy_data)
+    compare_zs_nm(energy_data)
 
     assert energy_data.energies_keV[0, 0, 0] == 2.0876775811210173
     assert energy_data.energies_keV[1, 1, 1] == 1.7060901002452047
@@ -350,9 +350,9 @@ def test_cartesian_total_energy_log_cas(file_path_energy_cartesian_log_cas):
 def test_read_cartesian_log_dat(file_path_energy_cartesian_log_dat):
     energy_data = read_energy_data(file_path_energy_cartesian_log_dat)
 
-    compare_log_xs_nm(energy_data)
-    compare_log_ys_nm(energy_data)
-    compare_log_zs_nm(energy_data)
+    compare_dat_xs_nm(energy_data)
+    compare_dat_ys_nm(energy_data)
+    compare_dat_zs_nm(energy_data)
 
     assert energy_data.energies_keV[0, 0, 0] == 2.08768
     assert energy_data.energies_keV[1, 1, 1] == 1.70609
@@ -372,7 +372,7 @@ def test_read_cylindrical_log_cas(file_path_energy_cylindrical_log_cas):
 
     assert energy_data.number_elements == 50 * 50
 
-    compare_log_zs_nm(energy_data)
+    compare_zs_nm(energy_data)
     compare_log_radiuses_nm(energy_data)
 
     assert energy_data.energies_keV[0, 0] == 32163.283594180775
@@ -391,7 +391,7 @@ def test_cylindrical_total_energy_log_cas(file_path_energy_cylindrical_log_cas):
 def test_read_cylindrical_log_dat(file_path_energy_cylindrical_log_dat):
     energy_data = read_energy_data(file_path_energy_cylindrical_log_dat)
 
-    compare_log_zs_nm(energy_data)
+    compare_dat_zs_nm(energy_data)
     compare_log_radiuses_nm(energy_data)
 
     assert energy_data.energies_keV[0, 0] == 32163.3
@@ -472,24 +472,24 @@ def test_read_no_deposited_energy(file_path_no_deposited_energy_cas):
 
 
 def compare_xs_nm(energy_data):
-    assert energy_data.xs_nm[0] == -250.0
-    assert energy_data.xs_nm[1] == -240.0
-    assert energy_data.xs_nm[-2] == 230.0
-    assert energy_data.xs_nm[-1] == 240.0
+    assert energy_data.xs_nm[0] == -245.0
+    assert energy_data.xs_nm[1] == -235.0
+    assert energy_data.xs_nm[-2] == 235.0
+    assert energy_data.xs_nm[-1] == 245.0
 
 
 def compare_ys_nm(energy_data):
-    assert energy_data.ys_nm[0] == -250.0
-    assert energy_data.ys_nm[1] == -240.0
-    assert energy_data.ys_nm[-2] == 230.0
-    assert energy_data.ys_nm[-1] == 240.0
+    assert energy_data.ys_nm[0] == -245.0
+    assert energy_data.ys_nm[1] == -235.0
+    assert energy_data.ys_nm[-2] == 235.0
+    assert energy_data.ys_nm[-1] == 245.0
 
 
 def compare_zs_nm(energy_data):
-    assert energy_data.zs_nm[0] == 0.0
-    assert energy_data.zs_nm[1] == 10.0
-    assert energy_data.zs_nm[-2] == 480.0
-    assert energy_data.zs_nm[-1] == 490.0
+    assert energy_data.zs_nm[0] == 5.0
+    assert energy_data.zs_nm[1] == 15.0
+    assert energy_data.zs_nm[-2] == 485.0
+    assert energy_data.zs_nm[-1] == 495.0
 
 
 def compare_radiuses_nm(energy_data):
@@ -500,21 +500,21 @@ def compare_radiuses_nm(energy_data):
     assert energy_data.radiuses_nm[-1] == 490.0
 
 
-def compare_log_xs_nm(energy_data):
+def compare_dat_xs_nm(energy_data):
     assert energy_data.xs_nm[0] == -250.0
     assert energy_data.xs_nm[1] == -240.0
     assert energy_data.xs_nm[-2] == 230.0
     assert energy_data.xs_nm[-1] == 240.0
 
 
-def compare_log_ys_nm(energy_data):
+def compare_dat_ys_nm(energy_data):
     assert energy_data.ys_nm[0] == -250.0
     assert energy_data.ys_nm[1] == -240.0
     assert energy_data.ys_nm[-2] == 230.0
     assert energy_data.ys_nm[-1] == 240.0
 
 
-def compare_log_zs_nm(energy_data):
+def compare_dat_zs_nm(energy_data):
     assert energy_data.zs_nm[0] == 0.0
     assert energy_data.zs_nm[1] == 10.0
     assert energy_data.zs_nm[-2] == 480.0
