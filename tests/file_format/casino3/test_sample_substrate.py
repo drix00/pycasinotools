@@ -61,11 +61,11 @@ def test_read(filepath_sim):
     assert sample._name == "Substrate"
     assert sample._region_name == "Substrate"
 
-    assert sample._translation == [0.0, 0.0, 0.0]
-    assert sample._rotation == [0.0, 0.0, 0.0]
-    assert sample._scale == [100000.0, 100000.0, 100000.0]
-    assert sample._color == [0.0, 0.0, 1.0]
+    assert sample.translation == [0.0, 0.0, 0.0]
+    assert sample.rotation == [0.0, 0.0, 0.0]
+    assert sample.scale == [100000.0, 100000.0, 100000.0]
+    assert sample.color == [0.0, 0.0, 1.0]
 
     assert sample._numberEdges == 0
 
-    assert sample._shape_type == SHAPE_SUBSTRATE
+    assert sample.shape_type == SHAPE_SUBSTRATE

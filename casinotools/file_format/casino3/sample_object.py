@@ -51,12 +51,12 @@ class SampleObject:
         self._name = "Empty"
         self._region_name = "Undefined"
 
-        self._translation = []
-        self._rotation = []
-        self._scale = [1.0, 1.0, 1.0]
-        self._color = [0.0, 0.0, 1.0]
+        self.translation = []
+        self.rotation = []
+        self.scale = [1.0, 1.0, 1.0]
+        self.color = [0.0, 0.0, 1.0]
 
-        self._shape_type = shape_type
+        self.shape_type = shape_type
 
     def read(self, file):
         self._file = file
@@ -72,25 +72,25 @@ class SampleObject:
             self._name = read_str(file)
             self._region_name = read_str(file)
 
-            self._translation = read_double_list(file, 3)
-            self._rotation = read_double_list(file, 3)
-            self._scale = read_double_list(file, 3)
-            self._color = read_double_list(file, 3)
+            self.translation = read_double_list(file, 3)
+            self.rotation = read_double_list(file, 3)
+            self.scale = read_double_list(file, 3)
+            self.color = read_double_list(file, 3)
 
     def get_name(self):
         return self._name
 
     def get_type(self):
-        return self._shape_type
+        return self.shape_type
 
     def get_version(self):
         return self._version
 
     def get_translation_nm(self):
-        return self._translation
+        return self.translation
 
     def get_scale_nm(self):
-        return self._scale
+        return self.scale
 
     def export(self, export_file):
         self._export_version(export_file)
@@ -109,7 +109,7 @@ class SampleObject:
         write_line(export_file, line)
 
     def _export_type(self, export_file):
-        type_str = get_string(self._shape_type)
+        type_str = get_string(self.shape_type)
         line = "Type: {}}".format(type_str)
         write_line(export_file, line)
 
@@ -125,7 +125,7 @@ class SampleObject:
         line = "Translation:"
         write_line(export_file, line)
 
-        for label, value in zip(["X", 'Y', 'z'], self._translation):
+        for label, value in zip(["X", 'Y', 'z'], self.translation):
             line = "\t%s: %g" % (label, value)
             write_line(export_file, line)
 
@@ -133,7 +133,7 @@ class SampleObject:
         line = "Rotation:"
         write_line(export_file, line)
 
-        for label, value in zip(["X", 'Y', 'z'], self._rotation):
+        for label, value in zip(["X", 'Y', 'z'], self.rotation):
             line = "\t%s: %g" % (label, value)
             write_line(export_file, line)
 
@@ -141,7 +141,7 @@ class SampleObject:
         line = "Scale:"
         write_line(export_file, line)
 
-        for label, value in zip(["X", 'Y', 'z'], self._scale):
+        for label, value in zip(["X", 'Y', 'z'], self.scale):
             line = "\t%s: %g" % (label, value)
             write_line(export_file, line)
 
@@ -149,7 +149,7 @@ class SampleObject:
         line = "Color:"
         write_line(export_file, line)
 
-        for label, value in zip(["R", 'G', 'B'], self._color):
+        for label, value in zip(["R", 'G', 'B'], self.color):
             line = "\t%s: %g" % (label, value)
             write_line(export_file, line)
 
@@ -163,7 +163,7 @@ class SampleObject:
         self._file = open(self._file_pathname, 'r+b')
 
         self._file.seek(self._start_position)
-        self._translation = (self._translation[0], self._translation[1], new_position_z_nm)
+        self.translation = (self.translation[0], self.translation[1], new_position_z_nm)
 
         self._modify(self._file)
 
@@ -182,7 +182,7 @@ class SampleObject:
             write_str(file, self._name)
             write_str(file, self._region_name)
 
-            write_double_list(file, self._translation, 3)
-            write_double_list(file, self._rotation, 3)
-            write_double_list(file, self._scale, 3)
-            write_double_list(file, self._color, 3)
+            write_double_list(file, self.translation, 3)
+            write_double_list(file, self.rotation, 3)
+            write_double_list(file, self.scale, 3)
+            write_double_list(file, self.color, 3)

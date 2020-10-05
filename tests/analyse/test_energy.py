@@ -154,7 +154,7 @@ def test_read_cylindrical_cas(file_path_energy_cylindrical_cas):
 
     assert energy_data.number_elements == 50 * 50
 
-    compare_zs_nm(energy_data)
+    compare_zs_nm_dat(energy_data)
     compare_radiuses_nm(energy_data)
 
     assert energy_data.energies_keV[0, 0] == 32161.668619632866
@@ -205,7 +205,7 @@ def test_cylindrical_region_energy_cas(file_path_energy_cylindrical_cas):
 def test_read_cylindrical_dat(file_path_energy_cylindrical_dat):
     energy_data = read_energy_data(file_path_energy_cylindrical_dat)
 
-    compare_zs_nm(energy_data)
+    compare_zs_nm_dat(energy_data)
     compare_radiuses_nm(energy_data)
 
     assert energy_data.energies_keV[0, 0] == 32161.7
@@ -372,7 +372,7 @@ def test_read_cylindrical_log_cas(file_path_energy_cylindrical_log_cas):
 
     assert energy_data.number_elements == 50 * 50
 
-    compare_zs_nm(energy_data)
+    compare_zs_nm_dat(energy_data)
     compare_log_radiuses_nm(energy_data)
 
     assert energy_data.energies_keV[0, 0] == 32163.283594180775
@@ -490,6 +490,13 @@ def compare_zs_nm(energy_data):
     assert energy_data.zs_nm[1] == 15.0
     assert energy_data.zs_nm[-2] == 485.0
     assert energy_data.zs_nm[-1] == 495.0
+
+
+def compare_zs_nm_dat(energy_data):
+    assert energy_data.zs_nm[0] == 0.0
+    assert energy_data.zs_nm[1] == 10.0
+    assert energy_data.zs_nm[-2] == 480.0
+    assert energy_data.zs_nm[-1] == 490.0
 
 
 def compare_radiuses_nm(energy_data):

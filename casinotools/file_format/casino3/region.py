@@ -84,7 +84,7 @@ class Region:
         self._triangle_color_y = 0.0
         self._triangle_color_z = 0.0
 
-        self._elements = []
+        self.elements = []
         self._chemical_name = ""
 
     def read(self, file):
@@ -138,11 +138,11 @@ class Region:
         self._triangle_color_y = read_double(file)
         self._triangle_color_z = read_double(file)
 
-        self._elements = []
+        self.elements = []
         for dummy in range(self._number_elements):
             element = Element()
             element.read(file)
-            self._elements.append(element)
+            self.elements.append(element)
 
         self._chemical_name = read_str(file)
 
@@ -180,7 +180,7 @@ class Region:
             write_double(file, self._triangle_color_y)
             write_double(file, self._triangle_color_z)
 
-            for element in self._elements:
+            for element in self.elements:
                 element._modify(file)
 
             write_str(file, self._chemical_name)
@@ -207,26 +207,26 @@ class Region:
         self._file.seek(current_position)
 
     def get_number_elements(self):
-        assert len(self._elements) == self._number_elements
+        assert len(self.elements) == self._number_elements
         return self._number_elements
 
     def remove_all_elements(self):
         self._number_elements = 0
-        self._elements = []
-        assert len(self._elements) == self._number_elements
+        self.elements = []
+        assert len(self.elements) == self._number_elements
 
     def add_element(self, symbol, weight_fraction=1.0, number_x_ray_layers=500):
         self._number_elements += 1
         element = Element()
         element.set_element(symbol, weight_fraction)
-        self._elements.append(element)
-        assert len(self._elements) == self._number_elements
+        self.elements.append(element)
+        assert len(self.elements) == self._number_elements
 
     def get_element(self, index):
-        return self._elements[index]
+        return self.elements[index]
 
     def get_element_by_symbol(self, symbol):
-        for element in self._elements:
+        for element in self.elements:
             if element.get_symbol() == symbol:
                 return element
 
@@ -241,11 +241,11 @@ class Region:
         self._check_atomic_fraction()
 
     def _compute_number_elements(self):
-        return len(self._elements)
+        return len(self.elements)
 
     def _compute_mean_mass_density_g_cm3(self):
         inverse_total = 0.0
-        for element in self._elements:
+        for element in self.elements:
             weight_fraction = element.get_weight_fraction()
             mass_density_g_cm3 = element.get_mass_density_g_cm3()
 
@@ -258,7 +258,7 @@ class Region:
         total_z = 0.0
         total_elements = 0.0
 
-        for element in self._elements:
+        for element in self.elements:
             repetition = element.get_repetition()
             total_elements += repetition
             total_z += element.get_atomic_number() * repetition
@@ -268,20 +268,20 @@ class Region:
 
     def _generate_name(self):
         name = ""
-        for element in self._elements:
+        for element in self.elements:
             name += element.get_symbol().strip()
 
         return name
 
     def _compute_atomic_fraction_elements(self):
         total = 0.0
-        for element in self._elements:
+        for element in self.elements:
             weight_fraction = element.get_weight_fraction()
             atomic_weight = element.get_atomic_weight_g_mol()
 
             total += weight_fraction / atomic_weight
 
-        for element in self._elements:
+        for element in self.elements:
             weight_fraction = element.get_weight_fraction()
             atomic_weight = element.get_atomic_weight_g_mol()
 
@@ -289,28 +289,28 @@ class Region:
             element.set_atomic_fraction(atomic_fraction)
 
     def _check_weight_fraction(self):
-        weight_fractions = [element.get_weight_fraction() for element in self._elements]
+        weight_fractions = [element.get_weight_fraction() for element in self.elements]
         total = sum(weight_fractions)
         assert abs(total - 1.0) < EPSILON
 
-        for element in self._elements:
+        for element in self.elements:
             new_weight_fraction = decimal.Decimal(str(element.get_weight_fraction())) / decimal.Decimal(str(total))
             element.set_weight_fraction(float(new_weight_fraction))
 
-        weight_fractions = [element.get_weight_fraction() for element in self._elements]
+        weight_fractions = [element.get_weight_fraction() for element in self.elements]
         total = sum(weight_fractions)
         assert abs(total - 1.0) < EPSILON * EPSILON
 
     def _check_atomic_fraction(self):
-        atomic_fractions = [element.get_atomic_fraction() for element in self._elements]
+        atomic_fractions = [element.get_atomic_fraction() for element in self.elements]
         total = sum(atomic_fractions)
         assert abs(total - 1.0) < EPSILON
 
-        for element in self._elements:
+        for element in self.elements:
             new_atomic_fraction = decimal.Decimal(str(element.get_atomic_fraction())) / decimal.Decimal(str(total))
             element.set_atomic_fraction(float(new_atomic_fraction))
 
-        atomic_fractions = [element.get_atomic_fraction() for element in self._elements]
+        atomic_fractions = [element.get_atomic_fraction() for element in self.elements]
         total = sum(atomic_fractions)
         assert abs(total - 1.0) < EPSILON * EPSILON
 
