@@ -73,3 +73,35 @@ def test_read(filepath_sim, filepath_cas):
 
     assert reader.scan_point_distribution == pytest.approx(1.0)
     assert reader.keep_simulation_data == 1
+
+
+def test_modified_energy(file_path_sim_tmp_modify_option):
+    energy_keV_ref = 3.5
+
+    with open(file_path_sim_tmp_modify_option, 'r+b') as file:
+        reader = OptionsMicro()
+        error = reader.read(file)
+
+        assert error is None
+        assert reader._version == 30300004
+        assert reader.KEV_End == pytest.approx(0.0)
+        assert reader.KEV_Start == pytest.approx(1.0)
+
+        assert reader.KEV_Step == pytest.approx(1.0)
+        assert reader.multiple_scan_energy == 0
+
+        reader.KEV_Start = energy_keV_ref
+
+        reader.modify(file)
+
+    with open(file_path_sim_tmp_modify_option, 'rb') as file:
+        reader = OptionsMicro()
+        error = reader.read(file)
+
+        assert error is None
+        assert reader._version == 30300004
+        assert reader.KEV_End == pytest.approx(0.0)
+        assert reader.KEV_Start == pytest.approx(energy_keV_ref)
+
+        assert reader.KEV_Step == pytest.approx(1.0)
+        assert reader.multiple_scan_energy == 0

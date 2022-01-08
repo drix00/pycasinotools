@@ -112,20 +112,20 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options.options_microscope.keep_simulation_data == 1
 
         # Physic
-        assert simulation_options._options_physic._version == 30107002
-        assert simulation_options._options_physic.FRan == 3
-        assert simulation_options._options_physic.FDeds == 1
-        assert simulation_options._options_physic.FTotalCross == 5
-        assert simulation_options._options_physic.FPartialCross == 5
-        assert simulation_options._options_physic.FCosDirect == 1
-        assert simulation_options._options_physic.FSecIon == 3
-        assert simulation_options._options_physic.FPotMoy == 0
+        assert simulation_options.options_physic._version == 30107002
+        assert simulation_options.options_physic.FRan == 3
+        assert simulation_options.options_physic.FDeds == 1
+        assert simulation_options.options_physic.FTotalCross == 5
+        assert simulation_options.options_physic.FPartialCross == 5
+        assert simulation_options.options_physic.FCosDirect == 1
+        assert simulation_options.options_physic.FSecIon == 3
+        assert simulation_options.options_physic.FPotMoy == 0
 
-        assert simulation_options._options_physic.max_secondary_order == 10
-        assert simulation_options._options_physic.Min_Energy_Nosec == pytest.approx(0.05)
-        assert simulation_options._options_physic.Residual_Energy_Loss == pytest.approx(0.0004)
-        assert simulation_options._options_physic.Min_Energy_With_Sec == pytest.approx(-1)
-        assert simulation_options._options_physic.Min_Gen_Secondary_Energy == pytest.approx(-1)
+        assert simulation_options.options_physic.max_secondary_order == 10
+        assert simulation_options.options_physic.Min_Energy_Nosec == pytest.approx(0.05)
+        assert simulation_options.options_physic.Residual_Energy_Loss == pytest.approx(0.0004)
+        assert simulation_options.options_physic.Min_Energy_With_Sec == pytest.approx(-1)
+        assert simulation_options.options_physic.Min_Gen_Secondary_Energy == pytest.approx(-1)
 
         # Xray
         assert simulation_options._options_xray._version == 30107002

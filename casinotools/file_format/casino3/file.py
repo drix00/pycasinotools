@@ -206,6 +206,16 @@ class File:
         if self._file is not None:
             self._file.close()
 
+    def modify(self):
+        if not self._is_modifiable:
+            return
+
+        options_microscope = self.get_options().options_microscope
+        options_microscope.modify(self._file)
+
+        options_physic = self.get_options().options_physic
+        options_physic.modify(self._file)
+
     @staticmethod
     def _read_extension(file):
         logging.debug("File position: %i", file.tell())
@@ -377,6 +387,26 @@ class File:
             write_line(export_file, line)
 
             simulation.export(export_file)
+
+
+def modify_energy(file_path, energy_keV):
+    sim_file = File(file_path, is_modifiable=True)
+    options_microscope = sim_file.get_options().options_microscope
+
+    options_microscope.KEV_Start = energy_keV
+    sim_file.modify()
+    sim_file.close_file()
+
+
+def modify_cross_section(file_path, cross_section_model):
+    sim_file = File(file_path, is_modifiable=True)
+    options_physic = sim_file.get_options().options_physic
+
+    options_physic.FTotalCross = cross_section_model
+    options_physic.FPartialCross = cross_section_model
+
+    sim_file.modify()
+    sim_file.close_file()
 
 
 def _run():

@@ -32,7 +32,7 @@ import pytest
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.casino3.options_physic import OptionsPhysic
+from casinotools.file_format.casino3.options_physic import OptionsPhysic, CrossSection
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
@@ -89,3 +89,31 @@ def test_read(filepath_sim, filepath_cas):
     assert reader.Residual_Energy_Loss == pytest.approx(0.0004)
     assert reader.Min_Energy_With_Sec == pytest.approx(-1)
     assert reader.Min_Gen_Secondary_Energy == pytest.approx(-1)
+
+
+def test_modified_cross_section(file_path_sim_tmp_modify_option):
+    total_cs_ref = CrossSection.RUTHERFORD.value
+    partial_cs_ref = CrossSection.MOTT_FILE.value
+
+    with open(file_path_sim_tmp_modify_option, 'r+b') as file:
+        reader = OptionsPhysic()
+        error = reader.read(file)
+
+        assert error is None
+        assert reader._version == 30300004
+        assert reader.FTotalCross == CrossSection.ELSEPA.value
+        assert reader.FPartialCross == CrossSection.ELSEPA.value
+
+        reader.FTotalCross = total_cs_ref
+        reader.FPartialCross = partial_cs_ref
+
+        reader.modify(file)
+
+    with open(file_path_sim_tmp_modify_option, 'rb') as file:
+        reader = OptionsPhysic()
+        error = reader.read(file)
+
+        assert error is None
+        assert reader._version == 30300004
+        assert reader.FTotalCross == total_cs_ref
+        assert reader.FPartialCross == partial_cs_ref

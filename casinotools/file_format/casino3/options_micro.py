@@ -32,7 +32,8 @@ Description
 
 # Project modules.
 from casinotools.file_format.file_reader_writer_tools import read_int, read_double, read_float
-from casinotools.file_format.tags import find_tag
+from casinotools.file_format.file_reader_writer_tools import write_int, write_double, write_float
+from casinotools.file_format.tags import find_tag, find_tag_position
 
 # Globals and constants variables.
 # Filename to store the defaults settings
@@ -263,6 +264,42 @@ class OptionsMicro:
 
         tag_id = b"*MICRO_SET_END"
         find_tag(file, tag_id)
+
+    def modify(self, file):
+        assert getattr(file, 'mode') == 'rb+'
+
+        file.seek(0, 0)
+        tag_id = b"*MICRO_SET_BEG"
+        position = find_tag_position(file, tag_id)
+        file.seek(position, 0)
+
+        write_int(file, self._version)
+
+        write_int(file, self.scanning_mode)
+        write_double(file, self.x_plane_position)
+        write_double(file, self.y_plane_position)
+
+        write_int(file, self.noise_type)
+        write_int(file, self.noise_enabled)
+        write_double(file, self.noise_percentage)
+
+        write_double(file, self.beam_angle)
+        write_double(file, self.beam_radius)
+        write_double(file, self.beam_aperture_width)
+        write_double(file, self.z_plane_position)
+        write_double(file, self.beam_dist_variance)
+        write_int(file, self.beam_distribution)
+        write_int(file, self.beam_adv_set)
+
+        write_int(file, self.trajectories_number)
+        write_double(file, self.KEV_End)
+        write_double(file, self.KEV_Start)
+        write_double(file, self.KEV_Step)
+        write_int(file, self.multiple_scan_energy)
+        write_int(file, self.generate_secondary)
+        write_int(file, self.generate_x_rays)
+        write_float(file, self.scan_point_distribution )
+        write_int(file, self.keep_simulation_data)
 
     def reset(self):
         self.beam_angle = 0.0

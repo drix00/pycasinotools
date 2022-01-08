@@ -25,14 +25,15 @@ Description
 ###############################################################################
 
 # Standard library modules.
+from enum import Enum
 
 # Third party modules.
 
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import read_int, read_double
-from casinotools.file_format.tags import find_tag
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double, write_int, write_double
+from casinotools.file_format.tags import find_tag, find_tag_position
 
 # Globals and constants variables.
 
@@ -51,48 +52,50 @@ DEDS_JOYK_GAUVIN = 0
 DEDS_JOYLUO_MONSEL = 1
 DEDS_BETHERELATIVISTE = 2
 
+
 # Electron elastic cross section.
-CS_MOTT_FICHIER = 0
-CS_MOTT_EQ = 1
-CS_MOTT_BROWNING = 2
-CS_RUTHE = 3
-CS_REIMER = 4
-CS_ELSEPA = 5
+class CrossSection(Enum):
+    MOTT_FILE = 0
+    MOTT_DROUIN = 1
+    MOTT_BROWNING = 2
+    RUTHERFORD = 3
+    REIMER = 4
+    ELSEPA = 5
 
 
 def get_electron_elastic_cross_section_model_label(cs_model):
     cs_model = int(cs_model)
-    if cs_model == CS_MOTT_FICHIER:
+    if cs_model == CrossSection.MOTT_FILE:
         return "Mott Interpolation"
-    elif cs_model == CS_MOTT_EQ:
+    elif cs_model == CrossSection.MOTT_DROUIN:
         return "Mott eq. Drouin"
-    elif cs_model == CS_MOTT_BROWNING:
+    elif cs_model == CrossSection.MOTT_BROWNING:
         return "Mott eq. Browning"
-    elif cs_model == CS_RUTHE:
+    elif cs_model == CrossSection.RUTHERFORD:
         return "Rutherford"
-    elif cs_model == CS_REIMER:
+    elif cs_model == CrossSection.REIMER:
         return "Rutherford Reimer"
-    elif cs_model == CS_ELSEPA:
+    elif cs_model == CrossSection.ELSEPA:
         return "Mott Salvat"
     else:
         raise ValueError
 
 
-# partial cross section consts
-PCS_MOTT_FICHIER = 0
-PCS_MOTT_EQ = 1
-PCS_MOTT_BROWNING = 2
-PCS_RUTHE = 3
-PCS_REIMER = 4
-PCS_ELSEPA = 5
-
-# total cross section consts
-TCS_MOTT_FICHIER = 0
-TCS_MOTT_EQ = 1
-TCS_MOTT_BROWNING = 2
-TCS_RUTHE = 3
-TCS_REIMER = 4
-TCS_ELSEPA = 5
+# # partial cross section consts
+# PCS_MOTT_FICHIER = 0
+# PCS_MOTT_EQ = 1
+# PCS_MOTT_BROWNING = 2
+# PCS_RUTHE = 3
+# PCS_REIMER = 4
+# PCS_ELSEPA = 5
+#
+# # total cross section consts
+# TCS_MOTT_FICHIER = 0
+# TCS_MOTT_EQ = 1
+# TCS_MOTT_BROWNING = 2
+# TCS_RUTHE = 3
+# TCS_REIMER = 4
+# TCS_ELSEPA = 5
 
 # inionisation potential
 ION_POT_JOY = 0
@@ -197,8 +200,8 @@ class OptionsPhysic:
     def __init__(self):
         self.FRan = 0
         self.FDeds = DEDS_JOYK_GAUVIN
-        self.FTotalCross = TCS_MOTT_FICHIER
-        self.FPartialCross = PCS_MOTT_FICHIER
+        self.FTotalCross = CrossSection.MOTT_FILE
+        self.FPartialCross = CrossSection.MOTT_FILE
         self.FCosDirect = COS_DIRECT_MONSEL
         self.FSecIon = SEC_ION_CASNATI
         self.FPotMoy = ION_POT_JOY
@@ -235,6 +238,31 @@ class OptionsPhysic:
 #
 #        Tags::AddTag(file, "*PHYS_MOD_END", 15)
 
+    def modify(self, file):
+        assert getattr(file, 'mode') == 'rb+'
+
+        file.seek(0, 0)
+        tag_id = b"*PHYS_MOD_BEG"
+        position = find_tag_position(file, tag_id)
+        file.seek(position, 0)
+
+        write_int(file, self._version)
+
+        write_int(file, self.FRan)
+        write_int(file, self.FDeds)
+        write_int(file, self.FTotalCross)
+        write_int(file, self.FPartialCross)
+        write_int(file, self.FCosDirect)
+        #        FCosDirect = COS_DIRECT_MONSEL #Other Cos Direct are flawed for now
+        write_int(file, self.FSecIon)
+        write_int(file, self.FPotMoy)
+
+        write_int(file, self.max_secondary_order)
+        write_double(file, self.Min_Energy_Nosec)
+        write_double(file, self.Residual_Energy_Loss)
+        write_double(file, self.Min_Energy_With_Sec)
+        write_double(file, self.Min_Gen_Secondary_Energy)
+
     def read(self, file):
         tag_id = b"*PHYS_MOD_BEG"
         find_tag(file, tag_id)
@@ -262,8 +290,8 @@ class OptionsPhysic:
     def reset(self):
         self.FRan = 0
         self.FDeds = DEDS_JOYK_GAUVIN
-        self.FTotalCross = TCS_MOTT_FICHIER
-        self.FPartialCross = PCS_MOTT_FICHIER
+        self.FTotalCross = CrossSection.MOTT_FILE
+        self.FPartialCross = CrossSection.MOTT_FILE
         self.FCosDirect = COS_DIRECT_MONSEL
         self.FSecIon = SEC_ION_CASNATI
         self.FPotMoy = ION_POT_JOY
@@ -276,16 +304,16 @@ class OptionsPhysic:
 
     def is_monsel_settings(self):
         return self.FCosDirect == COS_DIRECT_MONSEL and self.FDeds == DEDS_JOYLUO_MONSEL and \
-               self.FPartialCross == PCS_MOTT_BROWNING and self.FTotalCross == TCS_MOTT_BROWNING and \
+               self.FPartialCross == CrossSection.MOTT_BROWNING and self.FTotalCross == CrossSection.MOTT_BROWNING and \
                self.FPotMoy == ION_POT_JOY
 
     def set_to_monsel_settings(self):
         self.FCosDirect = COS_DIRECT_MONSEL
         self.FDeds = DEDS_JOYLUO_MONSEL
-        self.FPartialCross = PCS_MOTT_BROWNING
-        self.FTotalCross = TCS_MOTT_BROWNING
+        self.FPartialCross = CrossSection.MOTT_BROWNING
+        self.FTotalCross = CrossSection.MOTT_BROWNING
         self.FPotMoy = ION_POT_JOY
 
     def is_interpolation(self):
-        return self.FTotalCross == TCS_MOTT_FICHIER or self.FTotalCross == TCS_ELSEPA or \
-               self.FPartialCross == PCS_MOTT_FICHIER or self.FPartialCross == PCS_ELSEPA
+        return self.FTotalCross == CrossSection.MOTT_FILE or self.FTotalCross == CrossSection.ELSEPA or \
+               self.FPartialCross == CrossSection.MOTT_FILE or self.FPartialCross == CrossSection.ELSEPA

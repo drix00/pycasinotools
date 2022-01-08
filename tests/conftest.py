@@ -10,6 +10,7 @@ A Pytest local plugin for testing the project.
 
 # Standard library modules.
 import os
+import shutil
 
 # Third party modules.
 import pytest
@@ -289,6 +290,18 @@ def file_path_energy_spherical_log_dat():
     if is_bad_file(file_path):
         pytest.skip()
     return file_path
+
+
+@pytest.fixture()
+def file_path_sim_tmp_modify_option(tmpdir):
+    file_path = resource_filename(__name__, "../test_data/casino3.x/v3.3/v3.3.0.4/03_1kV_1Me.sim")
+    if is_bad_file(file_path):
+        pytest.skip()
+
+    in_file_path = file_path
+    out_file_path = tmpdir.join("03_3.5kV_1Me.sim")
+    shutil.copy(in_file_path, out_file_path)
+    return out_file_path
 
 
 # Test data.

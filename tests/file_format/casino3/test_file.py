@@ -33,7 +33,9 @@ import pytest
 
 # Project modules.
 from casinotools.file_format.casino3.file import File, SIMULATION_CONFIGURATIONS, SIMULATION_RESULTS
+from casinotools.file_format.casino3.file import modify_energy, modify_cross_section
 from casinotools.utilities.path import is_bad_file
+from casinotools.file_format.casino3.options_physic import CrossSection
 
 # Globals and constants variables.
 
@@ -113,3 +115,126 @@ def test_read_cas_file(filepath_cas):
 
     assert casino_file._version == 30107002
     assert casino_file._numberSimulations == 1
+
+
+def test_modified_energy(file_path_sim_tmp_modify_option):
+    energy_keV_ref = 3.5
+
+    sim_file = File(file_path_sim_tmp_modify_option, is_modifiable=True)
+    options_microscope = sim_file.get_options().options_microscope
+
+    assert options_microscope.KEV_End == pytest.approx(0.0)
+    assert options_microscope.KEV_Start == pytest.approx(1.0)
+    assert options_microscope.KEV_Step == pytest.approx(1.0)
+    assert options_microscope.multiple_scan_energy == 0
+
+    options_microscope.KEV_Start = energy_keV_ref
+
+    sim_file.modify()
+    sim_file.close_file()
+
+    sim_file = File(file_path_sim_tmp_modify_option)
+    options_microscope = sim_file.get_options().options_microscope
+
+    assert options_microscope.KEV_End == pytest.approx(0.0)
+    assert options_microscope.KEV_Start == pytest.approx(energy_keV_ref)
+    assert options_microscope.KEV_Step == pytest.approx(1.0)
+    assert options_microscope.multiple_scan_energy == 0
+
+
+def test_modified_energy_not_modifiable(file_path_sim_tmp_modify_option):
+    energy_keV_ref = 3.5
+
+    sim_file = File(file_path_sim_tmp_modify_option, is_modifiable=False)
+    options_microscope = sim_file.get_options().options_microscope
+
+    assert options_microscope.KEV_End == pytest.approx(0.0)
+    assert options_microscope.KEV_Start == pytest.approx(1.0)
+    assert options_microscope.KEV_Step == pytest.approx(1.0)
+    assert options_microscope.multiple_scan_energy == 0
+
+    options_microscope.KEV_Start = energy_keV_ref
+
+    sim_file.modify()
+    sim_file.close_file()
+
+    sim_file = File(file_path_sim_tmp_modify_option)
+    options_microscope = sim_file.get_options().options_microscope
+
+    assert options_microscope.KEV_End == pytest.approx(0.0)
+    assert options_microscope.KEV_Start != pytest.approx(energy_keV_ref)
+    assert options_microscope.KEV_Start == pytest.approx(1.0)
+    assert options_microscope.KEV_Step == pytest.approx(1.0)
+    assert options_microscope.multiple_scan_energy == 0
+
+
+def test_modify_energy(file_path_sim_tmp_modify_option):
+    energy_keV_ref = 3.5
+    modify_energy(file_path_sim_tmp_modify_option, energy_keV_ref)
+
+    sim_file = File(file_path_sim_tmp_modify_option)
+    options_microscope = sim_file.get_options().options_microscope
+
+    assert options_microscope.KEV_End == pytest.approx(0.0)
+    assert options_microscope.KEV_Start == pytest.approx(energy_keV_ref)
+    assert options_microscope.KEV_Step == pytest.approx(1.0)
+    assert options_microscope.multiple_scan_energy == 0
+
+
+def test_modified_cross_section(file_path_sim_tmp_modify_option):
+    total_cs_ref = CrossSection.RUTHERFORD.value
+    partial_cs_ref = CrossSection.MOTT_FILE.value
+
+    sim_file = File(file_path_sim_tmp_modify_option, is_modifiable=True)
+    options_physic = sim_file.get_options().options_physic
+
+    assert options_physic.FTotalCross == CrossSection.ELSEPA.value
+    assert options_physic.FPartialCross == CrossSection.ELSEPA.value
+
+    options_physic.FTotalCross = total_cs_ref
+    options_physic.FPartialCross = partial_cs_ref
+
+    sim_file.modify()
+    sim_file.close_file()
+
+    sim_file = File(file_path_sim_tmp_modify_option)
+    options_physic = sim_file.get_options().options_physic
+
+    assert options_physic.FTotalCross == total_cs_ref
+    assert options_physic.FPartialCross == partial_cs_ref
+
+
+def test_modified_cross_section_not_modifiable(file_path_sim_tmp_modify_option):
+    total_cs_ref = CrossSection.RUTHERFORD.value
+    partial_cs_ref = CrossSection.MOTT_FILE.value
+
+    sim_file = File(file_path_sim_tmp_modify_option, is_modifiable=False)
+    options_physic = sim_file.get_options().options_physic
+
+    assert options_physic.FTotalCross == CrossSection.ELSEPA.value
+    assert options_physic.FPartialCross == CrossSection.ELSEPA.value
+
+    options_physic.FTotalCross = total_cs_ref
+    options_physic.FPartialCross = partial_cs_ref
+
+    sim_file.modify()
+    sim_file.close_file()
+
+    sim_file = File(file_path_sim_tmp_modify_option)
+    options_physic = sim_file.get_options().options_physic
+
+    assert options_physic.FTotalCross == CrossSection.ELSEPA.value
+    assert options_physic.FTotalCross != total_cs_ref
+    assert options_physic.FPartialCross == CrossSection.ELSEPA.value
+    assert options_physic.FPartialCross != partial_cs_ref
+
+
+def test_modify_cross_section(file_path_sim_tmp_modify_option):
+    cs_ref = CrossSection.RUTHERFORD.value
+    modify_cross_section(file_path_sim_tmp_modify_option, cs_ref)
+
+    sim_file = File(file_path_sim_tmp_modify_option)
+    options_physic = sim_file.get_options().options_physic
+
+    assert options_physic.FTotalCross == cs_ref
+    assert options_physic.FPartialCross == cs_ref
