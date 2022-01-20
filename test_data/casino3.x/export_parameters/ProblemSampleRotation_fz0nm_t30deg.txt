@@ -1,3 +1,304 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b3f86c10b8f95831839ff46b9bb6fb212b7dfd98a4dc8af4663aa6a3ef25c59d
-size 3764
+Filename: ProblemSampleRotation_fz0nm_t30deg.sim
+Filepath: C:\hdemers\codings\pythondev\casinoTools\testData\casino3.x\ExportParameters\ProblemSampleRotation_fz0nm_t30deg.sim
+File type: sim
+File version: 3.1.8.2 (30108002)
+--------------------------------------------------------------------------------
+Simulations
+----------------------------------------
+Number of simulations: 1
+Simulation: 1
+--------------------------------------------------------------------------------
+Sample
+----------------------------------------
+File version: 3.1.8.2 (30108002)
+Use substract: false
+number of sample objects: 1
+Sample object: 1
+Sample object version: 3.1.5.4 (30105004)
+Type: box
+Name: Box_0
+Region name: Undefined
+Translation:
+	X: 0
+	Y: 0
+	Z: 500
+Rotation:
+	X: 0
+	Y: 0
+	Z: 0
+Scale:
+	X: 10000
+	Y: 10000
+	Z: 1000
+Color:
+	R: 0.992188
+	G: 0
+	B: 0
+Maximum sample tree level: 20
+Sample rotation angle Y (deg): 30
+Sample rotation angle Z (deg): 0
+Presence: true
+Maximum size: 105000
+Maximum level: 40
+Maximum:
+	X: 100000
+	Y: 100000
+	Z: 100000
+Minimum:
+	X: -100000
+	Y: -100000
+	Z: -100000
+Number triangles: 12
+***************
+Triangle: 1
+ID: 0
+Point 0:
+	X: -4830.13
+	Y: -5000
+	Z: -1633.97
+Point 1:
+	X: -4830.13
+	Y: 5000
+	Z: -1633.97
+Point 2:
+	X: 3830.13
+	Y: 5000
+	Z: 3366.03
+Normal:
+	X: 0.5
+	Y: 0
+	Z: -0.866025
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 2
+ID: 1
+Point 0:
+	X: 3830.13
+	Y: -5000
+	Z: 3366.03
+Point 1:
+	X: -4830.13
+	Y: -5000
+	Z: -1633.97
+Point 2:
+	X: 3830.13
+	Y: 5000
+	Z: 3366.03
+Normal:
+	X: 0.5
+	Y: 0
+	Z: -0.866025
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 3
+ID: 2
+Point 0:
+	X: 4330.13
+	Y: 5000
+	Z: 2500
+Point 1:
+	X: -4330.13
+	Y: 5000
+	Z: -2500
+Point 2:
+	X: -4330.13
+	Y: -5000
+	Z: -2500
+Normal:
+	X: -0.5
+	Y: 0
+	Z: 0.866025
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 4
+ID: 3
+Point 0:
+	X: 4330.13
+	Y: 5000
+	Z: 2500
+Point 1:
+	X: -4330.13
+	Y: -5000
+	Z: -2500
+Point 2:
+	X: 4330.13
+	Y: -5000
+	Z: 2500
+Normal:
+	X: -0.5
+	Y: 0
+	Z: 0.866025
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 5
+ID: 4
+Point 0:
+	X: -4330.13
+	Y: 5000
+	Z: -2500
+Point 1:
+	X: 4330.13
+	Y: 5000
+	Z: 2500
+Point 2:
+	X: 3830.13
+	Y: 5000
+	Z: 3366.03
+Normal:
+	X: 0
+	Y: -1
+	Z: 0
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 6
+ID: 5
+Point 0:
+	X: -4830.13
+	Y: 5000
+	Z: -1633.97
+Point 1:
+	X: -4330.13
+	Y: 5000
+	Z: -2500
+Point 2:
+	X: 3830.13
+	Y: 5000
+	Z: 3366.03
+Normal:
+	X: 0
+	Y: -1
+	Z: 0
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 7
+ID: 6
+Point 0:
+	X: 4330.13
+	Y: -5000
+	Z: 2500
+Point 1:
+	X: -4330.13
+	Y: -5000
+	Z: -2500
+Point 2:
+	X: -4830.13
+	Y: -5000
+	Z: -1633.97
+Normal:
+	X: 0
+	Y: 1
+	Z: 0
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 8
+ID: 7
+Point 0:
+	X: 3830.13
+	Y: -5000
+	Z: 3366.03
+Point 1:
+	X: 4330.13
+	Y: -5000
+	Z: 2500
+Point 2:
+	X: -4830.13
+	Y: -5000
+	Z: -1633.97
+Normal:
+	X: 0
+	Y: 1
+	Z: 0
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 9
+ID: 8
+Point 0:
+	X: 4330.13
+	Y: -5000
+	Z: 2500
+Point 1:
+	X: 3830.13
+	Y: -5000
+	Z: 3366.03
+Point 2:
+	X: 3830.13
+	Y: 5000
+	Z: 3366.03
+Normal:
+	X: -0.866025
+	Y: 0
+	Z: -0.5
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 10
+ID: 9
+Point 0:
+	X: 4330.13
+	Y: 5000
+	Z: 2500
+Point 1:
+	X: 4330.13
+	Y: -5000
+	Z: 2500
+Point 2:
+	X: 3830.13
+	Y: 5000
+	Z: 3366.03
+Normal:
+	X: -0.866025
+	Y: -0
+	Z: -0.5
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 11
+ID: 10
+Point 0:
+	X: -4830.13
+	Y: 5000
+	Z: -1633.97
+Point 1:
+	X: -4830.13
+	Y: -5000
+	Z: -1633.97
+Point 2:
+	X: -4330.13
+	Y: -5000
+	Z: -2500
+Normal:
+	X: 0.866025
+	Y: 0
+	Z: 0.5
+inside ID: 1
+outside ID: 2
+***************
+Triangle: 12
+ID: 11
+Point 0:
+	X: -4830.13
+	Y: 5000
+	Z: -1633.97
+Point 1:
+	X: -4330.13
+	Y: -5000
+	Z: -2500
+Point 2:
+	X: -4330.13
+	Y: 5000
+	Z: -2500
+Normal:
+	X: 0.866025
+	Y: 0
+	Z: 0.5
+inside ID: 1
+outside ID: 2
+number of regions: 2

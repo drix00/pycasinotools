@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:faadf1430f0d22a52d542b80e693e3c150d0b932ee8a36f1423a20b5d1554db0
-size 19
+Pillow
+numpy
+attrs

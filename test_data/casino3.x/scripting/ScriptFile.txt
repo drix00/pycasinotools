@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b7a1ef914dfcfd661e05e0ded980bca588ef45b3895e9b3650840bb0780c744e
-size 325
+LOAD "results/GoldNanoparticle_00mrad_XY100nm.sim";
+SET ENERGY 200;
+SET Trajectories_Number 100;
+RANGE_SAMPLE TRANSLATION.z Sphere_0 (-1.001) (-1.001) 1;
+RANGE_SAMPLE RADIUS Sphere_0 1 1 1;
+RANGE_SAMPLE DIVTHETA Sphere_0 20 20 1;
+SIM "results/ParticleSize_200keV_000100/$(sim_name)_200keV_000100_20_r$(ranged_value1)nm.cas";
