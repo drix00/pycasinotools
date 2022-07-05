@@ -25,7 +25,7 @@ Main casinotools package initialization module.
 ###############################################################################
 
 # Standard library modules.
-import os.path
+from pathlib import Path
 
 # Third party modules.
 
@@ -41,18 +41,17 @@ __version__ = '0.3'
 __project_name__ = "pyCasinoTools"
 
 
-def get_current_module_path(module_path, relative_path=""):
+def get_current_module_path(module_path: str, relative_path: str = "") -> Path:
     """
     Extract the current module path and combine it with the relative path and return it.
 
     :param str module_path: Pass the `__file__` python keyword for this parameter
     :param str relative_path: The relative path to combine with the module path
     :return: The path obtained when combine the module path and relative path
-    :rtype: str
+    :rtype: Path
     """
-    base_path = os.path.dirname(module_path)
-    file_path = os.path.join(base_path, relative_path)
-    file_path = os.path.abspath(file_path)
-    file_path = os.path.normpath(file_path)
+    base_path = Path(module_path).parent
+    file_path = base_path.joinpath(relative_path)
+    file_path = file_path.resolve()
 
     return file_path

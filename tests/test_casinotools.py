@@ -9,7 +9,7 @@
 Tests for the :py:mod:`casinotools` package.
 """
 
-# Copyright 2019 Hendrix Demers
+# Copyright 2022 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,16 +32,16 @@ from pathlib import Path
 # Local modules.
 
 # Project modules.
+from casinotools import get_current_module_path
 
 # Globals and constants variables.
 
 
-def test_structure():
+def test_is_discovered():
     """
-    Test if the testing structure work.
+    Test used to validate the file is included in the tests
+    by the test framework.
     """
-
-    # assert False
     assert True
 
 
@@ -104,7 +104,10 @@ def test_tests_layout_matches_source():
     assert tests_dir.name == "tests"
 
     # get a path to the j_park/ source directory
-    j_park_path = Path(tests_dir.parent, "casinotools")
+    project_path = Path(tests_dir.parent, "casinotools")
+
+    source_name = this_files_path.name.split("test_", maxsplit=1)[1]
+    assert source_name[:-3] == "casinotools"
 
     # loop through all test_*.py files in tests/
     # (and its subdirectories)
@@ -117,32 +120,68 @@ def test_tests_layout_matches_source():
         # construct the expected source_file_path
         source_rel_dir = test_file_path.relative_to(tests_dir).parent
         source_name = test_file_path.name.split("test_", maxsplit=1)[1]
-        source_file_path = Path(j_park_path, source_rel_dir, source_name)
+        source_file_path = Path(project_path, source_rel_dir, source_name)
         source_path = source_rel_dir.stem
 
         error_msg = f"{test_file_path} found, but {source_file_path} missing."
-
-        assert source_file_path.is_file() or source_path == Path(source_name).stem
+        assert source_file_path.is_file() or source_path == Path(source_name).stem, error_msg
 
 
 def test_source_layout_matches_tests():
     # verify that this file is - itself - in tests/
     this_files_path = Path(__file__)
-    tests_dir = this_files_path.parent
-    assert tests_dir.name == "tests"
+    source_path = this_files_path.parent / "casinotools"
+    assert source_path.name == "casinotools"
 
     # get a path to the j_park/ source directory
-    source_dir = Path(tests_dir.parent, "casinotools")
+    tests_path = Path(source_path.parent, "tests")
 
     # loop through all test_*.py files in tests/
     # (and its subdirectories)
-    for file_path in source_dir.glob("**/*.py"):
+    for file_path in source_path.glob("**/*.py"):
         # construct the expected source_file_path
-        source_rel_dir = file_path.relative_to(source_dir).parent
-        source_name = file_path.name.split("test_", maxsplit=1)[1]
-        source_file_path = Path(source_dir, source_rel_dir, source_name)
-        source_rel_path = source_rel_dir.stem
+        tests_rel_dir = file_path.relative_to(source_path).parent
+        tests_name = "test_" + file_path.name
+        tests_file_path = Path(tests_path, tests_rel_dir, tests_name)
+        tests_rel_path = tests_rel_dir.stem
 
-        error_msg = f"{file_path} found, but {source_file_path} missing."
+        error_msg = f"{file_path} found, but {tests_file_path} missing."
+        assert tests_file_path.is_file() or tests_rel_dir == Path(tests_name).stem, error_msg
 
-        assert source_file_path.is_file() or source_rel_path == Path(source_name).stem
+
+def test_required_project_files():
+    required_files = [".gitignore", "AUTHORS.rst", "CONTRIBUTING.rst", "HISTORY.rst", "LICENSE", "MANIFEST.in",
+                      "pytest.ini", "README.rst", "requirements.txt", "setup.cfg", "setup.py"]
+
+    project_path = get_current_module_path(__file__, "../")
+
+    for required_file in required_files:
+        file_path = project_path / required_file
+        assert file_path.is_file()
+
+
+def test_required_tests_files():
+    required_files = ["__init__.py", "conftest.py"]
+
+    project_path = get_current_module_path(__file__, "../")
+
+    for required_file in required_files:
+        file_path = project_path / "tests" / required_file
+        assert file_path.is_file()
+
+
+def test_required_docs_files():
+    project_doc_path = get_current_module_path(__file__, "../") / "docs"
+    assert project_doc_path.is_dir()
+
+    required_files = ["readme.rst", "conf.py"]
+
+    for required_file in required_files:
+        file_path = project_doc_path / required_file
+        assert file_path.is_file()
+
+    required_paths = ["api"]
+
+    for required_path in required_paths:
+        path = project_doc_path / required_path
+        assert path.is_dir()
