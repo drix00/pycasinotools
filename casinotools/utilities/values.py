@@ -6,7 +6,7 @@
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Example class of values that can be used with multipleloop for parameters looping.
+Example class of values that can be used with multiple_loop for parameters looping.
 """
 
 ###############################################################################

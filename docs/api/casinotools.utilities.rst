@@ -7,7 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   casinotools.utilities.multipleloop
+   casinotools.utilities.multiple_loop
    casinotools.utilities.path
    casinotools.utilities.values
 

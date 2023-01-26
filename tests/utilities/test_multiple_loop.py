@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: tests.utilities.test_multipleloop
+.. py:currentmodule:: tests.utilities.test_multiple_loop
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the :py:mod:`casinotools.utilities.multipleloop` module.
+Tests for the :py:mod:`casinotools.utilities.multiple_loop` module.
 """
 
 

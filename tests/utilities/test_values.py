@@ -35,7 +35,7 @@ import cattr
 
 # Project modules.
 from casinotools.utilities.values import Options, Varied, generate_experiments, flatten, deflatten
-from casinotools.utilities.multipleloop import combine
+from casinotools.utilities.multiple_loop import combine
 
 # Globals and constants variables.
 

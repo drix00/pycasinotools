@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: casinotools.utilities.multipleloop
+.. py:currentmodule:: casinotools.utilities.multiple_loop
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
