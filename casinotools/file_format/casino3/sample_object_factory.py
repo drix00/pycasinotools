@@ -36,8 +36,8 @@ from casinotools.file_format.casino3.sample_substrate import SampleSubstrate
 from casinotools.file_format.casino3.sample_shape.sphere_shape import SphereShape
 from casinotools.file_format.casino3.sample_object import SampleObject
 from casinotools.file_format.casino3.sample_shape.shape_type import \
-    (SHAPE_PLANE, SHAPE_BOX, SHAPE_SPHERE, SHAPE_CONE, SHAPE_CYLINDRE,
-     SHAPE_ROUNDREC, SHAPE_TRUNC_PYRAMID, SHAPE_MESHOBJECT, SHAPE_SUBSTRATE)
+    (SHAPE_PLANE, SHAPE_BOX, SHAPE_SPHERE, SHAPE_CONE, SHAPE_CYLINDER,
+     SHAPE_ROUND_RECTANGLE, SHAPE_TRUNC_PYRAMID, SHAPE_MESH_OBJECT, SHAPE_SUBSTRATE)
 from casinotools.file_format.file_reader_writer_tools import read_int, read_double, read_double_list
 
 # Globals and constants variables.
@@ -52,13 +52,13 @@ def create_object_from_type(shape_type):
         return SphereShape(shape_type)
     elif shape_type == SHAPE_CONE:
         return ConeShape(shape_type)
-    elif shape_type == SHAPE_CYLINDRE:
+    elif shape_type == SHAPE_CYLINDER:
         return CylindreShape(shape_type)
-    elif shape_type == SHAPE_ROUNDREC:
+    elif shape_type == SHAPE_ROUND_RECTANGLE:
         return RoundedRectangleShape(shape_type)
     elif shape_type == SHAPE_TRUNC_PYRAMID:
         return TruncatedPyramidShape(shape_type)
-    elif shape_type == SHAPE_MESHOBJECT:
+    elif shape_type == SHAPE_MESH_OBJECT:
         return MeshObject(shape_type)
     elif shape_type == SHAPE_SUBSTRATE:
         return SampleSubstrate(shape_type)

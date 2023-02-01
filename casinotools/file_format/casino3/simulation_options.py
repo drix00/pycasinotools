@@ -57,7 +57,7 @@ class SimulationOptions:
         self._options_xray = OptionsXray()
         self._options_energy_by_pos = OptionsEnergyByPos()
         self._options_adf = OptionsADF()
-        self._options_advanced_psfs_settings = OptionsAdvancedPsfsSettings()
+        self.options_advanced_psfs_settings = OptionsAdvancedPsfsSettings()
 
         self._file = None
         self._start_position = 0
@@ -82,7 +82,7 @@ class SimulationOptions:
             self._options_adv_back_set.read(file)
 
             if SIM_OPTIONS_VERSION_3_3_0_0 <= self.version < SIM_OPTIONS_VERSION_3_3_0_4:
-                self._options_advanced_psfs_settings.read(file)
+                self.options_advanced_psfs_settings.read(file)
 
             self.options_dist.read(file)
             self._options_energy_by_pos.read(file)
@@ -109,4 +109,4 @@ class SimulationOptions:
         return self.options_dist
 
     def get_options_advanced_psfs_settings(self):
-        return self._options_advanced_psfs_settings
+        return self.options_advanced_psfs_settings

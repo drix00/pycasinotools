@@ -163,7 +163,7 @@ class EnergyCylindrical:
                     self.center_nm = extract_center(line)
                 elif line.startswith("Z Range From:"):
                     self.range_z_nm = extract_range(line)
-                elif line.startswith("Z\Radius"):
+                elif line.startswith(r"Z\Radius"):
                     self.radiuses_nm = extract_values(line)
                 elif "nm" in line:
                     z_nm, energies = extract_values_array(line)

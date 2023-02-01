@@ -57,7 +57,7 @@ class IntensityImage(object):
         elif self._intensity_type == INTENSITY_TRANSMITTED_DETECTED:
             self._getIntensity = ScanPointResults.get_transmitted_detected_coefficient
 
-    def _create_image(self):
+    def create_image(self):
         self._extract_data()
         self._analyze_positions()
         self._create_raw_image2()
@@ -193,7 +193,7 @@ def run():
     cas_binned_filepath = os.path.join(results_path, "Au_C_thin_1nm_Inside_100ke_binned.cas")
 
     image_binned = IntensityImage(cas_binned_filepath)
-    image_binned._create_image()
+    image_binned.create_image()
 
     image_binned.save(results_path)
 

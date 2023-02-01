@@ -146,7 +146,7 @@ class EnergyMatrix:
         if self._values is None:
             self._read_values()
             index = 0
-            shape = (self._number_points_z)
+            shape = self._number_points_z
             self._data = np.zeros(shape)
             for z in range(self._number_points_z):
                 self._data[z] = self._values[index]

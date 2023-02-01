@@ -46,14 +46,14 @@ class PointSpreadFunctionMatrix:
 
     """
     def __init__(self, options, point_nm):
-        if options._options_advanced_psfs_settings.get_use_scan_point_for_center():
+        if options.options_advanced_psfs_settings.get_use_scan_point_for_center():
             self._center_point_nm = point_nm
         else:
-            self._center_point_nm = options._options_advanced_psfs_settings.get_psf_center_nm()
+            self._center_point_nm = options.options_advanced_psfs_settings.get_psf_center_nm()
 
-        self._number_points_x = options._options_advanced_psfs_settings.get_number_steps_x()
-        self._number_points_y = options._options_advanced_psfs_settings.get_number_steps_y()
-        self._number_points_z = options._options_advanced_psfs_settings.get_number_steps_z()
+        self._number_points_x = options.options_advanced_psfs_settings.get_number_steps_x()
+        self._number_points_y = options.options_advanced_psfs_settings.get_number_steps_y()
+        self._number_points_z = options.options_advanced_psfs_settings.get_number_steps_z()
 
         self._number_elements = 0
         self._values = None

@@ -181,7 +181,7 @@ class Region:
             write_double(file, self._triangle_color_z)
 
             for element in self.elements:
-                element._modify(file)
+                element.modify(file)
 
             write_str(file, self._chemical_name)
 

@@ -178,4 +178,4 @@ def test_analyze_positions_3d(image_binned):
 
 def test_create_image(image_binned):
     image = image_binned
-    image._create_image()
+    image.create_image()

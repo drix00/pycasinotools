@@ -32,7 +32,7 @@ import logging
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import read_double, read_int, read_double_list
+from casinotools.file_format.file_reader_writer_tools import read_double, read_int, read_double_list, write_line
 from casinotools.file_format.casino3.triangle import Triangle
 
 # Globals and constants variables.

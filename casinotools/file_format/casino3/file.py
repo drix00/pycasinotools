@@ -68,7 +68,7 @@ class File:
 
         self._simulation_list = []
         self._save_content = SaveContent()
-        self._file = None
+        self.file = None
 
         self.version = 0
         self._type = ""
@@ -99,7 +99,7 @@ class File:
         return file_type
 
     def _get_file_type_from_file_tag(self):
-        extension = self._read_extension(self._file)
+        extension = self._read_extension(self.file)
 
         if extension.lower() == SIMULATION_CONFIGURATIONS:
             return SIMULATION_CONFIGURATIONS
@@ -115,7 +115,7 @@ class File:
             return SIMULATION_RESULTS
 
     def reset(self):
-        self._file.seek(0)
+        self.file.seek(0)
 
     def get_filepath(self):
         return self._filepath
@@ -124,7 +124,7 @@ class File:
         self._filepath = filepath
 
     def open(self):
-        self._file = self._open(self._filepath)
+        self.file = self._open(self._filepath)
 
         self._type = self.get_file_type()
 
@@ -138,7 +138,7 @@ class File:
         self._save_content.options = True
         self._save_content.scanPointPositions = True
 
-        self._read_casino_file(self._file)
+        self._read_casino_file(self.file)
 
     def _open_cas(self):
         self._save_content.sample = True
@@ -146,7 +146,7 @@ class File:
         self._save_content.scanPointPositions = True
         self._save_content.results = True
 
-        self._read_casino_file(self._file)
+        self._read_casino_file(self.file)
 
     def _read_casino_file(self, file):
         self._fileVersion = self._extract_file_version(file)
@@ -167,12 +167,12 @@ class File:
             self.reset()
             self.version = self._read_version(file)
 
-        self._numberSimulations = 1
+        self.number_simulations = 1
         if self.version >= 30107002:
-            self._numberSimulations = read_int(file)
+            self.number_simulations = read_int(file)
 
         self._simulation_list = []
-        for i in range(self._numberSimulations):
+        for i in range(self.number_simulations):
             logging.debug("Read simulation %i", i)
             simulation = self._read_one_simulation(file)
             self._simulation_list.append(simulation)
@@ -199,22 +199,22 @@ class File:
         return simulation_data
 
     def open_file(self):
-        if self._file.closed:
-            self._file = open(self._filepath, 'rb')
+        if self.file.closed:
+            self.file = open(self._filepath, 'rb')
 
     def close_file(self):
-        if self._file is not None:
-            self._file.close()
+        if self.file is not None:
+            self.file.close()
 
     def modify(self):
         if not self._is_modifiable:
             return
 
         options_microscope = self.get_options().options_microscope
-        options_microscope.modify(self._file)
+        options_microscope.modify(self.file)
 
         options_physic = self.get_options().options_physic
-        options_physic.modify(self._file)
+        options_physic.modify(self.file)
 
     @staticmethod
     def _read_extension(file):
@@ -273,10 +273,10 @@ class File:
         write_int(file, version)
 
     def _write_number_simulations(self, file):
-        assert self._numberSimulations == 1
-        assert self._numberSimulations == len(self._simulation_list)
+        assert self.number_simulations == 1
+        assert self.number_simulations == len(self._simulation_list)
 
-        write_int(file, self._numberSimulations)
+        write_int(file, self.number_simulations)
 
     def _write_one_simulation(self, file, simulation_data):
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_write_one_simulation",
@@ -300,7 +300,7 @@ class File:
                       file.tell())
 
     def get_number_simulations(self):
-        return self._numberSimulations
+        return self.number_simulations
 
     def get_simulations(self):
         return self._simulation_list
@@ -376,7 +376,7 @@ class File:
         write_line(export_file, line)
 
     def _export_number_simulations(self, export_file):
-        line = "Number of simulations: {}".format(self._numberSimulations)
+        line = "Number of simulations: {}".format(self.number_simulations)
         write_line(export_file, line)
 
     def _export_simulations(self, export_file):
@@ -414,11 +414,11 @@ def _run():
     filepath_cas = get_current_module_path(__file__, "../../test_data/casino3.x/v3.1/v3.1.7.2/WaterAuTop_wSE.cas")
 
     file = File(filepath_cas)
-    print("File name: {}".format(file._file.name))
-    print("File descriptor: {:d}".format(file._file.fileno()))
+    print("File name: {}".format(file.file.name))
+    print("File descriptor: {:d}".format(file.file.fileno()))
     print("File shape_type: {}".format(file.get_file_type()))
     print("File version: {:d}".format(file.version))
-    print("Number of simualtions: {:d}".format(file._numberSimulations))
+    print("Number of simualtions: {:d}".format(file.number_simulations))
     scan_point_results = file.get_results().get_scan_points_results_from_index(0)
     print("Number of saved trajectories: {:d}".format(scan_point_results.get_number_saved_trajectories()))
     first_trajectory = scan_point_results.get_saved_trajectory(0)

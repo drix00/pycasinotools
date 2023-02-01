@@ -38,7 +38,7 @@ from casinotools.file_format.file_reader_writer_tools import FileReaderWriterToo
 
 # Globals and constants variables.
 VERSION_30107002 = 30107002
-VERSION_LASTEST = VERSION_30107002
+VERSION_LAST = VERSION_30107002
 
 
 def generate_raw_binary_files(filepath, atomic_number, energies_grid_eV, totals_nm2,
@@ -50,7 +50,7 @@ def generate_raw_binary_files(filepath, atomic_number, energies_grid_eV, totals_
     binary_writer = FileReaderWriterTools()
 
     for energy_eV, total_nm2 in zip(energies_grid_eV, totals_nm2):
-        binary_writer.write_int(file, VERSION_LASTEST)
+        binary_writer.write_int(file, VERSION_LAST)
         binary_writer.write_double(file, atomic_number)
         energy_keV = energy_eV / 1000.0
         binary_writer.write_double(file, energy_keV)

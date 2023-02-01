@@ -39,10 +39,10 @@ SHAPE_PLANE = 1
 SHAPE_BOX = 2
 SHAPE_SPHERE = 3
 SHAPE_CONE = 4
-SHAPE_CYLINDRE = 5
-SHAPE_ROUNDREC = 6
+SHAPE_CYLINDER = 5
+SHAPE_ROUND_RECTANGLE = 6
 SHAPE_TRUNC_PYRAMID = 7
-SHAPE_MESHOBJECT = 999
+SHAPE_MESH_OBJECT = 999
 
 
 def get_string(shape):
@@ -58,11 +58,11 @@ def get_string(shape):
         return "sphere"
     elif shape == SHAPE_CONE:
         return "cone"
-    elif shape == SHAPE_CYLINDRE:
+    elif shape == SHAPE_CYLINDER:
         return "cylinder"
-    elif shape == SHAPE_ROUNDREC:
+    elif shape == SHAPE_ROUND_RECTANGLE:
         return "rounded rectangle"
     elif shape == SHAPE_TRUNC_PYRAMID:
         return "truncated pyramid"
-    elif shape == SHAPE_MESHOBJECT:
+    elif shape == SHAPE_MESH_OBJECT:
         return "mesh object"

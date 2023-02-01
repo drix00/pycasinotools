@@ -104,7 +104,7 @@ def test_open(filepath_sim):
     casino_file.open()
 
     assert casino_file.version == 30107002
-    assert casino_file._numberSimulations == 1
+    assert casino_file.number_simulations == 1
 
 
 def test_read_cas_file(filepath_cas):
@@ -114,7 +114,7 @@ def test_read_cas_file(filepath_cas):
     casino_file.open()
 
     assert casino_file.version == 30107002
-    assert casino_file._numberSimulations == 1
+    assert casino_file.number_simulations == 1
 
 
 def test_modified_energy(file_path_sim_tmp_modify_option):

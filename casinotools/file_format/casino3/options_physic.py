@@ -166,14 +166,14 @@ class OptionsPhysic:
 
     #    int FDeds
 
-    # Flag for the total cross section :
+    # Flag for the total cross-section :
     # - 0 Mott par interpolation (fichiers, rapide)
     # - 1 Mott equations de Drouin et Gauvin
     # - 2 Mott equations de Browning
     # - 3 Rutherford par Murata
     #    int FTotalCross
 
-    # Flag for the partial cross section :
+    # Flag for the partial cross-section :
     # - 0 Mott par interpolation (fichiers, rapide)
     # - 1 Mott equations de Drouin et Gauvin
     # - 2 Mott equations de Browning

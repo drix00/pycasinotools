@@ -298,7 +298,7 @@ class OptionsMicro:
         write_int(file, self.multiple_scan_energy)
         write_int(file, self.generate_secondary)
         write_int(file, self.generate_x_rays)
-        write_float(file, self.scan_point_distribution )
+        write_float(file, self.scan_point_distribution)
         write_int(file, self.keep_simulation_data)
 
     def reset(self):

@@ -40,7 +40,7 @@ from casinotools.file_format.casino3.vector import Vector
 OPTIONS_DIST_DEF_FILENAME = "Distribution_Settings_Defaults.dat"
 
 # possible values for the RangeFinder parameter (used to specify how the range
-# of the distributions are found.
+# of the distributions are found).
 RANGE_SIMULATED = 0
 RANGE_OKAYAMA = 1
 RANGE_HOVINGTON = 2

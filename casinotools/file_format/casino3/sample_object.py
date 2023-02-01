@@ -33,7 +33,7 @@ import logging
 
 # Project modules.
 from casinotools.file_format.file_reader_writer_tools import read_int, read_str, read_double_list, \
-    write_int, write_str, write_double_list
+    write_int, write_str, write_double_list, write_line
 from casinotools.file_format.tags import find_tag
 from casinotools.file_format.casino3.sample_shape.shape_type import get_string
 
@@ -165,13 +165,13 @@ class SampleObject:
         self._file.seek(self._start_position)
         self.translation = (self.translation[0], self.translation[1], new_position_z_nm)
 
-        self._modify(self._file)
+        self.modify(self._file)
 
         self._file.close()
         self._file = open(self._file_pathname, 'rb')
         self._file.seek(current_position)
 
-    def _modify(self, file):
+    def modify(self, file):
         assert file.mode == 'r+b'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "_write", file.tell())
 

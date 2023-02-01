@@ -255,10 +255,10 @@ class Sample:
         line = "Maximum sample tree level: {:d}".format(self._maxSampleTreeLevel)
         write_line(export_file, line)
 
-        line = "Sample rotation angle Y (deg): {:g}" % (self._rotation_angle_y_deg)
+        line = "Sample rotation angle Y (deg): {:g}".format(self._rotation_angle_y_deg)
         write_line(export_file, line)
 
-        line = "Sample rotation angle z (deg): {:g}" % (self._rotation_angle_z_deg)
+        line = "Sample rotation angle z (deg): {:g}".format(self._rotation_angle_z_deg)
         write_line(export_file, line)
 
         text = self._extract_boolean_string(self._presence)
