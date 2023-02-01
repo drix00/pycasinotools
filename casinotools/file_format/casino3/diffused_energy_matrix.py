@@ -53,7 +53,7 @@ class DiffusedEnergyMatrix(EnergyMatrix):
     def __init__(self, options, point):
         super().__init__(options, point)
 
-        self._version = 0
+        self.version = 0
         self._number_elements = 0
 
     def read(self, file):
@@ -65,7 +65,7 @@ class DiffusedEnergyMatrix(EnergyMatrix):
 
         tag_id = DIFFUSED_TAG
         if find_tag(file, tag_id):
-            self._version = read_int(file)
+            self.version = read_int(file)
 
             self._number_elements = self._number_points_x * self._number_points_y * self._number_points_z
             self._start_position = file.tell()

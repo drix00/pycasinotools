@@ -52,63 +52,63 @@ class SimulationData:
     def __init__(self, is_skip_reading_data=False):
         self._is_skip_reading_data = is_skip_reading_data
 
-        self._header = HEADER
-        self._version = CURRENT_VERSION
-        self._status = None
+        self.header = HEADER
+        self.version = CURRENT_VERSION
+        self.status = None
 
-        self._save_simulations = None
-        self._save_regions = None
-        self._save_trajectories = None
-        self._save_distributions = None
+        self.save_simulations = None
+        self.save_regions = None
+        self.save_trajectories = None
+        self.save_distributions = None
 
-        self._simulation_options = None
-        self._region_options = None
+        self.simulation_options = None
+        self.region_options = None
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", file.tell())
-        self._header = _read_str_length(file, 26)
+        self.header = _read_str_length(file, 26)
 
         logging.debug("File pos: %i", file.tell())
         tag_id = TAG_VERSION
         if find_tag(file, tag_id):
             logging.debug("File pos: %i", file.tell())
-            self._version = read_int(file)
+            self.version = read_int(file)
 
         tag_id = TAG_STATUS
         if find_tag(file, tag_id):
-            self._status = _read_str_length(file, 1)
+            self.status = _read_str_length(file, 1)
 
         tag_id = TAG_SAVE_SETUP
         if find_tag(file, tag_id):
-            self._save_simulations = read_int(file)
-            self._save_regions = read_int(file)
-            self._save_trajectories = read_int(file)
-            self._save_distributions = read_int(file)
+            self.save_simulations = read_int(file)
+            self.save_regions = read_int(file)
+            self.save_trajectories = read_int(file)
+            self.save_distributions = read_int(file)
 
-        if self._save_simulations:
+        if self.save_simulations:
             self._read_simulation_options(file)
 
-        if self._save_regions:
+        if self.save_regions:
             self._read_region_options(file)
 
-        if self._save_regions and self._save_trajectories:
+        if self.save_regions and self.save_trajectories:
             self._read_trajectories(file)
 
-        if self._save_distributions:
+        if self.save_distributions:
             self._read_simulation_results(file)
 
     def _read_simulation_options(self, file):
-        self._simulation_options = SimulationOptions()
-        self._simulation_options.read(file, self._version)
+        self.simulation_options = SimulationOptions()
+        self.simulation_options.read(file, self.version)
 
     def _read_region_options(self, file):
-        if self._simulation_options.FEmissionRX:
-            self._region_options = RegionOptions(self._simulation_options.NbreCoucheRX)
+        if self.simulation_options.FEmissionRX:
+            self.region_options = RegionOptions(self.simulation_options.NbreCoucheRX)
         else:
-            self._region_options = RegionOptions(0)
+            self.region_options = RegionOptions(0)
 
-        self._region_options.read(file, self._version)
+        self.region_options.read(file, self.version)
 
     def _read_trajectories(self, file):
         self._trajectoriesData = TrajectoriesData(self._is_skip_reading_data)
@@ -116,46 +116,46 @@ class SimulationData:
 
     def _read_simulation_results(self, file):
         self._simulationResults = SimulationResults(self._is_skip_reading_data)
-        self._simulationResults.read(file, self._simulation_options, self._version)
+        self._simulationResults.read(file, self.simulation_options, self.version)
 
     def write(self, file):
         assert getattr(file, 'mode', 'wb') == 'wb'
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "write", file.tell())
 
-        _write_str_length(file, self._header, 26)
+        _write_str_length(file, self.header, 26)
 
         tag_id = TAG_VERSION
         add_tag_old(file, tag_id)
-        write_int(file, self._version)
+        write_int(file, self.version)
 
         tag_id = TAG_STATUS
         add_tag_old(file, tag_id)
-        _write_str_length(file, self._status, 1)
+        _write_str_length(file, self.status, 1)
 
         tag_id = TAG_SAVE_SETUP
         add_tag_old(file, tag_id)
-        write_int(file, self._save_simulations)
-        write_int(file, self._save_regions)
-        write_int(file, self._save_trajectories)
-        write_int(file, self._save_distributions)
+        write_int(file, self.save_simulations)
+        write_int(file, self.save_regions)
+        write_int(file, self.save_trajectories)
+        write_int(file, self.save_distributions)
 
-        if self._save_simulations:
+        if self.save_simulations:
             self._write_simulation_options(file)
 
-        if self._save_regions:
+        if self.save_regions:
             self._write_region_options(file)
 
-        if self._save_regions and self._save_trajectories:
+        if self.save_regions and self.save_trajectories:
             self._write_trajectories(file)
 
-        if self._save_distributions:
+        if self.save_distributions:
             self._write_simulation_results(file)
 
     def _write_simulation_options(self, file):
-        self._simulation_options.write(file)
+        self.simulation_options.write(file)
 
     def _write_region_options(self, file):
-        self._region_options.write(file)
+        self.region_options.write(file)
 
     def _write_trajectories(self, file):
         raise NotImplementedError
@@ -164,19 +164,19 @@ class SimulationData:
         raise NotImplementedError
 
     def get_version(self):
-        return self._version
+        return self.version
 
     def get_simulation_options(self):
-        return self._simulation_options
+        return self.simulation_options
 
     def set_simulation_options(self, simulation_options):
-        self._simulation_options = simulation_options
+        self.simulation_options = simulation_options
 
     def get_region_options(self):
-        return self._region_options
+        return self.region_options
 
     def set_regions_options(self, region_options):
-        self._region_options = region_options
+        self.region_options = region_options
 
     def get_simulation_results(self):
         return self._simulationResults

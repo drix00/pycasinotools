@@ -55,7 +55,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.toa == pytest.approx(40.0)
     assert reader.phi_rx == pytest.approx(0.0)
 
@@ -64,6 +64,6 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.toa == pytest.approx(40.0)
     assert reader.phi_rx == pytest.approx(0.0)

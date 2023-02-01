@@ -27,7 +27,7 @@ from casinotools.utilities.path import is_bad_file
 # pytest options.
 def pytest_addoption(parser):
     parser.addoption(
-        "--runslow", action="store_true", default=False, help="run slow tests"
+        "--runs-low", action="store_true", default=False, help="run slow tests"
     )
 
 
@@ -36,8 +36,8 @@ def pytest_configure(config):
 
 
 def pytest_collection_modifyitems(config, items):  # pragma no cover
-    if not config.getoption("--runslow"):
-        skip_slow = pytest.mark.skip(reason="need --runslow option to run")
+    if not config.getoption("--runs-low"):
+        skip_slow = pytest.mark.skip(reason="need --runs-low option to run")
         for item in items:
             if "slow" in item.keywords:
                 item.add_marker(skip_slow)
@@ -97,8 +97,8 @@ def filepath_cas_v242():
 
 
 @pytest.fixture()
-def filepath_cas_nicr():
-    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.4.6.1/nicr_v2.46.cas")
+def filepath_cas_ni_cr():
+    file_path = resource_filename(__name__, "../test_data/casino2.x/v2.4.6.1/ni_cr_v2.46.cas")
     return file_path
 
 

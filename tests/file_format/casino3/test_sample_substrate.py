@@ -56,7 +56,7 @@ def test_read(filepath_sim):
     sample = create_object_from_type(SHAPE_SUBSTRATE)
     sample.read(file)
 
-    assert sample._version == 30105004
+    assert sample.version == 30105004
 
     assert sample._name == "Substrate"
     assert sample._region_name == "Substrate"

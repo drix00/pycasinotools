@@ -64,7 +64,7 @@ def test_read(filepath_cas):
 
     error = results.read(file)
     assert error is None
-    assert results._version == 30107000
+    assert results.version == 30107000
     assert results._number_elements == 125000
     assert results._start_position == 1012762
     assert results._end_position == 2012806

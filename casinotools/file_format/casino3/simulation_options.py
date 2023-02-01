@@ -65,7 +65,7 @@ class SimulationOptions:
         self._file_pathname = ""
         self._file_descriptor = 0
 
-        self._version = 0
+        self.version = 0
 
     def read(self, file):
         self._file = file
@@ -76,12 +76,12 @@ class SimulationOptions:
 
         tag_id = b"*SIMULATIONOPT%"
         if find_tag(file, tag_id):
-            self._version = read_int(file)
+            self.version = read_int(file)
 
             self._options_adf.read(file)
             self._options_adv_back_set.read(file)
 
-            if SIM_OPTIONS_VERSION_3_3_0_0 <= self._version < SIM_OPTIONS_VERSION_3_3_0_4:
+            if SIM_OPTIONS_VERSION_3_3_0_0 <= self.version < SIM_OPTIONS_VERSION_3_3_0_4:
                 self._options_advanced_psfs_settings.read(file)
 
             self.options_dist.read(file)

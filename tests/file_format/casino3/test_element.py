@@ -32,7 +32,7 @@ import pytest
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.casino3.element import Element, get_atom, _computeK
+from casinotools.file_format.casino3.element import Element, get_atom, compute_k
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
@@ -55,7 +55,7 @@ def test_read(filepath_sim):
     element = Element()
     element.read(file)
 
-    assert element._version == 30105010
+    assert element.version == 30105010
     assert element._element_id == 0
     assert element._weight_fraction == pytest.approx(0.660569621292935)
     assert element._atomic_fraction == pytest.approx(0.372901678657074)
@@ -109,9 +109,9 @@ def test_atom():
 
 def test__compute_k():
     k_ref = 7.790367583747E-01
-    k = _computeK(5)
+    k = compute_k(5)
     assert k == pytest.approx(k_ref)
 
     k_ref = 7.843098263659E-01
-    k = _computeK(6)
+    k = compute_k(6)
     assert k == pytest.approx(k_ref)

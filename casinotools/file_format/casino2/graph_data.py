@@ -41,9 +41,9 @@ class GraphData:
     def __init__(self, size=0, borne_inf=0.0, borne_sup=0.0, is_log=False, is_uneven=False, title="", x_title="",
                  y_title="", file=None, version=None):
         if version is not None:
-            self._version = version
+            self.version = version
         else:
-            self._version = 0
+            self.version = 0
 
         if file is not None:
             self.read(file)
@@ -65,8 +65,8 @@ class GraphData:
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
 
-        if self._version >= VERSION_2040601:
-            self._version = read_long(file)
+        if self.version >= VERSION_2040601:
+            self.version = read_long(file)
 
             self._size = read_long(file)
             self._borneInf = read_double(file)

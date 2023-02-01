@@ -76,11 +76,11 @@ def _read_tests(file):
     assert simulation_results.BE_Intensity_Size == 1
     assert simulation_results.BE_Intensity[0] == 3.950000000000E-02
 
-    element = simulation_results._elementIntensityList[0]
+    element = simulation_results.element_intensity_list[0]
     assert element.name == "B"
     assert element.IntensityK[0] == pytest.approx(3.444919288026E+02)
 
-    element = simulation_results._elementIntensityList[1]
+    element = simulation_results.element_intensity_list[1]
     assert element.name == "C"
     assert element.IntensityK[0] == pytest.approx(4.687551040349E+01)
 

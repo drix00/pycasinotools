@@ -69,7 +69,7 @@ def _read_tests(file):
     simulation_options = SimulationOptions()
     simulation_options.read(file, 26)
 
-    assert simulation_options._bseCoefficient == pytest.approx(0.0)
+    assert simulation_options.bse_coefficient == pytest.approx(0.0)
 
     assert simulation_options.Beam_Diameter == pytest.approx(10.0)
     assert simulation_options.Electron_Number == 10000

@@ -55,7 +55,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.UseEnBack is False
     assert reader.WorkDist == pytest.approx(10.0)
     assert reader.DetectScaleX == pytest.approx(1.0)
@@ -77,7 +77,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.UseEnBack is False
     assert reader.WorkDist == pytest.approx(10.0)
     assert reader.DetectScaleX == pytest.approx(1.0)

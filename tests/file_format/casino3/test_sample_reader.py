@@ -55,7 +55,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
 
     if is_bad_file(filepath_cas):  # pragma: no cover
         pytest.skip()
@@ -64,4 +64,4 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002

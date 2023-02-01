@@ -64,7 +64,7 @@ def test_read(filepath_cas):
 
     assert error is None
 
-    assert results._version == 30107002
+    assert results.version == 30107002
 
     assert results._initial_energy_keV == pytest.approx(0.8)
     assert results._rko_max == pytest.approx(0.0)
@@ -89,7 +89,7 @@ def test_read(filepath_cas):
 
     # DZMax distribution results.
     assert results._is_dz_max is True
-    assert results.dz_max._version == 30105020
+    assert results.dz_max.version == 30105020
 
     assert results.dz_max._size == 1000
     assert results.dz_max._borneInf == pytest.approx(0.0)

@@ -37,7 +37,7 @@ import pytest
 from casinotools.file_format.casino2.file import File
 from casinotools.file_format.casino2.element import LINE_K, GENERATED, EMITTED
 from casinotools.utilities.path import is_bad_file
-from casinotools.file_format.casino2.version import VERSION_2_45, VERSION_2_50, VERSION_2_51, VERSION_2_42, \
+from casinotools.file_format.casino2.version import VERSION_2_50, VERSION_2_51, VERSION_2_42, \
     VERSION_2_46, VERSION_26
 
 # if os.path.isfile(self.filepathWrite):
@@ -130,7 +130,7 @@ def test_skip_reading_data(filepath_cas_26):
     file.read_from_filepath(filepath_cas_26, is_skip_reading_data=False)
 
     trajectories_data = file.get_results_first_simulation().get_trajectories_data()
-    assert trajectories_data._number_trajectories == 221
+    assert trajectories_data.number_trajectories == 221
     assert trajectories_data._trajectories[0].NbElec == 89
     assert len(trajectories_data._trajectories[0]._scatteringEvents) == 89
 
@@ -146,7 +146,7 @@ def test_skip_reading_data(filepath_cas_26):
     file.read_from_filepath(filepath_cas_26, is_skip_reading_data=True)
 
     trajectories_data = file.get_results_first_simulation().get_trajectories_data()
-    assert trajectories_data._number_trajectories == 221
+    assert trajectories_data.number_trajectories == 221
     assert trajectories_data._trajectories[0].NbElec == 89
     assert len(trajectories_data._trajectories[0]._scatteringEvents) == 0
 
@@ -155,11 +155,11 @@ def test_skip_reading_data(filepath_cas_26):
     assert simulation_results.BE_Intensity_Size == 1
     assert simulation_results.BE_Intensity[0] == 3.950000000000E-02
 
-    element = simulation_results._elementIntensityList[0]
+    element = simulation_results.element_intensity_list[0]
     assert element.name == "B"
     assert element.IntensityK[0] == pytest.approx(3.444919288026E+02)
 
-    element = simulation_results._elementIntensityList[1]
+    element = simulation_results.element_intensity_list[1]
     assert element.name == "C"
     assert element.IntensityK[0] == pytest.approx(4.687551040349E+01)
 
@@ -374,8 +374,9 @@ def test_problem_sim_v250(filepath_problem_sim_v250, filepath_good_sim_v251):
     assert number_xray_layers == 500
 
 
-def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_sim_26, filepath_cas_26, filepath_std, filepath_sim_v242, filepath_cas_v242,
-                         filepath_cas_nicr, filepath_sim_v250, filepath_cas_v250, filepath_problem_sim_v250,
+def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_sim_26, filepath_cas_26, filepath_std,
+                         filepath_sim_v242, filepath_cas_v242,
+                         filepath_cas_ni_cr, filepath_sim_v250, filepath_cas_v250, filepath_problem_sim_v250,
                          filepath_problem_pymontecarlo_sim_v250, filepath_good_sim_v251):
     """
     Test extract_version method.
@@ -390,7 +391,7 @@ def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_sim_26, 
                   (filepath_std, VERSION_2_50),
                   (filepath_sim_v242, VERSION_2_42),
                   (filepath_cas_v242, VERSION_2_42),
-                  (filepath_cas_nicr, VERSION_2_46),
+                  (filepath_cas_ni_cr, VERSION_2_46),
                   (filepath_sim_v250, VERSION_2_50),
                   (filepath_cas_v250, VERSION_2_50),
                   (filepath_problem_sim_v250, VERSION_2_50),

@@ -80,7 +80,8 @@ def test_add_element(generate_sim_file):
 
     symbol_ref = 'Cu'
     generate_sim_file._add_element(symbol_ref)
-    symbol = generate_sim_file.get_option_simulation_data().get_region_options().get_region(0).get_element(0).get_symbol()
+    element = generate_sim_file.get_option_simulation_data().get_region_options().get_region(0).get_element(0)
+    symbol = element.get_symbol()
     assert symbol == symbol_ref
 
     generate_sim_file._remove_all_elements()

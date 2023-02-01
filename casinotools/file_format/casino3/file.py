@@ -37,7 +37,7 @@ import logging
 from casinotools.file_format.tags import limited_search_tag, TAG_LENGTH, add_tag
 from casinotools.file_format.casino3.simulation_data import SimulationData
 from casinotools.file_format.file_reader_writer_tools import read_int, _write_str_length, write_int, \
-    _extract_version_string, write_line
+    extract_version_string, write_line
 from casinotools import get_current_module_path
 
 # Globals and constants variables.
@@ -70,7 +70,7 @@ class File:
         self._save_content = SaveContent()
         self._file = None
 
-        self._version = 0
+        self.version = 0
         self._type = ""
 
         self.open()
@@ -165,10 +165,10 @@ class File:
     def _read_with_file_version(self, file, file_version):
         if file_version >= V30104060:
             self.reset()
-            self._version = self._read_version(file)
+            self.version = self._read_version(file)
 
         self._numberSimulations = 1
-        if self._version >= 30107002:
+        if self.version >= 30107002:
             self._numberSimulations = read_int(file)
 
         self._simulation_list = []
@@ -333,10 +333,10 @@ class File:
         return regions
 
     def get_version(self):
-        if self._version is None:
+        if self.version is None:
             return self._fileVersion
         else:
-            return self._version
+            return self.version
 
     def export(self, export_file):
         self._export_filename(export_file)
@@ -361,7 +361,7 @@ class File:
 
     def _export_file_version(self, export_file):
         version = self.get_version()
-        version_string = _extract_version_string(version)
+        version_string = extract_version_string(version)
         line = "File version: {} ({:d})".format(version_string, version)
         write_line(export_file, line)
 
@@ -417,7 +417,7 @@ def _run():
     print("File name: {}".format(file._file.name))
     print("File descriptor: {:d}".format(file._file.fileno()))
     print("File shape_type: {}".format(file.get_file_type()))
-    print("File version: {:d}".format(file._version))
+    print("File version: {:d}".format(file.version))
     print("Number of simualtions: {:d}".format(file._numberSimulations))
     scan_point_results = file.get_results().get_scan_points_results_from_index(0)
     print("Number of saved trajectories: {:d}".format(scan_point_results.get_number_saved_trajectories()))

@@ -34,8 +34,8 @@ import pytest
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.tags import _create_tag_with_filler, limited_search_tag, find_tag, add_tag, add_tag_old, \
-    _stream_search_slow, _stream_search_fast, find_tag_position
+from casinotools.file_format.tags import create_tag_with_filler, limited_search_tag, find_tag, add_tag, add_tag_old, \
+    stream_search_slow, stream_search_fast, find_tag_position
 from casinotools.utilities.path import is_bad_file
 
 # Globals and constants variables.
@@ -69,7 +69,7 @@ def test_create_tag_with_filler_length15(tag_id, tag_ref):
     tag_length = 15
     filler = b'%'
 
-    tag = _create_tag_with_filler(tag_id, tag_length, filler)
+    tag = create_tag_with_filler(tag_id, tag_length, filler)
     assert tag == tag_ref
 
 
@@ -82,7 +82,7 @@ def test_create_tag_with_filler_length10(tag_id, tag_ref):
     tag_length = 10
     filler = b'%'
 
-    tag = _create_tag_with_filler(tag_id, tag_length, filler)
+    tag = create_tag_with_filler(tag_id, tag_length, filler)
     assert tag == tag_ref
 
 
@@ -113,7 +113,7 @@ def test_find_tag(sim_file, tag_id, is_tag_found_ref):
                           (b"%SAVE_HEADER%", True),
                           ])
 def test_stream_search_slow(sim_file, tag_id, is_tag_found_ref):
-    is_tag_found = _stream_search_slow(sim_file, tag_id)
+    is_tag_found = stream_search_slow(sim_file, tag_id)
     assert is_tag_found == is_tag_found_ref
 
 
@@ -123,7 +123,7 @@ def test_stream_search_slow(sim_file, tag_id, is_tag_found_ref):
                           (b"%SAVE_HEADER%", True),
                           ])
 def test_stream_search_fast(sim_file, tag_id, is_tag_found_ref):
-    is_tag_found = _stream_search_fast(sim_file, tag_id)
+    is_tag_found = stream_search_fast(sim_file, tag_id)
     assert is_tag_found == is_tag_found_ref
 
 

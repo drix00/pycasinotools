@@ -55,7 +55,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.diffuse == 0
     assert reader.depos_summation == 1
     assert reader.depos_iso_level == pytest.approx(0.1)
@@ -67,7 +67,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.diffuse == 0
     assert reader.depos_summation == 1
     assert reader.depos_iso_level == pytest.approx(0.1)

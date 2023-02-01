@@ -25,11 +25,9 @@ Tests for the :py:mod:`casinotools.file_format.casino3.energy_matrix` module.
 ###############################################################################
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 import pytest
-from pkg_resources import resource_filename
 
 # Local modules.
 

@@ -45,7 +45,7 @@ class RegionOptions:
     def __init__(self, number_xray_layers):
         self._numberXRayLayers = number_xray_layers
 
-        self._numberRegions = None
+        self.number_regions = None
 
         self._regions = []
 
@@ -56,9 +56,9 @@ class RegionOptions:
         tag_id = TAG_REGION_DATA
         find_tag(file, tag_id)
 
-        self._numberRegions = read_int(file)
+        self.number_regions = read_int(file)
 
-        for dummy in range(self._numberRegions):
+        for dummy in range(self.number_regions):
             region = Region(self._numberXRayLayers)
             region.read(file, version)
             self._regions.append(region)
@@ -70,10 +70,10 @@ class RegionOptions:
         tag_id = TAG_REGION_DATA
         add_tag_old(file, tag_id)
 
-        write_int(file, self._numberRegions)
+        write_int(file, self.number_regions)
 
-        assert len(self._regions) == self._numberRegions
-        for index in range(self._numberRegions):
+        assert len(self._regions) == self.number_regions
+        for index in range(self.number_regions):
             region = self._regions[index]
             region.write(file)
 

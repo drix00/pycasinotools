@@ -50,7 +50,7 @@ TAG_ELEMENT_DATA = b"*ELEMENTDATA_XX"
 
 class Element:
     def __init__(self):
-        self._version = None
+        self.version = None
         self._element_id = 0
         self._weight_fraction = 1.0
         self._atomic_fraction = 1.0
@@ -80,7 +80,7 @@ class Element:
 
         tag_id = TAG_ELEMENT_DATA
         find_tag(file, tag_id)
-        self._version = read_int(file)
+        self.version = read_int(file)
 
         self._element_id = read_int(file)
         self._weight_fraction = read_double(file)
@@ -122,7 +122,7 @@ class Element:
         tagID = TAG_ELEMENT_DATA
         find_tag(file, tagID)
 
-        write_int(file, self._version)
+        write_int(file, self.version)
 
         write_int(file, self._element_id)
         write_double(file, self._weight_fraction)
@@ -228,7 +228,7 @@ class Element:
         self.ep = ep
 
         self.J = _computeJ(self.z)
-        self.K = _computeK(self.z)
+        self.K = compute_k(self.z)
 
     def get_composition(self):
         return self._composition
@@ -262,7 +262,7 @@ def _computeJ(atomic_number):
     return mean_ionization_potential.compute_j(atomic_number)
 
 
-def _computeK(atomic_number):
+def compute_k(atomic_number):
     k = 0.734 * math.pow(atomic_number, 0.037)
     return k
 

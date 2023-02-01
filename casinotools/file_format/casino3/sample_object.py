@@ -47,7 +47,7 @@ class SampleObject:
         self._file_pathname = ""
         self._file_descriptor = 0
 
-        self._version = None
+        self.version = None
         self._name = "Empty"
         self._region_name = "Undefined"
 
@@ -67,7 +67,7 @@ class SampleObject:
 
         tag_id = b"%SMPLOBJ"
         if find_tag(file, tag_id):
-            self._version = read_int(file)
+            self.version = read_int(file)
 
             self._name = read_str(file)
             self._region_name = read_str(file)
@@ -84,7 +84,7 @@ class SampleObject:
         return self.shape_type
 
     def get_version(self):
-        return self._version
+        return self.version
 
     def get_translation_nm(self):
         return self.translation
@@ -177,7 +177,7 @@ class SampleObject:
 
         tag_id = "%SMPLOBJ"
         if find_tag(file, tag_id):
-            write_int(file, self._version)
+            write_int(file, self.version)
 
             write_str(file, self._name)
             write_str(file, self._region_name)

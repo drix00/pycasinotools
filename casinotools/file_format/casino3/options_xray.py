@@ -47,7 +47,7 @@ OPTIONS_XRAY_DEF_FILENAME = "XRay_Settings_Defaults.dat"
 #    float phi_rx
 class OptionsXray:
     def __init__(self):
-        self._version = 0
+        self.version = 0
         self.toa = 0.0
         self.phi_rx = 0.0
 
@@ -69,7 +69,7 @@ class OptionsXray:
         tag_id = b"*XRAY_OPT_BEG"
         find_tag(file, tag_id)
 
-        self._version = read_int(file)
+        self.version = read_int(file)
 
         self.toa = read_double(file)
         self.phi_rx = read_float(file)

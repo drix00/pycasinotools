@@ -54,7 +54,7 @@ def test_read(filepath_cas):
     file.seek(2013179)
 
     results = GraphData(file)
-    assert results._version == 30105020
+    assert results.version == 30105020
 
     assert results._size == 1000
     assert results._borneInf == pytest.approx(0.0)

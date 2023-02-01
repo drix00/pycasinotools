@@ -71,4 +71,4 @@ def _read_tests(file, version):
     region_options = RegionOptions(500)
     region_options.read(file, version)
 
-    assert region_options._numberRegions == 1
+    assert region_options.number_regions == 1

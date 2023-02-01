@@ -73,7 +73,7 @@ class File:
         logging.debug("File position after reading option: %i", file.tell())
 
         # Read the results for each simulations if the file is a .cas.
-        if self._optionSimulationData._save_trajectories:
+        if self._optionSimulationData.save_trajectories:
             self._numberSimulations = read_int(file)
 
             for dummy in range(self._numberSimulations):

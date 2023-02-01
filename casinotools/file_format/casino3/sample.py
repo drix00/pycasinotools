@@ -58,7 +58,7 @@ class Sample:
         self._file_pathname = ""
         self._file_descriptor = 0
 
-        self._version = 0
+        self.version = 0
 
         self._sample_objects = []
         self._regions = []
@@ -78,9 +78,9 @@ class Sample:
 
         tag_id = b"*CASINOSAMPLE%%"
         if find_tag(file, tag_id):
-            self._version = read_int(file)
+            self.version = read_int(file)
 
-            if self._version >= 3010301:
+            if self.version >= 3010301:
                 return self._read_3131(file)
             else:
                 raise ValueError("version_not_supported")
@@ -106,13 +106,13 @@ class Sample:
 
                 sample_object.read(file)
 
-                if self._version >= 30200002:
+                if self.version >= 30200002:
                     object_id = read_int(file)
                     self.add_sample_object_with_id(sample_object, object_id)
                 else:
                     self.add_sample_object(sample_object)
 
-        if self._version < 30107001:
+        if self.version < 30107001:
             tag_id = b"*MAC%%%%%%%%%%%"
             if find_tag(file, tag_id):
                 # float MAC[100][100][3]
@@ -124,7 +124,7 @@ class Sample:
         if find_tag(file, tag_id):
             self._maxSampleTreeLevel = read_int(file)
 
-        if self._version >= SIM_OPTIONS_VERSION_3_1_8_2:
+        if self.version >= SIM_OPTIONS_VERSION_3_1_8_2:
             self._offsets[OFFSET_ROTATION_Y] = file.tell()
             self._rotation_angle_y_deg = read_double(file)
             self._offsets[OFFSET_ROTATION_Z] = file.tell()
@@ -180,7 +180,7 @@ class Sample:
         return shapes
 
     def get_version(self):
-        return self._version
+        return self.version
 
     def get_rotation_y_deg(self):
         return self._rotation_angle_y_deg

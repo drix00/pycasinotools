@@ -54,7 +54,7 @@ class Region:
         self._file_pathname = ""
         self._file_descriptor = 0
 
-        self._version = 0
+        self.version = 0
         self._carrier_diffusion_length = 0.0
         self.id_ed = 0
 
@@ -94,21 +94,21 @@ class Region:
         self._file_descriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._start_position)
 
-        self._version = read_int(file)
+        self.version = read_int(file)
 
         tag_id = TAG_REGIONS_DATA
         find_tag(file, tag_id)
 
-        if self._version > 30104072:
+        if self.version > 30104072:
             self._carrier_diffusion_length = read_double(file)
 
-        if self._version < 30105005:
+        if self.version < 30105005:
             self.id_ed = read_int(file)
 
         self._number_elements = read_int(file)
         self.rho = read_double(file)
 
-        if self._version < 30105001:
+        if self.version < 30105001:
             self.zmoy = read_double(file)
 
         self._work_function = read_double(file)
@@ -119,7 +119,7 @@ class Region:
         self.user_composition = read_int(file)
         self._checked = read_int(file)
 
-        if self._version < 30105022:
+        if self.version < 30105022:
             self._energy_intensity = read_double(file)
 
         self.name = read_str(file)
@@ -152,7 +152,7 @@ class Region:
 
         tag_id = TAG_REGIONS_DATA
         if find_tag(file, tag_id):
-            write_int(file, self._version)
+            write_int(file, self.version)
 
             write_double(file, self._carrier_diffusion_length)
 

@@ -53,7 +53,7 @@ class OptionsAdvancedPsfsSettings:
         self._psfNumberSteps = Vector(128, 128, 128)
         self._psfCenter_nm = Vector(0.0, 0.0, 500.0)
 
-        self._version = 0
+        self.version = 0
 
         self.reset()
 
@@ -66,8 +66,8 @@ class OptionsAdvancedPsfsSettings:
         tag_id = b"*PSF_SET_BEG"
         find_tag(input_file, tag_id)
 
-        self._version = read_int(input_file)
-        assert self._version >= SIM_OPTIONS_VERSION_3_3_0_0
+        self.version = read_int(input_file)
+        assert self.version >= SIM_OPTIONS_VERSION_3_3_0_0
 
         self._generatePsf = read_bool(input_file)
         self._useScanPointForCenter = read_bool(input_file)

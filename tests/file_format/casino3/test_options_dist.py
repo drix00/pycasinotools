@@ -55,7 +55,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.DenrMax / autoFlag == pytest.approx(1.0)
 
     assert reader.DEposCyl_Z == pytest.approx(1000.0)
@@ -67,7 +67,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.DenrMax / autoFlag == pytest.approx(1.0)
 
     assert reader.DEposCyl_Z == pytest.approx(1000.0)

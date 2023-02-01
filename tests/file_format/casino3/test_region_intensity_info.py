@@ -61,21 +61,21 @@ def test_read(filepath_cas):
 
     assert error is None
 
-    assert results._version == 30105022
+    assert results.version == 30105022
     assert results.energy_intensity == pytest.approx(0.0)
     assert results._region_id == 1
     assert results.normalized_energy_intensity == pytest.approx(0.0)
 
     error = results.read(file)
     assert error is None
-    assert results._version == 30105022
+    assert results.version == 30105022
     assert results.energy_intensity == pytest.approx(0.0)
     assert results._region_id == 2
     assert results.normalized_energy_intensity == pytest.approx(0.0)
 
     error = results.read(file)
     assert error is None
-    assert results._version == 30105022
+    assert results.version == 30105022
     assert results.energy_intensity == pytest.approx(7.268071702406E+05)
     assert results._region_id == 3
     assert results.normalized_energy_intensity == pytest.approx(7.268071702406E-01)

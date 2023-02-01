@@ -103,10 +103,10 @@ def read_double_list(file, number_elements=None):
     if number_elements is None:
         number_elements = read_int(file)
 
-    return _read_double_list_without_loop_fast(file, number_elements)
+    return read_double_list_without_loop_fast(file, number_elements)
 
 
-def _read_double_list_with_loop(file, number_elements):
+def read_double_list_with_loop(file, number_elements):
     array = []
     for dummy in range(number_elements):
         value = read_double(file)
@@ -115,7 +115,7 @@ def _read_double_list_with_loop(file, number_elements):
     return array
 
 
-def _read_double_list_without_loop(file, number_elements):
+def read_double_list_without_loop(file, number_elements):
     value_format = "{:d}d".format(number_elements)
     size = struct.calcsize(value_format)
     buffer = file.read(size)
@@ -125,7 +125,7 @@ def _read_double_list_without_loop(file, number_elements):
     return array
 
 
-def _read_double_list_without_loop_fast(file, number_elements):
+def read_double_list_without_loop_fast(file, number_elements):
     if number_elements > 0:
         value_format = "{:d}d".format(number_elements)
         size = struct.calcsize(value_format)
@@ -169,7 +169,7 @@ def read_multiple_values(file, value_format):
     return items
 
 
-def _check_and_correct_value_size(value, size):
+def check_and_correct_value_size(value, size):
     if len(value) > size:
         value = value[:size]
     assert len(value) <= size
@@ -208,7 +208,7 @@ def write_str(file, value):
 
 
 def _write_str_length(file, value, size):
-    value = _check_and_correct_value_size(value, size)
+    value = check_and_correct_value_size(value, size)
     value_format = "%is" % (size,)
     value = value.encode('ascii', 'replace')
     _write(file, value_format, value, bytes)
@@ -225,15 +225,15 @@ def write_double_list(file, value_list, number_elements=None):
     if number_elements is None:
         number_elements = len(value_list)
     assert len(value_list) == number_elements
-    _write_double_list_without_loop(file, value_list, number_elements)
+    write_double_list_without_loop(file, value_list, number_elements)
 
 
-def _write_double_list_with_loop(file, value_list, number_elements):
+def write_double_list_with_loop(file, value_list, number_elements):
     for index in range(number_elements):
         write_double(file, value_list[index])
 
 
-def _write_double_list_without_loop(file, value_list, number_elements):
+def write_double_list_without_loop(file, value_list, number_elements):
     value_format = "{:d}d".format(number_elements)
     buffer = struct.pack(value_format, *value_list)
     file.write(buffer)
@@ -259,7 +259,7 @@ def write_line(file, line):
     file.write(line)
 
 
-def _extract_version_string(version):
+def extract_version_string(version):
     """
     30103040
     """
@@ -274,7 +274,7 @@ def _extract_version_string(version):
     return version_str
 
 
-def _extract_boolean_string(boolean_value):
+def extract_boolean_string(boolean_value):
     boolean_value = bool(boolean_value)
 
     if boolean_value:

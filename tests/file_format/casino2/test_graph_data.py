@@ -60,7 +60,7 @@ def test_read(filepath_cas_2_45):
         file.seek(689238+4)
 
         results = GraphData(file=file, version=VERSION_2040601)
-        assert results._version == VERSION_2040601
+        assert results.version == VERSION_2040601
 
         assert results._size == 1000
         assert results._borneInf == pytest.approx(0.0)
@@ -87,14 +87,14 @@ def test_read_cas_251(filepath_cas_2_5_1_0):
     """
     .. todo:: Make this test work.
 
-    :param filepath_cas_2_45:
+    :param filepath_cas_2_5_1_0:
     :return:
     """
     with open(filepath_cas_2_5_1_0, 'rb') as file:
         file.seek(1371743+4)
 
         results = GraphData(file=file, version=VERSION_2050000)
-        assert results._version == VERSION_2050000
+        assert results.version == VERSION_2050000
 
         assert results._size == 1000
         assert results._borneInf == pytest.approx(0.0)

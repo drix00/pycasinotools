@@ -189,7 +189,7 @@ class OptionsMicro:
         self.noise_enabled = False
         self.noise_percentage = NOISE_PERCENTAGE_DEFAULT
 
-        self._version = 0
+        self.version = 0
 
         self.reset()
 
@@ -234,7 +234,7 @@ class OptionsMicro:
         tag_id = b"*MICRO_SET_BEG"
         find_tag(file, tag_id)
 
-        self._version = read_int(file)
+        self.version = read_int(file)
 
         self.scanning_mode = read_int(file)
         self.x_plane_position = read_double(file)
@@ -273,7 +273,7 @@ class OptionsMicro:
         position = find_tag_position(file, tag_id)
         file.seek(position, 0)
 
-        write_int(file, self._version)
+        write_int(file, self.version)
 
         write_int(file, self.scanning_mode)
         write_double(file, self.x_plane_position)

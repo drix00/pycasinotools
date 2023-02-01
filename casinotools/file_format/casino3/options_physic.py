@@ -212,7 +212,7 @@ class OptionsPhysic:
         self.Min_Energy_With_Sec = -1.0
         self.Min_Gen_Secondary_Energy = -1.0
 
-        self._version = 0
+        self.version = 0
 
         self.reset()
 
@@ -246,7 +246,7 @@ class OptionsPhysic:
         position = find_tag_position(file, tag_id)
         file.seek(position, 0)
 
-        write_int(file, self._version)
+        write_int(file, self.version)
 
         write_int(file, self.FRan)
         write_int(file, self.FDeds)
@@ -267,7 +267,7 @@ class OptionsPhysic:
         tag_id = b"*PHYS_MOD_BEG"
         find_tag(file, tag_id)
 
-        self._version = read_int(file)
+        self.version = read_int(file)
 
         self.FRan = read_int(file)
         self.FDeds = read_int(file)

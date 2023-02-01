@@ -166,7 +166,7 @@ def no_test_read_element(filepath_Cu):
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Cu)
 
-    assert xray_radial_reader._version == HEADER_ELEMENT
+    assert xray_radial_reader.version == HEADER_ELEMENT
 
     xray_radial = xray_radial_reader.getData('Cu', K)
     assert xray_radial.get_element_symbol() == "Cu"
@@ -181,17 +181,17 @@ def test_set_text_file_version():
     line = "Radial XRay Distribution Layer MV of Element Au"
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader._setTextFileVersion(line)
-    assert xray_radial_reader._version == HEADER_ELEMENT_LINE
+    assert xray_radial_reader.version == HEADER_ELEMENT_LINE
 
     line = "Radial Distribution of Cu"
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader._setTextFileVersion(line)
-    assert xray_radial_reader._version == HEADER_ELEMENT
+    assert xray_radial_reader.version == HEADER_ELEMENT
 
     line = "XRay Radial of Cu"
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader._setTextFileVersion(line)
-    assert xray_radial_reader._version == HEADER_ALL
+    assert xray_radial_reader.version == HEADER_ALL
 
 
 def test_extract_data_label_line_data_element():

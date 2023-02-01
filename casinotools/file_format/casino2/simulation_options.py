@@ -148,7 +148,7 @@ def get_energy_loss_string(model_type):
 
 class SimulationOptions:
     def __init__(self):
-        self._bseCoefficient = 0.0
+        self.bse_coefficient = 0.0
         self.FRan = 0
         self.FDeds = 0
         self.FSecTotal = 0
@@ -328,7 +328,7 @@ class SimulationOptions:
         tag_id = TAG_BSE_COEFFICIENT
         if not find_tag(file, tag_id):
             raise IOError
-        self._bseCoefficient = read_double(file)
+        self.bse_coefficient = read_double(file)
 
         # Selected Physical Model variables
         tag_id = TAG_PHYSIC_MODELS
@@ -593,7 +593,7 @@ class SimulationOptions:
 
         tag_id = TAG_BSE_COEFFICIENT
         add_tag_old(file, tag_id)
-        write_double(file, self._bseCoefficient)
+        write_double(file, self.bse_coefficient)
 
         tag_id = TAG_PHYSIC_MODELS
         add_tag_old(file, tag_id)
@@ -884,7 +884,7 @@ class SimulationOptions:
         self.Total_Thickness = total_thickness_nm
 
     def get_bse_coefficient(self):
-        return self._bseCoefficient
+        return self.bse_coefficient
 
     def get_line_scan_parameters(self):
         parameters = (self._positionStart_nm, self._positionEnd_nm, self._positionNumberStep, self._positionStep_nm)

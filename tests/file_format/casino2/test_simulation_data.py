@@ -37,7 +37,7 @@ import pytest
 from casinotools.file_format.casino2.simulation_data import SimulationData
 from casinotools.utilities.path import is_bad_file
 from casinotools.file_format.casino2.element import EMITTED, GENERATED, LINE_K, LINE_L, LINE_M
-from casinotools.file_format.casino2.line import ATOM_LINE_KA1, ATOM_LINE_KA2, ATOM_LINE_KB1
+
 
 # Globals and constants variables.
 
@@ -72,16 +72,16 @@ def _read_tests(file):
     simulation_data = SimulationData()
     simulation_data.read(file)
 
-    assert simulation_data._header == "WinCasino Simulation File"
-    assert simulation_data._version == 26
-    assert simulation_data._status == 'f'
-    assert simulation_data._save_simulations == 1
-    assert simulation_data._save_regions == 1
-    assert simulation_data._save_trajectories == 1
-    assert simulation_data._save_distributions == 1
+    assert simulation_data.header == "WinCasino Simulation File"
+    assert simulation_data.version == 26
+    assert simulation_data.status == 'f'
+    assert simulation_data.save_simulations == 1
+    assert simulation_data.save_regions == 1
+    assert simulation_data.save_trajectories == 1
+    assert simulation_data.save_distributions == 1
 
 
-def test_get_total_xray_intensities(filepath_cas_26, filepath_cas_nicr):
+def test_get_total_xray_intensities(filepath_cas_26, filepath_cas_ni_cr):
     if is_bad_file(filepath_cas_26):  # pragma: no cover
         pytest.skip()
 
@@ -101,10 +101,10 @@ def test_get_total_xray_intensities(filepath_cas_26, filepath_cas_nicr):
     assert intensities[6][LINE_K][EMITTED] == pytest.approx(46.88, 2)
 
     # Multiple regions
-    if is_bad_file(filepath_cas_nicr):  # pragma: no cover
+    if is_bad_file(filepath_cas_ni_cr):  # pragma: no cover
         pytest.skip()
 
-    f = open(filepath_cas_nicr, 'rb')
+    f = open(filepath_cas_ni_cr, 'rb')
     f.seek(98348)
     simulation_data = SimulationData()
     simulation_data.read(f)

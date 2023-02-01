@@ -78,7 +78,7 @@ class GraphData:
         self._filePathname = ""
         self._fileDescriptor = 0
 
-        self._version = 0
+        self.version = 0
         self._size = 0
         self._borneInf = 0.0
         self._borneSup = 0.0
@@ -102,7 +102,7 @@ class GraphData:
         self._fileDescriptor = file.fileno()
         logging.debug("File position at the start of %s.%s: %i", self.__class__.__name__, "read", self._startPosition)
 
-        self._version = read_int(file)
+        self.version = read_int(file)
         self._size = read_long(file)
         self._borneInf = read_double(file)
         self._borneSup = read_double(file)

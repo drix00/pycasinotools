@@ -71,9 +71,9 @@ class SimulationResults:
     def _read_runtime_state(self, file):
         tag_id = b"*RUNTIMESTATE%%"
         if find_tag(file, tag_id):
-            self._version = read_int(file)
+            self.version = read_int(file)
 
-            if self._version == 20031202:
+            if self.version == 20031202:
                 self._read_simulation_state(file)
 
     def _read_simulation_state(self, file):

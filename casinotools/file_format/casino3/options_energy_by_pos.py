@@ -80,7 +80,7 @@ class OptionsEnergyByPos:
         self.carrier_surface_recombination = -1
         self.normalize = 1
 
-        self._version = 0
+        self.version = 0
 
         self.reset()
 
@@ -108,7 +108,7 @@ class OptionsEnergyByPos:
         tag_id = b"*EN_POS_SET_BEG"
         find_tag(file, tag_id)
 
-        self._version = read_int(file)
+        self.version = read_int(file)
 
         self.diffuse = read_int(file)
 

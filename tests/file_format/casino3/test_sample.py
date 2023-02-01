@@ -60,7 +60,7 @@ def test_read(filepath_sim):
     sample = Sample()
     sample.read(file)
 
-    assert sample._version == 30107002
+    assert sample.version == 30107002
     assert sample._useSubstrate == 0
 
     assert sample._count == 4
@@ -68,7 +68,7 @@ def test_read(filepath_sim):
     box_shape = sample._sample_objects[0]
 
     assert box_shape.shape_type == SHAPE_BOX
-    assert box_shape._version == 30105004
+    assert box_shape.version == 30105004
     assert box_shape._name == "Box_0"
     assert box_shape._region_name == "Undefined"
     assert box_shape.translation == [0.0, 0.0, 5000.0]
@@ -87,7 +87,7 @@ def test_read3202(filepath_sim_3202):
     sample = Sample()
     sample.read(file)
 
-    assert sample._version == 30200002
+    assert sample.version == 30200002
     assert sample._useSubstrate == 0
 
     assert sample._count == 4
@@ -95,7 +95,7 @@ def test_read3202(filepath_sim_3202):
     box_shape = sample._sample_objects[0]
 
     assert box_shape.shape_type == SHAPE_BOX
-    assert box_shape._version == 30105004
+    assert box_shape.version == 30105004
     assert box_shape._name == "Box_0"
     assert box_shape._region_name == "Undefined"
     assert box_shape.translation == [0.0, 0.0, 5000.0]

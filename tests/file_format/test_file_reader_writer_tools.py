@@ -33,15 +33,14 @@ import pytest
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import _check_and_correct_value_size, _extract_version_string, \
-    _extract_boolean_string
+from casinotools.file_format.file_reader_writer_tools import check_and_correct_value_size, extract_version_string, \
+    extract_boolean_string
 from casinotools.file_format.file_reader_writer_tools import write_int, read_int, write_long, read_long, \
     write_double, read_double, write_float, read_float, write_bool, read_bool, write_str, read_str, \
-    write_double_list, read_double_list, _write_double_list_with_loop, _write_double_list_without_loop, \
-    _read_double_list_with_loop, _read_double_list_without_loop, _read_double_list_without_loop_fast, \
+    write_double_list, read_double_list, write_double_list_with_loop, write_double_list_without_loop, \
+    read_double_list_with_loop, read_double_list_without_loop, read_double_list_without_loop_fast, \
     write_float_list, read_float_list, write_int_list, read_int_list, get_size_of_double_list, get_size_of_int_list
-from casinotools.file_format.casino3.file import File, V30103040, V30103070, V30104060, V30107002
-from casinotools.utilities.path import is_bad_file
+from casinotools.file_format.casino3.file import V30103040, V30103070, V30104060, V30107002
 
 # Globals and constants variables.
 
@@ -58,38 +57,34 @@ def test_is_discovered():
 def test_check_and_correct_value_size():
     value_ref = "WinCasino Simulation File"
     size = 26
-    value = _check_and_correct_value_size(value_ref, size)
+    value = check_and_correct_value_size(value_ref, size)
     assert value == value_ref
 
     size = 6
-    value = _check_and_correct_value_size(value_ref, size)
+    value = check_and_correct_value_size(value_ref, size)
     assert value != value_ref
     assert value == value_ref[:size]
 
 
-def test_extract_version_string(filepath_sim):
-    if is_bad_file(filepath_sim):  # pragma: no cover
-        pytest.skip()
-    casino_file = File(filepath_sim)
-
+def test_extract_version_string():
     version = V30103040
     version_str_ref = "3.1.3.40"
-    version_str = _extract_version_string(version)
+    version_str = extract_version_string(version)
     assert version_str == version_str_ref
 
     version = V30103070
     version_str_ref = "3.1.3.70"
-    version_str = _extract_version_string(version)
+    version_str = extract_version_string(version)
     assert version_str == version_str_ref
 
     version = V30104060
     version_str_ref = "3.1.4.60"
-    version_str = _extract_version_string(version)
+    version_str = extract_version_string(version)
     assert version_str == version_str_ref
 
     version = V30107002
     version_str_ref = "3.1.7.2"
-    version_str = _extract_version_string(version)
+    version_str = extract_version_string(version)
     assert version_str == version_str_ref
 
 
@@ -107,7 +102,7 @@ def test_extract_version_string(filepath_sim):
                           (True, "true"),
                           ])
 def test_extract_boolean_string(value, value_str_ref):
-    value_str = _extract_boolean_string(value)
+    value_str = extract_boolean_string(value)
     assert value_str == value_str_ref
 
 
@@ -182,7 +177,7 @@ def test_write_bool(tmpdir):
 
 
 def test_write_str(tmpdir):
-    value_ref = "fadsf sdafasdf sadf"
+    value_ref = "value reference true"
     size = struct.calcsize("i") + len(value_ref)
     file_path = tmpdir / "test_write_str.sim"
     with open(file_path, 'wb') as fp:
@@ -216,7 +211,7 @@ def test_write_double_list_with_loop(tmpdir):
     file_path = tmpdir / "test_write_double_list.sim"
     with open(file_path, 'wb') as fp:
         start_pos = fp.tell()
-        _write_double_list_with_loop(fp, value_ref, number_elements)
+        write_double_list_with_loop(fp, value_ref, number_elements)
         assert fp.tell() == start_pos + size
 
     with open(file_path, 'rb') as fp:
@@ -231,7 +226,7 @@ def test_write_double_list_without_loop(tmpdir):
     file_path = tmpdir / "test_write_double_list.sim"
     with open(file_path, 'wb') as fp:
         start_pos = fp.tell()
-        _write_double_list_without_loop(fp, value_ref, number_elements)
+        write_double_list_without_loop(fp, value_ref, number_elements)
         assert fp.tell() == start_pos + size
 
     with open(file_path, 'rb') as fp:
@@ -249,7 +244,7 @@ def test_read_double_list_with_loop(tmpdir):
         assert fp.tell() == start_pos + size
 
     with open(file_path, 'rb') as fp:
-        value = _read_double_list_with_loop(fp, len(value_ref))
+        value = read_double_list_with_loop(fp, len(value_ref))
         assert value == value_ref
 
 
@@ -263,7 +258,7 @@ def test_read_double_list_without_loop(tmpdir):
         assert fp.tell() == start_pos + size
 
     with open(file_path, 'rb') as fp:
-        value = _read_double_list_without_loop(fp, len(value_ref))
+        value = read_double_list_without_loop(fp, len(value_ref))
         assert value == value_ref
 
 
@@ -277,10 +272,10 @@ def test_read_double_list_without_loop_fast(tmpdir):
         assert fp.tell() == start_pos + size
 
     with open(file_path, 'rb') as fp:
-        value = _read_double_list_without_loop_fast(fp, len(value_ref))
+        value = read_double_list_without_loop_fast(fp, len(value_ref))
         assert value == value_ref
 
-        value = _read_double_list_without_loop_fast(fp, 0)
+        value = read_double_list_without_loop_fast(fp, 0)
         assert value == []
 
 

@@ -55,7 +55,7 @@ class Trajectory:
         self._file_pathname = ""
         self._file_descriptor = 0
 
-        self._version = None
+        self.version = None
         self._trajectory_collisions = None
 
     def read(self, file):
@@ -81,7 +81,7 @@ class Trajectory:
 
     def _read_header(self, file):
         self._file.seek(self._start_position)
-        self._version = read_int(file)
+        self.version = read_int(file)
         # TRAJECTORY_TYPE_BACKSCATTERED
         self._type = read_int(file)
         # TRAJECTORY_TYPE_TRANSMITTED
@@ -190,10 +190,10 @@ class Trajectory:
         self._trajectory_collisions = None
 
     def get_version(self):
-        if self._version is None:
+        if self.version is None:
             self._read_header(self._file)
 
-        return self._version
+        return self.version
 
     def get_type(self):
         if self._type is None:

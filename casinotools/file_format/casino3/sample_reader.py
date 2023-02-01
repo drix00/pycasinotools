@@ -41,7 +41,7 @@ from casinotools.file_format.tags import find_tag
 class SampleReader(object):
     def __init__(self):
         self._sample = None
-        self._version = 0
+        self.version = 0
 
     def read(self, file):
         assert getattr(file, 'mode', 'rb') == 'rb'
@@ -54,7 +54,7 @@ class SampleReader(object):
             size = struct.calcsize(value_format)
             buffer = file.read(size)
             items = struct.unpack_from(value_format, buffer)
-            self._version = int(items[0])
+            self.version = int(items[0])
 
         return None
 

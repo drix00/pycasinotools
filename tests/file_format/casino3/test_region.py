@@ -55,7 +55,7 @@ def test_read(filepath_sim):
     region = Region()
     region.read(file)
 
-    assert region._version == 30107003
+    assert region.version == 30107003
     assert region._carrier_diffusion_length == pytest.approx(50.0)
     assert region._number_elements == 1
     assert region.rho == pytest.approx(2.33)

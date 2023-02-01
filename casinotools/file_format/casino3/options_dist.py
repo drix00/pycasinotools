@@ -198,7 +198,7 @@ class OptionsDist:
 
         self.DEpos_Position = DIST_DEPOS_POSITION_ABSOLUTE
 
-        self._version = 0
+        self.version = 0
 
         self.reset()
 
@@ -278,7 +278,7 @@ class OptionsDist:
         tag_id = b"*DIST_OPT_BEG"
         find_tag(file, tag_id)
 
-        self._version = read_int(file)
+        self.version = read_int(file)
 
         self.DenrMax = read_double(file)
         self.DenrMin = read_double(file)

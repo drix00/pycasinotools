@@ -48,7 +48,7 @@ from casinotools.file_format.casino3.point_spread_function_matrix import PointSp
 
 class ScanPointResults:
     def __init__(self):
-        self._version = 0
+        self.version = 0
 
         self._x = 0.0
         self._y = 0.0
@@ -118,7 +118,7 @@ class ScanPointResults:
 
         tag_id = b"*SCANPTRUNTIME%"
         if find_tag(file, tag_id):
-            self._version = read_int(file)
+            self.version = read_int(file)
 
             self._x = read_double(file)
             self._y = read_double(file)
@@ -193,7 +193,7 @@ class ScanPointResults:
             if self._isDEnBang:
                 self.DEnBang = GraphData(file)
 
-            if SIM_OPTIONS_VERSION_3_3_0_0 <= self._version < SIM_OPTIONS_VERSION_3_3_0_4:
+            if SIM_OPTIONS_VERSION_3_3_0_0 <= self.version < SIM_OPTIONS_VERSION_3_3_0_4:
                 self._isPsf = read_bool(file)
                 if self._isPsf:
                     self._pointSpreadFunctionMatrix = PointSpreadFunctionMatrix(options, self.get_position())

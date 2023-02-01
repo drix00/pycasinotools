@@ -100,7 +100,7 @@ class OptionsAdvBackSet:
         self.DetectScaleY = 1.0
         self.ValidMatrix = False
 
-        self._version = 0
+        self.version = 0
 
         self.reset()
 
@@ -145,7 +145,7 @@ class OptionsAdvBackSet:
         tag_id = b"*MATRX_SET_BEG"
         find_tag(file, tag_id)
 
-        self._version = read_int(file)
+        self.version = read_int(file)
 
         self.UseEnBack = read_bool(file)
         self.WorkDist = read_double(file)

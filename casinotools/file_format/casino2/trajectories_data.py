@@ -49,7 +49,7 @@ class TrajectoriesData:
     def __init__(self, is_skip_reading_data=False):
         self._is_skip_reading_data = is_skip_reading_data
 
-        self._number_trajectories = 0
+        self.number_trajectories = 0
         self._trajectories = []
 
     def read(self, file):
@@ -59,10 +59,10 @@ class TrajectoriesData:
         tag_id = b"*TRAJDATA%%%%%%"
         find_tag(file, tag_id)
 
-        self._number_trajectories = read_long(file)
+        self.number_trajectories = read_long(file)
 
         self._trajectories = []
-        for dummy in range(self._number_trajectories):
+        for dummy in range(self.number_trajectories):
             trajectory = Trajectory(self._is_skip_reading_data)
             trajectory.read(file)
             self._trajectories.append(trajectory)

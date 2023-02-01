@@ -55,7 +55,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.FRan == 3
     assert reader.FDeds == 1
     assert reader.FTotalCross == 5
@@ -75,7 +75,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.FRan == 3
     assert reader.FDeds == 1
     assert reader.FTotalCross == 5
@@ -100,7 +100,7 @@ def test_modified_cross_section(file_path_sim_tmp_modify_option):
         error = reader.read(file)
 
         assert error is None
-        assert reader._version == 30300004
+        assert reader.version == 30300004
         assert reader.FTotalCross == CrossSection.ELSEPA.value
         assert reader.FPartialCross == CrossSection.ELSEPA.value
 
@@ -114,6 +114,6 @@ def test_modified_cross_section(file_path_sim_tmp_modify_option):
         error = reader.read(file)
 
         assert error is None
-        assert reader._version == 30300004
+        assert reader.version == 30300004
         assert reader.FTotalCross == total_cs_ref
         assert reader.FPartialCross == partial_cs_ref

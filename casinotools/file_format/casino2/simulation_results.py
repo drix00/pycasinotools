@@ -90,11 +90,11 @@ class SimulationResults:
         if version >= 25 and options.UseEnBack:
             self.BE_Intensity_En = read_double_list(file, self.BE_Intensity_Size)
         self.eT = read_long(file)
-        self._elementIntensityList = []
+        self.element_intensity_list = []
         for dummy in range(self.eT):
             element = ElementIntensity()
             element.read(file)
-            self._elementIntensityList.append(element)
+            self.element_intensity_list.append(element)
 
     def _read_maximum_depth(self, file, options, version):
         tag_id = b"*DZMAX%%%%%%%%%"

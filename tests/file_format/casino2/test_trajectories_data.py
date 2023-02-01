@@ -72,4 +72,4 @@ def _read_tests(file):
     file.seek(98348)
     trajectories_data = TrajectoriesData()
     trajectories_data.read(file)
-    assert trajectories_data._number_trajectories == 221
+    assert trajectories_data.number_trajectories == 221

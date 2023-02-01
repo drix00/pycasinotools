@@ -69,7 +69,7 @@ def test_read(filepath_cas):
     assert error is None
     assert results._number_simulations == 1
 
-    assert results._version == 20031202
+    assert results.version == 20031202
 
     assert results._initial_energy_keV == pytest.approx(0.8)
     assert results._rko_max == 0.0

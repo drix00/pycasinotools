@@ -58,10 +58,10 @@ def test_read(filepath_sim, filepath_cas):
         error = simulation_options.read(file)
 
         assert error is None
-        assert simulation_options._version == 30107002
+        assert simulation_options.version == 30107002
 
         # ADF
-        assert simulation_options._options_adf._version == 30107002
+        assert simulation_options._options_adf.version == 30107002
         assert simulation_options._options_adf.DQE == pytest.approx(1.0)
         assert simulation_options._options_adf.Enabled == 1
         assert simulation_options._options_adf.keepData == 0
@@ -70,7 +70,7 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options._options_adf.MaxPoints == 0
 
         # AdvBackSet
-        assert simulation_options._options_adv_back_set._version == 30107002
+        assert simulation_options._options_adv_back_set.version == 30107002
         assert simulation_options._options_adv_back_set.UseEnBack is False
         assert simulation_options._options_adv_back_set.WorkDist == pytest.approx(10.0)
         assert simulation_options._options_adv_back_set.DetectScaleX == pytest.approx(1.0)
@@ -88,7 +88,7 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options._options_adv_back_set.FEFilter == 0
 
         # Dist
-        assert simulation_options.options_dist._version == 30107002
+        assert simulation_options.options_dist.version == 30107002
         assert simulation_options.options_dist.DenrMax / autoFlag == pytest.approx(1.0)
 
         assert simulation_options.options_dist.DEposCyl_Z == pytest.approx(1000.0)
@@ -96,7 +96,7 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options.options_dist.DEpos_Position == DIST_DEPOS_POSITION_ABSOLUTE
 
         # EnergyByPos
-        assert simulation_options._options_energy_by_pos._version == 30107002
+        assert simulation_options._options_energy_by_pos.version == 30107002
         assert simulation_options._options_energy_by_pos.diffuse == 0
         assert simulation_options._options_energy_by_pos.depos_summation == 1
         assert simulation_options._options_energy_by_pos.depos_iso_level == pytest.approx(0.1)
@@ -104,7 +104,7 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options._options_energy_by_pos.normalize == 1
 
         # Micro
-        assert simulation_options.options_microscope._version == 30107002
+        assert simulation_options.options_microscope.version == 30107002
         assert simulation_options.options_microscope.scanning_mode == 0
         assert simulation_options.options_microscope.x_plane_position == pytest.approx(0.0)
 
@@ -112,7 +112,7 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options.options_microscope.keep_simulation_data == 1
 
         # Physic
-        assert simulation_options.options_physic._version == 30107002
+        assert simulation_options.options_physic.version == 30107002
         assert simulation_options.options_physic.FRan == 3
         assert simulation_options.options_physic.FDeds == 1
         assert simulation_options.options_physic.FTotalCross == 5
@@ -128,6 +128,6 @@ def test_read(filepath_sim, filepath_cas):
         assert simulation_options.options_physic.Min_Gen_Secondary_Energy == pytest.approx(-1)
 
         # Xray
-        assert simulation_options._options_xray._version == 30107002
+        assert simulation_options._options_xray.version == 30107002
         assert simulation_options._options_xray.toa == pytest.approx(40.0)
         assert simulation_options._options_xray.phi_rx == pytest.approx(0.0)

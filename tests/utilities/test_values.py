@@ -37,6 +37,7 @@ import cattr
 from casinotools.utilities.values import Options, Varied, generate_experiments, flatten, deflatten
 from casinotools.utilities.multiple_loop import combine
 
+
 # Globals and constants variables.
 
 
@@ -154,7 +155,7 @@ def test_cattr_structure_modified_level2(options_input):
     assert options == options_input
 
 
-def test_multipleloop(options_input):
+def test_multiple_loop(options_input):
     options = flatten(cattr.unstructure(options_input))
     all_combinations, names, varied = combine(options)
 
@@ -174,7 +175,7 @@ def test_multipleloop(options_input):
     assert new_options == options_input
 
 
-def test_multipleloop_level1(options_input_level1):
+def test_multiple_loop_level1(options_input_level1):
     options = flatten(cattr.unstructure(options_input_level1))
     all_combinations, names, varied = combine(options)
 
@@ -202,7 +203,7 @@ def test_multipleloop_level1(options_input_level1):
     assert new_options == options
 
 
-def test_multipleloop_level2(options_input_level2):
+def test_multiple_loop_level2(options_input_level2):
     options = flatten(cattr.unstructure(options_input_level2))
     all_combinations, names, varied = combine(options)
 
@@ -229,16 +230,16 @@ def test_multipleloop_level2(options_input_level2):
     assert new_options != options
 
 
-def no_test_multipleloop_complex(options_input_complex):
+def no_test_multiple_loop_complex(options_input_complex):
     options = flatten(cattr.unstructure(options_input_complex))
-    all, names, varied = combine(options)
+    all_values, names, varied = combine(options)
 
-    assert all == [[1, 2, 3, 4, 56, 6],
-                   [2, 2, 3, 4, 56, 6],
-                   [3, 2, 3, 4, 56, 6],
-                   [1, 2, 3, 4, 34, 6],
-                   [2, 2, 3, 4, 34, 6],
-                   [3, 2, 3, 4, 34, 6]]
+    assert all_values == [[1, 2, 3, 4, 56, 6],
+                          [2, 2, 3, 4, 56, 6],
+                          [3, 2, 3, 4, 56, 6],
+                          [1, 2, 3, 4, 34, 6],
+                          [2, 2, 3, 4, 34, 6],
+                          [3, 2, 3, 4, 34, 6]]
     assert names == ['value1', 'value2', 'sub_options_a.value3', 'sub_options_a.value4', 'sub_options_b.value5',
                      'sub_options_b.value6']
     assert varied == ['value1', 'sub_options_b.value5']
@@ -246,37 +247,37 @@ def no_test_multipleloop_complex(options_input_complex):
     options = Options()
     options.value1 = 1
     options.sub_options_b.value5 = 56
-    new_dict = deflatten(dict(zip(names, all[0])))
+    new_dict = deflatten(dict(zip(names, all_values[0])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
     options.value1 = 2
     options.sub_options_b.value5 = 56
-    new_dict = deflatten(dict(zip(names, all[1])))
+    new_dict = deflatten(dict(zip(names, all_values[1])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
     options.value1 = 3
     options.sub_options_b.value5 = 56
-    new_dict = deflatten(dict(zip(names, all[2])))
+    new_dict = deflatten(dict(zip(names, all_values[2])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
     options.value1 = 1
     options.sub_options_b.value5 = 34
-    new_dict = deflatten(dict(zip(names, all[3])))
+    new_dict = deflatten(dict(zip(names, all_values[3])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
     options.value1 = 2
     options.sub_options_b.value5 = 34
-    new_dict = deflatten(dict(zip(names, all[4])))
+    new_dict = deflatten(dict(zip(names, all_values[4])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 
     options.value1 = 3
     options.sub_options_b.value5 = 34
-    new_dict = deflatten(dict(zip(names, all[5])))
+    new_dict = deflatten(dict(zip(names, all_values[5])))
     new_options = cattr.structure(new_dict, Options)
     assert new_options == options
 

@@ -84,8 +84,8 @@ def _read_tests(file, version):
 
 
 def test_get_atom():
-    fnuatom, rho, z, a, ef, kf, ep = get_atom('Ag')
-    assert fnuatom == 1
+    atomic_number, rho, z, a, ef, kf, ep = get_atom('Ag')
+    assert atomic_number == 1
     assert rho == pytest.approx(10.50)
     assert z == 47
     assert a == 107.868
@@ -93,8 +93,8 @@ def test_get_atom():
     assert kf * 1.0e-8 == pytest.approx(1.19)
     assert ep == pytest.approx(15)
 
-    fnuatom, rho, z, a, ef, kf, ep = get_atom('ag')
-    assert fnuatom == 0
+    atomic_number, rho, z, a, ef, kf, ep = get_atom('ag')
+    assert atomic_number == 0
     assert rho == pytest.approx(0.0)
     assert z == 0
     assert a == 0.0
@@ -102,8 +102,8 @@ def test_get_atom():
     assert kf == pytest.approx(0.0)
     assert ep == pytest.approx(0.0)
 
-    fnuatom, rho, z, a, ef, kf, ep = get_atom('V')
-    assert fnuatom == 1
+    atomic_number, rho, z, a, ef, kf, ep = get_atom('V')
+    assert atomic_number == 1
     assert rho == pytest.approx(5.8)
     assert z == 23
     assert a == 50.9415

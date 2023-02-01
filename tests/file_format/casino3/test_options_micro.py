@@ -55,7 +55,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.scanning_mode == 0
     assert reader.x_plane_position == pytest.approx(0.0)
 
@@ -67,7 +67,7 @@ def test_read(filepath_sim, filepath_cas):
     error = reader.read(file)
 
     assert error is None
-    assert reader._version == 30107002
+    assert reader.version == 30107002
     assert reader.scanning_mode == 0
     assert reader.x_plane_position == pytest.approx(0.0)
 
@@ -83,7 +83,7 @@ def test_modified_energy(file_path_sim_tmp_modify_option):
         error = reader.read(file)
 
         assert error is None
-        assert reader._version == 30300004
+        assert reader.version == 30300004
         assert reader.KEV_End == pytest.approx(0.0)
         assert reader.KEV_Start == pytest.approx(1.0)
 
@@ -99,7 +99,7 @@ def test_modified_energy(file_path_sim_tmp_modify_option):
         error = reader.read(file)
 
         assert error is None
-        assert reader._version == 30300004
+        assert reader.version == 30300004
         assert reader.KEV_End == pytest.approx(0.0)
         assert reader.KEV_Start == pytest.approx(energy_keV_ref)
 

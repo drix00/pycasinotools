@@ -8,7 +8,6 @@
 Tests for the :py:mod:`casinotools.file_format.casino3.exported.energy` module.
 """
 
-
 # Copyright 2020 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,12 +23,10 @@ Tests for the :py:mod:`casinotools.file_format.casino3.exported.energy` module.
 # limitations under the License.
 
 # Standard library modules.
-import os.path
 
-import numpy as np
 # Third party modules.
+import numpy as np
 import pytest
-from pkg_resources import resource_filename
 
 # Project modules.
 from casinotools.file_format.casino3.exported.energy import EnergyCartesian, EnergyCylindrical, EnergySpherical
@@ -345,10 +342,11 @@ def energy_spherical_data():
     energy_spherical.radius_number_divisions = 50
     energy_spherical.center_nm = [0.0, 0.0, 250.0]
 
-    energy_spherical.radiuses_nm = [0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 110.0, 120.0, 130.0,
-                                    140.0, 150.0, 160.0, 170.0, 180.0, 190.0, 200.0, 210.0, 220.0, 230.0, 240.0, 250.0,
-                                    260.0, 270.0, 280.0, 290.0, 300.0, 310.0, 320.0, 330.0, 340.0, 350.0, 360.0, 370.0,
-                                    380.0, 390.0, 400.0, 410.0, 420.0, 430.0, 440.0, 450.0, 460.0, 470.0, 480.0, 490.0]
+    energy_spherical.radiuses_nm = [0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 110.0, 120.0,
+                                    130.0, 140.0, 150.0, 160.0, 170.0, 180.0, 190.0, 200.0, 210.0, 220.0, 230.0, 240.0,
+                                    250.0, 260.0, 270.0, 280.0, 290.0, 300.0, 310.0, 320.0, 330.0, 340.0, 350.0, 360.0,
+                                    370.0, 380.0, 390.0, 400.0, 410.0, 420.0, 430.0, 440.0, 450.0, 460.0, 470.0, 480.0,
+                                    490.0]
     energy_spherical.energies_keV = [1582.23, 10979., 29810.1, 57855.6, 93962.1, 138744., 190499., 249002., 312669.,
                                      379212., 448227., 515587., 579202., 634425., 676555., 700452., 702652., 679098.,
                                      523367., 442580., 392801., 349182., 310822., 272462., 237544., 174057., 145571.,

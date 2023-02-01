@@ -64,20 +64,20 @@ class XrayRadialReader:
 
     def _setTextFileVersion(self, line):
         if line.startswith(HEADER_ELEMENT_LINE):
-            self._version = HEADER_ELEMENT_LINE
+            self.version = HEADER_ELEMENT_LINE
             self._extractHeaderLineData = self._extractHeaderLineDataElementLine
             self._extractDataLabelLineData = self._extractDataLabelLineDataElementLine
         elif line.startswith(HEADER_ELEMENT):
-            self._version = HEADER_ELEMENT
+            self.version = HEADER_ELEMENT
             self._extractHeaderLineData = self._extractHeaderLineDataElement
             self._extractDataLabelLineData = self._extractDataLabelLineDataElement
         elif line.startswith(HEADER_ALL):
-            self._version = HEADER_ALL
+            self.version = HEADER_ALL
             self._extractHeaderLineData = self._extractHeaderLineDataElement
             self._extractDataLabelLineData = self._extractDataLabelLineDataElement
 
     def _isHeaderLine(self, line):
-        return line.startswith(self._version)
+        return line.startswith(self.version)
 
     def _extractHeaderLineDataElementLine(self, line):
         dummy, line = line.split('Layer')
@@ -86,7 +86,7 @@ class XrayRadialReader:
         self._currentElementSymbol = items[1].strip()
 
     def _extractHeaderLineDataElement(self, line):
-        dummy, symbol = line.split(self._version)
+        dummy, symbol = line.split(self.version)
         self._currentElementSymbol = symbol.strip()
 
     def _isDataLabelLine(self, line):
