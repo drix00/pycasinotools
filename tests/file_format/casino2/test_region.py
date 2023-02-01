@@ -55,14 +55,14 @@ def test_is_discovered():
 
 
 def test_read(filepath_sim_2_45):
-    if is_bad_file(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):  # pragma: no cover
         pytest.skip()
     with open(filepath_sim_2_45, 'rb') as file:
         _read_tests(file, VERSION_2_45)
 
 
 def test_read_string_io(filepath_sim_2_45):
-    if is_bad_file(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):  # pragma: no cover
         pytest.skip()
     f = open(filepath_sim_2_45, 'rb')
     file = BytesIO(f.read())

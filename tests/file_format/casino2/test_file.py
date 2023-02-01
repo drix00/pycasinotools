@@ -45,7 +45,7 @@ from casinotools.file_format.casino2.version import VERSION_2_45, VERSION_2_50, 
 
 
 def test_read(filepath_sim_2_45, filepath_cas_26):
-    if is_bad_file(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):  # pragma: no cover
         pytest.skip()
     file = File()
     file.read_from_filepath(filepath_sim_2_45)
@@ -62,7 +62,7 @@ def test_read(filepath_sim_2_45, filepath_cas_26):
 
 def test_read_string_io(filepath_sim_2_45, filepath_cas_26):
     # sim
-    if is_bad_file(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):  # pragma: no cover
         pytest.skip()
     f = open(filepath_sim_2_45, 'rb')
     buf = BytesIO(f.read())
@@ -92,7 +92,7 @@ def test_is_simulation_filepath(filepath_sim_2_45, filepath_cas_2_45):
 
 
 def test_write(filepath_std, filepath_write):
-    if is_bad_file(filepath_std):
+    if is_bad_file(filepath_std):  # pragma: no cover
         pytest.skip()
 
     file = File()
@@ -123,7 +123,7 @@ def _get_option_simulation_data(filepath_std):
 
 
 def test_skip_reading_data(filepath_cas_26):
-    if is_bad_file(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):  # pragma: no cover
         pytest.skip()
 
     file = File()
@@ -177,9 +177,10 @@ def test_skip_reading_data(filepath_cas_26):
 
 
 def test_read_v242(filepath_sim_v242, filepath_cas_v242):
-    if is_bad_file(filepath_sim_v242):
+    if is_bad_file(filepath_sim_v242):  # pragma: no cover
         pytest.skip()
-    if is_bad_file(filepath_cas_v242):
+
+    if is_bad_file(filepath_cas_v242):  # pragma: no cover
         pytest.skip()
 
     # .sim
@@ -246,7 +247,7 @@ def test_read_v242(filepath_sim_v242, filepath_cas_v242):
 
 
 def test_read_sim_v250(filepath_sim_v250):
-    if is_bad_file(filepath_sim_v250):
+    if is_bad_file(filepath_sim_v250):  # pragma: no cover
         pytest.skip()
 
     # .sim
@@ -275,7 +276,7 @@ def test_read_sim_v250(filepath_sim_v250):
 
 
 def test_read_cas_v26(filepath_cas_26):
-    if is_bad_file(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):  # pragma: no cover
         pytest.skip()
 
     # .cas
@@ -318,7 +319,7 @@ def test_read_cas_v26(filepath_cas_26):
 
 
 def test_problem_sim_v250(filepath_problem_sim_v250, filepath_good_sim_v251):
-    if is_bad_file(filepath_problem_sim_v250):
+    if is_bad_file(filepath_problem_sim_v250):  # pragma: no cover
         pytest.skip()
 
     # .sim
@@ -345,7 +346,7 @@ def test_problem_sim_v250(filepath_problem_sim_v250, filepath_good_sim_v251):
     number_xray_layers = simulation_options.get_number_x_ray_layers()
     assert number_xray_layers == 500
 
-    if is_bad_file(filepath_good_sim_v251):
+    if is_bad_file(filepath_good_sim_v251):  # pragma: no cover
         pytest.skip()
 
     # .sim
@@ -379,7 +380,7 @@ def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_sim_26, 
     """
     Test extract_version method.
     """
-    if is_bad_file(filepath_sim_2_45):
+    if is_bad_file(filepath_sim_2_45):  # pragma: no cover
         pytest.skip()
 
     file_paths = [(filepath_sim_2_45, VERSION_2_46),

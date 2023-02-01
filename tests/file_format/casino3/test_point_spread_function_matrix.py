@@ -53,7 +53,7 @@ def test_is_discovered():
 
 def test_sim_no_psfs():
     filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.sim")
-    if is_bad_file(filepath):
+    if is_bad_file(filepath):  # pragma: no cover
         pytest.skip(filepath)
 
     casino_file = File(filepath)
@@ -76,7 +76,7 @@ def test_sim_psfs():
     filenames = ["SiN_wPSFs_bG_T200nm.sim", "SiN_wPSFs_wConserveData_bG_T200nm.sim"]
     for filename in filenames:
         filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
-        if is_bad_file(filepath):
+        if is_bad_file(filepath):  # pragma: no cover
             pytest.skip(filepath)
 
         casino_file = File(filepath)
@@ -97,7 +97,7 @@ def test_sim_psfs():
 
 def test_cas_no_psfs():
     filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/SiN_woPSFs_bG_T200nm.cas")
-    if is_bad_file(filepath):
+    if is_bad_file(filepath):  # pragma: no cover
         pytest.skip(filepath)
 
     casino_file = File(filepath)
@@ -122,7 +122,7 @@ def test_cas_no_psfs():
 def test_cas_psfs():
     filename = "SiN_wPSFs_bG_T200nm.cas"
     filepath = resource_filename(__name__, "../../../test_data/casino3.x/PSFs/" + filename)
-    if is_bad_file(filepath):
+    if is_bad_file(filepath):  # pragma: no cover
         pytest.skip(filepath)
 
     casino_file = File(filepath)

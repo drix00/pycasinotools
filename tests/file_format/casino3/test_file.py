@@ -54,7 +54,7 @@ def test_is_discovered():
 
 
 def test_init(filepath_sim):
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
 
     casino_file = File(filepath_sim)
@@ -63,7 +63,7 @@ def test_init(filepath_sim):
 
 
 def test_get_file_type(filepath_sim):
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
     casino_file = File(filepath_sim)
 
@@ -76,7 +76,7 @@ def test_get_file_type(filepath_sim):
 
 
 def test__read_extension(filepath_sim, filepath_cas):
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
     casino_file = File(filepath_sim)
     file = casino_file._open(filepath_sim)
@@ -89,7 +89,7 @@ def test__read_extension(filepath_sim, filepath_cas):
 
 
 def test__read_version(filepath_sim):
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
     casino_file = File(filepath_sim)
     file = casino_file._open(filepath_sim)
@@ -98,7 +98,7 @@ def test__read_version(filepath_sim):
 
 
 def test_open(filepath_sim):
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
     casino_file = File(filepath_sim)
     casino_file.open()
@@ -108,7 +108,7 @@ def test_open(filepath_sim):
 
 
 def test_read_cas_file(filepath_cas):
-    if is_bad_file(filepath_cas):
+    if is_bad_file(filepath_cas):  # pragma: no cover
         pytest.skip()
     casino_file = File(filepath_cas)
     casino_file.open()

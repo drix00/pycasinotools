@@ -52,7 +52,7 @@ def test_is_discovered():
 
 
 def test_read(filepath_cas):
-    if is_bad_file(filepath_cas):
+    if is_bad_file(filepath_cas):  # pragma: no cover
         pytest.skip()
     file = open(filepath_cas, 'rb')
     file.seek(4042541)

@@ -64,7 +64,7 @@ def test_is_discovered():
 
 def test_is_git_lfs_file_bad(git_lfs_file):
     file_path = resource_filename(__name__, "test_path.py")
-    if not os.path.isfile(file_path):
+    if not os.path.isfile(file_path):  # pragma: no cover
         pytest.skip()
     assert path.is_git_lfs_file(file_path) is False
 
@@ -75,7 +75,7 @@ def test_is_git_lfs_file_good(git_lfs_file):
 
 def test_is_bad_file():
     file_path = resource_filename(__name__, "test_path.py")
-    if not os.path.isfile(file_path):
+    if not os.path.isfile(file_path):  # pragma: no cover
         pytest.skip()
     assert path.is_bad_file(file_path) is False
 

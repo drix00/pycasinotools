@@ -53,7 +53,7 @@ def test_is_discovered():
 
 @pytest.fixture()
 def generate_sim_file(filepath_std):
-    if is_bad_file(filepath_std):
+    if is_bad_file(filepath_std):  # pragma: no cover
         pytest.skip()
     generate = GenerateSimFile(filepath_std)
     return generate

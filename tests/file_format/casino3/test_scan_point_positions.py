@@ -48,7 +48,7 @@ def test_is_discovered():
 
 
 def test_read(filepath_sim, filepath_cas):
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
     file = open(filepath_sim, 'rb')
     reader = ScanPointPositions()
@@ -57,7 +57,7 @@ def test_read(filepath_sim, filepath_cas):
     assert error is None
     assert reader.get_number_points() == 5
 
-    if is_bad_file(filepath_cas):
+    if is_bad_file(filepath_cas):  # pragma: no cover
         pytest.skip()
     file = open(filepath_cas, 'rb')
     reader = ScanPointPositions()

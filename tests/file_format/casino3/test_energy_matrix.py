@@ -56,7 +56,7 @@ def test_read(filepath_cas):
     options = SimulationOptions()
     options.options_dist.DEpos_Type = DIST_DEPOS_TYPE_CARTESIAN
     results = EnergyMatrix(options, None)
-    if is_bad_file(filepath_cas):
+    if is_bad_file(filepath_cas):  # pragma: no cover
         pytest.skip()
     file = open(filepath_cas, 'rb')
     file.seek(4042541)

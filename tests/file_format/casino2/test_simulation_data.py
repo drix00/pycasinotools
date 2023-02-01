@@ -52,14 +52,14 @@ def test_is_discovered():
 
 
 def test_read(filepath_cas_26):
-    if is_bad_file(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):  # pragma: no cover
         pytest.skip()
     with open(filepath_cas_26, 'rb') as file:
         _read_tests(file)
 
 
 def test_read_string_io(filepath_cas_26):
-    if is_bad_file(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):  # pragma: no cover
         pytest.skip()
     f = open(filepath_cas_26, 'rb')
     file = BytesIO(f.read())
@@ -82,8 +82,9 @@ def _read_tests(file):
 
 
 def test_get_total_xray_intensities(filepath_cas_26, filepath_cas_nicr):
-    if is_bad_file(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):  # pragma: no cover
         pytest.skip()
+
     # Single region
     f = open(filepath_cas_26, 'rb')
     f.seek(98348)
@@ -100,8 +101,9 @@ def test_get_total_xray_intensities(filepath_cas_26, filepath_cas_nicr):
     assert intensities[6][LINE_K][EMITTED] == pytest.approx(46.88, 2)
 
     # Multiple regions
-    if is_bad_file(filepath_cas_nicr):
+    if is_bad_file(filepath_cas_nicr):  # pragma: no cover
         pytest.skip()
+
     f = open(filepath_cas_nicr, 'rb')
     f.seek(98348)
     simulation_data = SimulationData()
@@ -128,8 +130,9 @@ def test_get_total_xray_intensities(filepath_cas_26, filepath_cas_nicr):
 
 
 def test_get_total_xray_intensities_1_esr(filepath_cas_26):
-    if is_bad_file(filepath_cas_26):
+    if is_bad_file(filepath_cas_26):  # pragma: no cover
         pytest.skip()
+
     with open(filepath_cas_26, 'rb') as file:
         # Single region
         file.seek(50193)

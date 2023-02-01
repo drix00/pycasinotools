@@ -53,7 +53,7 @@ def test_is_discovered():
 
 
 def test_read(filepath_sim):
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
     file = open(filepath_sim, "rb")
     file.seek(55)
@@ -80,7 +80,7 @@ def test_read(filepath_sim):
 
 
 def test_read3202(filepath_sim_3202):
-    if is_bad_file(filepath_sim_3202):
+    if is_bad_file(filepath_sim_3202):  # pragma: no cover
         pytest.skip()
     file = open(filepath_sim_3202, "rb")
     file.seek(55)
@@ -110,7 +110,7 @@ def test_get_rotation_yz_deg():
     test_data_path = get_current_module_path(__file__, "../../../test_data")
 
     filepath_sim = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/NoRotationY.sim")
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
 
     casino_file = open(filepath_sim, "rb")
@@ -124,7 +124,7 @@ def test_get_rotation_yz_deg():
     assert rotation_z_deg == pytest.approx(0.0)
 
     filepath_sim = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/RotationY10.sim")
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
 
     casino_file = open(filepath_sim, "rb")
@@ -138,7 +138,7 @@ def test_get_rotation_yz_deg():
     assert rotation_z_deg == pytest.approx(0.0)
 
     filepath_sim = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/RotationZ15.sim")
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
 
     casino_file = open(filepath_sim, "rb")
@@ -152,7 +152,7 @@ def test_get_rotation_yz_deg():
     assert rotation_z_deg == pytest.approx(15.0)
 
     filepath_sim = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/RotationY20Z35.sim")
-    if is_bad_file(filepath_sim):
+    if is_bad_file(filepath_sim):  # pragma: no cover
         pytest.skip()
 
     casino_file = open(filepath_sim, "rb")
@@ -169,7 +169,7 @@ def test_get_rotation_yz_deg():
 def test_modify_rotation_yz_deg(tmpdir):
     test_data_path = get_current_module_path(__file__, "../../../test_data")
     source_filepath = os.path.join(test_data_path, "casino3.x/v3.2/v3.2.0.4/NoRotationY.sim")
-    if is_bad_file(source_filepath):
+    if is_bad_file(source_filepath):  # pragma: no cover
         pytest.skip()
 
     rotation_y_ref_deg = 10.0

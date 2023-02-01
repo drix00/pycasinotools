@@ -51,7 +51,7 @@ def test_is_discovered():
 def test_read(filepath_sim, filepath_cas):
 
     for filepath in [filepath_sim, filepath_cas]:
-        if is_bad_file(filepath):
+        if is_bad_file(filepath):  # pragma: no cover
             pytest.skip()
         file = open(filepath, 'rb')
         simulation_options = SimulationOptions()

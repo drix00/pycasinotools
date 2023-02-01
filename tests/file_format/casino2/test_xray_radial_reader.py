@@ -88,7 +88,7 @@ def filepath_Cu(base_path):
 
 
 def test_read_text_file(filepath_Cu_K):
-    if is_bad_file(filepath_Cu_K):
+    if is_bad_file(filepath_Cu_K):  # pragma: no cover
         pytest.skip()
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Cu_K)
@@ -117,21 +117,21 @@ def test_read_text_file(filepath_Cu_K):
 
 
 def test_getLine(filepath_Cu_K, filepath_Cu_L, filepath_Au_M):
-    if is_bad_file(filepath_Cu_K):
+    if is_bad_file(filepath_Cu_K):  # pragma: no cover
         pytest.skip()
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Cu_K)
     xray_radial = xray_radial_reader.getData('Cu', K)
     assert xray_radial.get_line() == K
 
-    if is_bad_file(filepath_Cu_L):
+    if is_bad_file(filepath_Cu_L):  # pragma: no cover
         pytest.skip()
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Cu_L)
     xray_radial = xray_radial_reader.getData('Cu', L)
     assert xray_radial.get_line() == L
 
-    if is_bad_file(filepath_Au_M):
+    if is_bad_file(filepath_Au_M):  # pragma: no cover
         pytest.skip()
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Au_M)
@@ -140,21 +140,21 @@ def test_getLine(filepath_Cu_K, filepath_Cu_L, filepath_Au_M):
 
 
 def test_get_element_symbol(filepath_Cu_K, filepath_Cu_L, filepath_Au_M):
-    if is_bad_file(filepath_Cu_K):
+    if is_bad_file(filepath_Cu_K):  # pragma: no cover
         pytest.skip()
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Cu_K)
     xray_radial = xray_radial_reader.getData('Cu', K)
     assert xray_radial.get_element_symbol() == "Cu"
 
-    if is_bad_file(filepath_Cu_L):
+    if is_bad_file(filepath_Cu_L):  # pragma: no cover
         pytest.skip()
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Cu_L)
     xray_radial = xray_radial_reader.getData('Cu', L)
     assert xray_radial.get_element_symbol() == "Cu"
 
-    if is_bad_file(filepath_Au_M):
+    if is_bad_file(filepath_Au_M):  # pragma: no cover
         pytest.skip()
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Au_M)

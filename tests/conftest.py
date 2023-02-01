@@ -179,7 +179,7 @@ def filepath_cas_2_5_1_0():
 def file_path_energy_cartesian_cas():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_v3.3.0.4.cas"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -188,7 +188,7 @@ def file_path_energy_cartesian_cas():
 def file_path_energy_cylindrical_cas():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_v3.3.0.4.cas"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -197,7 +197,7 @@ def file_path_energy_cylindrical_cas():
 def file_path_energy_spherical_cas():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_v3.3.0.4.cas"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -206,7 +206,7 @@ def file_path_energy_spherical_cas():
 def file_path_no_deposited_energy_cas():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/no_energy_deposition_v3.3.0.4.cas"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -215,7 +215,7 @@ def file_path_no_deposited_energy_cas():
 def file_path_energy_cartesian_dat():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_v3.3.0.4_Energy_by_position.dat"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -224,7 +224,7 @@ def file_path_energy_cartesian_dat():
 def file_path_energy_cylindrical_dat():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_v3.3.0.4_Energy_by_position.dat"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -233,7 +233,7 @@ def file_path_energy_cylindrical_dat():
 def file_path_energy_spherical_dat():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_v3.3.0.4_Energy_by_position.dat"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -242,7 +242,7 @@ def file_path_energy_spherical_dat():
 def file_path_energy_cartesian_log_cas():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_log_v3.3.0.4.cas"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -251,7 +251,7 @@ def file_path_energy_cartesian_log_cas():
 def file_path_energy_cylindrical_log_cas():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_log_v3.3.0.4.cas"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -260,7 +260,7 @@ def file_path_energy_cylindrical_log_cas():
 def file_path_energy_spherical_log_cas():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_log_v3.3.0.4.cas"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -269,7 +269,7 @@ def file_path_energy_spherical_log_cas():
 def file_path_energy_cartesian_log_dat():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cartesian_log_v3.3.0.4_Energy_by_position.dat"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -278,7 +278,7 @@ def file_path_energy_cartesian_log_dat():
 def file_path_energy_cylindrical_log_dat():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_cylindrical_log_v3.3.0.4_Energy_by_position.dat"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -287,7 +287,7 @@ def file_path_energy_cylindrical_log_dat():
 def file_path_energy_spherical_log_dat():
     name = "../test_data/casino3.x/v3.3/v3.3.0.4/energy_deposition_spherical_log_v3.3.0.4_Energy_by_position.dat"
     file_path = resource_filename(__name__, name)
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
     return file_path
 
@@ -295,7 +295,7 @@ def file_path_energy_spherical_log_dat():
 @pytest.fixture()
 def file_path_sim_tmp_modify_option(tmpdir):
     file_path = resource_filename(__name__, "../test_data/casino3.x/v3.3/v3.3.0.4/03_1kV_1Me.sim")
-    if is_bad_file(file_path):
+    if is_bad_file(file_path):  # pragma: no cover
         pytest.skip()
 
     in_file_path = file_path

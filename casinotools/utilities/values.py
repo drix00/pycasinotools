@@ -43,6 +43,7 @@ import attr
 
 # Globals and constants variables.
 
+
 @attr.s
 class SubOptionsA:
     value3 = attr.ib(default=3)

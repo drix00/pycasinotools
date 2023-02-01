@@ -49,7 +49,7 @@ def get_current_module_path(module_path, relative_path=""):
 
 def create_path(path):
     """
-    Create a path from the input string if does not exists.
+    Create a path from the input string if it does not exist.
 
     Does not try to distinct between file and directory in the input string.
     path = "dir1/filename.ext" => "dir1/filename.ext/"

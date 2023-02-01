@@ -229,56 +229,56 @@ def test_multipleloop_level2(options_input_level2):
     assert new_options != options
 
 
-# def test_multipleloop_complex(options_input_complex):
-#     options = flatten(cattr.unstructure(options_input_complex))
-#     all, names, varied = combine(options)
-#
-#     assert all == [[1, 2, 3, 4, 56, 6],
-#                    [2, 2, 3, 4, 56, 6],
-#                    [3, 2, 3, 4, 56, 6],
-#                    [1, 2, 3, 4, 34, 6],
-#                    [2, 2, 3, 4, 34, 6],
-#                    [3, 2, 3, 4, 34, 6]]
-#     assert names == ['value1', 'value2', 'sub_options_a.value3', 'sub_options_a.value4', 'sub_options_b.value5',
-#                      'sub_options_b.value6']
-#     assert varied == ['value1', 'sub_options_b.value5']
-#
-#     options = Options()
-#     options.value1 = 1
-#     options.sub_options_b.value5 = 56
-#     new_dict = deflatten(dict(zip(names, all[0])))
-#     new_options = cattr.structure(new_dict, Options)
-#     assert new_options == options
-#
-#     options.value1 = 2
-#     options.sub_options_b.value5 = 56
-#     new_dict = deflatten(dict(zip(names, all[1])))
-#     new_options = cattr.structure(new_dict, Options)
-#     assert new_options == options
-#
-#     options.value1 = 3
-#     options.sub_options_b.value5 = 56
-#     new_dict = deflatten(dict(zip(names, all[2])))
-#     new_options = cattr.structure(new_dict, Options)
-#     assert new_options == options
-#
-#     options.value1 = 1
-#     options.sub_options_b.value5 = 34
-#     new_dict = deflatten(dict(zip(names, all[3])))
-#     new_options = cattr.structure(new_dict, Options)
-#     assert new_options == options
-#
-#     options.value1 = 2
-#     options.sub_options_b.value5 = 34
-#     new_dict = deflatten(dict(zip(names, all[4])))
-#     new_options = cattr.structure(new_dict, Options)
-#     assert new_options == options
-#
-#     options.value1 = 3
-#     options.sub_options_b.value5 = 34
-#     new_dict = deflatten(dict(zip(names, all[5])))
-#     new_options = cattr.structure(new_dict, Options)
-#     assert new_options == options
+def no_test_multipleloop_complex(options_input_complex):
+    options = flatten(cattr.unstructure(options_input_complex))
+    all, names, varied = combine(options)
+
+    assert all == [[1, 2, 3, 4, 56, 6],
+                   [2, 2, 3, 4, 56, 6],
+                   [3, 2, 3, 4, 56, 6],
+                   [1, 2, 3, 4, 34, 6],
+                   [2, 2, 3, 4, 34, 6],
+                   [3, 2, 3, 4, 34, 6]]
+    assert names == ['value1', 'value2', 'sub_options_a.value3', 'sub_options_a.value4', 'sub_options_b.value5',
+                     'sub_options_b.value6']
+    assert varied == ['value1', 'sub_options_b.value5']
+
+    options = Options()
+    options.value1 = 1
+    options.sub_options_b.value5 = 56
+    new_dict = deflatten(dict(zip(names, all[0])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options.value1 = 2
+    options.sub_options_b.value5 = 56
+    new_dict = deflatten(dict(zip(names, all[1])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options.value1 = 3
+    options.sub_options_b.value5 = 56
+    new_dict = deflatten(dict(zip(names, all[2])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options.value1 = 1
+    options.sub_options_b.value5 = 34
+    new_dict = deflatten(dict(zip(names, all[3])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options.value1 = 2
+    options.sub_options_b.value5 = 34
+    new_dict = deflatten(dict(zip(names, all[4])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
+
+    options.value1 = 3
+    options.sub_options_b.value5 = 34
+    new_dict = deflatten(dict(zip(names, all[5])))
+    new_options = cattr.structure(new_dict, Options)
+    assert new_options == options
 
 
 def test_flatten():

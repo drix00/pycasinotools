@@ -51,14 +51,14 @@ def test_is_discovered():
 
 
 def test_read(filepath_sim_26):
-    if is_bad_file(filepath_sim_26):
+    if is_bad_file(filepath_sim_26):  # pragma: no cover
         pytest.skip()
     with open(filepath_sim_26, 'rb') as file:
         _read_tests(file, VERSION_2_45)
 
 
 def test_read_string_io(filepath_sim_26):
-    if is_bad_file(filepath_sim_26):
+    if is_bad_file(filepath_sim_26):  # pragma: no cover
         pytest.skip()
     f = open(filepath_sim_26, 'rb')
     file = BytesIO(f.read())
@@ -123,7 +123,7 @@ def test_compute_k():
 
 
 def test_get_total_xray_intensities_1_esr(filepath_cas_v251):
-    if is_bad_file(filepath_cas_v251):
+    if is_bad_file(filepath_cas_v251):  # pragma: no cover
         pytest.skip()
 
     with open(filepath_cas_v251, 'rb') as file:
