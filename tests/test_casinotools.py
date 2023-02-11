@@ -130,7 +130,7 @@ def test_tests_layout_matches_source():
 def test_source_layout_matches_tests():
     # verify that this file is - itself - in tests/
     this_files_path = Path(__file__)
-    source_path = this_files_path.parent / "casinotools"
+    source_path = this_files_path.parent.parent / "casinotools"
     assert source_path.name == "casinotools"
 
     # get a path to the j_park/ source directory
@@ -141,12 +141,14 @@ def test_source_layout_matches_tests():
     for file_path in source_path.glob("**/*.py"):
         # construct the expected source_file_path
         tests_rel_dir = file_path.relative_to(source_path).parent
-        tests_name = "test_" + file_path.name
+        if file_path.name == '__init__.py':
+            tests_name = "test_" + file_path.parent.name + ".py"
+        else:
+            tests_name = "test_" + file_path.name
         tests_file_path = Path(tests_path, tests_rel_dir, tests_name)
-        tests_rel_path = tests_rel_dir.stem
 
         error_msg = f"{file_path} found, but {tests_file_path} missing."
-        assert tests_file_path.is_file() or tests_rel_dir == Path(tests_name).stem, error_msg
+        assert tests_file_path.is_file(), error_msg
 
 
 def test_required_project_files():
