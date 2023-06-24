@@ -116,6 +116,7 @@ Add or modify the API documentation:
 .. code-block:: console
 
     $ cd docs
+    $ rm api/*.rst
     $ sphinx-apidoc -o api -e -f -P ../casinotools
     $ make html
 
