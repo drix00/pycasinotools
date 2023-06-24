@@ -34,7 +34,7 @@ import numpy as np
 # Local modules.
 
 # Project modules.
-from casinotools.file_format.file_reader_writer_tools import FileReaderWriterTools
+import casinotools.file_format.file_reader_writer_tools as FileReaderWriterTools
 
 # Globals and constants variables.
 VERSION_30107002 = 30107002

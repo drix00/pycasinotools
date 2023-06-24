@@ -8,6 +8,7 @@ Submodules
    :maxdepth: 4
 
    casinotools.analyse.energy
+   casinotools.analyse.trajectories
 
 Module contents
 ---------------
