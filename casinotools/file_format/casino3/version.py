@@ -395,3 +395,10 @@ Current version of casino.
 
  """
 SIM_OPTIONS_CURRENT_VERSION = SIM_OPTIONS_VERSION_3_3_0_4
+
+
+def is_version_casino3(version):
+    if str(version).startswith("30"):
+        return True
+
+    return False

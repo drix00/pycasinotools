@@ -62,3 +62,10 @@ VERSION_2_51 = VERSION_2050100
 
 class Version(object):
     pass
+
+
+def is_version_casino2(version):
+    valid_versions = [VERSION_21, VERSION_22, VERSION_23, VERSION_24, VERSION_25, VERSION_26, VERSION_2040601,
+                      VERSION_2050000, VERSION_2050100, VERSION_2_42, VERSION_2_43, VERSION_2_44, VERSION_2_45,
+                      VERSION_2_46, VERSION_2_50, VERSION_2_51]
+    return version in valid_versions

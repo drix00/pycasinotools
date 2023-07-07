@@ -36,10 +36,12 @@ import os.path
 # Project modules.
 from casinotools.file_format.file_reader_writer_tools import read_int
 from casinotools.file_format.tags import find_tag
+from casinotools.file_format.tags import limited_search_tag, TAG_LENGTH
 from casinotools.file_format.casino2.simulation_data import SimulationData, TAG_VERSION
 from casinotools.file_format.casino2.version import UNKNOWN_VERSION
 
 # Globals and constants variables.
+SAVEFILE_HEADER_MAXCHAR = 1024
 
 
 class File:
@@ -126,7 +128,8 @@ class File:
             casino_file.seek(0)
 
             tag_id = TAG_VERSION
-            if find_tag(casino_file, tag_id):
+            if limited_search_tag(casino_file, tag_id, SAVEFILE_HEADER_MAXCHAR, TAG_LENGTH):
+            # if find_tag(casino_file, tag_id):
                 logging.debug("File pos: %i", casino_file.tell())
                 version = read_int(casino_file)
 

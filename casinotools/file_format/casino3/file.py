@@ -163,6 +163,9 @@ class File:
             return V30104060
 
     def _read_with_file_version(self, file, file_version):
+        if file_version is None:
+            return
+
         if file_version >= V30104060:
             self.reset()
             self.version = self._read_version(file)

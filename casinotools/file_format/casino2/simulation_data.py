@@ -74,6 +74,8 @@ class SimulationData:
         if find_tag(file, tag_id):
             logging.debug("File pos: %i", file.tell())
             self.version = read_int(file)
+        else:
+            return
 
         tag_id = TAG_STATUS
         if find_tag(file, tag_id):
