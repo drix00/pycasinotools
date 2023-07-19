@@ -376,8 +376,8 @@ def test_problem_sim_v250(filepath_problem_sim_v250, filepath_good_sim_v251):
 
 def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_sim_26, filepath_cas_26, filepath_std,
                          filepath_sim_v242, filepath_cas_v242,
-                         filepath_cas_ni_cr, filepath_sim_v250, filepath_cas_v250, filepath_problem_sim_v250,
-                         filepath_problem_pymontecarlo_sim_v250, filepath_good_sim_v251):
+                         filepath_cas_ni_cr, filepath_sim_v250, filepath_cas_v250, filepath_sim_v251,
+                         filepath_problem_sim_v250, filepath_problem_pymontecarlo_sim_v250, filepath_good_sim_v251):
     """
     Test extract_version method.
     """
@@ -394,6 +394,7 @@ def test_extract_version(filepath_sim_2_45, filepath_cas_2_45, filepath_sim_26, 
                   (filepath_cas_ni_cr, VERSION_2_46),
                   (filepath_sim_v250, VERSION_2_50),
                   (filepath_cas_v250, VERSION_2_50),
+                  (filepath_sim_v251, VERSION_2_51),
                   (filepath_problem_sim_v250, VERSION_2_50),
                   (filepath_problem_pymontecarlo_sim_v250, VERSION_2_50),
                   (filepath_good_sim_v251, VERSION_2_51)]
