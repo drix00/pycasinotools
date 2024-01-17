@@ -71,7 +71,7 @@ class File:
         self.file = None
 
         self.version = 0
-        self._type = ""
+        self.type = ""
 
         self.open()
 
@@ -126,11 +126,11 @@ class File:
     def open(self):
         self.file = self._open(self._filepath)
 
-        self._type = self.get_file_type()
+        self.type = self.get_file_type()
 
-        if self._type == SIMULATION_CONFIGURATIONS:
+        if self.type == SIMULATION_CONFIGURATIONS:
             self._open_sim()
-        elif self._type == SIMULATION_RESULTS:
+        elif self.type == SIMULATION_RESULTS:
             self._open_cas()
 
     def _open_sim(self):
@@ -359,7 +359,7 @@ class File:
         write_line(export_file, line)
 
     def _export_file_type(self, export_file):
-        line = "File shape_type: {}".format(self._type)
+        line = "File shape_type: {}".format(self.type)
         write_line(export_file, line)
 
     def _export_file_version(self, export_file):

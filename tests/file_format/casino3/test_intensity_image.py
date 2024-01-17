@@ -47,12 +47,6 @@ def test_is_discovered():
     # assert False
     assert True
 
-# Third party modules.
-
-# Local modules.
-
-# Globals and constants variables.
-
 
 @pytest.fixture()
 def file_path_cas_binned():

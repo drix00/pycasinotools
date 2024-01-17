@@ -72,7 +72,7 @@ def test_get_file_type(filepath_sim):
 
 #        casino_file = File.File(self.filepathCas)
 #        shape_type = casino_file.get_file_type()
-#        assert File.SIMULATION_RESULTS, shape_type)
+#        assert File.SIMULATION_RESULTS == shape_type
 
 
 def test__read_extension(filepath_sim, filepath_cas):

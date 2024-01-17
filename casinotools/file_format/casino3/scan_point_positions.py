@@ -48,6 +48,13 @@ from casinotools.file_format.tags import find_tag
 
 class ScanPointPositions:
     def __init__(self):
+        self._positions = []
+
+        self._start_position = 0
+        self._end_position = 0
+        self._file_pathname = ""
+        self._file_descriptor = 0
+
         self.reset()
 
     def reset(self):

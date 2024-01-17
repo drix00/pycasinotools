@@ -162,7 +162,7 @@ def test_get_element_symbol(filepath_Cu_K, filepath_Cu_L, filepath_Au_M):
     assert xray_radial.get_element_symbol() == "Au"
 
 
-def no_test_read_element(filepath_Cu):
+def test_read_element(filepath_Cu):
     xray_radial_reader = XrayRadialReader()
     xray_radial_reader.readTextFile(filepath_Cu)
 

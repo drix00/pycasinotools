@@ -230,7 +230,7 @@ def test_multiple_loop_level2(options_input_level2):
     assert new_options != options
 
 
-def no_test_multiple_loop_complex(options_input_complex):
+def test_multiple_loop_complex(options_input_complex):
     options = flatten(cattr.unstructure(options_input_complex))
     all_values, names, varied = combine(options)
 

@@ -61,19 +61,22 @@ def filepath_analyse_trajectories_dat_2_510():
 
 @pytest.fixture()
 def filepath_analyse_trajectories_sim_3_304():
-    file_path = resource_filename(__name__, "../../test_data/casino3.x/v3.3/v3.3.0.4/test_analyse_trajectories_3.3.0.4.sim")
+    file_path = "../../test_data/casino3.x/v3.3/v3.3.0.4/test_analyse_trajectories_3.3.0.4.sim"
+    file_path = resource_filename(__name__, file_path)
     return Path(file_path)
 
 
 @pytest.fixture()
 def filepath_analyse_trajectories_cas_3_304():
-    file_path = resource_filename(__name__, "../../test_data/casino3.x/v3.3/v3.3.0.4/test_analyse_trajectories_3.3.0.4.cas")
+    file_path = "../../test_data/casino3.x/v3.3/v3.3.0.4/test_analyse_trajectories_3.3.0.4.cas"
+    file_path = resource_filename(__name__, file_path)
     return Path(file_path)
 
 
 @pytest.fixture()
 def filepath_analyse_trajectories_dat_3_304():
-    file_path = resource_filename(__name__, "../../test_data/casino3.x/v3.3/v3.3.0.4/test_analyse_trajectories_3.3.0.4.dat")
+    file_path = "../../test_data/casino3.x/v3.3/v3.3.0.4/test_analyse_trajectories_3.3.0.4.dat"
+    file_path = resource_filename(__name__, file_path)
     return Path(file_path)
 
 

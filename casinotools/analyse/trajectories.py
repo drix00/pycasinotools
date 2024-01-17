@@ -97,7 +97,7 @@ def is_casino_3_sim_file(file_path):
     """
     file = Casino3File(file_path)
     if is_version_casino3(file.version):
-        if file._type == SIMULATION_CONFIGURATIONS:
+        if file.type == SIMULATION_CONFIGURATIONS:
             return True
 
     return False
@@ -109,7 +109,7 @@ def is_casino_3_cas_file(file_path):
     """
     file = Casino3File(file_path)
     if is_version_casino3(file.version):
-        if file._type == SIMULATION_RESULTS:
+        if file.type == SIMULATION_RESULTS:
             return True
 
     return False
