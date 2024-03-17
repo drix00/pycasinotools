@@ -6,18 +6,26 @@
 Utility methods related to path operation used by casinotools.
 """
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2014 Hendrix Demers"
-__license__ = ""
+###############################################################################
+# Copyright 2020 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import os.path
 import logging
 import fnmatch
-from io import IOBase
 
 # Third party modules.
 
@@ -27,19 +35,21 @@ from io import IOBase
 
 # Globals and constants variables.
 
-def get_current_module_path(modulePath, relativePath=""):
-    basepath = os.path.dirname(modulePath)
-    logging.debug(basepath)
 
-    filepath = os.path.join(basepath, relativePath)
+def get_current_module_path(module_path, relative_path=""):
+    base_path = os.path.dirname(module_path)
+    logging.debug(base_path)
+
+    filepath = os.path.join(base_path, relative_path)
     logging.debug(filepath)
     filepath = os.path.normpath(filepath)
 
     return filepath
 
+
 def create_path(path):
     """
-    Create a path from the input string if does not exists.
+    Create a path from the input string if it does not exist.
 
     Does not try to distinct between file and directory in the input string.
     path = "dir1/filename.ext" => "dir1/filename.ext/"
@@ -59,36 +69,38 @@ def create_path(path):
 
     return path
 
-def find_all_files(root, patterns='*', ignorePathPatterns='', ignoreNamePatterns='', single_level=False, yield_folders=False):
+
+def find_all_files(root, patterns='*', ignore_path_patterns='', ignore_name_patterns='', single_level=False,
+                   yield_folders=False):
     """
     Find all files in a root folder.
     From Python Cookbook section 2.16 pages 88--90
     """
     # Expand patterns from semicolon-separated string to list
     patterns = patterns.split(';')
-    ignorePathPatterns = ignorePathPatterns.split(';')
+    ignore_path_patterns = ignore_path_patterns.split(';')
 
     root = os.path.abspath(root)
-    for path, subdirs, files in os.walk(root):
+    for path, sub_dirs, files in os.walk(root):
         if yield_folders:
-            files.extend(subdirs)
+            files.extend(sub_dirs)
 
-        addPath = True
-        for ignorePathPattern in ignorePathPatterns:
+        add_path = True
+        for ignorePathPattern in ignore_path_patterns:
             if fnmatch.fnmatch(path, ignorePathPattern):
-                addPath = False
+                add_path = False
 
         files.sort()
 
         for name in files:
             for pattern in patterns:
                 if fnmatch.fnmatch(name, pattern):
-                    addName = True
-                    for ignorePattern in ignoreNamePatterns:
+                    add_name = True
+                    for ignorePattern in ignore_name_patterns:
                         if fnmatch.fnmatch(name, ignorePattern):
-                            addName = False
+                            add_name = False
 
-                    if addPath and addName:
+                    if add_path and add_name:
                         yield os.path.join(path, name)
                         break
 
@@ -127,8 +139,3 @@ def is_bad_file(file_path):
         return False
     else:
         return True
-
-if __name__ == '__main__': #pragma: no cover
-    import nose
-    logging.getLogger().setLevel(logging.DEBUG)
-    nose.main()

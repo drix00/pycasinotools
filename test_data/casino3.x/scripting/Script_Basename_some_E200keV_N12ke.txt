@@ -1,0 +1,4 @@
+LOAD "c:\users\demh1901\appdata\local\temp\tmpzyq_l7\some.sim";
+SET ENERGY 200.0;
+SET Trajectories_Number 12563;
+SIM "c:\users\demh1901\appdata\local\temp\tmpzyq_l7\CasinoSimulationExperiment_some_E200keV_N12ke";
